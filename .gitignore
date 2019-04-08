@@ -1,3 +1,8 @@
+# PySys Output directories
+Output/
+pysys-junit-report/
+pysys-testsummary*.xml
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
