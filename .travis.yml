@@ -1,0 +1,64 @@
+# Travis CI configuration file. 
+#
+# Executes Unix shell commands instructions from "install", then "script" sections, then finally invokes "deploy" if successful. 
+#
+# Only required setup in Travis is to set the secure environment variable GITHUB_API_KEY to 
+# a personal access token from this GitHub repo (to be found under Developer Settings)
+#
+
+matrix:
+  include:
+  
+  - name: Python 3 Linux + deploy
+    os: linux
+    python: 3.6
+    env: DEPLOY_JOB=true
+  
+  - name: Python 3.6 Windows
+    os: windows
+    # until Travis has language=python support on Windows, manually install using choco and sh(ell)
+    language: sh
+    before_install: 
+      - unset GITHUB_API_KEY
+      - choco install python --version 3.6
+      - export PATH=/c/Python36:/c/Python36/Scripts:$PATH
+    # workaround for Travis Windows bug: disable secret filtering and hide secret env by unsetting it
+    filter_secrets: false
+    
+language: python
+cache: pip
+
+install:
+  - export PY=python$TRAVIS_PYTHON_VERSION
+  - $PY -m pip install coverage codecov
+  - $PY -m pip install pysys==1.4.0
+
+# for running tests and building documentation:
+script:
+  # run tests
+  - cd tests
+  - pysys.py run --threads auto -X PYTHON_COVERAGE=true
+  - cd ..
+
+after_script:
+  # upload Python code coverage
+  - cd tests
+  - codecov tests/pysys-output-coverage
+  - cd ..
+  
+deploy:
+  - provider: releases
+    api_key: $GITHUB_API_KEY
+    file_glob: true
+    file: 
+      - apamax/log_analyzer.py
+    skip_cleanup: true
+    overwrite: true
+    on: 
+       branch: master
+       condition: $DEPLOY_JOB = true
+
+    name: "v<VERSION>"
+    body: This release adds <TODO>. There are also a number of bug fixes and other improvements. See CHANGELOG.md for a full list of changes. 
+  
+    draft: true

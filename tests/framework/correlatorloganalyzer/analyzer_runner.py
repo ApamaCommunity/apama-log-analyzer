@@ -1,8 +1,28 @@
 import os, sys, collections
 from pysys.constants import *
-from pysys.basetest import BaseTest
+from pysys.baserunner import BaseRunner
 
-class AnalyzerBaseTest(BaseTest):
+class AnalyzerRunner(BaseRunner):
+	def setup(self, **kwargs):
+		super(AnalyzerRunner, self).setup(**kwargs)
+		if getattr(self, 'PYTHON_COVERAGE','')=='true':
+			self.pythonCoverageDir = self.project.testRootDir+'/pysys-output-coverage'
+			self.log.info('Python coverage enabled - writing to: %s', self.pythonCoverageDir)
+			self.deletedir(self.pythonCoverageDir)
+			self.mkdir(self.pythonCoverageDir)
+			self.pythonCoverageIndex = 0
+		else:
+			self.pythonCoverageDir = None
+		
+	def testComplete(self, testObj, dir, **kwargs):
+		if self.pythonCoverageDir:
+			for f in os.listdir(dir):
+				if f.startswith('.coverage'):
+					self.pythonCoverageIndex += 1
+					os.rename(dir+'/'+f, self.pythonCoverageDir+'/%s_%03d'%(f, self.pythonCoverageIndex))
+		super(AnalyzerRunner, self).testComplete(testObj, dir, **kwargs)
+
+
 	def logAnalyzer(self, arguments, logfiles=None, output='<testdefault>', stdouterr='loganalyzer', logstderr=True, **kwargs):
 		"""
 		Run log analyzer. 
@@ -18,10 +38,6 @@ class AnalyzerBaseTest(BaseTest):
 				args = args+[os.path.join(self.input, l) for l in logfiles]
 			if output:
 				args = args+['--output', output]
-				
-			if self.runner.pythonCoverageDir:
-				args = ['-m', 'coverage', 'run', '--source=%s'%os.path.dirname(self.project.logAnalyzerScript), '--parallel-mode']+args
-				
 			return self.startProcess(sys.executable, 
 				arguments=args,
 				stdouterr=stdouterr, 
@@ -42,7 +58,7 @@ class AnalyzerBaseTest(BaseTest):
 		arguments. This provides an easy way to check conditions that also produces clear
 		outcome messages.
 		
-		String arguments are automatically quoted and escaped using `repr()`. 
+		String arguments are automatically passed through repr. 
 
 		e.g. 
 		self.assertThat('os.path.size({filename}) > {origFileSize}',      
@@ -54,7 +70,7 @@ class AnalyzerBaseTest(BaseTest):
 		
 		@param args: Keyword arguments for each item to be passed to the condition 
 		string. If a value is a callable it will be executed. All values are 
-		then quoted and escaped through `repr()`. 
+		then passed through repr(). 
 		
 		@keyword abortOnError: Set to True to make the test immediately abort if the
 		assertion fails. 
