@@ -92,9 +92,7 @@ class BaseAnalyzer(object):
 		@param includeLogFilePrefix: True if this output is per-input log file, 
 		in which case it will be added as a prefix
 		"""
-		if getattr(self, 'output',None):
-			self.output.close()
-			self.output = None
+		self.closeFile()
 		
 		assert filename
 		assert not os.path.isabs(filename), filename
@@ -331,8 +329,6 @@ class CSVStatusWriter(BaseAnalyzer):
 			return '{:,}'.format(item)
 		if isinstance(item, float):
 			return '{:,.3f}'.format(item) # 3 dp is helpful for most of our numbers e.g. mem usage kb->MB
-		if isinstance(item, int):
-			return '%d'%item
 		if item in [True,False]: return str(item).upper()
 		return str(item)
 	
@@ -345,21 +341,18 @@ class CSVStatusWriter(BaseAnalyzer):
 		"""
 		items = ['"%s"'%(i.replace('"', '""')) if (',' in i or '"' in i) else i for i in items]
 		self.output.write(','.join(items)+'\n')
-	def writeFooter(self, **extra):
-		self.output.close()
-		self.output = None
 
 class JSONStatusWriter(BaseAnalyzer):
 	def register(self):
 		self.manager.subscribe(EVENT_ANNOTATED_STATUS_DICT, self.writeStatus)
 		self.manager.subscribe(EVENT_ANNOTATED_STATUS_DICT_HEADER, self.writeHeader)
-		self.manager.subscribe(EVENT_ALL_FINISHED, self.writeFooter)
-		self.prependComma = False
+		self.manager.subscribe(EVENT_FILE_FINISHED, self.writeFooter)
 
 	def writeHeader(self, columns=None, extraInfo=None, **extra):
 		self.output = self.createFile('status_@LOG_NAME@.json')
 		# write one log line per json line, for ease of testing
 		self.output.write('{"metadata":%s, "status":['%json.dumps(extraInfo or {}, ensure_ascii=False, indent=4, sort_keys=False))
+		self.prependComma = False
 		
 	def writeStatus(self, status=None, **extra):
 		assert status
@@ -373,7 +366,9 @@ class JSONStatusWriter(BaseAnalyzer):
 		self.output.close()
 		self.output = None
 
-#EVENT_JMS_STATUS_DICT = 'JMSStatusDict'
+
+
+EVENT_JMS_STATUS_DICT = 'JMSStatusDict'
 EVENT_CORRELATOR_STATUS_DICT = 'CorrelatorStatusDict'
 EVENT_COMBINED_STATUS_DICT = 'CombinedStatusDict'
 """

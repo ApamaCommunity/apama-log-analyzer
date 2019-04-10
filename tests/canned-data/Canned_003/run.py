@@ -26,3 +26,8 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertGrep(outputdir+'/status_correlator2.json', expr='2019-04-09 13:57:32.*"rx /sec": 0,')
 		# but is affected by its own prev values
 		self.assertGrep(outputdir+'/status_correlator2.json', expr='2019-04-09 13:57:33.*"rx /sec": 100.0,')
+
+		with io.open(outputdir+'/status_correlator1.json') as f:
+			json.load(f) # check it's a valid json document
+		with io.open(outputdir+'/status_correlator2.json') as f:
+			json.load(f) # check it's a valid json document
