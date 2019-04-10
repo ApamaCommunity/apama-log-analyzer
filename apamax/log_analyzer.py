@@ -16,9 +16,33 @@ import json
 
 log = logging.getLogger('loganalyzer')
 
+EVENT_JMS_STATUS_DICT = 'JMSStatusDict'
+EVENT_CORRELATOR_STATUS_DICT = 'CorrelatorStatusDict'
+EVENT_COMBINED_STATUS_DICT = 'CombinedStatusDict'
+"""Fires with an ordered  dictionary status= containing the correlator status keys and also (if available) the JMS ones"""
+EVENT_ANNOTATED_STATUS_DICT = 'AnnotatedStatusDict'
+EVENT_ANNOTATED_STATUS_DICT_HEADER = 'AnnotatedStatusDictHeader'
+"""Event that fires once the available columns are known, after the first status is parsed."""
+EVENT_LINE = 'EVENT_LINE'
+""" Event that fires when a new line has been read. Parameters: line (of type LogLine)
+"""
+EVENT_FILE_STARTED = 'EVENT_FILE_STARTED'
+EVENT_FILE_FINISHED = 'EVENT_FILE_FINISHED'
+""" Event that fires when a file has finished being analyzed. This is a good time to write out summary information for that logfile. 
+"""
+EVENT_ALL_FINISHED = 'EVENT_ALL_FINISHED'
+""" Event that fires when all files have finished being analyzed. This is a good time to write out summary information for the entire run. 
+"""
+EVENT_PERCENT_COMPLETE = 'EVENT_PERCENT_COMPLETE'
+""" Event that fires when the number of bytes in the log file passes 25%, 50%, 75%, 100%, with parameter percent=integer. 
+Useful for getting lower/median/upper quartile statistics
+"""
+
+
 class LogLine(object):
 	"""
-	Represents a log line. The following fields are always set:
+	Utility class for efficiently parsing a log line. The following fields are always set:
+	
 	lineno - the integer line number within the log file
 	line - the full log line (with trailing whitespace stripped); never an empty string
 	message - the (unicode character) string message (after the first " - " if a normal line, or else the same as the line if not)
@@ -74,6 +98,11 @@ class LogLine(object):
 	def __repr__(self): return '#%d: %s'%(self.lineno, self.line)
 
 class BaseAnalyzer(object):
+	"""
+	Base class for an analyzer that subscribes to published events (e.g. 
+	log lines, status lines, start of file, etc) and writes output to file(s)
+	and/or publishes derived data (e.g. annotated log lines). 
+	"""
 	def __init__(self, manager, **kwargs):
 		self.manager = manager
 		assert not kwargs, kwargs # reserved for future use
@@ -120,9 +149,6 @@ class BaseAnalyzer(object):
 			self.output.close()
 			self.output = None
 
-EVENT_ANNOTATED_STATUS_DICT = 'AnnotatedStatusDict'
-EVENT_ANNOTATED_STATUS_DICT_HEADER = 'AnnotatedStatusDictHeader'
-"""Event that fires once the available columns are known, after the first status is parsed."""
 
 class StatusLinesAnnotator(BaseAnalyzer):
 	"""
@@ -368,13 +394,6 @@ class JSONStatusWriter(BaseAnalyzer):
 
 
 
-EVENT_JMS_STATUS_DICT = 'JMSStatusDict'
-EVENT_CORRELATOR_STATUS_DICT = 'CorrelatorStatusDict'
-EVENT_COMBINED_STATUS_DICT = 'CombinedStatusDict'
-"""
-Fires with an ordered  dictionary status= containing the correlator status keys and also (if available) the JMS ones
-"""
-
 class StatusLinesDictExtractor(BaseAnalyzer):
 
 	def register(self, **kwargs):
@@ -463,22 +482,10 @@ class StatusLinesDictExtractor(BaseAnalyzer):
 				self.__previous = d # will publish it once we get the JMS line immediately following
 		# nb: this algorithm means a file containing only one correlator status line would be ignored, but don't care about that case really
 
-EVENT_LINE = 'EVENT_LINE'
-""" Event that fires when a new line has been read. Parameters: line (of type LogLine)
-"""
-EVENT_FILE_STARTED = 'EVENT_FILE_STARTED'
-EVENT_FILE_FINISHED = 'EVENT_FILE_FINISHED'
-""" Event that fires when a file has finished being analyzed. This is a good time to write out summary information for that logfile. 
-"""
-EVENT_ALL_FINISHED = 'EVENT_ALL_FINISHED'
-""" Event that fires when all files have finished being analyzed. This is a good time to write out summary information for the entire run. 
-"""
-EVENT_PERCENT_COMPLETE = 'EVENT_PERCENT_COMPLETE'
-""" Event that fires when the number of bytes in the log file passes 25%, 50%, 75%, 100%, with parameter percent=integer. 
-Useful for getting lower/median/upper quartile statistics
-"""
-	
 class LogAnalysisManager(object):
+	"""
+	Managers analysis of one or more log files. 
+	"""
 
 	def __init__(self, args):
 		self.__listeners = {} # key = eventtype, value=list of listeners
