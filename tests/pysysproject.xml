@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="yes"?>
 <pysysproject>
 	<requires-pysys>1.4.0</requires-pysys>
-	<requires-python>3.6.6</requires-python>
+	<requires-python>3.6</requires-python>
 	
 	<property root="testRootDir"/>
 	<property environment="env"/>

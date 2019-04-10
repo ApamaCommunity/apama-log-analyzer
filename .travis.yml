@@ -42,9 +42,9 @@ script:
 
 after_script:
   # upload Python code coverage
-  - cd tests
-  - codecov tests/pysys-output-coverage
-  - cd ..
+  - cd tests/pysys-output-coverage
+  - codecov
+  - cd ../..
   
 deploy:
   - provider: releases
