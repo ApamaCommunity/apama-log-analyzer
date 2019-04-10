@@ -196,7 +196,6 @@ class StatusLinesAnnotator(BaseAnalyzer):
 	def register(self, **configargs):
 		self.manager.subscribe(EVENT_COMBINED_STATUS_DICT, self.handleStatusDict)
 		self.manager.subscribe(EVENT_FILE_STARTED, self.fileStarted)
-		self.columns = None
 
 	def fileStarted(self, **extra):
 		# make sure files don't interfere with each other
