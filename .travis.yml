@@ -9,7 +9,7 @@
 matrix:
   include:
   
-  - name: Python 3 Linux + deploy
+  - name: Python 3.6 Linux + deploy
     os: linux
     python: 3.6
     env: DEPLOY_JOB=true
