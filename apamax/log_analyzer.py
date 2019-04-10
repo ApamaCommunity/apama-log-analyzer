@@ -68,18 +68,19 @@ class LogLine(object):
 	
 	def getDetails(self):
 		"""
-		Returns a dictionary containing: datetime, level, thread, logcategory
+		Returns a dictionary containing: datetimestring, level, thread, logcategory
 		
 		The result is cached, as getting this data is a bit time-consuming; avoid unless you're sure you need it. 
 		"""
 	
-		if self.__details is not None: return self.details
+		det = self.__details
+		if det is not None: return det
 		if self.__rawdetails is not None: 
 			m = LogLine.LINE_REGEX.match(self.line)
 			if m:
 				g = m.groups()
 				self.__details = {
-					'datetime':g[0],
+					'datetimestring':g[0],
 					'level':g[1],
 					'thread':g[2],
 					'logcategory':g[3].strip() if g[3] else '',
@@ -88,12 +89,27 @@ class LogLine(object):
 				return self.__details
 
 		self.__details = {
-					'datetime':'',
+					'datetimestring':'',
 					'level':'',
 					'thread':'',
 					'logcategory':'',
 				}
 		return self.__details
+	
+	def getDateTime(self):
+		"""
+		Parse the datetime object from this log line. Don't do this unless you need it.  
+		"""
+		det = self.getDetails()
+		if 'datetime' in det:
+			return det['datetime']
+			
+		d = datetime.datetime.strptime(self.getDetails()['datetimestring'], '%Y-%m-%d %H:%M:%S.%f')
+		# rather than using timezone of current machine which may not match origin, convert to utc
+		d = d.replace(tzinfo=datetime.timezone.utc) 
+		det['datetime'] = d
+		return d
+
 	
 	def __repr__(self): return '#%d: %s'%(self.lineno, self.line)
 
@@ -161,8 +177,8 @@ class StatusLinesAnnotator(BaseAnalyzer):
 	
 	COLUMN_DISPLAY_NAMES = collections.OrderedDict([
 		# timing
-		('datetime', 'datetime'),
-		('=seconds', 'seconds'), # epoch time in seconds, in case people want to calculate rates. Currently this is in local time not UTC
+		('datetime', 'datetime'), # date time string
+		('seconds', 'seconds'), # epoch time in seconds, in case people want to calculate rates. Currently this is in local time not UTC
 		('line num', 'line num'),
 
 		# queues first
@@ -258,32 +274,26 @@ class StatusLinesAnnotator(BaseAnalyzer):
 		d = {}
 		display = self.columns # local var to speed up lookup
 		
-		# treat as GMT/UTC since we don't yet have the timezone info available here
-		seconds = datetime.datetime.strptime(status['datetime'], '%Y-%m-%d %H:%M:%S.%f')
-		seconds = seconds.replace(tzinfo=datetime.timezone.utc) # rather than using timezone of current machine which may not match origin, convert to utc
-		seconds = seconds.timestamp() # floating point epoch seconds
+		seconds = status['seconds'] # floating point epoch seconds
 		
 		for k in display:
 			if k.startswith('='):
-				if k == '=seconds':
-					val = seconds
+				if previousStatus is None or (seconds==previousStatus['seconds']):
+					val = 0
+				elif k == '=rx /sec':
+					val = (status['rx']-previousStatus['rx'])/(seconds-previousStatus['seconds'])
+				elif k == '=tx /sec':
+					val = (status['tx']-previousStatus['tx'])/(seconds-previousStatus['seconds'])
+				elif k == '=rt /sec':
+					val = (status['rt']-previousStatus['rt'])/(seconds-previousStatus['seconds'])
+				elif k == '=pm delta MB':
+					val = (status['pm']-previousStatus['pm'])/1024.0
+				elif k == '=vm delta MB':
+					val = (status['vm']-previousStatus['vm'])/1024.0
+				elif k == '=jvm delta MB':
+					val = (status['jvm']-previousStatus['jvm'])/1024.0
 				else:
-					if previousStatus is None or (seconds==previousStatus['seconds']):
-						val = 0
-					elif k == '=rx /sec':
-						val = (status['rx']-previousStatus['rx'])/(seconds-previousStatus['seconds'])
-					elif k == '=tx /sec':
-						val = (status['tx']-previousStatus['tx'])/(seconds-previousStatus['seconds'])
-					elif k == '=rt /sec':
-						val = (status['rt']-previousStatus['rt'])/(seconds-previousStatus['seconds'])
-					elif k == '=pm delta MB':
-						val = (status['pm']-previousStatus['pm'])/1024.0
-					elif k == '=vm delta MB':
-						val = (status['vm']-previousStatus['vm'])/1024.0
-					elif k == '=jvm delta MB':
-						val = (status['jvm']-previousStatus['jvm'])/1024.0
-					else:
-						assert False, 'Unknown generated key: %s'%k
+					assert False, 'Unknown generated key: %s'%k
 			else:
 				val = status.get(k, None)
 				if display[k] in ['pm=resident MB', 'vm=virtual MB', 'jvm=Java MB'] and val is not None:
@@ -395,7 +405,8 @@ class JSONStatusWriter(BaseAnalyzer):
 
 
 class StatusLinesDictExtractor(BaseAnalyzer):
-
+	""" Parses status lines and publishes raw as EVENT_COMBINED_STATUS_DICT.
+	"""
 	def register(self, **kwargs):
 		self.manager.subscribe(EVENT_LINE, self.handleLine)
 		self.__jmsenabled = None
@@ -411,8 +422,10 @@ class StatusLinesDictExtractor(BaseAnalyzer):
 			return
 		
 		d = collections.OrderedDict()
-		d['datetime'] = line.getDetails()['datetime']
+		d['datetime'] = line.getDetails()['datetimestring']
+		d['seconds'] = line.getDateTime().timestamp()
 		d['line num'] = line.lineno
+		
 		if kind==EVENT_JMS_STATUS_DICT:
 		
 			if m.endswith('<waiting for onApplicationInitialized>'):
@@ -464,23 +477,24 @@ class StatusLinesDictExtractor(BaseAnalyzer):
 				 return
 			if kind is EVENT_CORRELATOR_STATUS_DICT:
 				self.__jmsenabled = False # two consecutive non-JMS statuses means its not enabled
-				self.manager.publish(EVENT_COMBINED_STATUS_DICT, status=self.__previous)
+				self.manager.publish(EVENT_COMBINED_STATUS_DICT, status=self.__previous, line=line)
 				self.__previous = None
 			else:
 				self.__jmsenabled = True
 		
 		if self.__jmsenabled is False:
-			self.manager.publish(EVENT_COMBINED_STATUS_DICT, status=d)
+			self.manager.publish(EVENT_COMBINED_STATUS_DICT, status=d, line=line)
 		else:
 			if kind is EVENT_JMS_STATUS_DICT:
 				combined = collections.OrderedDict(d)
 				combined.update(self.__previous)
-				self.manager.publish(EVENT_COMBINED_STATUS_DICT, status=combined)
+				self.manager.publish(EVENT_COMBINED_STATUS_DICT, status=combined, line=line)
 				self.__previous = None
 			else:
 				assert self.__previous is None, self.__previous
 				self.__previous = d # will publish it once we get the JMS line immediately following
 		# nb: this algorithm means a file containing only one correlator status line would be ignored, but don't care about that case really
+
 
 class LogAnalysisManager(object):
 	"""
