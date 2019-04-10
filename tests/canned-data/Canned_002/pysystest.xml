@@ -1,0 +1,28 @@
+<?xml version="1.0" standalone="yes"?>
+<pysystest type="auto" state="runnable">
+    
+  <description> 
+    <title>Status line extraction - Correlator status lines correct columns and values/format/units</title>    
+    <purpose><![CDATA[
+    Check for correct extraction of main "Correlator Status:" lines, using canned log files. 
+    Check exact column heading strings and values, as well as format and units of each one. 
+]]>
+    </purpose>
+  </description>
+
+  <classification>
+    <groups>
+      <group></group>
+    </groups>
+  </classification>
+
+  <data>
+    <class name="PySysTest" module="run"/>
+  </data>
+  
+  <traceability>
+    <requirements>
+      <requirement id=""/>     
+    </requirements>
+  </traceability>
+</pysystest>
