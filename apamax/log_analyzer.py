@@ -202,9 +202,6 @@ class StatusLinesAnnotator(BaseAnalyzer):
 		self.previousStatus = None
 		self.columns = None # ordered dict of key:displayname
 
-	def getColumnDisplayName(self, columnKey):
-		return self.COLUMN_DISPLAY_NAMES.get(columnKey, columnKey)
-	
 	def decideColumns(self, status):
 		"""
 		Returns a dict mapping key= to the display name column headings that will be used 
@@ -376,7 +373,7 @@ class JSONStatusWriter(BaseAnalyzer):
 		self.output.close()
 		self.output = None
 
-EVENT_JMS_STATUS_DICT = 'JMSStatusDict'
+#EVENT_JMS_STATUS_DICT = 'JMSStatusDict'
 EVENT_CORRELATOR_STATUS_DICT = 'CorrelatorStatusDict'
 EVENT_COMBINED_STATUS_DICT = 'CombinedStatusDict'
 """
@@ -394,8 +391,8 @@ class StatusLinesDictExtractor(BaseAnalyzer):
 		m = line.message
 		if m.startswith('Correlator Status: '):
 			kind = EVENT_CORRELATOR_STATUS_DICT
-		elif m.startswith('JMS Status: '):
-			kind = EVENT_JMS_STATUS_DICT
+		#elif m.startswith('JMS Status: '):
+		#	kind = EVENT_JMS_STATUS_DICT
 		else:
 			return
 		
@@ -662,93 +659,3 @@ class LogAnalyzerTool(object):
 	
 if __name__ == "__main__":
 	sys.exit(LogAnalyzerTool().main(sys.argv[1:]))
-
-"""
-
-Backlog:
-- print time range of each log file
-		# TODO: configure console to ignore i18n chars
-
-- better support for multiple input files e.g. overview, differences between log files
-# TODO: impl globbing (with sort), maybe directory analysis, incl special-casing of "logs/" and ignoring already-analyzed files. zip file handling. 
------
-		# fundamental capabilities:
-		# - create csv of status lines; 
-		#    cmd line options: calculate rate; calculate stats
-		# - print summary - platform, version, time range, LLVM, etc; if multiple files, print differences only
-		# - detect problems: DEBUG-level logging, correlatorJMS log all messages; OutOfMemoryException; thread termination error
-		#			ERROR [139863284201216:JMSReceiver:WebSphere_MQ-receiver-queue-QL.CEP_INPUT_CM_1-8] - Thread Apama.JMSReceiver:WebSphere_MQ-receiver-queue-QL.CEP_INPUT_CM_1-8 terminated with exception:
-		# - split to get just time range of interest (but retain headers)
-
-
-- make getExtraInfoDict work - add mechanism for summarizing header info in .csv files
-----
-
-CorrelatorLogAnalyzer
-
-log lines per second
-create sorted list of warn and error messages
-	-> but accumulate consecutive lines, if same thread
-
-show total size in GB of log files
-
-craete:
-per status line and per correlator files
-
-options to enable/disable different analyzers
-
-max, mean
-
-
-% swapping
-
-
-boolean with hysteresis:
-
-val[n] = v[n-1] unless most of (val[n, n+1, N+2,n+3]) are different
-
-addStatusListener(l)
-
-l.init(filename prefix)
-.statusLine(kind, values, prevvalues
-
-
-prefuix is just first log filename
-remove .log/.output.log suffix
-
-
---latestonly
-
-
-exsiting impl: doesn't give a way to add in extra items
-
-what extensability do we want?
-- add new cmd line arguments - pass parser through
-- produce per-log file summaries
-- aggregate/summarize across log files [with the same correlator name]
-
-- ability to add listeners for log lines or for status lines of a given type
-	to add extra columns to status lines by mutating the same data structure
-	
-	need a priority field to sort by
-
-- configure time range of interest
-
-	
-SingleCorrelatorInstanceAnalyzer
-	- several of these
-
-	lsit of listeners
-	
-want to share data between them??
-
-# python logging to stderr
-# need a way to join lines together e.g. for Java stack traces
-
-# analyzers:
-# one to extract the header lines, i.e. until "Running"
-# slow operation errors
-# identify phase - startup, initialization/recovery, execution, shutdown
-# highloght non-default settings, e.g. allocator, Xclock etc
-
-"""
