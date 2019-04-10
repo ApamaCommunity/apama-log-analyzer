@@ -42,10 +42,10 @@ class PySysTest(AnalyzerBaseTest):
 		header = csvlines[0].strip().split(',')
 		self.assertEval('{header}.startswith("#")', header=csvlines[0])
 		
-		self.assertEval('{output_columns} == {log_file_status_items}+{extra_cols}', 
+		self.assertEval('{output_columns} > {log_file_status_items}+{extra_cols}', 
 			output_columns=len(header),
 			log_file_status_items=self.getExprFromFile(self.input+'/mycorrelator.log', 'Correlator Status: .*').count('='), 
-			extra_cols=2 # dateline, line number
+			extra_cols=3 # dateline, line number, seconds; plus extras for rates
 			)
 		
 		self.logFileContents(outputdir+'/status_mycorrelator.csv')
@@ -59,4 +59,4 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertLineCount(outputdir+'/status_mycorrelator.csv', expr='.', condition='==1+3')
 		self.assertLineCount(outputdir+'/status_mycorrelator.json', expr='"datetime":', condition='==3')
 
-		self.assertGrep(outputdir+'/status_mycorrelator.csv', expr='[?]', contains=False)
+		self.assertGrep(outputdir+'/status_mycorrelator.csv', expr='.*[?]', contains=False)

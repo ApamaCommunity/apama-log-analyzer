@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
-# This is a script for analyzing correlator log files. 
 
-__version__ = '3.0'
+""" This is a script for analyzing Apama correlator log files. 
+
+It extracts and summarizes information from status lines and other 
+log messages. 
+"""
+
+__version__ = '3.0.dev'
 __date__ = '2018-11-01'
-__author__ = "Ben Spiller and GitHub contributors"
+__author__ = "Ben Spiller"
 __license__ = "Apache"
 
 import logging, os, io, argparse, re, time, sys, collections, datetime, calendar
@@ -131,7 +136,7 @@ class StatusLinesAnnotator(BaseAnalyzer):
 		('line num', 'line num'),
 
 		# queues first
-		('iq','| iq=queued input'), # executors queued
+		('iq','iq=queued input'), # executors queued
 		('icq','icq=queued input public'),
 		('oq','oq=queued output'),
 		('rq','rq=queued route'),
@@ -140,29 +145,37 @@ class StatusLinesAnnotator(BaseAnalyzer):
 		('nc','nc=ext+int consumers'),
 		
 		# rx/tx
-		('rx','| rx=received'),
+		('=rx /sec','rx /sec'),
+		('=tx /sec','tx /sec'),
+		('=rt /sec','rt /sec'),
+
+		('rx','rx=received'),
 		('tx','tx=sent'),
 		('rt','rt=routed'),
 		
 		# things that take memory
-		('sm','| sm=monitor instances'),
+		('sm','sm=monitor instances'),
 		('nctx','nctx=contexts'),
 		('ls','ls=listeners'),
 
 		('pm','pm=resident MB'), # convert to MB as easier to read than kb values
 		('vm','vm=virtual MB'),
 		('jvm','jvm=Java MB'), # cf JMS
+		
+		('=pm delta MB', 'pm delta MB'),
+		('=vm delta MB', 'vm delta MB'),
+		('=jvm delta MB', 'jvm delta MB'),
 
 		# swapping
-		('si','| si=swap pages read/sec'),
+		('si','si=swap pages read/sec'),
 		('so','so=swap pages written/sec'),
 		
 		# slow contexts and consumers (some of these are strings, so put them at the end)
-		('lcn','| lcn=slowest ctx'), # name
+		('lcn','lcn=slowest ctx'), # name
 		('lcq','lcq=slowest ctx input queue'),
 		('lct','lct=slowest ctx latency secs'),
 
-		('srn','| srn=slowest consumer/plugin'), # name
+		('srn','srn=slowest consumer/plugin'), # name
 		('srq','srq=slowest consumer/plugin queue'), 
 	])
 	"""Contains an entry for each key whose name will be changed, and defines the default column order. 
@@ -209,19 +222,37 @@ class StatusLinesAnnotator(BaseAnalyzer):
 		(unordered) dictionary whose keys match the columns returned by 
 		self.decideColumns, adding in calculated values. 
 		
-		@param previousStatus: the previous status, if available, or None if not. 
+		@param previousStatus: the previous annotated status, if available, or None if not. 
 		"""
 		d = {}
 		display = self.columns # local var to speed up lookup
+		
+		# treat as GMT/UTC since we don't yet have the timezone info available here
+		seconds = datetime.datetime.strptime(status['datetime'], '%Y-%m-%d %H:%M:%S.%f')
+		seconds = seconds.replace(tzinfo=datetime.timezone.utc) # rather than using timezone of current machine which may not match origin, convert to utc
+		seconds = seconds.timestamp() # floating point epoch seconds
+		
 		for k in display:
 			if k.startswith('='):
 				if k == '=seconds':
-					# treat as GMT/UTC since we don't yet have the timezone info available here
-					val = datetime.datetime.strptime(status['datetime'], '%Y-%m-%d %H:%M:%S.%f')
-					val = val.replace(tzinfo=datetime.timezone.utc) # rather than using timezone of current machine which may not match origin, convert to utc
-					val = val.timestamp()
+					val = seconds
 				else:
-					assert False, 'Unknown generated key: %s'%k
+					if previousStatus is None or (seconds==previousStatus['seconds']):
+						val = 0
+					elif k == '=rx /sec':
+						val = (status['rx']-previousStatus['rx'])/(seconds-previousStatus['seconds'])
+					elif k == '=tx /sec':
+						val = (status['tx']-previousStatus['tx'])/(seconds-previousStatus['seconds'])
+					elif k == '=rt /sec':
+						val = (status['rt']-previousStatus['rt'])/(seconds-previousStatus['seconds'])
+					elif k == '=pm delta MB':
+						val = (status['pm']-previousStatus['pm'])/1024.0
+					elif k == '=vm delta MB':
+						val = (status['vm']-previousStatus['vm'])/1024.0
+					elif k == '=jvm delta MB':
+						val = (status['jvm']-previousStatus['jvm'])/1024.0
+					else:
+						assert False, 'Unknown generated key: %s'%k
 			else:
 				val = status.get(k, None)
 				if display[k] in ['pm=resident MB', 'vm=virtual MB', 'jvm=Java MB'] and val is not None:
@@ -244,11 +275,10 @@ class StatusLinesAnnotator(BaseAnalyzer):
 				columns=self.columns.values(), 
 				extraInfo=self.getExtraInfoDict()
 			)
-		self.manager.publish(EVENT_ANNOTATED_STATUS_DICT, 
-			status=self.annotateStatus(status=status, previousStatus=self.previousStatus)
-		)
-		self.previousStatus = status
-			
+		annotatedstatus=self.annotateStatus(status=status, previousStatus=self.previousStatus)
+		self.manager.publish(EVENT_ANNOTATED_STATUS_DICT, status=annotatedstatus)
+		self.previousStatus = dict(status)
+		self.previousStatus.update(annotatedstatus)
 			
 class CSVStatusWriter(BaseAnalyzer):
 	def register(self):
