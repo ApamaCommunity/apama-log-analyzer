@@ -1,0 +1,78 @@
+2019-04-09 13:57:22.675 ##### [32376] - Correlator, version 10.3.1.0.348044 (build rel/10.3.1.x@348044 on amd64-win using Software AG suite version 10.3), started.
+2019-04-09 13:57:22.676 ##### [32376] - Running on host 'myhost' as user 'BSP'.
+2019-04-09 13:57:22.676 ##### [32376] - Running on platform 'Windows 10 Enterprise'.
+2019-04-09 13:57:22.676 ##### [32376] - Running on CPU 'GenuineIntel family 6 model 14 stepping 10 Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz'.
+2019-04-09 13:57:22.676 ##### [32376] - Running with process Id 21540.
+2019-04-09 13:57:22.676 ##### [32376] - Running with 32587.22MB of physical memory.
+2019-04-09 13:57:22.676 ##### [32376] - There are 12 CPU(s)
+2019-04-09 13:57:22.676 ##### [32376] - Correlator command line: correlator
+2019-04-09 13:57:22.676 ##### [32376] - Current Working Directory: C:\Users\Public\SoftwareAG\ApamaWork_10.3
+2019-04-09 13:57:22.676 ##### [32376] - PATH: C:\Users\Public\SoftwareAG\ApamaWork_10.3\lib;C:\SoftwareAG10.3\Apama\bin;C:\SoftwareAG10.3\Apama\adapters\bin;C:\SoftwareAG10.3\Apama\..\common\security\openssl\bin;C:\SoftwareAG10.3\jvm\jvm\jre\bin\server;C:\SoftwareAG10.3\jvm\jvm\jre\bin;C:\SoftwareAG10.3\Apama\third_party\apache_ant\bin;C:\SoftwareAG10.3\Apama\third_party\python;C:\SoftwareAG10.3\jvm\jvm\jre\..\bin;C:\SoftwareAG10.3\Apama\..\UniversalMessaging\cplus\lib\x86_64;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Tools\grep\bin;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Windows\SysWOW64\Empirum;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\SlikSvn\bin;C:\Tools\bin;c:\Tools\SysInternals;C:\Tools\UnxUtils-2013-04-24\usr\local\wbin;C:\Users\bsp\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS\;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS\;C:\Ruby25-x64\bin;C:\Users\bsp\AppData\Local\Microsoft\WindowsApps;c:\Tools\Notepad2be;c:\dev\jdk\bin;C:\dev\util\scripts\svn;C:\dev\bjs\scripts;C:\Tools\grep\bin;c:\dev\apama-lib4\all\ant\1.9.7-apama1\bin
+2019-04-09 13:57:22.676 ##### [32376] - Current UTC time: 2019-04-09 12:57:22, local timezone: GMT Daylight Time
+2019-04-09 13:57:22.676 ##### [32376] - Input value - port                     = 15903
+2019-04-09 13:57:22.676 ##### [32376] - Input value - output queue size        = 10000
+2019-04-09 13:57:22.676 ##### [32376] - Input value - output queue batch size  = 100
+2019-04-09 13:57:22.676 ##### [32376] - Input value - output queue mode        = blocking
+2019-04-09 13:57:22.676 ##### [32376] - Input value - environment variable     = APAMA_COMMON_JRE=C:\SoftwareAG10.3\jvm\jvm\jre
+2019-04-09 13:57:22.676 ##### [32376] - Input value - environment variable     = APAMA_CORRELATOR_HOME=C:\SoftwareAG10.3\Apama
+2019-04-09 13:57:22.676 ##### [32376] - Input value - environment variable     = APAMA_DASHBOARD_HOME=C:\SoftwareAG10.3\Apama
+2019-04-09 13:57:22.676 ##### [32376] - Input value - environment variable     = APAMA_DEV_HOME=C:\SoftwareAG10.3\Apama
+2019-04-09 13:57:22.676 ##### [32376] - Input value - environment variable     = APAMA_ENVSET=10.3:C:\SoftwareAG10.3\Apama:amd64-win
+2019-04-09 13:57:22.676 ##### [32376] - Input value - environment variable     = APAMA_HOME=C:\SoftwareAG10.3\Apama
+2019-04-09 13:57:22.676 ##### [32376] - Input value - environment variable     = APAMA_JRE=C:\SoftwareAG10.3\jvm\jvm\jre
+2019-04-09 13:57:22.676 ##### [32376] - Input value - environment variable     = APAMA_LIBRARY_VERSION=10.3
+2019-04-09 13:57:22.676 ##### [32376] - Input value - environment variable     = APAMA_MANAGEMENT_HOME=C:\SoftwareAG10.3\Apama
+2019-04-09 13:57:22.748 ##### [32376] - Input value - environment variable     = APAMA_PLATFORM=amd64-win
+2019-04-09 13:57:22.748 ##### [32376] - Input value - environment variable     = APAMA_WORK=C:\Users\Public\SoftwareAG\ApamaWork_10.3
+2019-04-09 13:57:22.748 ##### [32376] - Input value - environment variable     = AP_ASCII_COLOURS=true
+2019-04-09 13:57:22.748 ##### [32376] - Input value - environment variable     = AP_TEST_VERBOSE=true
+2019-04-09 13:57:22.748 ##### [32376] - Using memory allocator                 = TBB scalable allocator
+2019-04-09 13:57:22.749 ##### [32376] - License File: C:\Users\Public\SoftwareAG\ApamaWork_10.3\license\ApamaServerLicense.xml
+2019-04-09 13:57:22.757 ##### [32376] - ================= Software AG License Data =================
+2019-04-09 13:57:22.757 ##### [32376] - Sales Information
+2019-04-09 13:57:22.757 ##### [32376] -      Serial Number      : 0000028449
+2019-04-09 13:57:22.757 ##### [32376] -      Customer ID        : 1
+2019-04-09 13:57:22.757 ##### [32376] -      Customer Name      : Software AG internal
+2019-04-09 13:57:22.757 ##### [32376] - Product Information
+2019-04-09 13:57:22.757 ##### [32376] -      Product Name       : Apama Server
+2019-04-09 13:57:22.757 ##### [32376] -      Product Code       : PAMCO
+2019-04-09 13:57:22.757 ##### [32376] -      Operating System   : Linux
+2019-04-09 13:57:22.757 ##### [32376] -      Product Version    : 10.0
+2019-04-09 13:57:22.757 ##### [32376] -      Product Usage      : 
+2019-04-09 13:57:22.757 ##### [32376] -      Expiration Date    : 2019/04/22
+2019-04-09 13:57:22.757 ##### [32376] - License Information
+2019-04-09 13:57:22.757 ##### [32376] -      License Type       : 
+2019-04-09 13:57:22.757 ##### [32376] -      Price Unit         : ST
+2019-04-09 13:57:22.757 ##### [32376] -      Price Quantity     : 1
+2019-04-09 13:57:22.757 ##### [32376] -      Extended Rights    : 
+2019-04-09 13:57:22.757 ##### [32376] -      License Version    : 1.2
+2019-04-09 13:57:22.757 ##### [32376] - Physical Hardware
+2019-04-09 13:57:22.757 ##### [32376] -      Model              : Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz
+2019-04-09 13:57:22.757 ##### [32376] -      Sockets            : 1
+2019-04-09 13:57:22.757 ##### [32376] -      Physical cores     : 6
+2019-04-09 13:57:22.757 ##### [32376] -      Logical cores      : 12
+2019-04-09 13:57:22.757 ##### [32376] -      Performance Bucket : CoreD
+2019-04-09 13:57:22.757 ##### [32376] -      Virtualization     : no
+2019-04-09 13:57:22.757 ##### [32376] - ==================== End License Data ======================
+2019-04-09 13:57:22.757 ##### [32376] - 
+2019-04-09 13:57:22.759 ##### [32376] - Input value - pidfile                  = 
+2019-04-09 13:57:22.759 ##### [32376] - Input value - per receiver queue size  = 10 s
+2019-04-09 13:57:22.759 ##### [32376] - Input value - per receiver queue size  = 10240 kb
+2019-04-09 13:57:22.759 ##### [32376] - Input value - input queue size         = 20000
+2019-04-09 13:57:22.759 ##### [32376] - External clocking                      = disabled
+2019-04-09 13:57:22.759 ##### [32376] - Input value - logfile                  = stdout
+2019-04-09 13:57:22.759 ##### [32376] - Input value - loglevel                 = INFO
+2019-04-09 13:57:22.759 ##### [32376] - Input value - inputLog                 = ** Warning input log not enabled **
+2019-04-09 13:57:22.759 ##### [32376] - Compiler optimizations                 = enabled - the debugger cannot be used; specify command line option "-g" to use it.
+2019-04-09 13:57:22.759 ##### [32376] - Using EPL runtime                      = interpreted
+2019-04-09 13:57:22.760 ##### [32376] - Python support                         = automatic
+2019-04-09 13:57:22.764 ##### [32376] - Java support                           = disabled
+2019-04-09 13:57:22.764 ##### [32376] - Input value - persistence              = disabled
+2019-04-09 13:57:22.768 INFO  [32376] - Will log queue size every 5.000000 seconds
+2019-04-09 13:57:22.769 INFO  [32376] - Starting scheduler with 12 threads (determined from hardware)
+2019-04-09 13:57:22.774 INFO  [32376] - Server socket opened listening on 0.0.0.0:15903
+2019-04-09 13:57:22.774 ##### [32376] - Component ID: correlator (correlator/6677878040143647328/6677878040143647328)
+2019-04-09 13:57:22.774 ##### [32376] - Correlator, version 10.3.1.0.348044, running
+2019-04-09 13:57:27.770 INFO  [22872] - Correlator Status: sm=3 nctx=4 ls=50000 rq=6 iq=7 oq=8 icq=9 lcn="slowest consumer" lcq=10 lct=12.34 rx=13 tx=14 rt=15 nc=16 vm=17111222 pm=18111 runq=19 si=20.61 so=21.6 srn="slowest consumer" srq=22 jvm=231111
+2019-04-09 13:57:32.770 INFO  [22872] - Correlator Status: sm=0 nctx=1 ls=10 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=0 vm=22580 pm=25312 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=0
+2019-04-09 13:57:37.769 INFO  [22872] - Correlator Status: sm=0 nctx=1 ls=0 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=0 vm=22580 pm=25312 runq=0 si=0.4 so=0.0 srn="<none>" srq=0 jvm=0
