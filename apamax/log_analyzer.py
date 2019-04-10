@@ -85,11 +85,17 @@ class BaseAnalyzer(object):
 		
 		Automatically closed on shutdown. 
 		
+		Any existing file is closed. 
+		
 		@param filename: The base filename, e.g. 'warnings_@LOG_NAME@.txt', 
 		with @LOG_NAME@ replaced by the identifier for the current corelator instancelog file. 
 		@param includeLogFilePrefix: True if this output is per-input log file, 
 		in which case it will be added as a prefix
 		"""
+		if getattr(self, 'output',None):
+			self.output.close()
+			self.output = None
+		
 		assert filename
 		assert not os.path.isabs(filename), filename
 		filename = filename.replace('@LOG_NAME@', self.manager.currentname)
@@ -189,8 +195,13 @@ class StatusLinesAnnotator(BaseAnalyzer):
 
 	def register(self, **configargs):
 		self.manager.subscribe(EVENT_COMBINED_STATUS_DICT, self.handleStatusDict)
-		self.columns = None # ordered dict of key:displayname
+		self.manager.subscribe(EVENT_FILE_STARTED, self.fileStarted)
+		self.columns = None
+
+	def fileStarted(self, **extra):
+		# make sure files don't interfere with each other
 		self.previousStatus = None
+		self.columns = None # ordered dict of key:displayname
 
 	def getColumnDisplayName(self, columnKey):
 		return self.COLUMN_DISPLAY_NAMES.get(columnKey, columnKey)
@@ -277,7 +288,7 @@ class StatusLinesAnnotator(BaseAnalyzer):
 			)
 		annotatedstatus=self.annotateStatus(status=status, previousStatus=self.previousStatus)
 		self.manager.publish(EVENT_ANNOTATED_STATUS_DICT, status=annotatedstatus)
-		self.previousStatus = dict(status)
+		self.previousStatus = dict(status) # both raw and annotated values
 		self.previousStatus.update(annotatedstatus)
 			
 class CSVStatusWriter(BaseAnalyzer):
