@@ -291,7 +291,10 @@ class StatusLinesAnnotator(BaseAnalyzer):
 				elif k == '=vm delta MB':
 					val = (status['vm']-previousStatus['vm'])/1024.0
 				elif k == '=jvm delta MB':
-					val = (status['jvm']-previousStatus['jvm'])/1024.0
+					if 'jvm' in previousStatus: # not present in all Apama versions
+						val = (status['jvm']-previousStatus['jvm'])/1024.0
+					else: 
+						val = -1
 				else:
 					assert False, 'Unknown generated key: %s'%k
 			else:
@@ -383,6 +386,7 @@ class JSONStatusWriter(BaseAnalyzer):
 		self.manager.subscribe(EVENT_ANNOTATED_STATUS_DICT, self.writeStatus)
 		self.manager.subscribe(EVENT_ANNOTATED_STATUS_DICT_HEADER, self.writeHeader)
 		self.manager.subscribe(EVENT_FILE_FINISHED, self.writeFooter)
+		self.output = None
 
 	def writeHeader(self, columns=None, extraInfo=None, **extra):
 		self.output = self.createFile('status_@LOG_NAME@.json')
@@ -398,11 +402,10 @@ class JSONStatusWriter(BaseAnalyzer):
 		self.prependComma = True
 
 	def writeFooter(self, **extra):
-		self.output.write('\n]}\n')
-		self.output.close()
-		self.output = None
-
-
+		if self.output:
+			self.output.write('\n]}\n')
+			self.output.close()
+			self.output = None
 
 class StatusLinesDictExtractor(BaseAnalyzer):
 	""" Parses status lines and publishes raw as EVENT_COMBINED_STATUS_DICT.
