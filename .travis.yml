@@ -37,12 +37,12 @@ install:
 script:
   # run tests
   - cd tests
-  - pysys.py run --threads auto -X PYTHON_COVERAGE=true
+  - pysys.py run --threads auto -XpythonCoverage=true --purge
   - cd ..
 
 after_script:
   # upload Python code coverage
-  - cd tests/pysys-output-coverage
+  - cd tests/coverage-python-*
   - codecov
   - cd ../..
   

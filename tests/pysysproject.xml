@@ -16,10 +16,13 @@
 	<property name="defaultIgnoreExitStatus" value="false"/>
 	<property name="defaultEnvironsTempDir" value="self.output"/>
 	<property name="redirectPrintToLogger" value="false"/>
+	<property name="supportMultipleModesPerRun" value="true"/>
+
+  	<property name="pythonCoverageDir" value="coverage-python-@OUTDIR@"/>
+	<collect-test-output pattern=".coverage*" outputDir="${pythonCoverageDir}" outputPattern="@FILENAME@_@TESTID@_@UNIQUE@"/>
 
 	<!-- Custom test framework extensions, if needed -->
 	<path value="framework" relative="true" />
-	<runner classname="AnalyzerRunner" module="correlatorloganalyzer.analyzer_runner"/>
 
 	<writers>
 		<writer classname="TravisCIWriter" module="pysys.writer.ci"></writer>
@@ -35,7 +38,7 @@
 	</writers>
 
 	<default-file-encodings>
-		<default-file-encoding pattern="run.log" encoding="utf-8"/>
+		<default-file-encoding pattern="*.log" encoding="utf-8"/>
 		
 		<default-file-encoding pattern="*.xml"  encoding="utf-8"/>
 		<default-file-encoding pattern="*.json" encoding="utf-8"/>

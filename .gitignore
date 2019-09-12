@@ -2,6 +2,7 @@
 Output/
 pysys-junit-report/
 pysys-testsummary*.xml
+coverage-python-*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
