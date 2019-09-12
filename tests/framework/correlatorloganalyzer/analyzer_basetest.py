@@ -19,9 +19,6 @@ class AnalyzerBaseTest(BaseTest):
 			if output:
 				args = args+['--output', output]
 				
-			#if self.runner.pythonCoverageDir:
-			#	args = ['-m', 'coverage', 'run', '--source=%s'%os.path.dirname(self.project.logAnalyzerScript), '--parallel-mode']+args
-				
 			return self.startPython(
 				arguments=args,
 				stdouterr=stdouterr, 
