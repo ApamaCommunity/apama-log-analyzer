@@ -3,6 +3,11 @@ from pysys.constants import *
 from pysys.basetest import BaseTest
 
 class AnalyzerBaseTest(BaseTest):
+	def __init__(self, *args, **kwargs):
+		super(AnalyzerBaseTest, self).__init__(*args, **kwargs)
+		if 'performance' in self.descriptor.groups:
+			self.disableCoverage=True
+
 	def logAnalyzer(self, arguments, logfiles=None, output='<testdefault>', stdouterr='loganalyzer', logstderr=True, **kwargs):
 		"""
 		Run log analyzer. 

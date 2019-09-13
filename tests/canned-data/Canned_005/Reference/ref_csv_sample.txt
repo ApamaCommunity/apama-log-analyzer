@@ -9,7 +9,7 @@ runq=queued ctxs : 19
 nc=ext+int consumers : 16
 rx /sec : 25.785
 tx /sec : 279.432
-rt /sec : "2,998"
+rt /sec : "2,998.201"
 rx=received : 130
 tx=sent : "1,400"
 rt=routed : "15,000"
@@ -17,11 +17,11 @@ sm=monitor instances : 3
 nctx=contexts : 4
 ls=listeners : "50,000"
 pm=resident MB : 17.687
-vm=virtual MB : "16,710"
-jvm=Java MB : "2,256"
+vm=virtual MB : "16,710.178"
+jvm=Java MB : "2,256.944"
 pm delta MB : 17.683
-vm delta MB : "16,710"
-jvm delta MB : "2,256"
+vm delta MB : "16,710.175"
+jvm delta MB : "2,256.939"
 si=swap pages read/sec : 20.610
 so=swap pages written/sec : 21.600
 lcn=slowest ctx : slowest context

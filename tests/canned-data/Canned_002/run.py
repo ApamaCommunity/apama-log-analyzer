@@ -30,6 +30,11 @@ class PySysTest(AnalyzerBaseTest):
 		with io.open(outputdir+'/status_mycorrelator.csv', encoding='utf-8') as f:
 			csvlines = f.readlines()
 		header = csvlines[0].strip().split(',')
+		
+		METADATA_START = '# metadata: '
+		if METADATA_START in header:
+			header = header[:header.index(METADATA_START)]
+
 		with io.open(self.output+'/csv_sample.txt', 'w', encoding='utf-8') as fd:
 			i = 0
 			for h in header:

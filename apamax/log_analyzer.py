@@ -7,7 +7,7 @@ log messages.
 """
 
 __version__ = '3.0.dev'
-__date__ = '2018-11-01'
+__date__ = '2019-09-12'
 __author__ = "Ben Spiller"
 __license__ = "Apache"
 
@@ -38,6 +38,9 @@ EVENT_PERCENT_COMPLETE = 'EVENT_PERCENT_COMPLETE'
 Useful for getting lower/median/upper quartile statistics
 """
 
+class UserError(Exception):
+	""" Indicates an exception that should be display to the user without a stack trace. """
+	pass
 
 class LogLine(object):
 	"""
@@ -308,7 +311,7 @@ class StatusLinesAnnotator(BaseAnalyzer):
 		""" Get an ordered dictionary of additional information to be included with the header, 
 		such as date, version, etc. """
 		d = collections.OrderedDict()
-		# TODO: d['version'] = '10.1.0.x'
+		d['analyzer'] = f'v{__version__}' # always include the version of the script that generated it
 		return d
 	
 	def handleStatusDict(self, status=None, **extra):
@@ -325,13 +328,14 @@ class StatusLinesAnnotator(BaseAnalyzer):
 		self.previousStatus.update(annotatedstatus)
 			
 class CSVStatusWriter(BaseAnalyzer):
+	output_file = 'status_@LOG_NAME@.csv'
 	def register(self):
 		self.manager.subscribe(EVENT_ANNOTATED_STATUS_DICT, self.writeStatus)
 		self.manager.subscribe(EVENT_ANNOTATED_STATUS_DICT_HEADER, self.writeHeader)
 		self.columns = None # ordered dict display names of columns
 
 	def writeHeader(self, columns=None, extraInfo=None, **extra):
-		self.output = self.createFile('status_@LOG_NAME@.csv')
+		self.output = self.createFile(self.output_file)
 		self.columns = columns
 		items = list(columns)
 		items[0] = '# '+items[0]
@@ -359,17 +363,22 @@ class CSVStatusWriter(BaseAnalyzer):
 		If people want to machine-read then the json format is probably easier 
 		anyway. 
 		"""
-		if item is None: return '?'
-		if columnDisplayName in ['seconds']:
-			return '{:.3f}'.format(item)
-		if columnDisplayName == 'datetime':
-			return item[:item.find('.')] # strip off seconds as excel misformats it if present
-		if isinstance(item, int):
-			return '{:,}'.format(item)
-		if isinstance(item, float):
-			return '{:,.3f}'.format(item) # 3 dp is helpful for most of our numbers e.g. mem usage kb->MB
-		if item in [True,False]: return str(item).upper()
-		return str(item)
+		try:
+			if item is None: return '?'
+			if columnDisplayName in ['seconds'] and item: 
+				return f'{item:.3f}'
+			if columnDisplayName == 'datetime':
+				return item[:item.find('.')] # strip off seconds as excel misformats it if present
+			if isinstance(item, float) and item.is_integer and abs(item)>=1000.0:
+				item = int(item) # don't show decimal points for large floats like 7000.0, for consistency with smaller values like 7 when shown in excel (weird excel rules)
+			if isinstance(item, int):
+				return f'{item:,}'
+			if isinstance(item, float):
+				return f'{item:,.3f}' # 3 dp is helpful for most of our numbers e.g. mem usage kb->MB
+			if item in [True,False]: return str(item).upper()
+			return str(item)
+		except Exception as ex:
+			raise Exception(f'Failed to format "{columnDisplayName}" value {repr(item)}: {ex}')
 	
 	def writeCSVLine(self, items):
 		"""
@@ -381,7 +390,11 @@ class CSVStatusWriter(BaseAnalyzer):
 		items = ['"%s"'%(i.replace('"', '""')) if (',' in i or '"' in i) else i for i in items]
 		self.output.write(','.join(items)+'\n')
 
+	def writeFooter(self, **extra): # just for compatibility with CSVStatusWriter
+		pass
+
 class JSONStatusWriter(BaseAnalyzer):
+	output_file = 'status_@LOG_NAME@.json'
 	def register(self):
 		self.manager.subscribe(EVENT_ANNOTATED_STATUS_DICT, self.writeStatus)
 		self.manager.subscribe(EVENT_ANNOTATED_STATUS_DICT_HEADER, self.writeHeader)
@@ -389,7 +402,7 @@ class JSONStatusWriter(BaseAnalyzer):
 		self.output = None
 
 	def writeHeader(self, columns=None, extraInfo=None, **extra):
-		self.output = self.createFile('status_@LOG_NAME@.json')
+		self.output = self.createFile(self.output_file)
 		# write one log line per json line, for ease of testing
 		self.output.write('{"metadata":%s, "status":['%json.dumps(extraInfo or {}, ensure_ascii=False, indent=4, sort_keys=False))
 		self.prependComma = False
@@ -499,6 +512,152 @@ class StatusLinesDictExtractor(BaseAnalyzer):
 		# nb: this algorithm means a file containing only one correlator status line would be ignored, but don't care about that case really
 
 
+class StatusLineSummarizer(BaseAnalyzer):
+	"""
+	Analyzes annotated status line to find common problems and summarizes 
+	found information per log file. 
+	"""
+	
+	STAT_EXCLUDE_COLUMNS = [
+		'datetime',
+		'seconds',
+		'line num',
+	]
+	""" Columns that we don't want to calculate stats for"""
+	
+	def register(self):
+		self.manager.subscribe(EVENT_ANNOTATED_STATUS_DICT, self.handleAnnotatedStatus)
+		self.manager.subscribe(EVENT_ANNOTATED_STATUS_DICT_HEADER, self.handleAnnotatedStatusHeader)
+		self.manager.subscribe(EVENT_FILE_STARTED, self.handleFileStarted)
+		self.manager.subscribe(EVENT_PERCENT_COMPLETE, self.handleFilePercentComplete)
+	
+	def handleFileStarted(self, **extra):
+		self.status_min = self.status_max = self.status_sum = \
+			self.status_0pc = self.status_25pc = self.status_50pc = self.status_75pc = self.status_100pc = \
+			self.laststatus = None
+		self.samples = 0
+		
+	def handleAnnotatedStatusHeader(self, columns=None, **kwargs):
+		self.headerArgs = dict(kwargs)
+		self.headerArgs['columns'] = ['statistic']+list(columns)
+		
+	def handleAnnotatedStatus(self, status, **extra):
+		if self.laststatus is None: 
+			self.status_0pc = dict(status)
+			self.status_sum = {k:0 for k in status} 
+			self.status_min = dict(status)
+			self.status_max = dict(status)
+		self.laststatus = status
+		self.samples += 1
+		for k, v in status.items():
+			if isinstance(v, str): continue
+			if v > self.status_max[k]: self.status_max[k] = v
+			if v < self.status_min[k]: self.status_min[k] = v
+			
+			if v != 0: 
+				if isinstance(self.status_0pc[k], float): 
+					# for precision, use integers to keep runnnig total, even for float types
+					# to get final number that look right to 3 dp, scale up by 5 dp
+					v = int(100000*v) 
+				self.status_sum[k] += v
+	
+	def handleFilePercentComplete(self, percent, **extra):
+		if percent >= 25:
+			self.status_25pc = self.status_25pc or self.laststatus
+		if percent >= 50:
+			self.status_50pc = self.status_50pc or self.laststatus
+		if percent >= 75:
+			self.status_75pc = self.status_75pc or self.laststatus
+		if percent == 100:
+			self.status_100pc = self.laststatus
+		if percent == 100: self.handleFileComplete()
+	
+	def handleFileComplete(self):
+		if self.samples < 2 or (not self.laststatus) or (not self.status_100pc):
+			log.warn('%d status line(s) found in %s; not enough to analyze', self.samples, self.manager.currentname)
+			return
+
+		def numberOrEmpty(v):
+			if v is None or isinstance(v, str):
+				return ''
+			return v
+		
+		def calcmean(k):
+			v = self.status_sum[k]
+			if v is None or isinstance(v, str) or isinstance(self.status_0pc.get(k, ''), str): return ''
+
+			# to get improved precision we convert floats to ints, scaling up by 100000 - turn them back here
+			if isinstance(self.status_0pc[k], float): v = v/100000.0
+
+			v = v / float(self.samples) # force a floating point division
+			if v==0: v = 0 # keep it concise for zero values
+			
+			
+			# don't bother with decimal places for large integer values
+			if abs(v) > 1000 and isinstance(self.status_0pc.get(k, ''), int): v = int(v)
+			
+			return v
+			
+		rows = {
+			'0% (start)':self.status_0pc,
+			'25%':self.status_25pc,
+			'50%':self.status_50pc,
+			'75%':self.status_75pc,
+			'100% (end)':self.status_100pc,
+			'':None,
+			'min':{k: numberOrEmpty(self.status_min[k]) for k in self.status_min},
+			'mean':{k: calcmean(k) for k in self.status_sum},
+			'max':{k: numberOrEmpty(self.status_max[k]) for k in self.status_max},
+		}
+		for k in self.status_0pc:
+			if isinstance(self.status_0pc[k], str):
+				self.status_sum[k] = ''
+				self.status_min[k] = ''
+				self.status_max[k] = ''
+
+		# we're cunningly re-using these writers for a somewhat different purpose here
+		writers = [CSVStatusWriter(self.manager), JSONStatusWriter(self.manager)]
+		for w in writers:
+			w.output_file = 'summary_'+w.output_file.split('_', 1)[1]
+			w.writeHeader(**self.headerArgs)
+			prev = None
+			for display, status in rows.items():
+				if not display:
+					prev = None
+					w.output.write('\n') # add a blank line to provide visual separation
+					continue
+				
+				if prev:
+					# show deltas between the lines is quite handy
+					delta = collections.OrderedDict()
+					delta['statistic'] = f'... delta: {display} - {prev["statistic"]}'
+					for k in status:
+						if isinstance(status[k], str) or k in ['seconds', 'line num']:
+							delta[k] = ''
+						else:
+							try:
+								delta[k] = status[k]-prev[k]
+							except Exception as ex:
+								delta[k] = f'delta exception: {ex}'
+					w.writeStatus(delta)
+					
+				status = collections.OrderedDict(status)
+				status['statistic'] = display
+				if '%' not in display:
+					status['datetime'] = status['seconds'] = ''
+					if 'mean' in display:
+						status['seconds'] = ''
+				status.move_to_end('statistic', last=False)
+				w.writeStatus(status)
+				prev = status
+			w.writeFooter()
+	
+	def finished(self, **extra):
+		""" Called when analysis of all log lines has finished (EVENT_ALL_FINISHED). 
+		Allows writing out final/summary results or footers. 
+		"""
+		pass
+	
 class LogAnalysisManager(object):
 	"""
 	Managers analysis of one or more log files. 
@@ -566,7 +725,8 @@ class LogAnalysisManager(object):
 		
 		log.info('Starting analysis of %s (%s MB)', os.path.basename(file), '{:,}'.format(int(self.currentfilebytes/1024.0/1024)))
 		self.publish(EVENT_FILE_STARTED, file=file)
-		
+		self.publish(EVENT_PERCENT_COMPLETE, percent=0)
+
 		lastpercent = 0
 		
 		with io.open(file, encoding='utf-8', errors='replace') as f:
@@ -577,22 +737,24 @@ class LogAnalysisManager(object):
 				lineno += 1
 				charcount += len(line)
 				
-				if lineno % 10 == 0: # don't do it too often
+				if self.currentfilebytes < 10*1000 or lineno % 10 == 0: # don't do it too often for large files
 					# can't use tell() on a text file (without inefficiency), so assume 1 byte per char (usually true for ascii) as a rough heuristic
 					percent = 100.0*charcount / self.currentfilebytes
 					for threshold in [25, 50, 75]:
 						if percent >= threshold and lastpercent < threshold:
 							self.publish(EVENT_PERCENT_COMPLETE, percent=threshold)
 							lastpercent = threshold
-							break
 				
 				self.currentlineno = lineno
 				line = line.rstrip()
 				if not line: continue # blank lines aren't useful
 				line = LogLine(line, lineno)
 				self.publish(EVENT_LINE, line=line)
-		
-		self.publish(EVENT_PERCENT_COMPLETE, percent=100)
+
+		# publish 100% and any earliern ones that were skipped if it's a tiny file
+		for threshold in [25, 50, 75, 100]:
+			if lastpercent < threshold:
+				self.publish(EVENT_PERCENT_COMPLETE, percent=threshold)
 		self.publish(EVENT_FILE_FINISHED, file=file)
 		
 		self.currentlineno = -1
@@ -639,12 +801,12 @@ class LogAnalyzerTool(object):
 		for f in args.files: # probably want to factor this out to an overridable method
 			assert '*' not in f, 'globbing not implemented yet' # TODO: impl globbing (with sort), maybe directory analysis, incl special-casing of "logs/" and ignoring already-analyzed files. zip file handling. 
 			name = LogAnalysisManager.logFileToLogName(f)
+			if not os.path.isfile(f):
+				raise UserError(f'Cannot find log file: {os.path.normpath(f)}')
 			logfiles.append( (name, f))
 		logfiles.sort() # hopefully puts the latest one at the end
 		
-		if not logfiles: raise Exception('No log files specified')
-		
-		
+		if not logfiles: raise UserError('No log files specified')
 		
 		if not args.output: 
 			# if not explicitly specified, create a new unique dir
@@ -663,6 +825,7 @@ class LogAnalyzerTool(object):
 		listeners = [
 			StatusLinesDictExtractor(manager),
 			StatusLinesAnnotator(manager),
+			StatusLineSummarizer(manager),
 		]
 		listeners.append(CSVStatusWriter(manager))
 		if args.statusjson:
@@ -677,4 +840,8 @@ class LogAnalyzerTool(object):
 		return 0
 	
 if __name__ == "__main__":
-	sys.exit(LogAnalyzerTool().main(sys.argv[1:]))
+	try:
+		sys.exit(LogAnalyzerTool().main(sys.argv[1:]))
+	except UserError as ex:
+		sys.stderr.write(f'ERROR - {ex}\n')
+		sys.exit(100)

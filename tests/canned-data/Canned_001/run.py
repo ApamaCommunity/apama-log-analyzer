@@ -36,10 +36,14 @@ class PySysTest(AnalyzerBaseTest):
 		# check CSV is sane
 		with io.open(outputdir+'/status_mycorrelator.csv', encoding='utf-8') as f:
 			csvlines = f.readlines()
-		self.assertEval('{header_cols} == {row_cols}', 
-			header_cols=len(csvlines[0].split(',')), 
-			row_cols=len(splitcsvline(csvlines[1])))
 		header = csvlines[0].strip().split(',')
+		METADATA_START = '# metadata: '
+		if METADATA_START in header:
+			header = header[:header.index(METADATA_START)]
+		
+		self.assertEval('{header_cols} == {row_cols}', 
+			header_cols=len(header), 
+			row_cols=len(splitcsvline(csvlines[1])))
 		self.assertEval('{header}.startswith("#")', header=csvlines[0])
 		
 		self.assertEval('{output_columns} > {log_file_status_items}+{extra_cols}', 
