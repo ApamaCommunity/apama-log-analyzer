@@ -35,5 +35,5 @@ class AnalyzerBaseTest(BaseTest):
 			if logstderr: self.logFileContents(stdouterr+'.err')
 
 	def checkForAnalyzerErrors(self, stdouterr='loganalyzer'):
-		self.assertGrep(stdouterr+'.err', expr='(ERROR|Traceback).*', contains=False)
+		self.assertGrep(stdouterr+'.err', expr='(ERROR |Traceback).*', contains=False)
 	

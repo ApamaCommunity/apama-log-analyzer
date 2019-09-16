@@ -311,7 +311,7 @@ class StatusLinesAnnotator(BaseAnalyzer):
 		""" Get an ordered dictionary of additional information to be included with the header, 
 		such as date, version, etc. """
 		d = collections.OrderedDict()
-		d['analyzer'] = f'v{__version__}' # always include the version of the script that generated it
+		d['analyzer'] = f'v{__version__}/{__date__}' # always include the version of the script that generated it
 		return d
 	
 	def handleStatusDict(self, status=None, **extra):
@@ -836,6 +836,9 @@ class LogAnalyzerTool(object):
 		manager.processFiles()
 		duration = time.time()-duration
 		log.info('Completed analysis in %s', (('%d seconds'%duration) if duration < 120 else ('%0.1f minutes' % (duration/60))))
+
+		log.info('')
+		log.info('If you need to request help analyzing a log file be sure to tell us: the 4-digit Apama version, the time period when the bad behaviour was observed, any ERROR/WARN messages, who is the author/expert of the EPL application code, and if possible attach the full original correlator log files (including the very first log file - which contains all the header information - and the log file during which the bad behaviour occurred). ')
 		
 		return 0
 	
