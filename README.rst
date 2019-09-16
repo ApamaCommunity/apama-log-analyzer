@@ -26,9 +26,15 @@ Usage
 =====
 To run the script, simply execute::
 
-	> python3 apamax\log_analyzer.py
+	> python3 apamax\log_analyzer.py mycorrelator.log
 
-Excel tip: when you open a CSV file in Excel, to automatically resize all columns so that their contents can be viewed just select all (Ctrl+A), then double click the separator between any two of the column headings. 
+Cumulocity tip
+--------------
+If you're using Apama inside Cumulocity, to download the log use the App Switcher icon to go to `Administration`, then `Applications` > `Subscribed applications` > `Apama-ctrl-XXX`. Assuming Apama-ctrl is running, you'll see a `Logs` tab. You should try to get the full log - to do that click the `|<<` button to find out the date of the first entry then click `Download` select the time range from the start date to the day after today. 
+
+Excel CSV tip
+-------------
+When you open a CSV file in Excel, to automatically resize all columns so that their contents can be viewed just select all (Ctrl+A), then double click the separator between any two of the column headings. 
 
 Contributions
 =============
