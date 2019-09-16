@@ -1,0 +1,33 @@
+<?xml version="1.0" standalone="yes"?>
+<pysystest type="auto" state="runnable">
+    
+  <description> 
+    <title>Performance - rate of processing standard correlator log lines (in-memory/no disk)</title>    
+    <purpose><![CDATA[
+    Measure how fast we can process each log line. For simplicity we exclude disk I/O and do it all in-memory. 
+]]>
+    </purpose>
+  </description>
+
+  <classification>
+    <groups>
+      <group>performance</group>
+    </groups>
+    <modes>
+		<mode>OnlyStatusLines</mode>
+		<mode>OnlyWarnErrorLines</mode>
+		<mode>OnlyIgnoredLines</mode>
+		<mode>TypicalMix_StatusEvery3Lines</mode>
+    </modes>
+  </classification>
+
+  <data>
+    <class name="PySysTest" module="run"/>
+  </data>
+  
+  <traceability>
+    <requirements>
+      <requirement id=""/>     
+    </requirements>
+  </traceability>
+</pysystest>

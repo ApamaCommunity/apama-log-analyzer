@@ -37,7 +37,7 @@ install:
 script:
   # run tests
   - cd tests
-  - pysys.py run --threads auto -XpythonCoverage=true --purge
+  - pysys.py run --threads auto -XpythonCoverage=true --purge --mode ALL
   - cd ..
 
 after_script:

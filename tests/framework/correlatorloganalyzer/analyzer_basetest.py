@@ -8,7 +8,7 @@ class AnalyzerBaseTest(BaseTest):
 		if 'performance' in self.descriptor.groups:
 			self.disableCoverage=True
 
-	def logAnalyzer(self, arguments, logfiles=None, output='<testdefault>', stdouterr='loganalyzer', logstderr=True, **kwargs):
+	def logAnalyzer(self, arguments, logfiles=None, output='<testdefault>', stdouterr='loganalyzer', logstderr=True, script=None, **kwargs):
 		"""
 		Run log analyzer. 
 		
@@ -18,7 +18,7 @@ class AnalyzerBaseTest(BaseTest):
 		if output == '<testdefault>':
 			output = stdouterr+'_output'
 		try:
-			args = [self.project.logAnalyzerScript]+arguments
+			args = [script or self.project.logAnalyzerScript]+arguments
 			if logfiles:
 				args = args+[os.path.join(self.input, l) for l in logfiles]
 			if output:

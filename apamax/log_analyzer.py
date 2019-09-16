@@ -671,6 +671,17 @@ class LogAnalysisManager(object):
 		self.currentfile = None
 		self.currentname = None # identifies the current correlator instance
 
+	def registerDefaultListeners(self):
+		listeners = [
+			StatusLinesDictExtractor(self),
+			StatusLinesAnnotator(self),
+			StatusLineSummarizer(self),
+		]
+		listeners.append(CSVStatusWriter(self))
+		if self.args.statusjson:
+			listeners.append(JSONStatusWriter(self))
+		for l in listeners: l.register()
+
 	def subscribe(self, eventtype, listener):
 		""" Adds the specified listener function to the list that will be 
 		called when an eventtype is published. The signature of listener 
@@ -739,7 +750,7 @@ class LogAnalysisManager(object):
 				
 				if self.currentfilebytes < 10*1000 or lineno % 10 == 0: # don't do it too often for large files
 					# can't use tell() on a text file (without inefficiency), so assume 1 byte per char (usually true for ascii) as a rough heuristic
-					percent = 100.0*charcount / self.currentfilebytes
+					percent = 100.0*charcount / (self.currentfilebytes or -1) # (-1 is to avoid div by zero when we're testing against a fake)
 					for threshold in [25, 50, 75]:
 						if percent >= threshold and lastpercent < threshold:
 							self.publish(EVENT_PERCENT_COMPLETE, percent=threshold)
@@ -751,7 +762,7 @@ class LogAnalysisManager(object):
 				line = LogLine(line, lineno)
 				self.publish(EVENT_LINE, line=line)
 
-		# publish 100% and any earliern ones that were skipped if it's a tiny file
+		# publish 100% and any earlier ones that were skipped if it's a tiny file
 		for threshold in [25, 50, 75, 100]:
 			if lastpercent < threshold:
 				self.publish(EVENT_PERCENT_COMPLETE, percent=threshold)
@@ -822,17 +833,7 @@ class LogAnalyzerTool(object):
 		if not os.path.exists(args.output): os.makedirs(args.output)
 		
 		manager = LogAnalysisManager(args)
-		listeners = [
-			StatusLinesDictExtractor(manager),
-			StatusLinesAnnotator(manager),
-			StatusLineSummarizer(manager),
-		]
-		listeners.append(CSVStatusWriter(manager))
-		if args.statusjson:
-			listeners.append(JSONStatusWriter(manager))
-		
-		for l in listeners: l.register()
-		
+		manager.registerDefaultListeners()
 		manager.processFiles()
 		duration = time.time()-duration
 		log.info('Completed analysis in %s', (('%d seconds'%duration) if duration < 120 else ('%0.1f minutes' % (duration/60))))

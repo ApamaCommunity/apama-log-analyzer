@@ -24,6 +24,8 @@
 	<!-- Custom test framework extensions, if needed -->
 	<path value="framework" relative="true" />
 
+	<performance-reporter classname="correlatorloganalyzer.customperfreporter.CustomPerfReporter"/>
+
 	<writers>
 		<writer classname="TravisCIWriter" module="pysys.writer.ci"></writer>
 
