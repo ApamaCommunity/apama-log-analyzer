@@ -290,16 +290,16 @@ class StatusLinesAnnotator(BaseAnalyzer):
 				elif k == '=rt /sec':
 					val = (status['rt']-previousStatus['rt'])/(seconds-previousStatus['seconds'])
 				elif k == '=pm delta MB':
-					if 'pm' in previousStatus: # not present in all Apama versions
+					try:
 						val = (status['pm']-previousStatus['pm'])/1024.0
-					else: 
+					except KeyError: # not present in all Apama versions
 						continue
 				elif k == '=vm delta MB':
 					val = (status['vm']-previousStatus['vm'])/1024.0
 				elif k == '=jvm delta MB':
-					if 'jvm' in previousStatus: # not present in all Apama versions
+					try:
 						val = (status['jvm']-previousStatus['jvm'])/1024.0
-					else: 
+					except KeyError: # not present in all Apama versions
 						continue
 				else:
 					assert False, 'Unknown generated key: %s'%k
@@ -433,6 +433,7 @@ class StatusLinesDictExtractor(BaseAnalyzer):
 	
 	def handleLine(self, line=None, **extra):
 		m = line.message
+		#if re.match('(Correlator Status: 
 		if m.startswith('Correlator Status: ') or m.startswith('Status: sm'): # "Status: " is for very old versions e.g. 4.3
 			kind = EVENT_CORRELATOR_STATUS_DICT
 		#elif m.startswith('JMS Status: '):
