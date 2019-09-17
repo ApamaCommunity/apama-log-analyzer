@@ -3,6 +3,7 @@ import io
 import sys
 import time
 import logging
+import os
 
 log = logging.getLogger('test')
 
@@ -24,8 +25,9 @@ class FakeLogFile(io.TextIOBase):
 	def generateLogLine(self):
 		self.linenum = i = self.linenum+1
 
-		timestamp = '2019-04-08 13:00:00.111' # TODO: update this
-
+		
+		timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(1546398245 + self.linenum))+'.123'
+		
 		# initialize for TypicalMix_StatusEvery3Lines
 		warn_error_msg_period = 100 # add a warn and an error every 100 lines
 		status_line_period = 3
@@ -57,7 +59,7 @@ class FakeLogFile(io.TextIOBase):
 		# the rest of the file is some random info log messages which we will ignore
 		return f'{timestamp} INFO  [22872] - com.acme.myackage.MyServiceMonitor [123] This is a message from a service monitor indicating that we\'re processing event MyThingHappened("1231111111111", 123, 456, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx {i}")'
 	
-		return '2019-04-08 13:00:00.111 INFO  [22872] - Correlator Status: sm=1 nctx=2 ls=3 rq=4 lcn=<none> lct=5.5 si=6.6 so=1.1 jvm=7168 rx=8 tx=9 mynewstatus=10 rt=0 nc=0 vm=3 pm=4 runq=0  somethingelse=123'
+		return f'{timestamp} INFO  [22872] - Correlator Status: sm=1 nctx=2 ls=3 rq=4 lcn=<none> lct=5.5 si=6.6 so=1.1 jvm=7168 rx=8 tx=9 mynewstatus=10 rt=0 nc=0 vm=3 pm=4 runq=0  somethingelse=123'
 		
 	
 	def readline(self, size=-1):
@@ -79,11 +81,18 @@ class FakeLogFile(io.TextIOBase):
 				return ''
 		
 		return l
+	
+	def write(self, *args, **kwargs):
+		pass # no-op
 
 def fakeopen(file, mode='r', **kwargs):
-	if file.endswith('.log') and 'r' in mode:
+	if (file.endswith('.log') and 'r' in mode):
 		return FakeLogFile()
-	# todo: also fake output
+
+	# skip the O(n) big output file, since we don't want to be generating huge files
+	if os.path.basename(file) == 'status_fake-correlator.csv':
+		return FakeLogFile()
+
 	return origopen(file, mode, **kwargs)
 io.open = fakeopen
 
