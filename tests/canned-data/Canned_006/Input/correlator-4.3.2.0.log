@@ -1,0 +1,80 @@
+2019-09-17 16:49:05.074 ##### [52436] - Correlator, version 4.3.2.0 (build releases/4.3.x@162468 on amd64-win64-msvc9), started.
+2019-09-17 16:49:05.074 ##### [52436] - Running on host 'xxxx.xx.yy'.
+2019-09-17 16:49:05.074 ##### [52436] - Running on platform 'Unknown Windows platform 6.2'.
+2019-09-17 16:49:05.074 ##### [52436] - Running on CPU 'GenuineIntel family 6 model 14 stepping 10 Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz'.
+2019-09-17 16:49:05.074 ##### [52436] - Running with 32587.22MB of physical memory.
+2019-09-17 16:49:05.074 ##### [52436] - Choosing default output queue interval of 0 because there are 12 CPUs
+2019-09-17 16:49:05.074 ##### [52436] - Correlator command line: C:\dev\10.5.1.x\apama-lib4\win\amd64\all\apama\4.3.2.0\bin\correlator -l C:/dev/10.5.1.x/apama-lib4/all/apama-licenses/4/license.txt -p 20719 -f correlator-inject-4.3.2.0.log -P
+2019-09-17 16:49:05.074 ##### [52436] - Current Working Directory: C:\dev\10.5.1.x\apama-test\system\correlator\persistence\testcases\correctness\Corr_Persistence_cor_001\Output\amd64-win
+2019-09-17 16:49:05.074 ##### [52436] - Input value - port                     = 20719
+2019-09-17 16:49:05.074 ##### [52436] - Input value - output queue size        = 10000
+2019-09-17 16:49:05.074 ##### [52436] - Input value - output queue batch size  = 100
+2019-09-17 16:49:05.074 ##### [52436] - Input value - output queue interval    = 0
+2019-09-17 16:49:05.074 ##### [52436] - Input value - output queue mode        = blocking
+2019-09-17 16:49:05.074 ##### [52436] - Input value - environment variable     = APAMA_HOME=C:/dev/10.5.1.x/apama-lib4/win/amd64/all/apama/4.3.2.0/lib/..
+2019-09-17 16:49:05.074 ##### [52436] - Input value - environment variable     = AP_PYTHONHOME=
+2019-09-17 16:49:05.074 ##### [52436] - Input value - environment variable     = AP_TEST_VERBOSE=true
+2019-09-17 16:49:05.074 ##### [52436] - Input value - environment variable     = AP_ASCII_COLOURS=true
+2019-09-17 16:49:05.074 ##### [52436] - Using memory allocator                 = TBB scalable allocator
+2019-09-17 16:49:05.084 ##### [52436] - Licence information:
+2019-09-17 16:49:05.084 ##### [52436] -   C:\dev\10.5.1.x\apama-lib4\all\apama-licenses\4\license.txt
+2019-09-17 16:49:05.084 ##### [52436] -   Expiration date:   2020-01-10
+2019-09-17 16:49:05.085 ##### [52436] -   Monitor limit:     unlimited
+2019-09-17 16:49:05.086 ##### [52436] -   Context limit:     unlimited
+2019-09-17 16:49:05.088 ##### [52436] -   Event rate limit:  unlimited
+2019-09-17 16:49:05.089 ##### [52436] -   Connect Allowed:   true
+2019-09-17 16:49:05.090 ##### [52436] -   Version prefix:    "4"
+2019-09-17 16:49:05.091 ##### [52436] -   Platforms:        
+2019-09-17 16:49:05.093 ##### [52436] -     "*"
+2019-09-17 16:49:05.093 ##### [52436] - Input value - per receiver queue size  = 10 s
+2019-09-17 16:49:05.093 ##### [52436] - Input value - per receiver queue size  = 10240 kb
+2019-09-17 16:49:05.093 ##### [52436] - Input value - input queue size         = 20000
+2019-09-17 16:49:05.093 ##### [52436] - Java application support               = disabled
+2019-09-17 16:49:05.093 ##### [52436] - External clocking                      = disabled
+2019-09-17 16:49:05.093 ##### [52436] - High availability                      = disabled
+2019-09-17 16:49:05.093 ##### [52436] - Input value - logfile                  = correlator-inject-4.3.2.0.log
+2019-09-17 16:49:05.093 ##### [52436] - Input value - loglevel                 = INFO
+2019-09-17 16:49:05.093 ##### [52436] - Input value - replayLog                = ** Warning replay log not enabled **
+2019-09-17 16:49:05.093 ##### [52436] - Compiler optimizations                 = enabled
+2019-09-17 16:49:05.102 ##### [52436] - Input value - snapshot interval        = 200
+2019-09-17 16:49:05.102 ##### [52436] - Input value - store location           = .
+2019-09-17 16:49:05.102 ##### [52436] - Input value - adjust snapshot          = true
+2019-09-17 16:49:05.102 ##### [52436] - Input value - store name               = persistence.db
+2019-09-17 16:49:05.102 INFO  [52436] - Will log queue size every 5.000000 seconds
+2019-09-17 16:49:05.106 ##### [52436] - Component ID: correlator (correlator/6737667002903614048/6737667002903614048)
+2019-09-17 16:49:05.106 ##### [52436] - Correlator, version 4.3.2.0, running
+2019-09-17 16:49:05.223 INFO  [62880] - Sender engine_inject (BSP) (0000000001EA8DE0) (component ID 6737667006959768160/6737385531983057504) connected from 127.0.0.1:63957
+2019-09-17 16:49:05.245 INFO  [58264] - Added type Output
+2019-09-17 16:49:05.245 INFO  [6700] - Injected MonitorScript from file c:/dev/10.5.1.x/apama-test/system/correlator/persistence/utilities/output.mon, size 18 bytes, compile time 0.00 seconds
+2019-09-17 16:49:05.246 INFO  [65716] - Sender engine_inject (BSP) (0000000001EA8DE0) (component ID 6737667006959768160/6737385531983057504) disconnected cleanly: Other party requested disconnection
+2019-09-17 16:49:05.328 INFO  [62880] - Sender engine_inject (BSP) (0000000007F2E010) (component ID 6737667007116792416/6737385532140081760) connected from 127.0.0.1:63960
+2019-09-17 16:49:05.343 INFO  [58264] - Added type com.apama.correlator.ManagementAck
+2019-09-17 16:49:05.343 INFO  [63892] - Injected MonitorScript from file C:/dev/10.5.1.x/apama-lib4/all/apama/4.3.2.0/monitors//ManagementImpl.mon, size 211 bytes, compile time 0.00 seconds
+2019-09-17 16:49:05.362 WARN  [58264] - Couldn't find chunk deserialisation function for plugin ManagementPlugin: The specified procedure could not be found.
+
+
+2019-09-17 16:49:05.362 WARN  [58264] - Serialisation may not be possible while this plugin is loaded
+2019-09-17 16:49:05.362 INFO  [58264] - Plugin library ManagementPlugin (C++ API v6.0) loaded OK
+2019-09-17 16:49:05.362 INFO  [58264] - Added type com.apama.correlator.Persistence
+2019-09-17 16:49:05.362 INFO  [63892] - Injected MonitorScript from file C:/dev/10.5.1.x/apama-lib4/all/apama/4.3.2.0/monitors//Management.mon, size 661 bytes, compile time 0.01 seconds
+2019-09-17 16:49:05.363 INFO  [64532] - Sender engine_inject (BSP) (0000000007F2E010) (component ID 6737667007116792416/6737385532140081760) disconnected cleanly: Other party requested disconnection
+2019-09-17 16:49:05.433 INFO  [64308] - Sender engine_inject (BSP) (0000000001EA8DE0) (component ID 6737667005084652128/6737385530107941472) connected from 127.0.0.1:63963
+2019-09-17 16:49:05.449 INFO  [58264] - Added monitor numericstringclosures
+2019-09-17 16:49:05.449 INFO  [58264] - Added type Result
+2019-09-17 16:49:05.449 INFO  [63892] - Injected MonitorScript from file C:/dev/10.5.1.x/apama-test/system/correlator/persistence/testcases/correctness/Corr_Persistence_cor_001/Input/test.mon, size 568 bytes, compile time 0.00 seconds
+2019-09-17 16:49:05.450 INFO  [62900] - Sender engine_inject (BSP) (0000000001EA8DE0) (component ID 6737667005084652128/6737385530107941472) disconnected cleanly: Other party requested disconnection
+2019-09-17 16:49:05.684 INFO  [62880] - Receiver engine_receive (0000000001E93A90) (component ID 6737667002879496800/6737385527902786144) connected from 127.0.0.1:63967
+2019-09-17 16:49:05.684 INFO  [62880] - Receiver engine_receive (0000000001E93A90) initially subscribed to <no channels>
+2019-09-17 16:49:05.684 INFO  [62880] - Blocking receiver engine_receive (0000000001E93A90) will be blocked after 10.000000 seconds or 10240 kb if slow
+2019-09-17 16:49:05.684 INFO  [62900] - Receiver engine_receive (0000000001E93A90) unsubscribed from all channels
+2019-09-17 16:49:05.685 INFO  [64532] - Receiver engine_receive (0000000001E93A90) added subscriptions to [<wildcard channel>]
+2019-09-17 16:49:05.779 INFO  [24444] - Sender engine_send (BSP) (00000000052EBDE0) (component ID 6737667006437577312/6737385531460866656) connected from 127.0.0.1:63970
+2019-09-17 16:49:05.818 INFO  [66336] - Sender engine_send (BSP) (00000000052EBDE0) (component ID 6737667006437577312/6737385531460866656) disconnected cleanly: Other party requested disconnection
+2019-09-17 16:49:10.102 INFO  [56484] - Status: sm=1 nctx=1 ls=1 rq=0 eq=0 iq=0 oq=0 rx=1 tx=7 rt=0 nc=1 vm=75112 runq=0
+2019-09-17 16:49:15.103 INFO  [56484] - Status: sm=1 nctx=1 ls=1 rq=0 eq=0 iq=0 oq=0 rx=1 tx=7 rt=0 nc=1 vm=75128 runq=0
+2019-09-17 16:49:20.103 INFO  [56484] - Status: sm=1 nctx=1 ls=1 rq=0 eq=0 iq=0 oq=0 rx=1 tx=7 rt=0 nc=1 vm=75128 runq=0
+2019-09-17 16:49:25.102 INFO  [56484] - Status: sm=1 nctx=1 ls=1 rq=0 eq=0 iq=0 oq=0 rx=1 tx=7 rt=0 nc=1 vm=75128 runq=0
+2019-09-17 16:49:30.103 INFO  [56484] - Status: sm=1 nctx=2 ls=3 rq=4 eq=5 iq=6 oq=7 rx=8 tx=9 rt=10 nc=11 vm=80000 runq=12
+2019-09-17 16:49:34.466 CRIT  [66080] - Received a SIGINT (2) signal, shutting down
+2019-09-17 16:49:34.466 INFO  [66336] - Receiver engine_receive (0000000001E93A90) removed subscriptions to [<wildcard channel>]
+2019-09-17 16:49:34.466 INFO  [62900] - Receiver engine_receive (0000000001E93A90) (component ID 6737667002879496800/6737385527902786144) disconnected cleanly: Other party requested disconnection
