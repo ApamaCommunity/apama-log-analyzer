@@ -12,7 +12,7 @@ Features:
 
 - `status_XXX.csv`: Extracts all values from "Correlator Status:" lines, exporting them to an Excel-friendly CSV file. 
 - `summary_XXX.csv`: Generates a small summary CSV file containing a snapshot of values from the start/middle/end of each log, min/mean/max aggregate values, and deltas between them. This is a good first port of call, to check which columns might be worth graphing to chase down a memory leak or unresponsive application. 
-- `status/summary_XXX.json`: Optionally, the status line extraction can also write a json file, which could be handy if you want to write a script to process them.
+- `status_summary_XXX.json`: Optionally, the status line extraction can also write a json file, which could be handy if you want to write a script to process them.
 - Supported Apama releases: Apama 4.3 through to latest (10.5+). 
 - Licensed under the Apache License 2.0. 
 
