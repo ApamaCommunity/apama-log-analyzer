@@ -10,11 +10,11 @@ The log analyzer is a simple but powerful Python script for analyzing Apama corr
 
 Features:
 
-- `status_XXX.csv`: Extracts all values from "Correlator Status:" lines, exporting them to an Excel-friendly CSV file. 
-- `summary_XXX.csv`: Generates a small summary CSV file containing a snapshot of values from the start/middle/end of each log, min/mean/max aggregate values, and deltas between them. This is a good first port of call, to check which columns might be worth graphing to chase down a memory leak or unresponsive application. 
+- `status_XXX.csv`: Extracts all periodic statistics from "Correlator Status:" lines, exporting them to an *Excel-friendly CSV file*. Columns are named in a user-friendly way, and some derived stats such as event rate are calculated. 
+- `summary_XXX.csv`: Generates a small *summary* CSV file containing a snapshot of values from the start/middle/end of each log, min/mean/max aggregate values, and deltas between them. This is a good first port of call, to check which columns might be worth graphing to chase down a memory leak or unresponsive application. 
 - `status_summary_XXX.json`: Optionally, the status line extraction can also write a json file, which could be handy if you want to write a script to process them.
-- Supported Apama releases: Apama 4.3 through to latest (10.5+). 
-- Licensed under the Apache License 2.0. 
+- Supported Apama releases: *Apama 4.3 through to latest* (10.5+). Also works with correlator logging from `apama-ctrl`, downloaded from *Cumulocity*. 
+- Licensed under the *Apache License 2.0*. 
 
 Coming soon:
 
@@ -28,12 +28,12 @@ To run the script, simply execute::
 
 	> python3 apamax\log_analyzer.py mycorrelator.log
 
-Cumulocity tip
---------------
+Cumulocity
+----------
 If you're using Apama inside Cumulocity, to download the log use the App Switcher icon to go to `Administration`, then `Applications` > `Subscribed applications` > `Apama-ctrl-XXX`. Assuming Apama-ctrl is running, you'll see a `Logs` tab. You should try to get the full log - to do that click the `|<<` button to find out the date of the first entry then click `Download` select the time range from the start date to the day after today. 
 
-Excel CSV tip
--------------
+Excel/CSV
+---------
 When you open a CSV file in Excel, to automatically resize all columns so that their contents can be viewed just select all (Ctrl+A), then double click the separator between any two of the column headings. 
 
 Contributions

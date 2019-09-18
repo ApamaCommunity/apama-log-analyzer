@@ -60,10 +60,24 @@ class LogLine(object):
 		self.lineno = lineno
 		self.__details = None
 
+		firstchar = line[0]
+		
+		# if it's an apama-ctrl file, pre-process the line
+		isapamactrl = False
+		if firstchar == '[': # probably apama ctrl
+			iscorrelator = line.startswith(  '[correlator]  ')
+			if not iscorrelator:
+				isapamactrl = line.startswith('[apama-ctrl]  ')
+			if iscorrelator or isapamactrl:
+				self.line = line = line[14:]
+				if len(line)>0: firstchar = line[0]
+
 		# do minimal parsing by default to keep speed high for messages we don't care about - just separate message from prefix
 		i = line.find(' - ')
-		if i >= 0 and line[0].isdigit(): # if it looks like a log line
+		if i >= 0 and firstchar.isdigit(): # if it looks like a log line
 			self.message = line[i+3:]
+			if isapamactrl:
+				self.message = f'<apama-ctrl> {self.message}'
 			self.__rawdetails = line[:i]
 		else:
 			self.message = line
@@ -762,7 +776,8 @@ class LogAnalysisManager(object):
 				
 				self.currentlineno = lineno
 				line = line.rstrip()
-				if not line: continue # blank lines aren't useful
+				
+				if len(line)==0: continue # blank lines aren't useful
 				line = LogLine(line, lineno)
 				self.publish(EVENT_LINE, line=line)
 

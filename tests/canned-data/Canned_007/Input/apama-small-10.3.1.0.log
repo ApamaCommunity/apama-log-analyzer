@@ -1,0 +1,653 @@
+Memory: perm/metaspace=814  heap=7328 from 8142 for 8Gi
+ Using JDK8+ memory settings
+heap dumps  /var/log/apama-medium/heap-dump-<pid>.hprof
+2019-09-24 13:52:39.796  INFO 11 --- [           main] c.c.m.properties.PropertiesRunListener   : Configuration file loaded /etc/apama-small/apama-medium.properties
+2019-09-24 13:52:39.909  INFO 11 --- [           main] c.c.m.l.c.LoggingEnvironmentRunListener  : logging.conf: /etc/apama-small/apama-medium-logging.xml
+13:52:39,508 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@46ee7fe8 - URL [jar:file:/data/apama-medium.jar!/BOOT-INF/classes!/logback.xml] is not of type file
+13:52:39,511 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+13:52:39,512 |-INFO in ch.qos.logback.core.joran.util.ConfigurationWatchListUtil@7506e922 - Adding [jar:file:/data/apama-medium.jar!/BOOT-INF/lib/spring-boot-1.5.19.RELEASE.jar!/org/springframework/boot/logging/logback/base.xml] to configuration watch list.
+13:52:39,512 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@46ee7fe8 - URL [jar:file:/data/apama-medium.jar!/BOOT-INF/lib/spring-boot-1.5.19.RELEASE.jar!/org/springframework/boot/logging/logback/base.xml] is not of type file
+13:52:39,514 |-INFO in ch.qos.logback.core.joran.util.ConfigurationWatchListUtil@7506e922 - Adding [jar:file:/data/apama-medium.jar!/BOOT-INF/lib/spring-boot-1.5.19.RELEASE.jar!/org/springframework/boot/logging/logback/defaults.xml] to configuration watch list.
+13:52:39,514 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@46ee7fe8 - URL [jar:file:/data/apama-medium.jar!/BOOT-INF/lib/spring-boot-1.5.19.RELEASE.jar!/org/springframework/boot/logging/logback/defaults.xml] is not of type file
+13:52:39,516 |-INFO in ch.qos.logback.core.joran.action.ConversionRuleAction - registering conversion word clr with class [org.springframework.boot.logging.logback.ColorConverter]
+13:52:39,517 |-INFO in ch.qos.logback.core.joran.action.ConversionRuleAction - registering conversion word wex with class [org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter]
+13:52:39,517 |-INFO in ch.qos.logback.core.joran.action.ConversionRuleAction - registering conversion word wEx with class [org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter]
+13:52:39,517 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [org.springframework.boot.logging.logback.LevelRemappingAppender]
+13:52:39,517 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [DEBUG_LEVEL_REMAPPER]
+13:52:39,517 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.catalina.startup.DigesterFactory] to ERROR
+13:52:39,517 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@4ee285c6 - Propagating ERROR level on Logger[org.apache.catalina.startup.DigesterFactory] onto the JUL framework
+13:52:39,518 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.catalina.util.LifecycleBase] to ERROR
+13:52:39,518 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@4ee285c6 - Propagating ERROR level on Logger[org.apache.catalina.util.LifecycleBase] onto the JUL framework
+13:52:39,518 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.coyote.http11.Http11NioProtocol] to WARN
+13:52:39,518 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@4ee285c6 - Propagating WARN level on Logger[org.apache.coyote.http11.Http11NioProtocol] onto the JUL framework
+13:52:39,518 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.sshd.common.util.SecurityUtils] to WARN
+13:52:39,518 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@4ee285c6 - Propagating WARN level on Logger[org.apache.sshd.common.util.SecurityUtils] onto the JUL framework
+13:52:39,518 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.tomcat.util.net.NioSelectorPool] to WARN
+13:52:39,518 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@4ee285c6 - Propagating WARN level on Logger[org.apache.tomcat.util.net.NioSelectorPool] onto the JUL framework
+13:52:39,518 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.crsh.plugin] to WARN
+13:52:39,518 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@4ee285c6 - Propagating WARN level on Logger[org.crsh.plugin] onto the JUL framework
+13:52:39,519 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.crsh.ssh] to WARN
+13:52:39,519 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@4ee285c6 - Propagating WARN level on Logger[org.crsh.ssh] onto the JUL framework
+13:52:39,519 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.eclipse.jetty.util.component.AbstractLifeCycle] to ERROR
+13:52:39,519 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@4ee285c6 - Propagating ERROR level on Logger[org.eclipse.jetty.util.component.AbstractLifeCycle] onto the JUL framework
+13:52:39,519 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.hibernate.validator.internal.util.Version] to WARN
+13:52:39,519 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@4ee285c6 - Propagating WARN level on Logger[org.hibernate.validator.internal.util.Version] onto the JUL framework
+13:52:39,519 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.springframework.boot.actuate.autoconfigure.CrshAutoConfiguration] to WARN
+13:52:39,519 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@4ee285c6 - Propagating WARN level on Logger[org.springframework.boot.actuate.autoconfigure.CrshAutoConfiguration] onto the JUL framework
+13:52:39,519 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting additivity of logger [org.springframework.boot.actuate.endpoint.jmx] to false
+13:52:39,519 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [DEBUG_LEVEL_REMAPPER] to Logger[org.springframework.boot.actuate.endpoint.jmx]
+13:52:39,519 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting additivity of logger [org.thymeleaf] to false
+13:52:39,519 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [DEBUG_LEVEL_REMAPPER] to Logger[org.thymeleaf]
+13:52:39,519 |-INFO in ch.qos.logback.core.joran.util.ConfigurationWatchListUtil@7506e922 - Adding [jar:file:/data/apama-medium.jar!/BOOT-INF/lib/spring-boot-1.5.19.RELEASE.jar!/org/springframework/boot/logging/logback/console-appender.xml] to configuration watch list.
+13:52:39,519 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@46ee7fe8 - URL [jar:file:/data/apama-medium.jar!/BOOT-INF/lib/spring-boot-1.5.19.RELEASE.jar!/org/springframework/boot/logging/logback/console-appender.xml] is not of type file
+13:52:39,521 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+13:52:39,521 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [CONSOLE]
+13:52:39,522 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+13:52:39,523 |-INFO in ch.qos.logback.core.joran.util.ConfigurationWatchListUtil@7506e922 - Adding [jar:file:/data/apama-medium.jar!/BOOT-INF/lib/spring-boot-1.5.19.RELEASE.jar!/org/springframework/boot/logging/logback/file-appender.xml] to configuration watch list.
+13:52:39,523 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@46ee7fe8 - URL [jar:file:/data/apama-medium.jar!/BOOT-INF/lib/spring-boot-1.5.19.RELEASE.jar!/org/springframework/boot/logging/logback/file-appender.xml] is not of type file
+13:52:39,525 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.rolling.RollingFileAppender]
+13:52:39,525 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [FILE]
+13:52:39,525 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+13:52:39,526 |-INFO in ch.qos.logback.core.rolling.FixedWindowRollingPolicy@621be5d1 - No compression will be used
+13:52:39,526 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[FILE] - Active log file name: /tmp/spring.log
+13:52:39,526 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[FILE] - File property is set to [/tmp/spring.log]
+13:52:39,526 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to INFO
+13:52:39,527 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@4ee285c6 - Propagating INFO level on Logger[ROOT] onto the JUL framework
+13:52:39,527 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [CONSOLE] to Logger[ROOT]
+13:52:39,527 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [FILE] to Logger[ROOT]
+13:52:39,527 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [com.cumulocity] to DEBUG
+13:52:39,527 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@4ee285c6 - Propagating DEBUG level on Logger[com.cumulocity] onto the JUL framework
+13:52:39,527 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [com.cumulocity.smartrule.apama] to DEBUG
+13:52:39,527 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@4ee285c6 - Propagating DEBUG level on Logger[com.cumulocity.smartrule.apama] onto the JUL framework
+13:52:39,527 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.cometd] to DEBUG
+13:52:39,527 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@4ee285c6 - Propagating DEBUG level on Logger[org.cometd] onto the JUL framework
+13:52:39,527 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+13:52:39,527 |-INFO in org.springframework.boot.logging.logback.SpringBootJoranConfigurator@573fd745 - Registering current configuration as safe fallback point
+13:52:39,997 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+13:52:40,004 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - Will scan for changes in [file:/etc/apama-small/apama-medium-logging.xml] 
+13:52:40,004 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - Setting ReconfigureOnChangeTask scanning period to 3 minutes
+13:52:40,008 |-INFO in ch.qos.logback.core.joran.util.ConfigurationWatchListUtil@7506e922 - Adding [jar:file:/data/apama-medium.jar!/BOOT-INF/lib/spring-boot-1.5.19.RELEASE.jar!/org/springframework/boot/logging/logback/defaults.xml] to configuration watch list.
+13:52:40,008 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@15327b79 - URL [jar:file:/data/apama-medium.jar!/BOOT-INF/lib/spring-boot-1.5.19.RELEASE.jar!/org/springframework/boot/logging/logback/defaults.xml] is not of type file
+13:52:40,012 |-INFO in ch.qos.logback.core.joran.action.ConversionRuleAction - registering conversion word clr with class [org.springframework.boot.logging.logback.ColorConverter]
+13:52:40,012 |-INFO in ch.qos.logback.core.joran.action.ConversionRuleAction - registering conversion word wex with class [org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter]
+13:52:40,013 |-INFO in ch.qos.logback.core.joran.action.ConversionRuleAction - registering conversion word wEx with class [org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter]
+13:52:40,013 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [org.springframework.boot.logging.logback.LevelRemappingAppender]
+13:52:40,013 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [DEBUG_LEVEL_REMAPPER]
+13:52:40,013 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.catalina.startup.DigesterFactory] to ERROR
+13:52:40,013 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.catalina.util.LifecycleBase] to ERROR
+13:52:40,014 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.coyote.http11.Http11NioProtocol] to WARN
+13:52:40,014 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.sshd.common.util.SecurityUtils] to WARN
+13:52:40,014 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.tomcat.util.net.NioSelectorPool] to WARN
+13:52:40,014 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.crsh.plugin] to WARN
+13:52:40,014 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.crsh.ssh] to WARN
+13:52:40,014 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.eclipse.jetty.util.component.AbstractLifeCycle] to ERROR
+13:52:40,093 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.hibernate.validator.internal.util.Version] to WARN
+13:52:40,093 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.springframework.boot.actuate.autoconfigure.CrshAutoConfiguration] to WARN
+13:52:40,093 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting additivity of logger [org.springframework.boot.actuate.endpoint.jmx] to false
+13:52:40,093 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [DEBUG_LEVEL_REMAPPER] to Logger[org.springframework.boot.actuate.endpoint.jmx]
+13:52:40,093 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting additivity of logger [org.thymeleaf] to false
+13:52:40,093 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [DEBUG_LEVEL_REMAPPER] to Logger[org.thymeleaf]
+13:52:40,093 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.rolling.RollingFileAppender]
+13:52:40,093 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [FILE]
+13:52:40,094 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+13:52:40,108 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1327763628 - No compression will be used
+13:52:40,109 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1327763628 - Will use the pattern /var/log/apama-small/apama-medium-%d{yyyy-MM-dd}.%i.log for the active file
+13:52:40,114 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@722c41f4 - The date pattern is 'yyyy-MM-dd' from file name pattern '/var/log/apama-small/apama-medium-%d{yyyy-MM-dd}.%i.log'.
+13:52:40,114 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@722c41f4 - Roll-over at midnight.
+13:52:40,119 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@722c41f4 - Setting initial period to Wed Jul 24 13:52:40 UTC 2019
+13:52:40,120 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@722c41f4 - SizeAndTimeBasedFNATP is deprecated. Use SizeAndTimeBasedRollingPolicy instead
+13:52:40,120 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@722c41f4 - For more information see http://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy
+13:52:40,123 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[FILE] - Active log file name: /var/log/apama-small/apama-medium.log
+13:52:40,123 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[FILE] - File property is set to [/var/log/apama-small/apama-medium.log]
+13:52:40,124 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+13:52:40,193 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+13:52:40,193 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+13:52:40,195 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [com.cumulocity] to INFO
+13:52:40,195 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [c8y] to INFO
+13:52:40,195 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [httpclient.wire] to INFO
+13:52:40,195 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to INFO
+13:52:40,195 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [FILE] to Logger[ROOT]
+13:52:40,195 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+13:52:40,195 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+13:52:40,195 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@5b80350b - Registering current configuration as safe fallback point
+
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::       (v1.5.19.RELEASE)
+
+2019-09-24 13:52:40.425  INFO 11 --- [           main] c.c.apama.cep.ApamaMicroserviceMain      : Starting ApamaMicroserviceMain on apama-medium-scope-t197019172-deployment-64bc78c454-ddv5s with PID 11 (/data/apama-medium.jar started by root in /)
+2019-09-24 13:52:40.425  INFO 11 --- [           main] c.c.apama.cep.ApamaMicroserviceMain      : No active profile set, falling back to default profiles: default
+2019-09-24 13:52:40.698  INFO 11 --- [           main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@5d6f64b1: startup date [Wed Jul 24 13:52:40 UTC 2019]; root of context hierarchy
+2019-09-24 13:52:44.808  WARN 11 --- [           main] o.s.c.a.ConfigurationClassEnhancer       : @Bean method EnableContextSupportConfiguration.contextScopeConfigurer is non-static and returns an object assignable to Spring's BeanFactoryPostProcessor interface. This will result in a failure to process annotations such as @Autowired, @Resource and @PostConstruct within the method's declaring @Configuration class. Add the 'static' modifier to this method to avoid these container lifecycle issues; see @Bean javadoc for complete details.
+2019-09-24 13:52:45.007  INFO 11 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'methodArgumentValidationConfiguration' of type [com.cumulocity.apama.cep.configuration.MethodArgumentValidationConfiguration$$EnhancerBySpringCGLIB$$8a241673] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-09-24 13:52:47.321  INFO 11 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 80 (http)
+2019-09-24 13:52:47.396  INFO 11 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-09-24 13:52:47.396  INFO 11 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.37
+2019-09-24 13:52:47.618  INFO 11 --- [ost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-09-24 13:52:47.618  INFO 11 --- [ost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 6920 ms
+2019-09-24 13:52:51.193  INFO 11 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'metricsFilter' to: [/*]
+2019-09-24 13:52:51.194  INFO 11 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2019-09-24 13:52:51.195  INFO 11 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2019-09-24 13:52:51.195  INFO 11 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2019-09-24 13:52:51.195  INFO 11 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2019-09-24 13:52:51.197  INFO 11 --- [ost-startStop-1] .s.DelegatingFilterProxyRegistrationBean : Mapping filter: 'springSecurityFilterChain' to: [/*]
+2019-09-24 13:52:51.197  INFO 11 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2019-09-24 13:52:51.197  INFO 11 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Filter preAuthenticateServletFilter was not registered (disabled)
+2019-09-24 13:52:51.197  INFO 11 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Filter postAuthenticateServletFilter was not registered (disabled)
+2019-09-24 13:52:51.197  INFO 11 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'applicationContextIdFilter' to: [/*]
+2019-09-24 13:52:51.197  INFO 11 --- [ost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'proxyServlet' to [/cep/events]
+2019-09-24 13:52:51.199  INFO 11 --- [ost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2019-09-24 13:52:52.597  INFO 11 --- [           main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'retentionTaskScheduler'
+2019-09-24 13:52:52.615  INFO 11 --- [           main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'rulesRecreationTaskScheduler'
+2019-09-24 13:52:54.504  INFO 11 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: Ant [pattern='/metadata'], []
+2019-09-24 13:52:54.505  INFO 11 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: Ant [pattern='/health'], []
+2019-09-24 13:52:54.505  INFO 11 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: Ant [pattern='/prometheus'], []
+2019-09-24 13:52:54.505  INFO 11 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: Ant [pattern='/metrics'], []
+2019-09-24 13:52:54.505  INFO 11 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: Ant [pattern='/cep/events'], []
+2019-09-24 13:52:54.505  INFO 11 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: Ant [pattern='/metadata'], []
+2019-09-24 13:52:54.505  INFO 11 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: Ant [pattern='/health'], []
+2019-09-24 13:52:54.505  INFO 11 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: Ant [pattern='/prometheus'], []
+2019-09-24 13:52:54.506  INFO 11 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: Ant [pattern='/metrics'], []
+2019-09-24 13:52:54.716  INFO 11 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: org.springframework.security.web.util.matcher.AnyRequestMatcher@1, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@a1f72f5, org.springframework.security.web.header.HeaderWriterFilter@c667f46, org.springframework.security.web.authentication.logout.LogoutFilter@64ec96c6, com.cumulocity.microservice.security.filter.PreAuthenticateServletFilter@4f727a03, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@dc9876b, com.cumulocity.microservice.security.filter.PostAuthenticateServletFilter@2b78f9f0, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1b410b60, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4b2c5e02, org.springframework.security.web.access.ExceptionTranslationFilter@389b0789, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@928763c]
+2019-09-24 13:52:54.916  INFO 11 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: org.springframework.security.web.util.matcher.AnyRequestMatcher@1, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7bf3a5d8, org.springframework.security.web.context.SecurityContextPersistenceFilter@7ba8c737, org.springframework.security.web.header.HeaderWriterFilter@13bc8645, org.springframework.security.web.csrf.CsrfFilter@791d1f8b, org.springframework.security.web.authentication.logout.LogoutFilter@26adfd2d, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@6dd7b5a3, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@31edaa7d, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@189cbd7c, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@15a04efb, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2bec854f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@42e25b0b, org.springframework.security.web.session.SessionManagementFilter@24c22fe, org.springframework.security.web.access.ExceptionTranslationFilter@14f232c4, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6950ed69]
+2019-09-24 13:52:55.295  INFO 11 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/cep/features],methods=[GET],produces=[application/json]}" onto public java.util.List<java.lang.String> com.cumulocity.apama.cep.controller.OptionalFeaturesController.getAll()
+2019-09-24 13:52:55.297  INFO 11 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/apama/engine/info],methods=[GET]}" onto public java.lang.Object com.cumulocity.apama.cep.controller.ApamaController.engineInfo()
+2019-09-24 13:52:55.298  INFO 11 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/apama/scenarios/{id}],methods=[GET]}" onto public java.lang.Object com.cumulocity.apama.cep.controller.ApamaController.scenarios(java.lang.String)
+2019-09-24 13:52:55.298  INFO 11 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/apama/scenarios],methods=[GET]}" onto public java.lang.Object com.cumulocity.apama.cep.controller.ApamaController.scenarios()
+2019-09-24 13:52:55.300  INFO 11 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/analyticsbuilder/{modelId}],methods=[GET],produces=[application/json]}" onto public com.cumulocity.apama.cep.model.analytics.AnalyticsBuilderModelRepresentation com.cumulocity.apama.cep.controller.AnalyticsBuilderController.get(java.lang.String)
+2019-09-24 13:52:55.301  INFO 11 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/analyticsbuilder/{modelId}],methods=[PUT]}" onto public com.cumulocity.apama.cep.model.analytics.AnalyticsBuilderModelRepresentation com.cumulocity.apama.cep.controller.AnalyticsBuilderController.update(java.lang.String,com.cumulocity.apama.cep.model.analytics.AnalyticsBuilderModelRepresentation)
+2019-09-24 13:52:55.301  INFO 11 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/analyticsbuilder/{modelId}],methods=[DELETE]}" onto public void com.cumulocity.apama.cep.controller.AnalyticsBuilderController.delete(java.lang.String)
+2019-09-24 13:52:55.302  INFO 11 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/analyticsbuilder],methods=[POST]}" onto public com.cumulocity.apama.cep.model.analytics.AnalyticsBuilderModelRepresentation com.cumulocity.apama.cep.controller.AnalyticsBuilderController.create(com.cumulocity.apama.cep.model.analytics.AnalyticsBuilderModelRepresentation)
+2019-09-24 13:52:55.302  INFO 11 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/analyticsbuilder],methods=[GET]}" onto public com.cumulocity.apama.cep.model.analytics.AnalyticsBuilderModelRepresentationCollection com.cumulocity.apama.cep.controller.AnalyticsBuilderController.getAll(com.cumulocity.apama.cep.model.analytics.ModelMode,com.cumulocity.apama.cep.model.analytics.ModelState)
+2019-09-24 13:52:55.303  INFO 11 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/cep/smartrules/{moduleId}],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.cumulocity.apama.cep.controller.SmartRuleController.get(java.lang.Long)
+2019-09-24 13:52:55.304  INFO 11 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/cep/smartrules/{moduleId}],methods=[PUT]}" onto public com.cumulocity.rest.representation.cep.SmartRuleRepresentation com.cumulocity.apama.cep.controller.SmartRuleController.put(java.lang.Long,com.cumulocity.rest.representation.cep.SmartRuleRepresentation)
+2019-09-24 13:52:55.304  INFO 11 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/cep/smartrules/{moduleId}],methods=[DELETE]}" onto public org.springframework.http.ResponseEntity<java.lang.Void> com.cumulocity.apama.cep.controller.SmartRuleController.delete(java.lang.Long)
+2019-09-24 13:52:55.304  INFO 11 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/cep/smartrules],methods=[POST]}" onto public com.cumulocity.rest.representation.cep.SmartRuleRepresentation com.cumulocity.apama.cep.controller.SmartRuleController.post(com.cumulocity.rest.representation.cep.SmartRuleRepresentation)
+2019-09-24 13:52:55.305  INFO 11 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/cep/modules],methods=[GET],produces=[application/vnd.com.nsn.cumulocity.cepmodulecollection+json;charset=UTF-8;ver=0.9]}" onto public com.cumulocity.rest.representation.cep.CepModuleCollectionRepresentation com.cumulocity.apama.cep.controller.ApamaScenarioController.getAllScenarios()
+2019-09-24 13:52:55.308  INFO 11 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-09-24 13:52:55.308  INFO 11 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-09-24 13:52:55.700  INFO 11 --- [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-09-24 13:52:55.700  INFO 11 --- [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-09-24 13:52:55.894  INFO 11 --- [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-09-24 13:52:58.536  INFO 11 --- [           main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/loggers/{name:.*}],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.LoggersMvcEndpoint.get(java.lang.String)
+2019-09-24 13:52:58.537  INFO 11 --- [           main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/loggers/{name:.*}],methods=[POST],consumes=[application/vnd.spring-boot.actuator.v1+json || application/json],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.LoggersMvcEndpoint.set(java.lang.String,java.util.Map<java.lang.String, java.lang.String>)
+2019-09-24 13:52:58.537  INFO 11 --- [           main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/loggers || /loggers.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2019-09-24 13:52:58.537  INFO 11 --- [           main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/health || /health.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke(javax.servlet.http.HttpServletRequest,java.security.Principal)
+2019-09-24 13:52:58.538  INFO 11 --- [           main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/prometheus || /prometheus.json],methods=[GET],produces=[*/*]}" onto public org.springframework.http.ResponseEntity io.prometheus.client.spring.boot.PrometheusMvcEndpoint.value(java.util.Set<java.lang.String>)
+2019-09-24 13:52:58.538  INFO 11 --- [           main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/prometheus || /prometheus.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2019-09-24 13:52:58.539  INFO 11 --- [           main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics/{name:.*}],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint.value(java.lang.String)
+2019-09-24 13:52:58.539  INFO 11 --- [           main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics || /metrics.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2019-09-24 13:52:58.603  INFO 11 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration$LazyEndpointPathRequestMatcher@4fbe37eb, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@12a94400, org.springframework.security.web.context.SecurityContextPersistenceFilter@3fce8fd9, org.springframework.security.web.header.HeaderWriterFilter@72ade7e3, org.springframework.web.filter.CorsFilter@6a47b187, org.springframework.security.web.authentication.logout.LogoutFilter@560348e6, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@407a7f2a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@609bcfb6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7d94beb9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2049a9c1, org.springframework.security.web.session.SessionManagementFilter@239105a8, org.springframework.security.web.access.ExceptionTranslationFilter@5f20155b, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7f284218]
+2019-09-24 13:52:59.422  INFO 11 --- [           main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@5d6f64b1: startup date [Wed Jul 24 13:52:40 UTC 2019]; root of context hierarchy
+2019-09-24 13:52:59.711  INFO 11 --- [           main] .m.m.a.ExceptionHandlerExceptionResolver : Detected @ExceptionHandler methods in methodArgumentNotValidExceptionHandler
+2019-09-24 13:53:01.997  INFO 11 --- [           main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2019-09-24 13:53:02.010  INFO 11 --- [           main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 0
+2019-09-24 13:53:02.310  INFO 11 --- [           main] .s.s.i.MicroserviceSubscriptionScheduler : Start; subscriptionDelay = 10000, subscriptionInitialDelay = 30000
+2019-09-24 13:53:02.411  INFO 11 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)
+2019-09-24 13:53:02.417  INFO 11 --- [           main] c.c.apama.cep.ApamaMicroserviceMain      : Started ApamaMicroserviceMain in 23.297 seconds (JVM running for 24.477)
+2019-09-24 13:53:21.076  INFO 11 --- [p-nio-80-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2019-09-24 13:53:21.076  INFO 11 --- [p-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2019-09-24 13:53:21.093  INFO 11 --- [p-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 17 ms
+2019-09-24 13:53:23.500  INFO 11 --- [p-nio-80-exec-2] c.c.apama.cep.proxy.ProxyServlet         : Starting ...
+2019-09-24 13:53:23.538 ERROR 11 --- [pool-2-thread-1] c.c.apama.cep.proxy.ProxyServlet         : Failed ID=1, cause Connection refused
+
+java.net.ConnectException: Connection refused
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:717)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvent(DefaultConnectingIOReactor.java:171)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvents(DefaultConnectingIOReactor.java:145)
+	at org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor.execute(AbstractMultiworkerIOReactor.java:351)
+	at org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager.execute(PoolingNHttpClientConnectionManager.java:221)
+	at org.apache.http.impl.nio.client.CloseableHttpAsyncClientBase$1.run(CloseableHttpAsyncClientBase.java:64)
+	at java.lang.Thread.run(Thread.java:748)
+
+2019-09-24 13:53:23.545 ERROR 11 --- [pool-2-thread-1] c.c.apama.cep.proxy.ProxyServlet         : Failed ID=2, cause Connection refused
+
+java.net.ConnectException: Connection refused
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:717)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvent(DefaultConnectingIOReactor.java:171)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvents(DefaultConnectingIOReactor.java:145)
+	at org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor.execute(AbstractMultiworkerIOReactor.java:351)
+	at org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager.execute(PoolingNHttpClientConnectionManager.java:221)
+	at org.apache.http.impl.nio.client.CloseableHttpAsyncClientBase$1.run(CloseableHttpAsyncClientBase.java:64)
+	at java.lang.Thread.run(Thread.java:748)
+
+2019-09-24 13:53:23.551 ERROR 11 --- [pool-2-thread-1] c.c.apama.cep.proxy.ProxyServlet         : Failed ID=3, cause Connection refused
+
+java.net.ConnectException: Connection refused
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:717)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvent(DefaultConnectingIOReactor.java:171)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvents(DefaultConnectingIOReactor.java:145)
+	at org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor.execute(AbstractMultiworkerIOReactor.java:351)
+	at org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager.execute(PoolingNHttpClientConnectionManager.java:221)
+	at org.apache.http.impl.nio.client.CloseableHttpAsyncClientBase$1.run(CloseableHttpAsyncClientBase.java:64)
+	at java.lang.Thread.run(Thread.java:748)
+
+2019-09-24 13:53:32.602 ERROR 11 --- [pool-2-thread-1] c.c.apama.cep.proxy.ProxyServlet         : Failed ID=2803, cause Connection refused
+
+java.net.ConnectException: Connection refused
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:717)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvent(DefaultConnectingIOReactor.java:171)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvents(DefaultConnectingIOReactor.java:145)
+	at org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor.execute(AbstractMultiworkerIOReactor.java:351)
+	at org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager.execute(PoolingNHttpClientConnectionManager.java:221)
+	at org.apache.http.impl.nio.client.CloseableHttpAsyncClientBase$1.run(CloseableHttpAsyncClientBase.java:64)
+	at java.lang.Thread.run(Thread.java:748)
+
+2019-09-24 13:53:32.603 ##### [140429684866944] - Correlator, version 10.3.1.0.348044 (build rel/10.3.1.x@348044 on amd64-rhel7 using Software AG suite version 10.4), started.
+2019-09-24 13:53:32.603 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules//arguments.yaml"
+2019-09-24 13:53:32.603 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules//correlator.properties"
+2019-09-24 13:53:32.603 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules//deploy-layout.properties"
+2019-09-24 13:53:32.603 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules//connectivity.yaml"
+2019-09-24 13:53:32.603 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules//initialization.yaml"
+2019-09-24 13:53:32.603 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules//persistence.properties"
+2019-09-24 13:53:32.603 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules//persistence.yaml"
+2019-09-24 13:53:32.606 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/Apama/connectivity/bundles/standard-codecs.yaml"
+2019-09-24 13:53:32.606 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/_commonPlugins/_commonPlugins.chains.yaml"
+2019-09-24 13:53:32.606 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/_commonPlugins/_commonPlugins.plugins.yaml"
+2019-09-24 13:53:32.606 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/_commonPlugins/_commonPlugins.properties"
+2019-09-24 13:53:32.606 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/cepStreaming/cepStreaming.chains.yaml"
+2019-09-24 13:53:32.606 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/cepStreaming/cepStreaming.plugins.yaml"
+2019-09-24 13:53:32.606 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/cepStreaming/cepStreaming.properties"
+2019-09-24 13:53:32.606 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/ports/ports.chains.yaml"
+2019-09-24 13:53:32.606 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/ports/ports.plugins.yaml"
+2019-09-24 13:53:32.606 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/ports/ports.properties"
+2019-09-24 13:53:32.607 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/CumulocityIoT1/CumulocityIoT1.yaml"
+2019-09-24 13:53:32.607 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/CumulocityIoT1/CumulocityIoT1.properties"
+2019-09-24 13:53:32.607 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/HTTPClientGeneric/HTTPClientGeneric.yaml"
+2019-09-24 13:53:32.607 INFO  [140429684866944] - Reading configuration file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/HTTPClientGeneric/HTTPClientGeneric.properties"
+2019-09-24 13:53:32.607 INFO  [140429684866944] - Configuration properties file has redefined property "CUMULOCITY_USERNAME" at line 4 in file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/CumulocityIoT1/CumulocityIoT1.properties", ignoring it.
+2019-09-24 13:53:32.607 INFO  [140429684866944] - Configuration properties file has redefined property "CUMULOCITY_TENANT" at line 5 in file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/CumulocityIoT1/CumulocityIoT1.properties", ignoring it.
+2019-09-24 13:53:32.607 INFO  [140429684866944] - Configuration properties file has redefined property "CUMULOCITY_PASSWORD" at line 6 in file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/CumulocityIoT1/CumulocityIoT1.properties", ignoring it.
+2019-09-24 13:53:32.607 INFO  [140429684866944] - Configuration properties file has redefined property "CUMULOCITY_APPKEY" at line 7 in file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/CumulocityIoT1/CumulocityIoT1.properties", ignoring it.
+2019-09-24 13:53:32.607 INFO  [140429684866944] - Configuration properties file has redefined property "CUMULOCITY_URL" at line 8 in file "/opt/softwareag/cumulocity-apama-rules/config/connectivity/CumulocityIoT1/CumulocityIoT1.properties", ignoring it.
+2019-09-24 13:53:32.606 ERROR 11 --- [pool-2-thread-1] c.c.apama.cep.proxy.ProxyServlet         : Failed ID=2804, cause Connection refused
+
+java.net.ConnectException: Connection refused
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:717)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvent(DefaultConnectingIOReactor.java:171)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvents(DefaultConnectingIOReactor.java:145)
+	at org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor.execute(AbstractMultiworkerIOReactor.java:351)
+	at org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager.execute(PoolingNHttpClientConnectionManager.java:221)
+	at org.apache.http.impl.nio.client.CloseableHttpAsyncClientBase$1.run(CloseableHttpAsyncClientBase.java:64)
+	at java.lang.Thread.run(Thread.java:748)
+
+2019-09-24 13:53:32.607 ERROR 11 --- [pool-2-thread-1] c.c.apama.cep.proxy.ProxyServlet         : Failed ID=2805, cause Connection refused
+
+java.net.ConnectException: Connection refused
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:717)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvent(DefaultConnectingIOReactor.java:171)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvents(DefaultConnectingIOReactor.java:145)
+	at org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor.execute(AbstractMultiworkerIOReactor.java:351)
+	at org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager.execute(PoolingNHttpClientConnectionManager.java:221)
+	at org.apache.http.impl.nio.client.CloseableHttpAsyncClientBase$1.run(CloseableHttpAsyncClientBase.java:64)
+	at java.lang.Thread.run(Thread.java:748)
+
+2019-09-24 13:53:32.612 ##### [140429684866944] - Running on host 'apama-medium-scope-t197019172-deployment-64bc78c454-ddv5s' as user 'root'.
+2019-09-24 13:53:32.612 ERROR 11 --- [pool-2-thread-1] c.c.apama.cep.proxy.ProxyServlet         : Failed ID=2806, cause Connection refused
+
+java.net.ConnectException: Connection refused
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:717)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvent(DefaultConnectingIOReactor.java:171)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvents(DefaultConnectingIOReactor.java:145)
+	at org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor.execute(AbstractMultiworkerIOReactor.java:351)
+	at org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager.execute(PoolingNHttpClientConnectionManager.java:221)
+	at org.apache.http.impl.nio.client.CloseableHttpAsyncClientBase$1.run(CloseableHttpAsyncClientBase.java:64)
+	at java.lang.Thread.run(Thread.java:748)
+
+2019-09-24 13:53:32.612 ##### [140429684866944] - Running on platform '"CentOS Linux 7 (Core)"'.
+2019-09-24 13:53:32.612 ##### [140429684866944] - Running on CPU 'vendor GenuineIntel family 6 model 79 stepping 1: Intel(R) Xeon(R) CPU E5-2686 v4 @ 2.30GHz'.
+2019-09-24 13:53:32.612 ##### [140429684866944] - Running with process Id 113.
+2019-09-24 13:53:32.612 ##### [140429684866944] - Running with 122710.14MB of physical memory.
+2019-09-24 13:53:32.612 ##### [140429684866944] - Operating system process limits:
+2019-09-24 13:53:32.613 ##### [140429684866944] -   Limit                     Soft Limit           Hard Limit           Units     
+2019-09-24 13:53:32.613 ##### [140429684866944] -   Max cpu time              unlimited            unlimited            seconds   
+2019-09-24 13:53:32.613 ##### [140429684866944] -   Max file size             unlimited            unlimited            bytes     
+2019-09-24 13:53:32.613 ##### [140429684866944] -   Max data size             unlimited            unlimited            bytes     
+2019-09-24 13:53:32.613 ##### [140429684866944] -   Max stack size            8388608              unlimited            bytes     
+2019-09-24 13:53:32.613 ##### [140429684866944] -   Max core file size        unlimited            unlimited            bytes     
+2019-09-24 13:53:32.613 ##### [140429684866944] -   Max resident set          unlimited            unlimited            bytes     
+2019-09-24 13:53:32.613 ##### [140429684866944] -   Max processes             1048576              1048576              processes 
+2019-09-24 13:53:32.613 ##### [140429684866944] -   Max open files            1048576              1048576              files     
+2019-09-24 13:53:32.613 ##### [140429684866944] -   Max locked memory         65536                65536                bytes     
+2019-09-24 13:53:32.613 ##### [140429684866944] -   Max address space         unlimited            unlimited            bytes     
+2019-09-24 13:53:32.613 ##### [140429684866944] -   Max file locks            unlimited            unlimited            locks     
+2019-09-24 13:53:32.613 ##### [140429684866944] -   Max pending signals       490650               490650               signals   
+2019-09-24 13:53:32.613 ##### [140429684866944] -   Max msgqueue size         819200               819200               bytes     
+2019-09-24 13:53:32.613 ##### [140429684866944] -   Max nice priority         0                    0                    
+2019-09-24 13:53:32.613 ##### [140429684866944] -   Max realtime priority     0                    0                    
+2019-09-24 13:53:32.613 ##### [140429684866944] -   Max realtime timeout      unlimited            unlimited            us        
+2019-09-24 13:53:32.613 ##### [140429684866944] -   RLIMIT_CORE = unlimited
+2019-09-24 13:53:32.613 ##### [140429684866944] -   RLIMIT_AS   = unlimited
+2019-09-24 13:53:32.613 ##### [140429684866944] - There are 16 CPU(s)
+2019-09-24 13:53:32.613 ##### [140429684866944] - Correlator command line: correlator -j -J-Xmx256M --config /opt/softwareag/cumulocity-apama-rules/ -DCUMULOCITY_USERNAME=service_apama-medium -DCUMULOCITY_TENANT=xxx -DCUMULOCITY_PASSWORD=xxx -DCUMULOCITY_APPKEY=apama-medium-key -DCUMULOCITY_URL=http://cumulocity:1234
+2019-09-24 13:53:32.613 ##### [140429684866944] - Current Working Directory: /
+2019-09-24 13:53:32.613 ##### [140429684866944] - PATH: /opt/softwareag/Apama/bin:/opt/softwareag/jvm/jvm/jre/jre/bin:/bin:/opt/softwareag/jvm/jvm/jre/jre/../bin:/opt/softwareag/jvm/jvm/jre/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+2019-09-24 13:53:32.613 ##### [140429684866944] - LD_LIBRARY_PATH: /root/softwareag/apamawork_10.3/lib:/opt/softwareag/Apama/lib:/opt/softwareag/jvm/jvm/jre/jre/lib/amd64/server:/opt/softwareag/jvm/jvm/jre/jre/lib/amd64
+2019-09-24 13:53:32.613 ##### [140429684866944] - Current UTC time: 2019-09-24 13:53:32, local timezone: UTC
+2019-09-24 13:53:32.613 ##### [140429684866944] - Input value - port                     = 15903
+2019-09-24 13:53:32.613 ##### [140429684866944] - Input value - output queue size        = 10000
+2019-09-24 13:53:32.613 ##### [140429684866944] - Input value - output queue batch size  = 100
+2019-09-24 13:53:32.613 ##### [140429684866944] - Input value - output queue mode        = blocking
+2019-09-24 13:53:32.615 ##### [140429684866944] - Input value - environment variable     = APAMA_PLATFORM=amd64-rhel7
+2019-09-24 13:53:32.694 ##### [140429684866944] - Input value - environment variable     = APAMA_SMALL_SCOPE_SAGSPAINEDGE_SERVICE_PORT_HTTP=80
+2019-09-24 13:53:32.694 ERROR 11 --- [pool-2-thread-1] c.c.apama.cep.proxy.ProxyServlet         : Failed ID=2808, cause Connection refused
+
+java.net.ConnectException: Connection refused
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:717)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvent(DefaultConnectingIOReactor.java:171)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvents(DefaultConnectingIOReactor.java:145)
+	at org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor.execute(AbstractMultiworkerIOReactor.java:351)
+	at org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager.execute(PoolingNHttpClientConnectionManager.java:221)
+	at org.apache.http.impl.nio.client.CloseableHttpAsyncClientBase$1.run(CloseableHttpAsyncClientBase.java:64)
+	at java.lang.Thread.run(Thread.java:748)
+
+2019-09-24 13:53:32.694 ##### [140429684866944] - Input value - environment variable     = APAMA_SMALL_SCOPE_T197011361_SERVICE_HOST=10.103.183.128
+2019-09-24 13:53:32.694 ERROR 11 --- [pool-2-thread-1] c.c.apama.cep.proxy.ProxyServlet         : Failed ID=2807, cause Connection refused
+
+java.net.ConnectException: Connection refused
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:717)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvent(DefaultConnectingIOReactor.java:171)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvents(DefaultConnectingIOReactor.java:145)
+	at org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor.execute(AbstractMultiworkerIOReactor.java:351)
+	at org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager.execute(PoolingNHttpClientConnectionManager.java:221)
+	at org.apache.http.impl.nio.client.CloseableHttpAsyncClientBase$1.run(CloseableHttpAsyncClientBase.java:64)
+	at java.lang.Thread.run(Thread.java:748)
+
+2019-09-24 13:53:32.699 ##### [140429684866944] - Using memory allocator                 = TBB scalable allocator
+2019-09-24 13:53:32.699 ERROR 11 --- [pool-2-thread-1] c.c.apama.cep.proxy.ProxyServlet         : Failed ID=2814, cause Connection refused
+
+java.net.ConnectException: Connection refused
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:717)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvent(DefaultConnectingIOReactor.java:171)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvents(DefaultConnectingIOReactor.java:145)
+	at org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor.execute(AbstractMultiworkerIOReactor.java:351)
+	at org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager.execute(PoolingNHttpClientConnectionManager.java:221)
+	at org.apache.http.impl.nio.client.CloseableHttpAsyncClientBase$1.run(CloseableHttpAsyncClientBase.java:64)
+	at java.lang.Thread.run(Thread.java:748)
+
+2019-09-24 13:53:32.699 ERROR 11 --- [pool-2-thread-1] c.c.apama.cep.proxy.ProxyServlet         : Failed ID=2815, cause Connection refused
+
+java.net.ConnectException: Connection refused
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:717)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvent(DefaultConnectingIOReactor.java:171)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvents(DefaultConnectingIOReactor.java:145)
+	at org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor.execute(AbstractMultiworkerIOReactor.java:351)
+	at org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager.execute(PoolingNHttpClientConnectionManager.java:221)
+	at org.apache.http.impl.nio.client.CloseableHttpAsyncClientBase$1.run(CloseableHttpAsyncClientBase.java:64)
+	at java.lang.Thread.run(Thread.java:748)
+
+2019-09-24 13:53:32.702 ##### [140429684866944] - License File: /opt/softwareag/Apama/etc/ApamaServerLicense.xml
+2019-09-24 13:53:32.702 ERROR 11 --- [pool-2-thread-1] c.c.apama.cep.proxy.ProxyServlet         : Failed ID=2816, cause Connection refused
+2019-09-24 13:53:33.012 ##### [140429684866944] - ================= Software AG License Data =================
+2019-09-24 13:53:33.012 ##### [140429684866944] - Sales Information
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Serial Number      : xxxxxxx
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Customer ID        : 1
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Customer Name      : Embedded license file for Apama for Cumulocity IoT provided by Software AG
+2019-09-24 13:53:33.012 ##### [140429684866944] - Product Information
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Product Name       : Apama for Cumulocity IoT
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Product Code       : PAQ
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Operating System   : Linux
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Product Version    : 10.1
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Product Usage      : 
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Expiration Date    : 2019/07/31
+2019-09-24 13:53:33.012 ##### [140429684866944] - License Information
+2019-09-24 13:53:33.012 ##### [140429684866944] -      License Type       : 
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Price Unit         : CoreB
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Price Quantity     : 4
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Extended Rights    : 
+2019-09-24 13:53:33.012 ##### [140429684866944] -      License Version    : 1.2
+2019-09-24 13:53:33.012 ##### [140429684866944] - Physical Hardware
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Model              : Intel(R) Xeon(R) CPU E5-2686 v4 @ 2.30GHz
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Sockets            : 1
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Physical cores     : 8
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Logical cores      : 16
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Performance Bucket : CoreC
+2019-09-24 13:53:33.012 ##### [140429684866944] -      Virtualization     : no
+2019-09-24 13:53:33.012 ##### [140429684866944] - ==================== End License Data ======================
+2019-09-24 13:53:33.012 ##### [140429684866944] - 
+2019-09-24 13:53:33.495 ##### [140429684866944] - Input value - per receiver queue size  = 10 s
+2019-09-24 13:53:33.495 ##### [140429684866944] - Input value - per receiver queue size  = 10240 kb
+2019-09-24 13:53:33.495 ##### [140429684866944] - Input value - input queue size         = 20000
+2019-09-24 13:53:33.495 ##### [140429684866944] - Input value - JVM Option               = -Xmx512M
+2019-09-24 13:53:33.495 ##### [140429684866944] - Input value - JVM Option               = -Xmx256M
+2019-09-24 13:53:33.495 ##### [140429684866944] - External clocking                      = disabled
+2019-09-24 13:53:33.495 ##### [140429684866944] - Input value - logfile                  = stdout
+2019-09-24 13:53:33.495 ##### [140429684866944] - Input value - loglevel                 = INFO
+2019-09-24 13:53:33.495 ##### [140429684866944] - Input value - inputLog                 = ** Warning input log not enabled **
+2019-09-24 13:53:33.495 ##### [140429684866944] - Compiler optimizations                 = enabled - the debugger cannot be used; specify command line option "-g" to use it.
+2019-09-24 13:53:33.495 ##### [140429684866944] - Using EPL runtime                      = interpreted
+2019-09-24 13:53:33.500 ##### [140429684866944] - Java support                           = enabled
+2019-09-24 13:53:33.500 INFO  [140429684866944] - Starting JVM with options:
+2019-09-24 13:53:33.500 INFO  [140429684866944] -   -Djava.class.path=/opt/softwareag/Apama/lib/ap-correlator-extension-api.jar:/opt/softwareag/Apama/lib/ap-util.jar
+2019-09-24 13:53:33.500 INFO  [140429684866944] -   -DAPAMA_LOG_LEVEL=INFO
+2019-09-24 13:53:33.500 INFO  [140429684866944] -   -Xrs
+2019-09-24 13:53:33.500 INFO  [140429684866944] -   -XX:+HeapDumpOnOutOfMemoryError
+2019-09-24 13:53:33.500 INFO  [140429684866944] -   -DAPAMA_CORRELATOR_NAME=defaultCorrelator
+2019-09-24 13:53:33.500 INFO  [140429684866944] -   -Xmx512M
+2019-09-24 13:53:33.500 INFO  [140429684866944] -   -Xmx256M
+2019-09-24 13:53:34.603 INFO  [140429684866944] - Connectivity plug-ins: Loaded C++ plugin from path /opt/softwareag/cumulocity-apama-rules/config/connectivity/cepStreaming/../../../cpp/Release/libconnectivity-cep-mapping-codec.so
+2019-09-24 13:53:34.604 INFO  [140429684866944] - Connectivity plug-ins: Loaded C++ plugin from path libconnectivity-json-codec.so
+2019-09-24 13:53:34.605 INFO  [140429684866944] - Connectivity plug-ins: Loaded C++ plugin from path libconnectivity-string-codec.so
+2019-09-24 13:53:34.605 INFO  [140429684866944] - Connectivity plug-ins: Loaded C++ plugin from path libconnectivity-batch-accumulator-codec.so
+2019-09-24 13:53:34.606 INFO  [140429684866944] - Connectivity plug-ins: Loaded C++ plugin from path /opt/softwareag/cumulocity-apama-rules/config/connectivity/cepStreaming/../../../cpp/Release/libconnectivity-wait-hostready.so
+2019-09-24 13:53:34.607 INFO  [140429684866944] - <connectivity.chain.httpServer-instance> Connectivity chain created, subscribed to [httpServer_httpServer_1563976414597]
+2019-09-24 13:53:34.607 INFO  [140429684866944] - <connectivity.httpServer.manager> Binding to http://0.0.0.0:8989
+2019-09-24 13:53:34.894 INFO  [140426363266816] - <connectivity.httpServer.httpServer-instance> Started receiving messages from host 127.0.0.1
+2019-09-24 13:53:37.041 INFO  [140429684866944:Thread-1] - <connectivity.ApamaConnectivityForCumulocityIoT.CumulocityIoT> Apama Connectivity For Cumulocity IoT : Connected to Cumulocity IoT
+2019-09-24 13:53:37.041 INFO  [140429684866944] - <connectivity.chain.CumulocityIoT> Connectivity chain created, subscribed to [CumulocityIoT]
+2019-09-24 13:53:37.043 INFO  [140429684866944] - Server socket opened listening on 0.0.0.0:15903
+2019-09-24 13:53:37.043 ##### [140429684866944] - Component ID: defaultCorrelator (correlator/6717227545557828615/6717227545557828615)
+2019-09-24 13:53:37.043 ##### [140429684866944] - Correlator, version 10.3.1.0.348044, running
+2019-09-24 13:53:37.047 INFO  [140426341783296] - Added type com.apama.util.AnyExtractor
+2019-09-24 13:53:37.047 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/AnyExtractor.mon (860bbf5ab63f7db1fa2847ac02084ffd), size 9158 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.048 INFO  [140426341783296] - Added type com.softwareag.connectivity.control.FlushAck
+2019-09-24 13:53:37.048 INFO  [140426341783296] - Added type com.softwareag.connectivity.control.Flush
+2019-09-24 13:53:37.048 INFO  [140426341783296] - Added type com.softwareag.connectivity.control.AckRequired
+2019-09-24 13:53:37.048 INFO  [140426341783296] - Added type com.softwareag.connectivity.control.AckUpTo
+2019-09-24 13:53:37.048 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/ConnectivityPluginsControl.mon (1adf847aaf696a4e0ff4b3c725bdb8a2), size 2804 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.049 INFO  [140425700570880] - Loading EPL plugin ConnectivityPlugin from library libConnectivityPlugin.so
+2019-09-24 13:53:37.050 INFO  [140425700570880] - <.plugins.ConnectivityPlugin> Plugin library ConnectivityPlugin (C++ API 0x4) loaded OK
+2019-09-24 13:53:37.052 INFO  [140426341783296] - Added type com.softwareag.connectivity.ConnectivityPlugins
+2019-09-24 13:53:37.052 INFO  [140426341783296] - Added type com.softwareag.connectivity.Direction
+2019-09-24 13:53:37.052 INFO  [140426341783296] - Added type com.softwareag.connectivity.Chain
+2019-09-24 13:53:37.052 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/ConnectivityPlugins.mon (76e67a45a9315c3da4d2a8eb68abcf23), size 8490 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.053 INFO  [140426341783296] - Added monitor com.apama.connectivity.ApplicationInitializedTransports
+2019-09-24 13:53:37.053 INFO  [140426341783296] - Added type com.apama.connectivity.ApplicationInitialized
+2019-09-24 13:53:37.053 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/AutomaticOnApplicationInitialized.mon (be4371369415c74e123fc26a6812f327), size 1394 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.Unsubscribe
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.Subscribe
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.SendSpeech
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.SMSResponse
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.SMSResourceReference
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.SendSMS
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.SendEmail
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.FindMeasurementResponseAck
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.FindMeasurementResponse
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.FindMeasurement
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.FindOperationResponseAck
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.FindOperationResponse
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.FindOperation
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.FindManagedObjectResponseAck
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.FindManagedObjectResponse
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.FindManagedObject
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.FindEventResponseAck
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.FindEventResponse
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.FindEvent
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.FindAlarmResponseAck
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.FindAlarmResponse
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.FindAlarm
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.ManagedObject
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.Alarm
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.Event
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.Measurement
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.MeasurementValue
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.UnsubscribeMeasurements
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.SubscribeMeasurements
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.RequestAllDevicesComplete
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.RequestAllDevices
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.Operation
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Added type com.apama.cumulocity.Error
+2019-09-24 13:53:37.060 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/cumulocity/9.8/Cumulocity_EventDefinitions.mon (5b1c45c045314c57ad67c8964d2f40a9), size 22747 bytes, compile time 0.01 seconds
+2019-09-24 13:53:37.062 INFO  [140426341783296] - Added monitor com.apama.cumulocity.internal.ForwardRequestAllDevices
+2019-09-24 13:53:37.062 INFO  [140426341783296] - Added type com.apama.cumulocity.internal.DisableBasicForwarder
+2019-09-24 13:53:37.062 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/cumulocity/9.8/Cumulocity_ServiceMonitor.mon (6e08410c0506f71a29d0c1e95fa3abaa), size 1280 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.063 INFO  [140426774312704] - com.apama.cumulocity.internal.ForwardRequestAllDevices [3] Apama Connectivity For Cumulocity IoT v10.3.1.0.348044 loaded
+2019-09-24 13:53:37.064 INFO  [140425700570880] - Loading EPL plugin TimeFormatPlugin from library libTimeFormatPlugin.so
+2019-09-24 13:53:37.066 INFO  [140425700570880] - <plugins.TimeFormatPlugin> TimeFormatPlugin version 10.3.1.0.348044 (build rel/10.3.1.x@348044 on amd64-rhel7) loaded.
+2019-09-24 13:53:37.066 INFO  [140425700570880] - <.plugins.TimeFormatPlugin> Plugin library TimeFormatPlugin (C++ API 0x4) loaded OK
+2019-09-24 13:53:37.068 INFO  [140426341783296] - Added type com.apama.correlator.timeformat.TimeFormat
+2019-09-24 13:53:37.068 INFO  [140426341783296] - Added type com.apama.correlator.timeformat.CompiledPattern
+2019-09-24 13:53:37.068 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/TimeFormatEvents.mon (2c359ef410707e89cbd3fe1b5fcb6e99), size 18344 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.074 INFO  [140426341783296] - Added type com.apama.cumulocity.Util
+2019-09-24 13:53:37.074 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/cumulocity/9.8/Cumulocity_Utils.mon (aea590f8d7355e5f17a8045a46111b50), size 5555 bytes, compile time 0.01 seconds
+2019-09-24 13:53:37.080 INFO  [140425700570880] - Loading EPL plugin MemoryStorePlugin from library libMemoryStorePlugin.so
+2019-09-24 13:53:37.083 INFO  [140425700570880] - MemoryStorePlugin version 10.3.1.0.348044 (build rel/10.3.1.x@348044 on amd64-rhel7), loaded.
+2019-09-24 13:53:37.088 INFO  [140425700570880] - Plugin library MemoryStorePlugin (C++ API v9.0) loaded OK
+2019-09-24 13:53:37.106 INFO  [140426341783296] - Added type com.apama.memorystore.Storage
+2019-09-24 13:53:37.106 INFO  [140426341783296] - Added type com.apama.memorystore.Store
+2019-09-24 13:53:37.106 INFO  [140426341783296] - Added type com.apama.memorystore.Table
+2019-09-24 13:53:37.106 INFO  [140426341783296] - Added type com.apama.memorystore.Iterator
+2019-09-24 13:53:37.106 INFO  [140426341783296] - Added type com.apama.memorystore.MissedRowChanges
+2019-09-24 13:53:37.106 INFO  [140426341783296] - Added type com.apama.memorystore.RowChanged
+2019-09-24 13:53:37.106 INFO  [140426341783296] - Added type com.apama.memorystore.Row
+2019-09-24 13:53:37.106 INFO  [140426341783296] - Added type com.apama.memorystore.Schema
+2019-09-24 13:53:37.106 INFO  [140426341783296] - Added type com.apama.memorystore.Finished
+2019-09-24 13:53:37.106 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/data_storage/MemoryStore.mon (5cac7fd3dc8f8c0e61b2b245b1259d55), size 52020 bytes, compile time 0.03 seconds
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added monitor com.apama.scenario.ScenarioService
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added monitor com.apama.scenario.RequestInstancesHandler
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.ScenarioServiceUpdaterMultipleInstances
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.ScenarioServiceUpdaterSingleInstance
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.ScenarioServiceUpdaterBase
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.CallbackHelper
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.ScenarioServiceLibrary
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.AllConfiguration
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.GetAllConfiguration
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.ScenarioProcessedUpdates
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.OperationCompleted
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.Configuration
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.GetConfiguration
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.ParallelStarting
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.RequestInstancesParallelDone
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.RequestInstancesParallel
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.FinishedScenarioRecovery
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.StartScenarioRecovery
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.ScenarioFinished
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.RequestInstancesInternal
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.SendQueuedUpdatesNow
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.ConfigureUpdates
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.SetThrottlingPeriod
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.ScenarioServiceUnloaded
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.ScenarioServiceLoaded
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.Instance
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.ScenarioUnloaded
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.Scenario
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.RequestInstancesDone
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.RequestInstancesOnChannelByUser
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.RequestInstancesOnChannel
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.RequestScenariosAck
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.RequestScenariosDone
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.RequestScenarios
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.StateChange
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.Acknowledge
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.Update
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.InstanceDied
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.Deleted
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.Delete
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.Edited
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.Edit
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.ParentChildRelationship
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.Created
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Added type com.apama.scenario.Create
+2019-09-24 13:53:37.169 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/ScenarioService.mon (1b6e75cb763eaa29440da08422c17a0d), size 72726 bytes, compile time 0.06 seconds
+2019-09-24 13:53:37.172 INFO  [140426315470592] - com.apama.scenario.ScenarioService [4] ScenarioService interface loaded. MetaData: {"interface.fileName":"ScenarioService.mon","interface.fullVersion":"rel/10.3.1.x@348044","interface.language":"MonitorScript","interface.name":"ScenarioService","interface.package":"com.apama.scenario","interface.vendor":"Apama","interface.version":"10.3.1.0.348044"}
+2019-09-24 13:53:37.184 INFO  [140426341783296] - Added monitor com.apama.memorystore.MemoryStoreScenarioImpl
+2019-09-24 13:53:37.184 INFO  [140426341783296] - Added type com.apama.memorystore.ForwardMemoryStoreUpdatesTo
+2019-09-24 13:53:37.184 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/data_storage/MemoryStoreScenarioImpl.mon (a0cb4d943c176b295b0571433a019ec9), size 10361 bytes, compile time 0.01 seconds
+2019-09-24 13:53:37.193 INFO  [140426341783296] - Added type com.softwareag.connectivity.httpclient.HttpTransport
+2019-09-24 13:53:37.193 INFO  [140426341783296] - Added type com.softwareag.connectivity.httpclient.Request
+2019-09-24 13:53:37.193 INFO  [140426341783296] - Added type com.softwareag.connectivity.httpclient.Response
+2019-09-24 13:53:37.193 INFO  [140426341783296] - Added type com.softwareag.connectivity.httpclient.HttpOptions
+2019-09-24 13:53:37.193 INFO  [140426341783296] - Added type com.softwareag.connectivity.httpclient.RequestType
+2019-09-24 13:53:37.193 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/HTTPClientEvents.mon (d90e22937f8a56d28bedba35ad7724a2), size 18747 bytes, compile time 0.01 seconds
+2019-09-24 13:53:37.194 INFO  [140425700570880] - Loading EPL plugin JSONPlugin from library libJSONPlugin.so
+2019-09-24 13:53:37.195 INFO  [140425700570880] - <.plugins.JSONPlugin> Plugin library JSONPlugin (C++ API 0x4) loaded OK
+2019-09-24 13:53:37.195 INFO  [140426341783296] - Added type com.apama.json.JSONPlugin
+2019-09-24 13:53:37.195 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/JSONPlugin.mon (6e763fd808de6862d1ad850fafbb8f83), size 1379 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.196 INFO  [140426341783296] - Added type com.apama.correlator.ManagementAck
+2019-09-24 13:53:37.196 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/ManagementImpl.mon (a0ada3da00f78af2f4392a244aeb9eb8), size 541 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.200 INFO  [140425700570880] - Loading EPL plugin ManagementPlugin from library libManagementPlugin.so
+2019-09-24 13:53:37.201 INFO  [140425700570880] - <.plugins.ManagementPlugin> Plugin library ManagementPlugin (C++ API 0x4) loaded OK
+2019-09-24 13:53:37.210 INFO  [140426341783296] - Added type com.apama.correlator.UserStatusChanged
+2019-09-24 13:53:37.210 INFO  [140426341783296] - Added type com.apama.correlator.Logging
+2019-09-24 13:53:37.210 INFO  [140426341783296] - Added type com.apama.correlator.Component
+2019-09-24 13:53:37.210 INFO  [140426341783296] - Added type com.apama.correlator.Persistence
+2019-09-24 13:53:37.210 INFO  [140426341783296] - Added type com.apama.correlator.EngineStatus
+2019-09-24 13:53:37.210 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/Management.mon (ceb10c2db4d43aa88a28b0e2b53d8268), size 19799 bytes, compile time 0.01 seconds
+2019-09-24 13:53:37.212 INFO  [140426341783296] - Added monitor com.apama.scenarios.ScenarioDeleterSupport
+2019-09-24 13:53:37.212 INFO  [140426341783296] - Added type com.apama.scenarios.DeleteScenariosByUser
+2019-09-24 13:53:37.212 INFO  [140426341783296] - Added type com.apama.scenarios.DeleteAllScenarios
+2019-09-24 13:53:37.212 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/scenario_support/ScenarioDeleterSupport.mon (9e79841ed83d3b1168c208b274ec2d1e), size 1284 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.214 INFO  [140426341783296] - Added type com.apama.cumulocity.smartrules.GeoFencePolygon
+2019-09-24 13:53:37.214 INFO  [140426341783296] - Added type com.apama.cumulocity.smartrules.GeoFencePoint
+2019-09-24 13:53:37.214 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/eventdefinitions/GeoFenceUtils.mon (1fe57811998ff27b935b221d4966e583), size 2806 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.218 INFO  [140426341783296] - Added type com.apama.cumulocity.smartrules.RuleUtil
+2019-09-24 13:53:37.218 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/eventdefinitions/RuleUtils.mon (d22b48e5ba1fc9b50d7b981bb6aa1764), size 4140 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.227 INFO  [140426341783296] - Added type com.apama.cumulocity.smartrules.ScenarioServiceUtil
+2019-09-24 13:53:37.227 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/eventdefinitions/ScenarioServiceUtils.mon (2df22ac101610f49ba2db55be05dfefb), size 10807 bytes, compile time 0.01 seconds
+2019-09-24 13:53:37.231 INFO  [140426341783296] - Added monitor com.apama.cumulocity.smartrules.InventoryCacheUtils
+2019-09-24 13:53:37.231 INFO  [140426341783296] - Added type com.apama.cumulocity.smartrules.IsDeviceInMaintenanceResponse
+2019-09-24 13:53:37.231 INFO  [140426341783296] - Added type com.apama.cumulocity.smartrules.IsDeviceInMaintenance
+2019-09-24 13:53:37.231 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/monitors/InventoryCacheUtils.mon (a55679380fa8f8d00b7537a5a48b500b), size 2586 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.240 INFO  [140426341783296] - Added monitor com.apama.cumulocity.smartrules.AlarmOnMissingMeasurement
+2019-09-24 13:53:37.240 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/monitors/alarmOnMissingMeasurement.mon (324c3415362646e6b4e89ddc659e411a), size 4438 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.246 INFO  [140426341783296] - Added monitor com.apama.cumulocity.smartrules.Consumption
+2019-09-24 13:53:37.246 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/monitors/consumption.mon (7d5b5f498c7d1a6f9108f43b60918e02), size 4387 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.250 INFO  [140426341783296] - Added monitor com.apama.cumulocity.smartrules.EmailOnAlarm
+2019-09-24 13:53:37.250 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/monitors/emailOnAlarm.mon (dd50965318e07ea8a2e54774ea05dcb5), size 3611 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.261 INFO  [140426341783296] - Added monitor com.apama.cumulocity.smartrules.StepsDispatcher
+2019-09-24 13:53:37.261 INFO  [140426341783296] - Added type com.apama.cumulocity.smartrules.EscalationStepCompleted
+2019-09-24 13:53:37.261 INFO  [140426341783296] - Added type com.apama.cumulocity.smartrules.StartEscalationStep
+2019-09-24 13:53:37.261 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/monitors/escalation/StepsDispatcher.mon (9c9c3c62aa83b28392d86d5cf971f071), size 4882 bytes, compile time 0.01 seconds
+2019-09-24 13:53:37.263 INFO  [140426341783296] - Added monitor com.apama.cumulocity.smartrules.Step_Email
+2019-09-24 13:53:37.263 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/monitors/escalation/StepEmailOnAlarm.mon (5e9bcdc26b302caf7686e7ff922575e6), size 1604 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.265 INFO  [140426341783296] - Added monitor com.apama.cumulocity.smartrules.Step_SMS
+2019-09-24 13:53:37.265 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/monitors/escalation/StepSMSOnAlarm.mon (3061b1efd001ed5c7e666bacb6b1b176), size 1315 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.267 INFO  [140426341783296] - Added monitor com.apama.cumulocity.smartrules.Step_T2S
+2019-09-24 13:53:37.267 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/monitors/escalation/StepT2SOnAlarm.mon (a7f944deec91afd26685a45bb01b7cbb), size 2130 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.274 INFO  [140426341783296] - Added monitor com.apama.cumulocity.smartrules.ExplicitThresholdRule
+2019-09-24 13:53:37.275 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/monitors/explicitThresholdSmartRule.mon (987c21de749a578ab4e9bfa15a9a0fcf), size 6039 bytes, compile time 0.01 seconds
+2019-09-24 13:53:37.280 INFO  [140426341783296] - Added monitor com.apama.cumulocity.smartrules.GeofencingEmail
+2019-09-24 13:53:37.280 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/monitors/GeofencingEmail.mon (50f47b8ca2f9052f7695cb387865d63d), size 4159 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.286 INFO  [140426341783296] - Added monitor com.apama.cumulocity.smartrules.GeofenceRule
+2019-09-24 13:53:37.286 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/monitors/GeofencingRule.mon (fb41e3fe33798c9a309e4387c86cc641), size 5295 bytes, compile time 0.01 seconds
+2019-09-24 13:53:37.293 INFO  [140426341783296] - Added monitor com.apama.cumulocity.smartrules.OnAlarmDurationChangeAlarmSeverity
+2019-09-24 13:53:37.293 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/monitors/OnAlarmDurationChangeAlarmSeverity.mon (159bbd0c42484c40fb0366618fd8ac62), size 4825 bytes, compile time 0.01 seconds
+2019-09-24 13:53:37.297 INFO  [140426341783296] - Added monitor com.apama.cumulocity.smartrules.OperationOnAlarm
+2019-09-24 13:53:37.297 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/monitors/OperationOnAlarm.mon (4a2055eab3964ef153ff2376215b85ee), size 3075 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.300 INFO  [140426341783296] - Added monitor com.apama.cumulocity.smartrules.SendDashboardInEmail
+2019-09-24 13:53:37.300 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/monitors/SendDashboardInEmail.mon (d17f46fc3d999c97819493cf6f07a475), size 2416 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.304 INFO  [140426341783296] - Added monitor com.apama.cumulocity.smartrules.SMSOnAlarm
+2019-09-24 13:53:37.304 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/monitors/smsOnAlarm.mon (0ac75ec0104be8cd274e6d266473965b), size 3119 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.314 INFO  [140426341783296] - Added monitor com.apama.cumulocity.smartrules.ThresholdRule
+2019-09-24 13:53:37.314 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/monitors/thresholdSmartRule.mon (741edd7d2dcaa26e500d8a5e31600485), size 8351 bytes, compile time 0.01 seconds
+2019-09-24 13:53:37.318 INFO  [140426341783296] - Added monitor com.apama.cumulocity.smartrules.T2SOnAlarm
+2019-09-24 13:53:37.318 INFO  [140426341783296] - Injected MonitorScript from file /opt/softwareag/cumulocity-apama-rules/monitors/t2sOnAlarm.mon (95d93b4866d73f96434eccec4eb135d2), size 3369 bytes, compile time 0.00 seconds
+2019-09-24 13:53:37.318 INFO  [140426341783296] - Sending initialization events from /opt/softwareag/cumulocity-apama-rules/bundle_instance_files/Automatic_onApplicationInitialized/AutomaticOnApplicationInitialized.evt
+2019-09-24 13:53:39.604 INFO  [140428468659968] - Correlator Status: sm=38 nctx=4 ls=165 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=854 tx=0 rt=68 nc=2 vm=6111416 pm=278868 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=46
+2019-09-24 13:53:44.597 INFO  [140428468659968] - Correlator Status: sm=12345 nctx=4 ls=189 rq=0 iq=0 oq=18 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=2978 tx=49 rt=109 nc=3 vm=6863072 pm=307528 runq=0 si=0.0 so=0.0 srn="CumulocityIoT" srq=2 jvm=65

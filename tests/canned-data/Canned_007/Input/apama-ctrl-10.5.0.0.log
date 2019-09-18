@@ -1,0 +1,764 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::       (v1.5.19.RELEASE)
+
+[apama-ctrl]  2019-09-16 14:59:03.940 INFO  [main] com.apama.in_c8y.Main.logStarting - Starting Main v10.5.0.1_359159M on apama-ctrl-1c-infg-scope-t71651499-deployment-67cb6c968c-gngqd with PID 1 (/opt/softwareag/Apama/apama-ctrl/apama-ctrl.jar started by root in /apama_work)
+[apama-ctrl]  2019-09-16 14:59:03.983 INFO  [main] com.apama.in_c8y.Main.logStartupProfileInfo - No active profile set, falling back to default profiles: default
+[apama-ctrl]  2019-09-16 14:59:04.373 INFO  [main] org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext.prepareRefresh - Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4df50bcc: startup date [Mon Sep 16 14:59:04 UTC 2019]; root of context hierarchy
+[apama-ctrl]  2019-09-16 14:59:10.345 WARN  [main] org.springframework.context.annotation.ConfigurationClassEnhancer.intercept - @Bean method EnableContextSupportConfiguration.contextScopeConfigurer is non-static and returns an object assignable to Spring's BeanFactoryPostProcessor interface. This will result in a failure to process annotations such as @Autowired, @Resource and @PostConstruct within the method's declaring @Configuration class. Add the 'static' modifier to this method to avoid these container lifecycle issues; see @Bean javadoc for complete details.
+[apama-ctrl]  2019-09-16 14:59:10.451 INFO  [main] org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.<init> - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+[apama-ctrl]  2019-09-16 14:59:10.579 INFO  [main] org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization - Bean 'methodArgumentValidationConfiguration' of type [com.apama.in_c8y.configuration.MethodArgumentValidationConfiguration$$EnhancerBySpringCGLIB$$d6e08dbb] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[apama-ctrl]  2019-09-16 14:59:13.498 INFO  [main] org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.initialize - Tomcat initialized with port(s): 80 (http)
+[apama-ctrl]  2019-09-16 14:59:13.580 INFO  [main] org.apache.catalina.core.StandardService.log - Starting service [Tomcat]
+[apama-ctrl]  2019-09-16 14:59:13.581 INFO  [main] org.apache.catalina.core.StandardEngine.log - Starting Servlet Engine: Apache Tomcat/8.5.37
+[apama-ctrl]  2019-09-16 14:59:14.008 INFO  [localhost-startStop-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+[apama-ctrl]  2019-09-16 14:59:14.009 INFO  [localhost-startStop-1] org.springframework.web.context.ContextLoader.prepareEmbeddedWebApplicationContext - Root WebApplicationContext: initialization completed in 9646 ms
+[apama-ctrl]  2019-09-16 14:59:15.888 INFO  [localhost-startStop-1] com.cumulocity.microservice.subscription.annotation.EnableMicroserviceSubscriptionConfiguration.microserviceRepository - Microservice repository will be build for application 'apama-ctrl-1c-infg'.
+[apama-ctrl]  2019-09-16 14:59:17.523 INFO  [localhost-startStop-1] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler.initialize - Initializing ExecutorService 'retentionTaskScheduler'
+[apama-ctrl]  2019-09-16 14:59:18.001 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.FilterRegistrationBean.configure - Mapping filter: 'metricsFilter' to: [/*]
+[apama-ctrl]  2019-09-16 14:59:18.015 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.FilterRegistrationBean.configure - Mapping filter: 'characterEncodingFilter' to: [/*]
+[apama-ctrl]  2019-09-16 14:59:18.015 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.FilterRegistrationBean.configure - Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+[apama-ctrl]  2019-09-16 14:59:18.015 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.FilterRegistrationBean.configure - Mapping filter: 'httpPutFormContentFilter' to: [/*]
+[apama-ctrl]  2019-09-16 14:59:18.015 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.FilterRegistrationBean.configure - Mapping filter: 'requestContextFilter' to: [/*]
+[apama-ctrl]  2019-09-16 14:59:18.016 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.DelegatingFilterProxyRegistrationBean.configure - Mapping filter: 'springSecurityFilterChain' to: [/*]
+[apama-ctrl]  2019-09-16 14:59:18.016 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.FilterRegistrationBean.configure - Mapping filter: 'webRequestLoggingFilter' to: [/*]
+[apama-ctrl]  2019-09-16 14:59:18.016 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.FilterRegistrationBean.onStartup - Filter preAuthenticateServletFilter was not registered (disabled)
+[apama-ctrl]  2019-09-16 14:59:18.017 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.FilterRegistrationBean.onStartup - Filter postAuthenticateServletFilter was not registered (disabled)
+[apama-ctrl]  2019-09-16 14:59:18.017 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.FilterRegistrationBean.configure - Mapping filter: 'cumulocityOAuthMicroserviceFilter' to: [/*]
+[apama-ctrl]  2019-09-16 14:59:18.017 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.FilterRegistrationBean.configure - Mapping filter: 'applicationContextIdFilter' to: [/*]
+[apama-ctrl]  2019-09-16 14:59:18.017 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.ServletRegistrationBean.onStartup - Mapping servlet: 'cepProxyServlet' to [/cep/events]
+[apama-ctrl]  2019-09-16 14:59:18.034 INFO  [localhost-startStop-1] org.springframework.boot.web.servlet.ServletRegistrationBean.onStartup - Mapping servlet: 'dispatcherServlet' to [/]
+[apama-ctrl]  2019-09-16 14:59:19.674 INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler.initialize - Initializing ExecutorService 'rulesRecreationTaskScheduler'
+[apama-ctrl]  2019-09-16 14:59:19.946 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain.<init> - Creating filter chain: Ant [pattern='/metadata'], []
+[apama-ctrl]  2019-09-16 14:59:19.946 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain.<init> - Creating filter chain: Ant [pattern='/health'], []
+[apama-ctrl]  2019-09-16 14:59:19.947 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain.<init> - Creating filter chain: Ant [pattern='/prometheus'], []
+[apama-ctrl]  2019-09-16 14:59:19.947 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain.<init> - Creating filter chain: Ant [pattern='/metrics'], []
+[apama-ctrl]  2019-09-16 14:59:19.947 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain.<init> - Creating filter chain: Ant [pattern='/cep/events'], []
+[apama-ctrl]  2019-09-16 14:59:20.057 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain.<init> - Creating filter chain: org.springframework.security.web.util.matcher.AnyRequestMatcher@1, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@43984213, org.springframework.security.web.header.HeaderWriterFilter@330c1f61, org.springframework.security.web.authentication.logout.LogoutFilter@462e1e64, com.cumulocity.microservice.security.token.CumulocityOAuthMicroserviceFilter@72b53ab7, com.cumulocity.microservice.security.filter.PreAuthenticateServletFilter@2fdb9742, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@70d63e05, com.cumulocity.microservice.security.filter.PostAuthenticateServletFilter@3a01b7f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@107bfcb2, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2ff7a73, org.springframework.security.web.access.ExceptionTranslationFilter@52b06bef, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@37baddde]
+[apama-ctrl]  2019-09-16 14:59:20.155 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain.<init> - Creating filter chain: org.springframework.security.web.util.matcher.AnyRequestMatcher@1, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@31e130bf, org.springframework.security.web.context.SecurityContextPersistenceFilter@58fa5769, org.springframework.security.web.header.HeaderWriterFilter@6cbe7d4d, org.springframework.security.web.csrf.CsrfFilter@516462cc, org.springframework.security.web.authentication.logout.LogoutFilter@332bcab0, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@28237492, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@6f798482, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@1b5a1d85, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4ee25d80, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@ba17be6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@54755dd9, org.springframework.security.web.session.SessionManagementFilter@1e3e1014, org.springframework.security.web.access.ExceptionTranslationFilter@2dfb885e, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2daf06fc]
+[apama-ctrl]  2019-09-16 14:59:20.367 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/analyticsbuilder],methods=[GET]}" onto public com.apama.in_c8y.model.analytics.AnalyticsBuilderModelRepresentationCollection com.apama.in_c8y.AnalyticsBuilderController.getAll(com.apama.in_c8y.model.analytics.ModelMode,com.apama.in_c8y.model.analytics.ModelState)
+[apama-ctrl]  2019-09-16 14:59:20.369 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/analyticsbuilder/{modelId}],methods=[GET],produces=[application/json]}" onto public com.apama.in_c8y.model.analytics.AnalyticsBuilderModelRepresentation com.apama.in_c8y.AnalyticsBuilderController.get(java.lang.String)
+[apama-ctrl]  2019-09-16 14:59:20.370 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/analyticsbuilder/{modelId}],methods=[PUT]}" onto public com.apama.in_c8y.model.analytics.AnalyticsBuilderModelRepresentation com.apama.in_c8y.AnalyticsBuilderController.update(java.lang.String,com.apama.in_c8y.model.analytics.AnalyticsBuilderModelRepresentation)
+[apama-ctrl]  2019-09-16 14:59:20.370 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/analyticsbuilder/{modelId}],methods=[DELETE]}" onto public void com.apama.in_c8y.AnalyticsBuilderController.delete(java.lang.String)
+[apama-ctrl]  2019-09-16 14:59:20.370 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/analyticsbuilder],methods=[POST]}" onto public com.apama.in_c8y.model.analytics.AnalyticsBuilderModelRepresentation com.apama.in_c8y.AnalyticsBuilderController.create(com.apama.in_c8y.model.analytics.AnalyticsBuilderModelRepresentation)
+[apama-ctrl]  2019-09-16 14:59:20.371 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/cep/features],methods=[GET],produces=[application/json]}" onto public java.util.List<java.lang.String> com.apama.in_c8y.OptionalFeaturesController.getAll()
+[apama-ctrl]  2019-09-16 14:59:20.372 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/restart],methods=[PUT]}" onto public void com.apama.in_c8y.CtlRestartController.restart()
+[apama-ctrl]  2019-09-16 14:59:20.374 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/cep/smartrules/{id}],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.apama.in_c8y.SmartRulesController.get(java.lang.Long)
+[apama-ctrl]  2019-09-16 14:59:20.374 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/cep/smartrules/{id}],methods=[PUT]}" onto public com.cumulocity.rest.representation.cep.SmartRuleRepresentation com.apama.in_c8y.SmartRulesController.update(com.cumulocity.rest.representation.cep.SmartRuleRepresentation,java.lang.Long)
+[apama-ctrl]  2019-09-16 14:59:20.375 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/cep/smartrules/{id}],methods=[DELETE]}" onto public org.springframework.http.ResponseEntity<java.lang.Void> com.apama.in_c8y.SmartRulesController.delete(java.lang.Long)
+[apama-ctrl]  2019-09-16 14:59:20.375 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/cep/smartrules],methods=[POST]}" onto public com.cumulocity.rest.representation.cep.SmartRuleRepresentation com.apama.in_c8y.SmartRulesController.create(com.cumulocity.rest.representation.cep.SmartRuleRepresentation)
+[apama-ctrl]  2019-09-16 14:59:20.376 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/apamacorrelator/**],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.apama.in_c8y.proxy.MetadataProxyController.proxyRequest(org.springframework.http.HttpMethod,javax.servlet.http.HttpServletRequest)
+[apama-ctrl]  2019-09-16 14:59:20.395 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/eplfiles],methods=[GET]}" onto public java.util.List<com.apama.in_c8y.FileRepresentation> com.apama.in_c8y.EPLFilesController.get()
+[apama-ctrl]  2019-09-16 14:59:20.396 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/eplfiles/{id}],methods=[PUT]}" onto public com.apama.in_c8y.FileRepresentation com.apama.in_c8y.EPLFilesController.update(com.apama.in_c8y.FileRepresentation,java.lang.String)
+[apama-ctrl]  2019-09-16 14:59:20.397 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/eplfiles/{id}],methods=[DELETE]}" onto public void com.apama.in_c8y.EPLFilesController.delete(java.lang.String)
+[apama-ctrl]  2019-09-16 14:59:20.397 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/eplfiles],methods=[POST]}" onto public com.apama.in_c8y.FileRepresentation com.apama.in_c8y.EPLFilesController.create(com.apama.in_c8y.FileRepresentation)
+[apama-ctrl]  2019-09-16 14:59:20.398 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/eplfiles/{id}],methods=[GET]}" onto public com.apama.in_c8y.FileRepresentation com.apama.in_c8y.EPLFilesController.getFile(java.lang.String)
+[apama-ctrl]  2019-09-16 14:59:20.400 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/eplsamples],methods=[GET],produces=[application/json]}" onto public java.lang.String com.apama.in_c8y.EPLSamplesController.get()
+[apama-ctrl]  2019-09-16 14:59:20.403 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+[apama-ctrl]  2019-09-16 14:59:20.403 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.register - Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+[apama-ctrl]  2019-09-16 14:59:20.603 INFO  [main] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping.registerHandler - Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+[apama-ctrl]  2019-09-16 14:59:20.603 INFO  [main] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping.registerHandler - Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+[apama-ctrl]  2019-09-16 14:59:20.666 INFO  [main] org.springframework.web.servlet.handler.SimpleUrlHandlerMapping.registerHandler - Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+[apama-ctrl]  2019-09-16 14:59:21.867 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain.<init> - Creating filter chain: org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration$LazyEndpointPathRequestMatcher@58c1da09, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2b2954e1, org.springframework.security.web.context.SecurityContextPersistenceFilter@42a0501e, org.springframework.security.web.header.HeaderWriterFilter@2629d5dc, org.springframework.web.filter.CorsFilter@58d6e55a, org.springframework.security.web.authentication.logout.LogoutFilter@7dffda8b, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@2f7efd0b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6aa3bfc, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6e4599c0, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@751ae8a4, org.springframework.security.web.session.SessionManagementFilter@2596d7f4, org.springframework.security.web.access.ExceptionTranslationFilter@5762658b, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@66933239]
+[apama-ctrl]  2019-09-16 14:59:22.635 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.initControllerAdviceCache - Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4df50bcc: startup date [Mon Sep 16 14:59:04 UTC 2019]; root of context hierarchy
+[apama-ctrl]  2019-09-16 14:59:22.816 INFO  [main] org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.initExceptionHandlerAdviceCache - Detected @ExceptionHandler methods in methodArgumentNotValidExceptionHandler
+[apama-ctrl]  2019-09-16 14:59:23.718 INFO  [main] com.cumulocity.microservice.subscription.service.impl.MicroserviceSubscriptionScheduler.onApplicationEvent - Start; subscriptionDelay = 10000, subscriptionInitialDelay = 0
+[apama-ctrl]  2019-09-16 14:59:23.883 INFO  [main] org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.start - Tomcat started on port(s): 80 (http)
+[apama-ctrl]  2019-09-16 14:59:23.898 INFO  [main] com.apama.in_c8y.Main.logStarted - Started Main in 21.527 seconds (JVM running for 22.549)
+[apama-ctrl]  2019-09-16 14:59:26.237 INFO  [subscriptions-0] com.apama.in_c8y.Main$$EnhancerBySpringCGLIB$$afdd718b.startup - Platform available
+[apama-ctrl]  2019-09-16 14:59:26.413 INFO  [subscriptions-0] com.apama.in_c8y.Correlator.copyExtensions - Searching for extensions.
+[apama-ctrl]  2019-09-16 14:59:26.715 INFO  [subscriptions-0] com.apama.in_c8y.LicenseManager.writeToLicenseFile - Writing license file to filesystem
+[apama-ctrl]  2019-09-16 14:59:26.876 INFO  [subscriptions-0] com.apama.in_c8y.Correlator.start - Starting /opt/softwareag/Apama/apama-ctrl/correlator_start.py with port 15903
+[apama-ctrl]  2019-09-16 14:59:27.165 INFO  [subscriptions-0] com.apama.in_c8y.Correlator.start - Correlator not yet reachable (com.apama.EngineException: Failed to connect to engine; root exception is: Connection refused (Connection refused))
+[apama-ctrl]  2019-09-16 14:59:29.171 INFO  [subscriptions-0] com.apama.in_c8y.Correlator.start - Correlator not yet reachable (com.apama.EngineException: Failed to connect to engine; root exception is: Connection refused (Connection refused))
+[correlator]  INFO: copying the project file from /host_deploy/Project_extended to output directory /host_deploy/Project_deployed
+[apama-ctrl]  2019-09-16 14:59:30.757 INFO  [http-nio-80-exec-1] com.apama.in_c8y.proxy.CepProxyServlet.doPost - Dropping request as the correlator is not yet started or service is unsubscribed
+[apama-ctrl]  2019-09-16 14:59:31.172 INFO  [subscriptions-0] com.apama.in_c8y.Correlator.start - Correlator not yet reachable (com.apama.EngineException: Failed to connect to engine; root exception is: Connection refused (Connection refused))
+[apama-ctrl]  2019-09-16 14:59:33.174 INFO  [subscriptions-0] com.apama.in_c8y.Correlator.start - Correlator not yet reachable (com.apama.EngineException: Failed to connect to engine; root exception is: Connection refused (Connection refused))
+[apama-ctrl]  2019-09-16 14:59:35.176 INFO  [subscriptions-0] com.apama.in_c8y.Correlator.start - Correlator not yet reachable (com.apama.EngineException: Failed to connect to engine; root exception is: Connection refused (Connection refused))
+[correlator]  INFO: Reading deploy configuration for component 'defaultCorrelator'
+[correlator]  INFO: Generating correlator deployment directory at "/host_deploy/Project_deployed" for /host_deploy/Project_extended
+[correlator]  INFO: Skipping PARENT_DIR/bundle_instance_files/Automatic_onApplicationInitialized/AutomaticOnApplicationInitialized.evt file as it is already included in the intialization list
+[correlator]  INFO: Generating correlator-start configurations for the project...
+[correlator]  INFO: Successfully generated correlator-start configurations.
+[correlator]  INFO: Generating persistence configurations for the project...
+[correlator]  INFO: Ignoring development mode persistence clear option.
+[correlator]  INFO: Successfully generated persistence configurations.
+[correlator]  INFO:  Writing connectivity configuration at /host_deploy/Project_deployed/connectivity.yaml
+[correlator]  INFO: Successfully generated YAML configurations.
+[correlator]  Migrated existing configurations
+[correlator]  Copied the project to "/host_deploy/Project_extended" for applying extension.
+[correlator]  Applying extensions from "/config/extensions" on project in "/host_deploy/Project_extended".
+[correlator]  Applied extension "/config/extensions/customise_httppasswd"
+[correlator]  Applied extension "/config/extensions/logfile"
+[correlator]  Applied extension "/config/extensions/config"
+[correlator]  Applied extension "/config/extensions/cloud-extensions.zip"
+[correlator]  Finish applying extensions.
+[correlator]  Deploying the extended project to "/host_deploy/Project_deployed".
+[correlator]  Deployed the extended project.
+[correlator]  Running correlator with configurations: ['--config', '/host_deploy/Project_deployed', '-f', 'stdout', '-p', '15903', '-DCUMULOCITY_TENANT=t71651499', '-DCUMULOCITY_USERNAME=service_apama-ctrl-1c-infg', '-DCUMULOCITY_PASSWORD=xxxxx', '-DCUMULOCITY_APPKEY=apama-ctrl-1c-infg-key', '-DCUMULOCITY_URL=http://cumulocity:8111', '-Dstreaming_api.port=8989', '-Dserve-metadata.port=8800', '-DbindInterface=0.0.0.0', '-l', 'ApamaLicense.xml']
+[correlator]  
+[correlator]  
+[correlator]  2019-09-16 14:59:35.962 INFO  [139643004391296] - Reading configuration file "/host_deploy/Project_deployed/analyticsbuilder-workers.properties"
+[correlator]  2019-09-16 14:59:35.962 INFO  [139643004391296] - Reading configuration file "/host_deploy/Project_deployed/initialization.yaml"
+[correlator]  Running correlator ['correlator', '--config', '/host_deploy/Project_deployed', '-f', 'stdout', '-p', '15903', '-DCUMULOCITY_TENANT=t71651499', '-DCUMULOCITY_USERNAME=service_apama-ctrl-1c-infg', '-DCUMULOCITY_PASSWORD=xxxxxx', '-DCUMULOCITY_APPKEY=apama-ctrl-1c-infg-key', '-DCUMULOCITY_URL=http://cumulocity:8111', '-Dstreaming_api.port=8989', '-Dserve-metadata.port=8800', '-DbindInterface=0.0.0.0', '-l', 'ApamaLicense.xml'] env={'APAMA_CTRL_1C_2G_SCOPE_T79398765_SERVICE_PORT_HTTP': '80', 'AP_ALLOCATOR': 'jemalloc'}2019-09-16 14:59:35.962 ##### [139643004391296] - Correlator, version 10.5.0.0.357983 (build rel/10.5.0.x@357983 on amd64-rhel7 using Software AG suite version 10.5), started.
+[correlator]  2019-09-16 14:59:35.962 INFO  [139643004391296] - Reading configuration file "/host_deploy/Project_deployed/arguments.yaml"
+[correlator]  2019-09-16 14:59:35.962 INFO  [139643004391296] - Reading configuration file "/host_deploy/Project_deployed/correlator.properties"
+[correlator]  2019-09-16 14:59:35.962 INFO  [139643004391296] - Reading configuration file "/host_deploy/Project_deployed/persistence.yaml"
+[correlator]  2019-09-16 14:59:35.962 INFO  [139643004391296] - Reading configuration file "/host_deploy/Project_deployed/persistence.properties"
+[correlator]  2019-09-16 14:59:35.962 INFO  [139643004391296] - Reading configuration file "/host_deploy/Project_deployed/connectivity.yaml"
+[correlator]  2019-09-16 14:59:35.967 INFO  [139643004391296] - Reading configuration file "/opt/softwareag/Apama/connectivity/bundles/standard-codecs.yaml"
+[correlator]  2019-09-16 14:59:35.967 INFO  [139643004391296] - Reading configuration file "/opt/softwareag/Apama/connectivity/bundles/CumulocityConnectivity/10.5/CumulocityIoTDynamic.yaml"
+[correlator]  2019-09-16 14:59:35.968 INFO  [139643004391296] - Reading configuration file "/host_deploy/Project_deployed/config/connectivity/cepStreaming/cepStreaming.properties"
+[correlator]  2019-09-16 14:59:35.968 INFO  [139643004391296] - Reading configuration file "/host_deploy/Project_deployed/config/connectivity/cepStreaming/cepStreaming.yaml"
+[correlator]  2019-09-16 14:59:35.968 INFO  [139643004391296] - Reading configuration file "/host_deploy/Project_deployed/config/connectivity/CumulocityIoT/empty.yaml"
+[correlator]  2019-09-16 14:59:35.968 INFO  [139643004391296] - Reading configuration file "/host_deploy/Project_deployed/config/connectivity/HTTPClientGeneric/HTTPClientGeneric.properties"
+[correlator]  2019-09-16 14:59:35.968 INFO  [139643004391296] - Reading configuration file "/host_deploy/Project_deployed/config/connectivity/HTTPClientGeneric/HTTPClientGeneric.yaml"
+[correlator]  2019-09-16 14:59:35.968 INFO  [139643004391296] - Reading configuration file "/host_deploy/Project_deployed/config/connectivity/serve-metadata/serve-metadata-dynamicchains.yaml"
+[correlator]  2019-09-16 14:59:35.968 INFO  [139643004391296] - Reading configuration file "/host_deploy/Project_deployed/config/connectivity/serve-metadata/serve-metadata.properties"
+[correlator]  2019-09-16 14:59:35.968 INFO  [139643004391296] - Reading configuration file "/host_deploy/Project_deployed/config/connectivity/serve-metadata/serve-metadata.yaml"
+[correlator]  2019-09-16 14:59:35.985 INFO  [139643004391296] - Option logFile: overridden on the command line
+[correlator]  2019-09-16 14:59:35.985 ##### [139643004391296] - Running on host 'apama-ctrl-1c-infg-scope-t71651499-deployment-67cb6c968c-gngqd' as user 'root'.
+[correlator]  2019-09-16 14:59:35.985 ##### [139643004391296] - Running on platform '"CentOS Linux 7 (Core)"'.
+[correlator]  2019-09-16 14:59:35.985 ##### [139643004391296] - Running on CPU 'vendor GenuineIntel family 6 model 85 stepping 4: Intel(R) Xeon(R) Platinum 8124M CPU @ 3.00GHz'.
+[correlator]  2019-09-16 14:59:35.985 ##### [139643004391296] - Running with process Id 41.
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] - Running with 30987.18MB of available memory.
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] - Operating system process limits:
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   Limit                     Soft Limit           Hard Limit           Units     
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   Max cpu time              unlimited            unlimited            seconds   
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   Max file size             unlimited            unlimited            bytes     
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   Max data size             unlimited            unlimited            bytes     
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   Max stack size            8388608              unlimited            bytes     
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   Max core file size        unlimited            unlimited            bytes     
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   Max resident set          unlimited            unlimited            bytes     
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   Max processes             1048576              1048576              processes 
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   Max open files            30000                30000                files     
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   Max locked memory         65536                65536                bytes     
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   Max address space         unlimited            unlimited            bytes     
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   Max file locks            unlimited            unlimited            locks     
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   Max pending signals       123772               123772               signals   
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   Max msgqueue size         819200               819200               bytes     
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   Max nice priority         0                    0                    
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   Max realtime priority     0                    0                    
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   Max realtime timeout      unlimited            unlimited            us        
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   RLIMIT_CORE = unlimited
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] -   RLIMIT_AS   = unlimited
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] - There are 1 CPU(s)
+[correlator]  2019-09-16 14:59:35.986 INFO  [139643004391296] - cgroups - available CPU(s)                = 1
+[correlator]  2019-09-16 14:59:35.986 INFO  [139643004391296] - cgroups - CPU shares                      = 256/1024
+[correlator]  2019-09-16 14:59:35.986 INFO  [139643004391296] - cgroups - maximum memory                  = unlimited
+[correlator]  2019-09-16 14:59:35.986 INFO  [139643004391296] - cgroups - memory swap limit               = 2,147,481,500,516,352 bytes
+[correlator]  2019-09-16 14:59:35.986 INFO  [139643004391296] - cgroups - memory swappiness               = 30 %
+[correlator]  2019-09-16 14:59:35.986 ##### [139643004391296] - Correlator command line: correlator --config /host_deploy/Project_deployed -f stdout -p 15903 -DCUMULOCITY_TENANT=t71651499 -DCUMULOCITY_USERNAME=service_apama-ctrl-1c-infg -DCUMULOCITY_PASSWORD=xxxxxx -DCUMULOCITY_APPKEY=apama-ctrl-1c-infg-key -DCUMULOCITY_URL=http://cumulocity:8111 -Dstreaming_api.port=8989 -Dserve-metadata.port=8800 -DbindInterface=0.0.0.0 -l ApamaLicense.xml
+[correlator]  2019-09-16 14:59:35.992 ##### [139643004391296] - Current Working Directory: /apama_work
+[correlator]  2019-09-16 14:59:35.992 ##### [139643004391296] - PATH: /opt/softwareag/common/lib/ant/bin:/opt/softwareag/Apama/bin:/opt/softwareag/jvm/jvm/bin:/opt/softwareag:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/softwareag/Apama/third_party/python/bin
+[correlator]  2019-09-16 14:59:35.992 ##### [139643004391296] - LD_LIBRARY_PATH: /opt/softwareag/Apama/lib:/apama_work/lib:/opt/softwareag/Apama/third_party/python/lib
+[correlator]  2019-09-16 14:59:35.992 ##### [139643004391296] - Current UTC time: 2019-09-16 14:59:35, local timezone: UTC
+[correlator]  2019-09-16 14:59:35.992 ##### [139643004391296] - Input value - port                     = 15903
+[correlator]  2019-09-16 14:59:35.992 ##### [139643004391296] - Input value - output queue size        = 10000
+[correlator]  2019-09-16 14:59:35.992 ##### [139643004391296] - Input value - output queue batch size  = 100
+[correlator]  2019-09-16 14:59:35.992 ##### [139643004391296] - Input value - output queue mode        = blocking
+[correlator]  2019-09-16 14:59:36.015 ##### [139643004391296] - Input value - environment variable     = APAMA_HOME=/opt/softwareag/Apama
+[correlator]  2019-09-16 14:59:36.015 ##### [139643004391296] - Input value - environment variable     = APAMA_CTRL_1C_INFG_SCOPE_T71651499_SERVICE_PORT=80
+[correlator]  2019-09-16 14:59:36.015 ##### [139643004391296] - Input value - environment variable     = APAMA_CTRL_1C_2G_SCOPE_T79398765_PORT_80_TCP_PORT=80
+[correlator]  2019-09-16 14:59:36.015 ##### [139643004391296] - Input value - environment variable     = APAMA_CTRL_1C_2G_SCOPE_T97351912_PORT_80_TCP_PORT=80
+[correlator]  2019-09-16 14:59:36.015 ##### [139643004391296] - Input value - environment variable     = APAMA_CTRL_1C_2G_SCOPE_T76609364_SERVICE_PORT_HTTP=80
+[correlator]  2019-09-16 14:59:36.015 ##### [139643004391296] - Input value - environment variable     = AP_ALLOCATOR=jemalloc
+[correlator]  2019-09-16 14:59:36.015 ##### [139643004391296] - Using memory allocator                 = jemalloc allocator
+[correlator]  2019-09-16 14:59:36.015 ##### [139643004391296] - License File: /apama_work/ApamaLicense.xml
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] - ================= Software AG License Data =================
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] - Sales Information
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Serial Number      : 0000028449
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Customer ID        : 1
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Customer Name      : Software AG internal
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] - Product Information
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Product Name       : Apama Server
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Product Code       : PAMCO
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Operating System   : Linux
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Product Version    : 10.0
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Product Usage      : 
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Expiration Date    : 2020/03/08
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] - License Information
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      License Type       : 
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Price Unit         : ST
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Price Quantity     : 1
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Extended Rights    : 
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      License Version    : 1.2
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] - Physical Hardware
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Model              : Intel(R) Xeon(R)
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Sockets            : 1
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Physical cores     : 8
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Logical cores      : 16
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Performance Bucket : CoreD
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] -      Virtualization     : no
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] - ==================== End License Data ======================
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] - 
+[correlator]  2019-09-16 14:59:36.152 ##### [139643004391296] - Input value - pidfile                  = /host_deploy/Project_deployed/logs/defaultCorrelator.pidfile
+[correlator]  2019-09-16 14:59:36.153 ##### [139643004391296] - Input value - per receiver queue size  = 10 s
+[correlator]  2019-09-16 14:59:36.153 ##### [139643004391296] - Input value - per receiver queue size  = 10240 kb
+[correlator]  2019-09-16 14:59:36.153 ##### [139643004391296] - Input value - input queue size         = 20000
+[correlator]  2019-09-16 14:59:36.153 ##### [139643004391296] - External clocking                      = disabled
+[correlator]  2019-09-16 14:59:36.153 ##### [139643004391296] - Input value - logfile                  = stdout
+[correlator]  2019-09-16 14:59:36.153 ##### [139643004391296] - Input value - loglevel                 = INFO
+[correlator]  2019-09-16 14:59:36.153 ##### [139643004391296] - Input value - inputLog                 = ** Warning input log not enabled **
+[correlator]  2019-09-16 14:59:36.153 ##### [139643004391296] - Compiler optimizations                 = enabled - the debugger cannot be used; specify command line option "-g" to use it.
+[correlator]  2019-09-16 14:59:36.153 ##### [139643004391296] - Using EPL runtime                      = interpreted
+[correlator]  2019-09-16 14:59:36.153 ##### [139643004391296] - Python support                         = automatic
+[correlator]  2019-09-16 14:59:36.158 ##### [139643004391296] - Java support                           = disabled
+[correlator]  2019-09-16 14:59:36.158 ##### [139643004391296] - Input value - persistence              = disabled
+[correlator]  2019-09-16 14:59:36.166 INFO  [139643004391296] - Connectivity plug-ins: Loaded C++ plugin from path libconnectivity-http-server.so
+[correlator]  2019-09-16 14:59:36.174 INFO  [139643004391296] - Connectivity plug-ins: Loaded C++ plugin from path libconnectivity-http-server.so
+[correlator]  2019-09-16 14:59:36.175 INFO  [139643004391296] - Will log queue size every 5.000000 seconds
+[correlator]  2019-09-16 14:59:36.175 INFO  [139643004391296] - Starting scheduler with 1 threads (determined from hardware)
+[correlator]  2019-09-16 14:59:36.176 INFO  [139643004391296] - Connectivity plug-ins: Loaded C++ plugin from path libconnectivity-batch-accumulator-codec.so
+[correlator]  2019-09-16 14:59:36.177 INFO  [139643004391296] - Connectivity plug-ins: Loaded C++ plugin from path /host_deploy/Project_deployed/config/connectivity/cepStreaming/../../../lib/libconnectivity-cep-mapping-codec.so
+[correlator]  2019-09-16 14:59:36.178 INFO  [139643004391296] - Connectivity plug-ins: Loaded C++ plugin from path libconnectivity-json-codec.so
+[correlator]  2019-09-16 14:59:36.184 INFO  [139643004391296] - Connectivity plug-ins: Loaded C++ plugin from path libconnectivity-string-codec.so
+[correlator]  2019-09-16 14:59:36.185 INFO  [139643004391296] - Connectivity plug-ins: Loaded C++ plugin from path /host_deploy/Project_deployed/config/connectivity/cepStreaming/../../../lib/libHTTPBatchAccumulator.so
+[correlator]  2019-09-16 14:59:36.186 INFO  [139643004391296] - <connectivity.chain.httpServer-instance> Connectivity chain created, subscribed to [httpServer_httpServer_1568645976175]
+[correlator]  2019-09-16 14:59:36.186 INFO  [139643004391296] - <connectivity.httpServer.manager> Binding to http://0.0.0.0:8989
+[correlator]  2019-09-16 14:59:36.187 INFO  [139643004391296] - Connectivity plug-ins: Loaded C++ plugin from path libMapperCodec.so
+[correlator]  2019-09-16 14:59:36.188 INFO  [139643004391296] - Connectivity plug-ins: Loaded C++ plugin from path libClassifierCodec.so
+[correlator]  2019-09-16 14:59:36.206 INFO  [139643004391296] - <connectivity.chain.HTTPServer1Manager-instance> Connectivity chain created, subscribed to [httpServer_HTTPServer1Manager_1568645976186]
+[correlator]  2019-09-16 14:59:36.206 INFO  [139643004391296] - <connectivity.HTTPServer1Manager.HTTPServer1Transport> Binding to http://0.0.0.0:8800
+[correlator]  2019-09-16 14:59:36.210 INFO  [139643004391296] - Server socket opened listening on 0.0.0.0:15903
+[correlator]  2019-09-16 14:59:36.211 ##### [139643004391296] - Component ID: defaultCorrelator (correlator/6737283165924706305/6737283165924706305)
+[correlator]  2019-09-16 14:59:36.211 ##### [139643004391296] - Correlator, version 10.5.0.0.357983, running
+[correlator]  2019-09-16 14:59:36.217 INFO  [139642654942976] - Added type com.apama.util.AnyExtractor
+[correlator]  2019-09-16 14:59:36.217 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/AnyExtractor.mon (860bbf5ab63f7db1fa2847ac02084ffd), size 9158 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.219 INFO  [139642654942976] - Added type com.softwareag.connectivity.control.FlushAck
+[correlator]  2019-09-16 14:59:36.219 INFO  [139642654942976] - Added type com.softwareag.connectivity.control.Flush
+[correlator]  2019-09-16 14:59:36.219 INFO  [139642654942976] - Added type com.softwareag.connectivity.control.AckRequired
+[correlator]  2019-09-16 14:59:36.219 INFO  [139642654942976] - Added type com.softwareag.connectivity.control.AckUpTo
+[correlator]  2019-09-16 14:59:36.219 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/ConnectivityPluginsControl.mon (1adf847aaf696a4e0ff4b3c725bdb8a2), size 2804 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.220 INFO  [139642137474816] - Loading EPL plugin ConnectivityPlugin from library libConnectivityPlugin.so
+[correlator]  2019-09-16 14:59:36.221 INFO  [139642137474816] - <.plugins.ConnectivityPlugin> Plugin library ConnectivityPlugin (C++ API 0x4) loaded OK
+[correlator]  2019-09-16 14:59:36.223 INFO  [139642654942976] - Added type com.softwareag.connectivity.ConnectivityPlugins
+[correlator]  2019-09-16 14:59:36.223 INFO  [139642654942976] - Added type com.softwareag.connectivity.Direction
+[correlator]  2019-09-16 14:59:36.223 INFO  [139642654942976] - Added type com.softwareag.connectivity.Chain
+[correlator]  2019-09-16 14:59:36.223 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/ConnectivityPlugins.mon (76e67a45a9315c3da4d2a8eb68abcf23), size 8490 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.224 INFO  [139642654942976] - Added monitor com.apama.connectivity.ApplicationInitializedTransports
+[correlator]  2019-09-16 14:59:36.224 INFO  [139642654942976] - Added type com.apama.connectivity.ApplicationInitialized
+[correlator]  2019-09-16 14:59:36.224 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/AutomaticOnApplicationInitialized.mon (be4371369415c74e123fc26a6812f327), size 1394 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.233 INFO  [139642654942976] - Added type com.apama.cumulocity.Unsubscribe
+[correlator]  2019-09-16 14:59:36.233 INFO  [139642654942976] - Added type com.apama.cumulocity.Subscribe
+[correlator]  2019-09-16 14:59:36.233 INFO  [139642654942976] - Added type com.apama.cumulocity.SendSpeech
+[correlator]  2019-09-16 14:59:36.233 INFO  [139642654942976] - Added type com.apama.cumulocity.SMSResponse
+[correlator]  2019-09-16 14:59:36.233 INFO  [139642654942976] - Added type com.apama.cumulocity.SMSResourceReference
+[correlator]  2019-09-16 14:59:36.233 INFO  [139642654942976] - Added type com.apama.cumulocity.SendSMS
+[correlator]  2019-09-16 14:59:36.233 INFO  [139642654942976] - Added type com.apama.cumulocity.SendEmail
+[correlator]  2019-09-16 14:59:36.233 INFO  [139642654942976] - Added type com.apama.cumulocity.GenericResponseComplete
+[correlator]  2019-09-16 14:59:36.233 INFO  [139642654942976] - Added type com.apama.cumulocity.GenericResponse
+[correlator]  2019-09-16 14:59:36.233 INFO  [139642654942976] - Added type com.apama.cumulocity.GenericRequest
+[correlator]  2019-09-16 14:59:36.233 INFO  [139642654942976] - Added type com.apama.cumulocity.FindMeasurementResponseAck
+[correlator]  2019-09-16 14:59:36.233 INFO  [139642654942976] - Added type com.apama.cumulocity.FindMeasurementResponse
+[correlator]  2019-09-16 14:59:36.233 INFO  [139642654942976] - Added type com.apama.cumulocity.FindMeasurement
+[correlator]  2019-09-16 14:59:36.233 INFO  [139642654942976] - Added type com.apama.cumulocity.FindOperationResponseAck
+[correlator]  2019-09-16 14:59:36.233 INFO  [139642654942976] - Added type com.apama.cumulocity.FindOperationResponse
+[correlator]  2019-09-16 14:59:36.233 INFO  [139642654942976] - Added type com.apama.cumulocity.FindOperation
+[correlator]  2019-09-16 14:59:36.233 INFO  [139642654942976] - Added type com.apama.cumulocity.FindManagedObjectResponseAck
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.FindManagedObjectResponse
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.FindManagedObject
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.FindEventResponseAck
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.FindEventResponse
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.FindEvent
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.FindAlarmResponseAck
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.FindAlarmResponse
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.FindAlarm
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.EventDeleted
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.MeasurementDeleted
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.ManagedObjectDeleted
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.ManagedObject
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.Alarm
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.Event
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.Measurement
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.MeasurementValue
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.UnsubscribeMeasurements
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.SubscribeMeasurements
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.RequestAllDevicesComplete
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.RequestAllDevices
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.Operation
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Added type com.apama.cumulocity.Error
+[correlator]  2019-09-16 14:59:36.234 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/cumulocity/10.5/Cumulocity_EventDefinitions.mon (31834efb5fb600922c498c78b741b332), size 27173 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.239 INFO  [139642137474816] - Loading EPL plugin TimeFormatPlugin from library libTimeFormatPlugin.so
+[correlator]  2019-09-16 14:59:36.240 INFO  [139642137474816] - <plugins.TimeFormatPlugin> TimeFormatPlugin version 10.5.0.0.357983 (build rel/10.5.0.x@357983 on amd64-rhel7) loaded.
+[correlator]  2019-09-16 14:59:36.240 INFO  [139642137474816] - <.plugins.TimeFormatPlugin> Plugin library TimeFormatPlugin (C++ API 0x4) loaded OK
+[correlator]  2019-09-16 14:59:36.245 INFO  [139642654942976] - Added type com.softwareag.connectivity.httpclient.HttpTransport
+[correlator]  2019-09-16 14:59:36.245 INFO  [139642654942976] - Added type com.softwareag.connectivity.httpclient.Request
+[correlator]  2019-09-16 14:59:36.245 INFO  [139642654942976] - Added type com.softwareag.connectivity.httpclient.Response
+[correlator]  2019-09-16 14:59:36.245 INFO  [139642654942976] - Added type com.softwareag.connectivity.httpclient.HttpOptions
+[correlator]  2019-09-16 14:59:36.245 INFO  [139642654942976] - Added type com.softwareag.connectivity.httpclient.RequestType
+[correlator]  2019-09-16 14:59:36.245 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/HTTPClientEvents.mon (d90e22937f8a56d28bedba35ad7724a2), size 18747 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.249 INFO  [139642654942976] - Added type com.apama.correlator.ManagementAck
+[correlator]  2019-09-16 14:59:36.249 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/ManagementImpl.mon (a0ada3da00f78af2f4392a244aeb9eb8), size 541 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.254 INFO  [139642137474816] - Loading EPL plugin ManagementPlugin from library libManagementPlugin.so
+[correlator]  2019-09-16 14:59:36.257 INFO  [139642137474816] - <.plugins.ManagementPlugin> Plugin library ManagementPlugin (C++ API 0x4) loaded OK
+[correlator]  2019-09-16 14:59:36.265 INFO  [139642654942976] - Added type com.apama.correlator.UserStatusChanged
+[correlator]  2019-09-16 14:59:36.265 INFO  [139642654942976] - Added type com.apama.correlator.Logging
+[correlator]  2019-09-16 14:59:36.265 INFO  [139642654942976] - Added type com.apama.correlator.Component
+[correlator]  2019-09-16 14:59:36.265 INFO  [139642654942976] - Added type com.apama.correlator.Persistence
+[correlator]  2019-09-16 14:59:36.265 INFO  [139642654942976] - Added type com.apama.correlator.EngineStatus
+[correlator]  2019-09-16 14:59:36.265 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/Management.mon (ceb10c2db4d43aa88a28b0e2b53d8268), size 19799 bytes, compile time 0.02 seconds
+[correlator]  2019-09-16 14:59:36.270 INFO  [139642654942976] - Added type com.apama.cumulocity.CumulocityRequestInterface
+[correlator]  2019-09-16 14:59:36.270 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/cumulocity/10.5/Cumulocity_RequestInterface.mon (423a1c8f40cb06a70fbc8606cde46293), size 4680 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.272 INFO  [139642654942976] - Added monitor com.apama.cumulocity.CumulocityRestAPIMonitor
+[correlator]  2019-09-16 14:59:36.272 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/cumulocity/10.5/Cumulocity_Rest_API.mon (29e46b0e0cee64057f76ad7c56e747b1), size 1216 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.296 INFO  [139642812897024] - com.apama.cumulocity.CumulocityRestAPIMonitor [2] Cumulocity transport is configured to connect to cumulocity:8111
+[correlator]  2019-09-16 14:59:36.301 INFO  [139642812897024] - Connectivity plug-ins: Loaded C++ plugin from path libconnectivity-cumulocity-codec.so
+[correlator]  2019-09-16 14:59:36.303 INFO  [139642812897024] - Connectivity plug-ins: Loaded C++ plugin from path libconnectivity-http-client.so
+[correlator]  2019-09-16 14:59:36.303 INFO  [139642812897024] - <connectivity.httpClient.CumulocityIoTGenericChain> Connecting to http://cumulocity:8111
+[correlator]  2019-09-16 14:59:36.303 INFO  [139642812897024] - <connectivity.chain.CumulocityIoTGenericChain> Connectivity chain created, subscribed to [CumulocityIoTGenericChain]
+[correlator]  2019-09-16 14:59:36.314 INFO  [139642654942976] - Added monitor com.apama.cumulocity.internal.ForwardRequestAllDevices
+[correlator]  2019-09-16 14:59:36.314 INFO  [139642654942976] - Added type com.apama.cumulocity.internal.DisableBasicForwarder
+[correlator]  2019-09-16 14:59:36.314 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/cumulocity/10.5/Cumulocity_ServiceMonitor.mon (3dfa4176f080271a39d5a84b81866d4d), size 1280 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.316 INFO  [139642812897024] - com.apama.cumulocity.internal.ForwardRequestAllDevices [4] Apama Connectivity For Cumulocity IoT v10.5.0.0.357983 loaded
+[correlator]  2019-09-16 14:59:36.328 INFO  [139642654942976] - Added type com.apama.correlator.timeformat.TimeFormat
+[correlator]  2019-09-16 14:59:36.328 INFO  [139642654942976] - Added type com.apama.correlator.timeformat.CompiledPattern
+[correlator]  2019-09-16 14:59:36.328 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/TimeFormatEvents.mon (2c359ef410707e89cbd3fe1b5fcb6e99), size 18344 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.343 INFO  [139642654942976] - Added type com.apama.cumulocity.Util
+[correlator]  2019-09-16 14:59:36.343 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/cumulocity/10.5/Cumulocity_Utils.mon (440606f5cea04c30e3879005a2cefedf), size 5821 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.368 INFO  [139642137474816] - Loading EPL plugin MemoryStorePlugin from library libMemoryStorePlugin.so
+[correlator]  2019-09-16 14:59:36.370 INFO  [139642137474816] - MemoryStorePlugin version 10.5.0.0.357983 (build rel/10.5.0.x@357983 on amd64-rhel7), loaded.
+[correlator]  2019-09-16 14:59:36.388 INFO  [139642137474816] - Plugin library MemoryStorePlugin (C++ API v9.0) loaded OK
+[correlator]  2019-09-16 14:59:36.423 INFO  [139642654942976] - Added type com.apama.memorystore.Storage
+[correlator]  2019-09-16 14:59:36.424 INFO  [139642654942976] - Added type com.apama.memorystore.Store
+[correlator]  2019-09-16 14:59:36.424 INFO  [139642654942976] - Added type com.apama.memorystore.Table
+[correlator]  2019-09-16 14:59:36.424 INFO  [139642654942976] - Added type com.apama.memorystore.Iterator
+[correlator]  2019-09-16 14:59:36.424 INFO  [139642654942976] - Added type com.apama.memorystore.MissedRowChanges
+[correlator]  2019-09-16 14:59:36.424 INFO  [139642654942976] - Added type com.apama.memorystore.RowChanged
+[correlator]  2019-09-16 14:59:36.424 INFO  [139642654942976] - Added type com.apama.memorystore.Row
+[correlator]  2019-09-16 14:59:36.424 INFO  [139642654942976] - Added type com.apama.memorystore.Schema
+[correlator]  2019-09-16 14:59:36.424 INFO  [139642654942976] - Added type com.apama.memorystore.Finished
+[correlator]  2019-09-16 14:59:36.424 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/data_storage/MemoryStore.mon (cb1c5a0ec343aa3f4f8735f9abbf0dca), size 52415 bytes, compile time 0.08 seconds
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added monitor com.apama.scenario.ScenarioService
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added monitor com.apama.scenario.RequestInstancesHandler
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.ScenarioServiceUpdaterMultipleInstances
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.ScenarioServiceUpdaterSingleInstance
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.ScenarioServiceUpdaterBase
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.CallbackHelper
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.ScenarioServiceLibrary
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.AllConfiguration
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.GetAllConfiguration
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.ScenarioProcessedUpdates
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.OperationCompleted
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.Configuration
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.GetConfiguration
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.ParallelStarting
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.RequestInstancesParallelDone
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.RequestInstancesParallel
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.FinishedScenarioRecovery
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.StartScenarioRecovery
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.ScenarioFinished
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.RequestInstancesInternal
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.SendQueuedUpdatesNow
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.ConfigureUpdates
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.SetThrottlingPeriod
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.ScenarioServiceUnloaded
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.ScenarioServiceLoaded
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.Instance
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.ScenarioUnloaded
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.Scenario
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.RequestInstancesDone
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.RequestInstancesOnChannelByUser
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.RequestInstancesOnChannel
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.RequestScenariosAck
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.RequestScenariosDone
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.RequestScenarios
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.StateChange
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.Acknowledge
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.Update
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.InstanceDied
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.Deleted
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.Delete
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.Edited
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.Edit
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.ParentChildRelationship
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.Created
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Added type com.apama.scenario.Create
+[correlator]  2019-09-16 14:59:36.513 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/ScenarioService.mon (c3cbec4beb3b20fe5e5cbf7bb6d5a264), size 72726 bytes, compile time 0.09 seconds
+[correlator]  2019-09-16 14:59:36.516 INFO  [139642812897024] - com.apama.scenario.ScenarioService [5] ScenarioService interface loaded. MetaData: {"interface.fileName":"ScenarioService.mon","interface.fullVersion":"rel/10.5.0.x@357983","interface.language":"MonitorScript","interface.name":"ScenarioService","interface.package":"com.apama.scenario","interface.vendor":"Apama","interface.version":"10.5.0.0.357983"}
+[correlator]  2019-09-16 14:59:36.539 INFO  [139642654942976] - Added monitor com.apama.memorystore.MemoryStoreScenarioImpl
+[correlator]  2019-09-16 14:59:36.539 INFO  [139642654942976] - Added type com.apama.memorystore.ForwardMemoryStoreUpdatesTo
+[correlator]  2019-09-16 14:59:36.539 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/data_storage/MemoryStoreScenarioImpl.mon (a0cb4d943c176b295b0571433a019ec9), size 10361 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.544 INFO  [139642137474816] - Loading EPL plugin JSONPlugin from library libJSONPlugin.so
+[correlator]  2019-09-16 14:59:36.545 INFO  [139642137474816] - <.plugins.JSONPlugin> Plugin library JSONPlugin (C++ API 0x4) loaded OK
+[correlator]  2019-09-16 14:59:36.546 INFO  [139642654942976] - Added type com.apama.json.JSONPlugin
+[correlator]  2019-09-16 14:59:36.546 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/JSONPlugin.mon (6e763fd808de6862d1ad850fafbb8f83), size 1379 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.547 INFO  [139642654942976] - Added monitor com.apama.scenarios.ScenarioDeleterSupport
+[correlator]  2019-09-16 14:59:36.547 INFO  [139642654942976] - Added type com.apama.scenarios.DeleteScenariosByUser
+[correlator]  2019-09-16 14:59:36.547 INFO  [139642654942976] - Added type com.apama.scenarios.DeleteAllScenarios
+[correlator]  2019-09-16 14:59:36.547 INFO  [139642654942976] - Injected MonitorScript from file /opt/softwareag/Apama/monitors/scenario_support/ScenarioDeleterSupport.mon (9e79841ed83d3b1168c208b274ec2d1e), size 1284 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.551 INFO  [139642654942976] - Added type apama.analyticsbuilder.ConfigHelper
+[correlator]  2019-09-16 14:59:36.551 INFO  [139642654942976] - Added type apama.analyticsbuilder.ConfigPropertyData
+[correlator]  2019-09-16 14:59:36.551 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/ConfigurablePropertiesLookup.mon (0c211db8b269f4ce2c5a7f62178dc84d), size 7105 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.555 INFO  [139642654942976] - Added type apama.analyticsbuilder.ConfigurationProperty
+[correlator]  2019-09-16 14:59:36.555 INFO  [139642654942976] - Added type apama.analyticsbuilder.ABConstants
+[correlator]  2019-09-16 14:59:36.555 INFO  [139642654942976] - Added type apama.analyticsbuilder.DroppedEvent
+[correlator]  2019-09-16 14:59:36.555 INFO  [139642654942976] - Added type apama.analyticsbuilder.Activation
+[correlator]  2019-09-16 14:59:36.555 INFO  [139642654942976] - Added type apama.analyticsbuilder.Value
+[correlator]  2019-09-16 14:59:36.555 INFO  [139642654942976] - Added type apama.analyticsbuilder.Partitioner
+[correlator]  2019-09-16 14:59:36.555 INFO  [139642654942976] - Added type apama.analyticsbuilder.Partition_Alias
+[correlator]  2019-09-16 14:59:36.555 INFO  [139642654942976] - Added type apama.analyticsbuilder.Partition_Broadcast
+[correlator]  2019-09-16 14:59:36.555 INFO  [139642654942976] - Added type apama.analyticsbuilder.Partition_Wildcard
+[correlator]  2019-09-16 14:59:36.555 INFO  [139642654942976] - Added type apama.analyticsbuilder.Partition_Grouped
+[correlator]  2019-09-16 14:59:36.555 INFO  [139642654942976] - Added type apama.analyticsbuilder.Partition_Default
+[correlator]  2019-09-16 14:59:36.555 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/FrameworkInterface.mon (1e3ea953670d3648f532249d163b9975), size 7108 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.556 INFO  [139642654942976] - Added type apama.analyticsbuilder.CreateModel
+[correlator]  2019-09-16 14:59:36.556 INFO  [139642654942976] - Added type apama.analyticsbuilder.ModelState
+[correlator]  2019-09-16 14:59:36.556 INFO  [139642654942976] - Added type apama.analyticsbuilder.BlockConfiguration
+[correlator]  2019-09-16 14:59:36.556 INFO  [139642654942976] - Added type apama.analyticsbuilder.NameValue
+[correlator]  2019-09-16 14:59:36.556 INFO  [139642654942976] - Added type apama.analyticsbuilder.Wire
+[correlator]  2019-09-16 14:59:36.556 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/ModelDefinitionEvents.mon (317c3fe4c951b3b6aadcc6c8c2fa8595), size 1955 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.561 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.ObjectUtils
+[correlator]  2019-09-16 14:59:36.561 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.ObjectUtilsConfig
+[correlator]  2019-09-16 14:59:36.561 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/ObjectUtils.mon (2b783b317e01898327ddd0e6afada749), size 5081 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.563 INFO  [139642654942976] - Added type apama.analyticsbuilder.TimerParams
+[correlator]  2019-09-16 14:59:36.563 INFO  [139642654942976] - Added type apama.analyticsbuilder.TimerHandle
+[correlator]  2019-09-16 14:59:36.563 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/Timers.mon (b45fbb4e72f9fd706eb753b4289d1f69), size 3854 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.TerminateWorker
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.WorkerTerminated
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.RequestWorkers
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.Workers
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.ModelProfileData
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.ModelProfileRequestCompleted
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.ModelProfileRequest
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.EvaluateTime
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.CancelTimer
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.ScheduleTimer
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.EvalManager_ModelResponse
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.GlobalEvalOrder
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.StreamIOMap
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.StreamIO_MapValue
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.StreamIO_NonPart
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.ModelIO
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.StreamIO
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.BlockIO
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.JSONModel
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.JSONLink
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.JSONNode
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.JSONParam
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.Action
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.ActionParamInfo
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.CallContext
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.ActionParamKind
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.ModelRuntimeState
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.PerPartition
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.TimerListenerInfo
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.TimerInfo
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.ModelSchema
+[correlator]  2019-09-16 14:59:36.593 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/FrameworkState.mon (e9adad4d0fc472ad2526e2d30dd23866), size 28068 bytes, compile time 0.03 seconds
+[correlator]  2019-09-16 14:59:36.618 INFO  [139642654942976] - Added monitor apama.analyticsbuilder.BlockCatalogRegistry
+[correlator]  2019-09-16 14:59:36.618 INFO  [139642654942976] - Added type apama.analyticsbuilder.MetadataHTTPResponse
+[correlator]  2019-09-16 14:59:36.618 INFO  [139642654942976] - Added type apama.analyticsbuilder.MetadataHTTPRequest
+[correlator]  2019-09-16 14:59:36.618 INFO  [139642654942976] - Added type apama.analyticsbuilder.BlockInfoResponse
+[correlator]  2019-09-16 14:59:36.618 INFO  [139642654942976] - Added type apama.analyticsbuilder.BlockInfoRequest
+[correlator]  2019-09-16 14:59:36.618 INFO  [139642654942976] - Added type apama.analyticsbuilder.BlockMessages
+[correlator]  2019-09-16 14:59:36.618 INFO  [139642654942976] - Added type apama.analyticsbuilder.BlockMetadata
+[correlator]  2019-09-16 14:59:36.618 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/BlockCatalogRegistry.mon (c41df844f3f6ed66936998e715f9681c), size 10730 bytes, compile time 0.02 seconds
+[correlator]  2019-09-16 14:59:36.635 INFO  [139642654942976] - Added monitor apama.analyticsbuilder.framework.LoadLocalizedMessages_Monitor
+[correlator]  2019-09-16 14:59:36.635 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.Localization
+[correlator]  2019-09-16 14:59:36.635 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/LocalizationImpl.mon (92439ba37e0b5502ce4c24e76da0b469), size 11756 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.637 INFO  [139642654942976] - Added type apama.analyticsbuilder.L10N
+[correlator]  2019-09-16 14:59:36.637 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/Localization.mon (c878af0e0a5f504ef42fe37edcc0ae5a), size 3117 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.644 INFO  [139642654942976] - Added type apama.analyticsbuilder.BlockBase
+[correlator]  2019-09-16 14:59:36.644 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/BlockBase.mon (690e651aa970f86ad39d86e594a55aaa), size 12175 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.647 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.And
+[correlator]  2019-09-16 14:59:36.647 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/And.mon (e09045a7c7cc6c8f4315a2009117a027), size 3127 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.653 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Combiner
+[correlator]  2019-09-16 14:59:36.653 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Combiner_$State
+[correlator]  2019-09-16 14:59:36.653 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Combiner_$Parameters
+[correlator]  2019-09-16 14:59:36.653 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/Combiner.mon (956e5025854c84b880c4f118af2d6c8c), size 8141 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.659 INFO  [139642654942976] - Added type apama.analyticsbuilder.buckets.BucketWindow
+[correlator]  2019-09-16 14:59:36.659 INFO  [139642654942976] - Added type apama.analyticsbuilder.buckets.BucketWindowConfig
+[correlator]  2019-09-16 14:59:36.659 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/BucketInterface.mon (33766b78d85c6aefc3a2eed198b83aa7), size 7045 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.667 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.CrossingCounter
+[correlator]  2019-09-16 14:59:36.667 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.CrossingCounter_$State
+[correlator]  2019-09-16 14:59:36.667 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.CrossingCounter_$Parameters
+[correlator]  2019-09-16 14:59:36.667 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/CrossingCounter.mon (0a4424bcf03551355542baab33f8913c), size 10793 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.670 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Delta
+[correlator]  2019-09-16 14:59:36.670 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Delta_$State
+[correlator]  2019-09-16 14:59:36.670 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/Delta.mon (c304d6785136e1f22de5ec2496742b17), size 1812 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.671 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Difference
+[correlator]  2019-09-16 14:59:36.671 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/Difference.mon (0a0382d19390f65be9cfb9e240038619), size 1663 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.675 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.DirectionDetector
+[correlator]  2019-09-16 14:59:36.675 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.DirectionDetector_$State
+[correlator]  2019-09-16 14:59:36.675 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.DirectionDetector_$Parameters
+[correlator]  2019-09-16 14:59:36.675 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/DirectionDetector.mon (17a65a8503a223a9259ffd68a471319a), size 5169 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.731 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.internal.parser.Compiler
+[correlator]  2019-09-16 14:59:36.731 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.internal.parser.BinOp
+[correlator]  2019-09-16 14:59:36.731 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.internal.parser.ConstantLookup
+[correlator]  2019-09-16 14:59:36.731 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.internal.parser.Call
+[correlator]  2019-09-16 14:59:36.731 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.internal.parser.TypeName
+[correlator]  2019-09-16 14:59:36.731 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.internal.parser.Variable
+[correlator]  2019-09-16 14:59:36.731 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.internal.parser.UnaryOp
+[correlator]  2019-09-16 14:59:36.731 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.internal.parser.Boolean
+[correlator]  2019-09-16 14:59:36.731 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.internal.parser.String
+[correlator]  2019-09-16 14:59:36.731 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.internal.parser.Number
+[correlator]  2019-09-16 14:59:36.731 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.internal.parser.EvalContext
+[correlator]  2019-09-16 14:59:36.731 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.internal.parser.Parser
+[correlator]  2019-09-16 14:59:36.731 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.internal.parser.AST
+[correlator]  2019-09-16 14:59:36.731 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.internal.parser.Lexer
+[correlator]  2019-09-16 14:59:36.731 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.internal.parser.Token
+[correlator]  2019-09-16 14:59:36.731 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/Parser.mon (0388b4fbc06d695d5415af5c3feae91b), size 30896 bytes, compile time 0.06 seconds
+[correlator]  2019-09-16 14:59:36.739 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Expression
+[correlator]  2019-09-16 14:59:36.739 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Expression_$Parameters
+[correlator]  2019-09-16 14:59:36.739 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/Expression.mon (4c8781ffe69be46fa6041eabde68d2f2), size 9188 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.745 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.ExtractProperty
+[correlator]  2019-09-16 14:59:36.745 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.ExtractProperty_$Parameters
+[correlator]  2019-09-16 14:59:36.745 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/ExtractProperty.mon (714def22507d6441e26eaa330423d25c), size 6536 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.758 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Gate
+[correlator]  2019-09-16 14:59:36.758 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Gate_$Parameters
+[correlator]  2019-09-16 14:59:36.758 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Gate_$State
+[correlator]  2019-09-16 14:59:36.758 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/Gate.mon (373b3a861388b70281ed158e0f6809f2), size 11672 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.771 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Gradient
+[correlator]  2019-09-16 14:59:36.771 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Gradient_$State
+[correlator]  2019-09-16 14:59:36.771 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Gradient_DurationMeanPair
+[correlator]  2019-09-16 14:59:36.771 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Gradient_CalcResult
+[correlator]  2019-09-16 14:59:36.771 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Gradient_$Parameters
+[correlator]  2019-09-16 14:59:36.771 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/Gradient.mon (c4de77bdebbabc80314ff5a866e440ff), size 13291 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.783 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Integral
+[correlator]  2019-09-16 14:59:36.783 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Integral_$State
+[correlator]  2019-09-16 14:59:36.783 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Integral_$Parameters
+[correlator]  2019-09-16 14:59:36.783 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/Integral.mon (6dca8d9f5c508afe6307e75f914c7eeb), size 13459 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.787 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Latch
+[correlator]  2019-09-16 14:59:36.787 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Latch_$State
+[correlator]  2019-09-16 14:59:36.787 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/Latch.mon (cad976956ce641d287fe747765e27b82), size 3871 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.825 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Mean
+[correlator]  2019-09-16 14:59:36.825 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Mean_$State
+[correlator]  2019-09-16 14:59:36.825 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Mean_$Parameters
+[correlator]  2019-09-16 14:59:36.825 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Mean_DurationMeanPair
+[correlator]  2019-09-16 14:59:36.825 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/Mean.mon (03fa7c1665aae8a13bf585231bed5eeb), size 18819 bytes, compile time 0.04 seconds
+[correlator]  2019-09-16 14:59:36.828 INFO  [139642654942976] - Added type apama.analyticsbuilder.Configuration
+[correlator]  2019-09-16 14:59:36.828 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/Configuration.mon (8d5b958cd19b045a32f6e231b33470d8), size 4305 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.841 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.MinMax
+[correlator]  2019-09-16 14:59:36.841 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.MinMaxPair
+[correlator]  2019-09-16 14:59:36.841 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.MinMax_$State
+[correlator]  2019-09-16 14:59:36.841 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.MinMax_$Parameters
+[correlator]  2019-09-16 14:59:36.841 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/MinMax.mon (e210bc5f1df86e5cf83ac011c9c31e4e), size 10092 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.845 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.MissingData
+[correlator]  2019-09-16 14:59:36.845 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.MissingData_$State
+[correlator]  2019-09-16 14:59:36.845 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.MissingData_$Parameters
+[correlator]  2019-09-16 14:59:36.845 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/MissingData.mon (54db470baa03c56970d77c120383aaa6), size 3500 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.846 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Not
+[correlator]  2019-09-16 14:59:36.846 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/Not.mon (7cd3ba59058c607de282d11b4f4efcc2), size 1232 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.854 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Or
+[correlator]  2019-09-16 14:59:36.854 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/Or.mon (ced600a53844c5c3c71b66dc96bf22e3), size 2617 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.856 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Pulse
+[correlator]  2019-09-16 14:59:36.856 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/Pulse.mon (d3aa0dbd9ac4924edb250ae25423c758), size 1458 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.866 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.RangeLookup
+[correlator]  2019-09-16 14:59:36.866 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.RangeLookup_$Parameters
+[correlator]  2019-09-16 14:59:36.866 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/RangeLookup.mon (3c43e4c0e9443b4fcf74e0efee45274b), size 9485 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.874 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Rounding
+[correlator]  2019-09-16 14:59:36.874 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Rounding_$Parameters
+[correlator]  2019-09-16 14:59:36.874 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/Rounding.mon (43b1b218a05792ef9c316df98900a822), size 6531 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.887 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.StandardDeviation
+[correlator]  2019-09-16 14:59:36.887 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.StandardDeviation_$State
+[correlator]  2019-09-16 14:59:36.887 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.StdDev_Aggregate
+[correlator]  2019-09-16 14:59:36.887 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.StandardDeviation_$Parameters
+[correlator]  2019-09-16 14:59:36.887 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/StandardDeviation.mon (5bf6818dbb3fcdf1a5b754e8e38daf2d), size 10463 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.899 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Threshold
+[correlator]  2019-09-16 14:59:36.899 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Threshold_$State
+[correlator]  2019-09-16 14:59:36.899 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Threshold_$Parameters
+[correlator]  2019-09-16 14:59:36.899 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/Threshold.mon (c3896790fe2739c0e6ed462926881eed), size 7340 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.901 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.TimeDelay
+[correlator]  2019-09-16 14:59:36.901 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.TimeDelay_$Parameters
+[correlator]  2019-09-16 14:59:36.901 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/TimeDelay.mon (bb98ecf989766f91ef38769c622e16c4), size 2053 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.915 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Toggle
+[correlator]  2019-09-16 14:59:36.915 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Toggle_$Parameters
+[correlator]  2019-09-16 14:59:36.915 INFO  [139642654942976] - Added type apama.analyticskit.blocks.core.Toggle_$State
+[correlator]  2019-09-16 14:59:36.915 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/core/Toggle.mon (4b0d576f30dea7783794f64dd1f31b1f), size 6908 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.927 INFO  [139642654942976] - Added type apama.analyticsbuilder.Promise
+[correlator]  2019-09-16 14:59:36.927 INFO  [139642654942976] - Added type apama.analyticsbuilder.PromiseThen
+[correlator]  2019-09-16 14:59:36.927 INFO  [139642654942976] - Added type apama.analyticsbuilder.PromiseHandler
+[correlator]  2019-09-16 14:59:36.927 INFO  [139642654942976] - Added type apama.analyticsbuilder.PromiseHelper
+[correlator]  2019-09-16 14:59:36.927 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/Promise.mon (d09f76b74bdd8ef86e752d5d8e4fc468), size 10929 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.931 INFO  [139642654942976] - Added monitor apama.analyticsbuilder.cumulocity.Forwarder
+[correlator]  2019-09-16 14:59:36.931 INFO  [139642654942976] - Added type apama.analyticsbuilder.cumulocity.BroadcastDevice
+[correlator]  2019-09-16 14:59:36.931 INFO  [139642654942976] - Added type apama.analyticsbuilder.cumulocity.ManagedObjectProperties
+[correlator]  2019-09-16 14:59:36.931 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/support/cumulocity/ForwardCumulocityEvents.mon (0d1f2af27b652ea0d415ac02036a3a22), size 3374 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.959 INFO  [139642654942976] - Added monitor apama.analyticsbuilder.cumulocity.inventory.InventoryLookupManager
+[correlator]  2019-09-16 14:59:36.959 INFO  [139642654942976] - Added type apama.analyticsbuilder.cumulocity.inventory.OutputHelper
+[correlator]  2019-09-16 14:59:36.959 INFO  [139642654942976] - Added type apama.analyticsbuilder.cumulocity.inventory.InputHelper
+[correlator]  2019-09-16 14:59:36.959 INFO  [139642654942976] - Added type apama.analyticsbuilder.cumulocity.inventory.Update_MO
+[correlator]  2019-09-16 14:59:36.959 INFO  [139642654942976] - Added type apama.analyticsbuilder.cumulocity.inventory.LookupState
+[correlator]  2019-09-16 14:59:36.959 INFO  [139642654942976] - Added type apama.analyticsbuilder.cumulocity.inventory.InventoryLookup
+[correlator]  2019-09-16 14:59:36.959 INFO  [139642654942976] - Added type apama.analyticsbuilder.cumulocity.inventory.InventoryLookupResponse
+[correlator]  2019-09-16 14:59:36.959 INFO  [139642654942976] - Added type apama.analyticsbuilder.cumulocity.inventory.InventoryLookupResult
+[correlator]  2019-09-16 14:59:36.959 INFO  [139642654942976] - Added type apama.analyticsbuilder.cumulocity.inventory.InventoryLookupRequest
+[correlator]  2019-09-16 14:59:36.959 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/support/cumulocity/InventoryUtilities.mon (50f92f5d09078abf65a87640baa9634e), size 19078 bytes, compile time 0.03 seconds
+[correlator]  2019-09-16 14:59:36.966 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.AlarmInput
+[correlator]  2019-09-16 14:59:36.966 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.AlarmInput_$Parameters
+[correlator]  2019-09-16 14:59:36.966 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/cumulocity/AlarmInput.mon (f3efd1dbf9b3c664764944d2bcffcd33), size 7022 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:36.970 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.CreateAlarm
+[correlator]  2019-09-16 14:59:36.970 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.CreateAlarm_$Parameters
+[correlator]  2019-09-16 14:59:36.970 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/cumulocity/CreateAlarm.mon (3a35c8cae40033682bc0ad4eff93331a), size 4959 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.973 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.CreateEvent
+[correlator]  2019-09-16 14:59:36.973 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.CreateEvent_$Parameters
+[correlator]  2019-09-16 14:59:36.973 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/cumulocity/CreateEvent.mon (07d882842c089a23fff633f3d89c878b), size 4013 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.978 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.CreateMeasurement
+[correlator]  2019-09-16 14:59:36.978 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.CreateMeasurement_$Parameters
+[correlator]  2019-09-16 14:59:36.978 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/cumulocity/CreateMeasurement.mon (97a12e539bd0db1354a5d3826a29d8fb), size 5120 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.981 INFO  [139642654942976] - Added monitor apama.analyticsbuilder.blocks.cumulocity.CountDroppedEvents_Total
+[correlator]  2019-09-16 14:59:36.981 INFO  [139642654942976] - Added type apama.analyticsbuilder.blocks.cumulocity.CumulocityTimestampUtil
+[correlator]  2019-09-16 14:59:36.981 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/support/cumulocity/Utilities.mon (48410e78b98109e18b0e0716ea158f5e), size 2852 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:36.989 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.CreateOperationStaticValue
+[correlator]  2019-09-16 14:59:36.989 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.CreateOperationStaticValue_$Parameters
+[correlator]  2019-09-16 14:59:36.989 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/cumulocity/CreateOperationStaticValue.mon (81a6fdd28eafae73f217f91c0415f509), size 5434 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:37.000 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.DeviceEventInput
+[correlator]  2019-09-16 14:59:37.000 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.DeviceEventInput_$Parameters
+[correlator]  2019-09-16 14:59:37.000 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/cumulocity/DeviceEventInput.mon (425e887a0e5ae04522ce9b6cfc2438c2), size 6212 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:37.003 INFO  [139642654942976] - Added monitor apama.analyticsbuilder.cumulocity.FragmentConvertor
+[correlator]  2019-09-16 14:59:37.003 INFO  [139642654942976] - Added type apama.analyticsbuilder.cumulocity.MeasurementFragment
+[correlator]  2019-09-16 14:59:37.003 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/support/cumulocity/MeasurementFragmentConvertor.mon (32b5efd236123fa9015d1325b37ba370), size 1562 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:37.011 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.DeviceMeasurementInput
+[correlator]  2019-09-16 14:59:37.011 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.DeviceMeasurementInput_$Parameters
+[correlator]  2019-09-16 14:59:37.011 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/cumulocity/DeviceMeasurementInput.mon (d1170efdce314cb89fe51038d19338c1), size 7073 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:37.017 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.ManagedObjectInput
+[correlator]  2019-09-16 14:59:37.017 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.ManagedObjectInput_$State
+[correlator]  2019-09-16 14:59:37.017 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.ManagedObjectInput_$Parameters
+[correlator]  2019-09-16 14:59:37.017 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/cumulocity/ManagedObjectInput.mon (68a20e039a35125b2bbf72c799eb23ab), size 8270 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:37.022 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.OperationInput
+[correlator]  2019-09-16 14:59:37.022 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.OperationInput_$Parameters
+[correlator]  2019-09-16 14:59:37.022 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/cumulocity/OperationInput.mon (f502eaf6c9296067383c7b06c66b83d2), size 7023 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:37.027 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.ManagedObjectOutput
+[correlator]  2019-09-16 14:59:37.027 INFO  [139642654942976] - Added type apama.analyticskit.blocks.cumulocity.ManagedObjectOutput_$Parameters
+[correlator]  2019-09-16 14:59:37.027 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/blocks/cumulocity/UpdateManagedObject.mon (ea59e159e96b7bc2385f6ac7fbbd254e), size 5223 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:37.029 INFO  [139642654942976] - Added type com.apama.cumulocity.smartrules.GeoFencePolygon
+[correlator]  2019-09-16 14:59:37.029 INFO  [139642654942976] - Added type com.apama.cumulocity.smartrules.GeoFencePoint
+[correlator]  2019-09-16 14:59:37.029 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/eventdefinitions/GeoFenceUtils.mon (c3a1217a57c8558f5fe97f7d8c6c26a6), size 2740 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:37.041 INFO  [139642654942976] - Added type com.apama.cumulocity.smartrules.RuleUtil
+[correlator]  2019-09-16 14:59:37.041 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/eventdefinitions/RuleUtils.mon (746c421098f3138793eb72975720089c), size 4639 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:37.049 INFO  [139642654942976] - Added type com.apama.cumulocity.smartrules.ScenarioServiceUtil
+[correlator]  2019-09-16 14:59:37.049 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/eventdefinitions/ScenarioServiceUtils.mon (3ea652d9deb2138aa7c1f68ce85fd468), size 10786 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:37.079 INFO  [139642654942976] - Added monitor apama.analyticsbuilder.framework.EvalManager
+[correlator]  2019-09-16 14:59:37.079 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.__EvalManager
+[correlator]  2019-09-16 14:59:37.079 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/EvalManager.mon (892510b35ebe33694da45f4fd3f97681), size 17212 bytes, compile time 0.03 seconds
+[correlator]  2019-09-16 14:59:37.082 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.ReflectionUtil
+[correlator]  2019-09-16 14:59:37.082 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/ReflectionUtilities.mon (feebdd6d4647d188449f7fe84623345c), size 2626 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:37.114 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.ScenarioServiceUtil
+[correlator]  2019-09-16 14:59:37.114 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.Flusher
+[correlator]  2019-09-16 14:59:37.114 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/ScenarioServiceUtils.mon (30c7ecb1e29e9d8a57ee745b6da82b38), size 14719 bytes, compile time 0.03 seconds
+[correlator]  2019-09-16 14:59:37.368 INFO  [139642654942976] - Added monitor apama.analyticsbuilder.framework.ModelManager
+[correlator]  2019-09-16 14:59:37.368 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.__Framework
+[correlator]  2019-09-16 14:59:37.368 INFO  [139642654942976] - Added type apama.analyticsbuilder.framework.Constants
+[correlator]  2019-09-16 14:59:37.368 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/Framework.mon (227def109e9c250964c6f34d249b079a), size 104348 bytes, compile time 0.25 seconds
+[correlator]  2019-09-16 14:59:37.379 INFO  [139642812897024] - apama.analyticsbuilder.framework.ModelManager [23] Property Name:analyticsBuilder.timedelay_secs is using value: 1 from apama.analyticsbuilder.Configuration.
+[correlator]  2019-09-16 14:59:37.379 INFO  [139642812897024] - apama.analyticsbuilder.framework.ModelManager [23]   
+[correlator]  2019-09-16 14:59:37.379 INFO  [139642812897024] - apama.analyticsbuilder.framework.ModelManager [23] Analytics Builder runtime build r359159M running.
+[correlator]  2019-09-16 14:59:37.379 INFO  [139642812897024] - apama.analyticsbuilder.framework.ModelManager [23] Property Name:analyticsBuilder.timedelay_secs is using value: 1 from apama.analyticsbuilder.Configuration.
+[correlator]  2019-09-16 14:59:37.385 INFO  [139642812897024] - apama.analyticsbuilder.framework.ModelManager [23] Property Name:analyticsBuilder.numWorkerThreads is using value: 1 from a configurable property.
+[correlator]  2019-09-16 14:59:37.385 INFO  [139642812897024] - apama.analyticsbuilder.framework.ModelManager [23] running with 1 workers
+[correlator]  2019-09-16 14:59:37.385 INFO  [139642812897024] - apama.analyticsbuilder.framework.ModelManager [23]   
+[correlator]  2019-09-16 14:59:37.411 INFO  [139642654942976] - Added monitor apama.analyticsbuilder.GenericForwarder
+[correlator]  2019-09-16 14:59:37.411 INFO  [139642654942976] - Added type apama.analyticsbuilder.RequestForwarding
+[correlator]  2019-09-16 14:59:37.411 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/framework/monitors/GenericForwarder.mon (fb18eea881473b9676229f188003c8aa), size 1870 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:37.416 INFO  [139642654942976] - Added monitor com.apama.cumulocity.smartrules.InventoryCacheUtils
+[correlator]  2019-09-16 14:59:37.416 INFO  [139642654942976] - Added type com.apama.cumulocity.smartrules.IsDeviceInMaintenanceResponse
+[correlator]  2019-09-16 14:59:37.416 INFO  [139642654942976] - Added type com.apama.cumulocity.smartrules.IsDeviceInMaintenance
+[correlator]  2019-09-16 14:59:37.416 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/monitors/InventoryCacheUtils.mon (b18bcad34b1a6af27dc63bd0bcda1761), size 2888 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:37.424 INFO  [139642654942976] - Added monitor com.apama.cumulocity.smartrules.AlarmOnMissingMeasurement
+[correlator]  2019-09-16 14:59:37.424 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/monitors/alarmOnMissingMeasurement.mon (a0bba196ca02b637ecaf821a1df118df), size 4624 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:37.430 INFO  [139642654942976] - Added monitor com.apama.cumulocity.smartrules.Consumption
+[correlator]  2019-09-16 14:59:37.430 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/monitors/consumption.mon (5598ba2087e572b3968665155174ffc8), size 4579 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:37.437 INFO  [139642654942976] - Added monitor com.apama.cumulocity.smartrules.EmailOnAlarm
+[correlator]  2019-09-16 14:59:37.437 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/monitors/emailOnAlarm.mon (4f54d64abe2932107fa2f2a9252aff49), size 3752 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:37.438 INFO  [139642654942976] - Added monitor com.apama.cumulocity.smartrules.MaintainCumulocitySubscription
+[correlator]  2019-09-16 14:59:37.438 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/monitors/escalation/MaintainCumulocitySubscription.mon (5438a68ae7480a7f653d46734c616669), size 664 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:37.447 INFO  [139642654942976] - Added monitor com.apama.cumulocity.smartrules.StepsDispatcher
+[correlator]  2019-09-16 14:59:37.447 INFO  [139642654942976] - Added type com.apama.cumulocity.smartrules.EscalationStepCompleted
+[correlator]  2019-09-16 14:59:37.447 INFO  [139642654942976] - Added type com.apama.cumulocity.smartrules.StartEscalationStep
+[correlator]  2019-09-16 14:59:37.447 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/monitors/escalation/StepsDispatcher.mon (91d9bc0f37f1ee44f0c307378d0a666b), size 4550 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:37.489 INFO  [139642654942976] - Added monitor com.apama.cumulocity.smartrules.Step_Email
+[correlator]  2019-09-16 14:59:37.489 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/monitors/escalation/StepEmailOnAlarm.mon (fb45f83c6c23b19e57a59ca47070e297), size 1648 bytes, compile time 0.04 seconds
+[correlator]  2019-09-16 14:59:37.492 INFO  [139642654942976] - Added monitor com.apama.cumulocity.smartrules.Step_SMS
+[correlator]  2019-09-16 14:59:37.492 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/monitors/escalation/StepSMSOnAlarm.mon (628e0c91383100fab9f78e7d9a7a40d0), size 1320 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:37.519 INFO  [139642654942976] - Added monitor com.apama.cumulocity.smartrules.ExplicitThresholdRule
+[correlator]  2019-09-16 14:59:37.519 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/monitors/explicitThresholdSmartRule.mon (98efdbcf0aaf48bcc0260f73d30b90f8), size 6559 bytes, compile time 0.03 seconds
+[correlator]  2019-09-16 14:59:37.528 INFO  [139642654942976] - Added monitor com.apama.cumulocity.smartrules.GeofencingEmail
+[correlator]  2019-09-16 14:59:37.528 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/monitors/GeofencingEmail.mon (1da5c1f755c0aa0171720ee87d4f6650), size 4383 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:37.537 INFO  [139642654942976] - Added monitor com.apama.cumulocity.smartrules.GeofenceRule
+[correlator]  2019-09-16 14:59:37.537 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/monitors/GeofencingRule.mon (e095e2b1901233c8957b614e88b4a3b8), size 5477 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:37.557 INFO  [139642654942976] - Added monitor com.apama.cumulocity.smartrules.OnAlarmDurationChangeAlarmSeverity
+[correlator]  2019-09-16 14:59:37.557 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/monitors/OnAlarmDurationChangeAlarmSeverity.mon (c15363de14fc4c712aa536e372b748f7), size 5091 bytes, compile time 0.02 seconds
+[correlator]  2019-09-16 14:59:37.569 INFO  [139642654942976] - Added monitor com.apama.cumulocity.smartrules.OperationOnAlarm
+[correlator]  2019-09-16 14:59:37.569 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/monitors/OperationOnAlarm.mon (899b70e0e2821782e30ad90112c77bb9), size 3075 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:37.576 INFO  [139641621563136] - Sender apama-ctrl (0x7f00b4000a00) (component ID 4221541010510446592/4221584294903087104) connected from 127.0.0.1:53722
+[correlator]  2019-09-16 14:59:37.580 INFO  [139642654942976] - Added monitor com.apama.cumulocity.smartrules.SendDashboardInEmail
+[correlator]  2019-09-16 14:59:37.580 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/monitors/SendDashboardInEmail.mon (4206827f656bb833086d628578b05982), size 2323 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:37.604 INFO  [139642654942976] - Added monitor com.apama.cumulocity.smartrules.SMSOnAlarm
+[correlator]  2019-09-16 14:59:37.604 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/monitors/smsOnAlarm.mon (72c3c3e64c51b3691112f6c26558f264), size 3276 bytes, compile time 0.02 seconds
+[correlator]  2019-09-16 14:59:37.649 INFO  [139642654942976] - Added monitor com.apama.cumulocity.smartrules.ThresholdRule
+[correlator]  2019-09-16 14:59:37.649 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/monitors/thresholdSmartRule.mon (5956c69ff12d8654570609a117ff34e1), size 8860 bytes, compile time 0.04 seconds
+[correlator]  2019-09-16 14:59:37.659 INFO  [139642654942976] - Added monitor DebugListener
+[correlator]  2019-09-16 14:59:37.659 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/support/cumulocity/DebugListener.mon (36de1e8d8be876b2586d9a3ce2a54fdf), size 1687 bytes, compile time 0.01 seconds
+[correlator]  2019-09-16 14:59:37.660 INFO  [139642654942976] - Added type apama.analyticsbuilder.cumulocity.StatusConstants
+[correlator]  2019-09-16 14:59:37.660 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/support/cumulocity/StatusConstants.mon (5efdc96ffa6110f064d469430a3f68dd), size 1534 bytes, compile time 0.00 seconds
+[correlator]  2019-09-16 14:59:37.738 INFO  [139641646212864] - Request <flushAllQueues 10> received Source:127.0.0.1
+[correlator]  2019-09-16 14:59:37.781 INFO  [139642654942976] - Added monitor apama.analyticsbuilder.cumulocity.StatusEmitter
+[correlator]  2019-09-16 14:59:37.781 INFO  [139642654942976] - Added type apama.analyticsbuilder.cumulocity.CumulocityHostInfo
+[correlator]  2019-09-16 14:59:37.781 INFO  [139642654942976] - Added type apama.analyticsbuilder.cumulocity.ScenarioInfoDefinition
+[correlator]  2019-09-16 14:59:37.781 INFO  [139642654942976] - Injected MonitorScript from file /host_deploy/Project_deployed/support/cumulocity/Status.mon (891b801d67920e31b73278b8c566898b), size 18880 bytes, compile time 0.12 seconds
+[correlator]  2019-09-16 14:59:37.783 INFO  [139642137474816] - apama.analyticsbuilder.cumulocity.StatusEmitter [57] Property Name:analyticsBuilder.status_device_name is using value: c8y_EdgeGateway from apama.analyticsbuilder.cumulocity.StatusConstants.
+[correlator]  2019-09-16 14:59:37.783 INFO  [139642137474816] - apama.analyticsbuilder.cumulocity.StatusEmitter [57] Property Name:analyticsBuilder.status_period_secs is using value: 0 from apama.analyticsbuilder.cumulocity.StatusConstants.
+[correlator]  2019-09-16 14:59:37.784 INFO  [139642137474816] - com.apama.scenario.ScenarioService [5] Received com.apama.scenario.ConfigureUpdates("",{"routeUpdate":"true"}) : defaults applicable to all scenarios
+[correlator]  2019-09-16 14:59:37.784 INFO  [139642812897024] - com.apama.memorystore.MemoryStoreScenarioImpl [9] Received com.apama.scenario.ConfigureUpdates("",{"routeUpdate":"true"}) : defaults applicable to all scenarios
+[correlator]  2019-09-16 14:59:37.784 INFO  [139642654942976] - Sending initialization events from /host_deploy/Project_deployed/bundle_instance_files/Automatic_onApplicationInitialized/AutomaticOnApplicationInitialized.evt
+[correlator]  2019-09-16 14:59:37.786 INFO  [139642812897024] - apama.analyticsbuilder.cumulocity.StatusEmitter [58] Status reporting disabled due to period set to 0
+[correlator]  2019-09-16 14:59:37.787 INFO  [139640795297536] - <connectivity.httpServer.httpServer-instance> HTTPServer ready to handle requests
+[correlator]  2019-09-16 14:59:37.787 INFO  [139640795297536] - <connectivity.HTTPServer1Transport.HTTPServer1Manager-instance> HTTPServer ready to handle requests
+[correlator]  2019-09-16 14:59:37.787 INFO  [139640786904832] - Request <flushAllQueues > received runJob
+[correlator]  2019-09-16 14:59:37.788 INFO  [139642812897024] - apama.analyticsbuilder.framework.ModelManager [23] Analytics Builder runtime ready
+[correlator]  2019-09-16 14:59:37.788 INFO  [139642812897024] - com.apama.scenario.ScenarioService [5] Received com.apama.scenario.ConfigureUpdates("",{"routeUpdate":"true"}) : defaults applicable to all scenarios
+[correlator]  2019-09-16 14:59:37.788 INFO  [139642812897024] - com.apama.memorystore.MemoryStoreScenarioImpl [9] Received com.apama.scenario.ConfigureUpdates("",{"routeUpdate":"true"}) : defaults applicable to all scenarios
+[correlator]  2019-09-16 14:59:37.788 INFO  [139642654942976] - Sending initialization events from /host_deploy/Project_deployed/events/block-catalogs.evt
+[apama-ctrl]  2019-09-16 14:59:37.905 INFO  [subscriptions-0] com.apama.in_c8y.Correlator.start - Correlator up
+[apama-ctrl]  2019-09-16 14:59:37.906 INFO  [subscriptions-0] com.apama.in_c8y.Correlator.getClient - Microservice apama-ctrl-1c-infg is up and running.
+[correlator]  2019-09-16 14:59:38.015 INFO  [139641621563136] - Receiver apama-ctrl (0x7f00b4001180) (component ID 4221541010510446592/4221584294903087104) connected from 127.0.0.1:53722
+[correlator]  2019-09-16 14:59:38.015 INFO  [139641621563136] - Receiver apama-ctrl (0x7f00b4001180) initially subscribed to <no channels>
+[correlator]  2019-09-16 14:59:38.015 INFO  [139641621563136] - Blocking receiver apama-ctrl (0x7f00b4001180) will be blocked after 10.000000 seconds or 10240 kb if slow
+[correlator]  2019-09-16 14:59:38.024 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) unsubscribed from all channels
+[correlator]  2019-09-16 14:59:38.035 INFO  [139641612121856] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [com.apama.scenario]
+[correlator]  2019-09-16 14:59:38.050 INFO  [139641612121856] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [com.apama.scenario.private_4221587254337142785_1568645978048]
+[correlator]  2019-09-16 14:59:38.290 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [onMissingMeasurementsCreateAlarm.Control]
+[correlator]  2019-09-16 14:59:38.300 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [onMissingMeasurementsCreateAlarm.Data,com.apama.scenario.private_4221587254337142786_1568645978298_InstanceDiscovery]
+[correlator]  2019-09-16 14:59:38.311 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [calculateEnergyConsumption.Control]
+[correlator]  2019-09-16 14:59:38.321 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [com.apama.scenario.private_4221587254337142788_1568645978319_InstanceDiscovery,calculateEnergyConsumption.Data]
+[correlator]  2019-09-16 14:59:38.328 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [onAlarmSendEmail.Control]
+[correlator]  2019-09-16 14:59:38.330 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [com.apama.scenario.private_4221587254337142790_1568645978329_InstanceDiscovery,onAlarmSendEmail.Data]
+[correlator]  2019-09-16 14:59:38.333 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [onAlarmEscalateAlarm.Control]
+[correlator]  2019-09-16 14:59:38.340 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [com.apama.scenario.private_4221587254337142792_1568645978339_InstanceDiscovery,onAlarmEscalateAlarm.Data]
+[correlator]  2019-09-16 14:59:38.351 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [explicitThresholdSmartRule.Control]
+[correlator]  2019-09-16 14:59:38.379 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [com.apama.scenario.private_4221587254337142794_1568645978360_InstanceDiscovery,explicitThresholdSmartRule.Data]
+[correlator]  2019-09-16 14:59:38.381 INFO  [139641612121856] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [onGeofenceSendEmail.Control]
+[correlator]  2019-09-16 14:59:38.399 INFO  [139641612121856] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [com.apama.scenario.private_4221587254337142796_1568645978381_InstanceDiscovery,onGeofenceSendEmail.Data]
+[correlator]  2019-09-16 14:59:38.432 INFO  [139641612121856] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [onGeofenceCreateAlarm.Control]
+[correlator]  2019-09-16 14:59:38.439 INFO  [139641612121856] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [onGeofenceCreateAlarm.Data,com.apama.scenario.private_4221587254337142798_1568645978438_InstanceDiscovery]
+[correlator]  2019-09-16 14:59:38.463 INFO  [139641612121856] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [onAlarmDurationIncreaseAlarmSeverity.Control]
+[correlator]  2019-09-16 14:59:38.469 INFO  [139641612121856] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [com.apama.scenario.private_4221587254337142800_1568645978465_InstanceDiscovery,onAlarmDurationIncreaseAlarmSeverity.Data]
+[correlator]  2019-09-16 14:59:38.475 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [onAlarmExecuteOperation.Control]
+[correlator]  2019-09-16 14:59:38.507 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [com.apama.scenario.private_4221587254337142802_1568645978476_InstanceDiscovery,onAlarmExecuteOperation.Data]
+[correlator]  2019-09-16 14:59:38.519 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [sendDashboardsViaEmail.Control]
+[correlator]  2019-09-16 14:59:38.523 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [sendDashboardsViaEmail.Data,com.apama.scenario.private_4221587254337142804_1568645978519_InstanceDiscovery]
+[correlator]  2019-09-16 14:59:38.536 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [onAlarmSendSms.Control]
+[correlator]  2019-09-16 14:59:38.540 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [com.apama.scenario.private_4221587254337142806_1568645978536_InstanceDiscovery,onAlarmSendSms.Data]
+[correlator]  2019-09-16 14:59:38.546 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [thresholdSmartRule.Control]
+[correlator]  2019-09-16 14:59:38.550 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [com.apama.scenario.private_4221587254337142808_1568645978548_InstanceDiscovery,thresholdSmartRule.Data]
+[correlator]  2019-09-16 14:59:38.552 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [analytics_factory.Control]
+[correlator]  2019-09-16 14:59:38.553 INFO  [139641651459840] - Receiver apama-ctrl (0x7f00b4001180) added subscriptions to [com.apama.scenario.private_4221587254337142810_1568645978552_InstanceDiscovery,analytics_factory.Data]
+[correlator]  2019-09-16 14:59:38.558 INFO  [139641612121856] - Receiver apama-ctrl (0x7f00b4001180) removed subscriptions to [com.apama.scenario.private_4221587254337142785_1568645978048]
+[apama-ctrl]  2019-09-16 14:59:39.550 INFO  [subscriptions-0] com.apama.in_c8y.SmartRulesManager.restoreSmartRules - Done reloading all existing smartrules (if any)
+[apama-ctrl]  2019-09-16 14:59:39.569 INFO  [subscriptions-0] com.apama.in_c8y.analytics.AnalyticsManagementService.platformUpInit - Analytics builder service starting
+[apama-ctrl]  2019-09-16 14:59:39.570 INFO  [subscriptions-0] com.apama.in_c8y.analytics.AnalyticsManagementService.platformUpInit - Deploying all models in Apama ...
+[apama-ctrl]  2019-09-16 14:59:39.657 INFO  [subscriptions-0] com.apama.in_c8y.analytics.AnalyticsManagementService.platformUpInit - Deployed all scenario instances for analytics builder ...
+[correlator]  2019-09-16 14:59:40.885 INFO  [139642860848896] - <connectivity.httpServer.httpServer-instance> Started receiving messages from host 127.0.0.1
+[correlator]  2019-09-16 14:59:40.892 INFO  [139642812897024] - apama.analyticsbuilder.cumulocity.Forwarder [15] Property Name:analyticsBuilder.numWorkerThreads is using value: 1 from a configurable property.
+[correlator]  2019-09-16 14:59:41.178 INFO  [139643003864832] - Correlator Status: sm=50 nctx=10 ls=208 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=61 tx=28 rt=113 nc=4 vm=2707136 pm=165288 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=0
+[correlator]  2019-09-16 14:59:46.178 INFO  [139643003864832] - Correlator Status: sm=50 nctx=10 ls=208 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=61 tx=28 rt=113 nc=4 vm=2772672 pm=165296 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=0
+[correlator]  2019-09-16 14:59:51.178 INFO  [139643003864832] - Correlator Status: sm=50 nctx=10 ls=208 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=61 tx=28 rt=113 nc=4 vm=2772672 pm=165428 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=0
+[correlator]  2019-09-16 14:59:56.178 INFO  [139643003864832] - Correlator Status: sm=50 nctx=10 ls=208 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=61 tx=28 rt=113 nc=4 vm=2772672 pm=165428 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=0
+[correlator]  2019-09-16 15:00:01.178 INFO  [139643003864832] - Correlator Status: sm=12345 nctx=10 ls=208 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=61 tx=28 rt=113 nc=4 vm=2772672 pm=165436 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=0
