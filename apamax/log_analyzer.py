@@ -37,6 +37,8 @@ EVENT_PERCENT_COMPLETE = 'EVENT_PERCENT_COMPLETE'
 """ Event that fires when the number of bytes in the log file passes 25%, 50%, 75%, 100%, with parameter percent=integer. 
 Useful for getting lower/median/upper quartile statistics
 """
+EVENT_WARN_OR_ERROR = 'WarnOrError'
+"""Fires with warn and/or error lines"""
 
 class UserError(Exception):
 	""" Indicates an exception that should be display to the user without a stack trace. """
@@ -49,12 +51,13 @@ class LogLine(object):
 	lineno - the integer line number within the log file
 	line - the full log line (with trailing whitespace stripped); never an empty string
 	message - the (unicode character) string message (after the first " - " if a normal line, or else the same as the line if not)
+	level - the first character of the log level (upper case), e.g. "I" for info, "E" for error, "#" for force. None if not a normal log line. 
 	
 	It is possible to get the timestamp, level and other details by calling getDetails
 	"""
 	LINE_REGEX = re.compile(r'(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d[.]\d\d\d) ([A-Z]+) +\[([^\]]+)\] -( <[^>]+>)? (.*)')
 	
-	__slots__ = ['line', 'lineno', 'message', '__details', '__rawdetails'] # be memory-efficient
+	__slots__ = ['line', 'lineno', 'message', 'level', '__details', '__rawdetails'] # be memory-efficient
 	def __init__(self, line, lineno):
 		self.line = line
 		self.lineno = lineno
@@ -78,14 +81,19 @@ class LogLine(object):
 			self.message = line[i+3:]
 			if isapamactrl:
 				self.message = f'<apama-ctrl> {self.message}'
+			try:
+				self.level = line[24] # this is a nice efficient way to get the log level without slow regexes
+			except IndexError: # just in case it's not a normal log line (though we hope the firstchar.isdigit() check will catch most of those)
+				self.level = None
 			self.__rawdetails = line[:i]
 		else:
 			self.message = line
+			self.level = None
 			self.__rawdetails = None
 	
 	def getDetails(self):
 		"""
-		Returns a dictionary containing: datetimestring, level, thread, logcategory
+		Returns a dictionary containing: datetimestring, thread, logcategory
 		
 		The result is cached, as getting this data is a bit time-consuming; avoid unless you're sure you need it. 
 		"""
@@ -98,7 +106,6 @@ class LogLine(object):
 				g = m.groups()
 				self.__details = {
 					'datetimestring':g[0],
-					'level':g[1],
 					'thread':g[2],
 					'logcategory':g[3].strip() if g[3] else '',
 				}
@@ -107,7 +114,6 @@ class LogLine(object):
 
 		self.__details = {
 					'datetimestring':'',
-					'level':'',
 					'thread':'',
 					'logcategory':'',
 				}
@@ -233,6 +239,11 @@ class StatusLinesAnnotator(BaseAnalyzer):
 		('si','si=swap pages read/sec'),
 		('so','so=swap pages written/sec'),
 		
+		# log messages
+		('=errors /sec','errors /sec'),
+		('=warns /sec','warns /sec'),
+ 		('=log lines /sec','log lines /sec'),
+		
 		# slow contexts and consumers (some of these are strings, so put them at the end)
 		('lcn','lcn=slowest ctx'), # name
 		('lcq','lcq=slowest ctx input queue'),
@@ -253,11 +264,20 @@ class StatusLinesAnnotator(BaseAnalyzer):
 	def register(self, **configargs):
 		self.manager.subscribe(EVENT_COMBINED_STATUS_DICT, self.handleStatusDict)
 		self.manager.subscribe(EVENT_FILE_STARTED, self.fileStarted)
+		self.manager.subscribe(EVENT_WARN_OR_ERROR, self.handleWarnOrError)
 
 	def fileStarted(self, **extra):
 		# make sure files don't interfere with each other
 		self.previousStatus = None
 		self.columns = None # ordered dict of key:displayname
+		
+		self.errors = self.warns = 0
+
+	def handleWarnOrError(self, isError, line, **extra):
+		if isError:
+			self.errors += 1
+		else:
+			self.warns += 1
 
 	def decideColumns(self, status):
 		"""
@@ -293,16 +313,32 @@ class StatusLinesAnnotator(BaseAnalyzer):
 		
 		seconds = status['seconds'] # floating point epoch seconds
 		
+		secsSinceLast = -1 if previousStatus is None else seconds-previousStatus['seconds']
+
+		# treat warns/errors before the first status line as if they were after, else they won't be seen in the rate
+		status['warns'] = 0 if previousStatus is None else self.warns
+		status['errors'] = 0 if previousStatus is None else self.errors
+		
 		for k in display:
-			if k.startswith('='):
-				if previousStatus is None or (seconds==previousStatus['seconds']):
+			if k.startswith('='): # computed values
+				if previousStatus is None or secsSinceLast==0: # can't calculate rates until we have a baseline
 					val = 0
+
+				elif k == '=errors /sec':
+					val = (self.errors-previousStatus['errors'])/secsSinceLast
+
+				elif k == '=warns /sec':
+					val = (self.warns-previousStatus['warns']) /secsSinceLast
+
+				elif k == '=log lines /sec':
+					val = (status['line num']-previousStatus['line num'])/secsSinceLast
+
 				elif k == '=rx /sec':
-					val = (status['rx']-previousStatus['rx'])/(seconds-previousStatus['seconds'])
+					val = (status['rx']-previousStatus['rx'])/secsSinceLast
 				elif k == '=tx /sec':
-					val = (status['tx']-previousStatus['tx'])/(seconds-previousStatus['seconds'])
+					val = (status['tx']-previousStatus['tx'])/secsSinceLast
 				elif k == '=rt /sec':
-					val = (status['rt']-previousStatus['rt'])/(seconds-previousStatus['seconds'])
+					val = (status['rt']-previousStatus['rt'])/secsSinceLast
 				elif k == '=pm delta MB':
 					try:
 						val = (status['pm']-previousStatus['pm'])/1024.0
@@ -447,12 +483,17 @@ class StatusLinesDictExtractor(BaseAnalyzer):
 	
 	def handleLine(self, line=None, **extra):
 		m = line.message
-		#if re.match('(Correlator Status: 
 		if m.startswith('Correlator Status: ') or m.startswith('Status: sm'): # "Status: " is for very old versions e.g. 4.3
 			kind = EVENT_CORRELATOR_STATUS_DICT
 		#elif m.startswith('JMS Status: '):
 		#	kind = EVENT_JMS_STATUS_DICT
 		else:
+			level = line.level
+			if level == 'W':
+				self.manager.publish(EVENT_WARN_OR_ERROR, isError=False, line=line)
+			elif level == 'E' or level == 'F':
+				self.manager.publish(EVENT_WARN_OR_ERROR, isError=True, line=line)
+		
 			return
 		
 		d = collections.OrderedDict()

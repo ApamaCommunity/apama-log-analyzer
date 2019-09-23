@@ -13,6 +13,13 @@ Features:
 - `status_XXX.csv`: Extracts all periodic statistics from "Correlator Status:" lines, exporting them to an *Excel-friendly CSV file*. Columns are named in a user-friendly way, and some derived stats such as event rate are calculated. 
 - `summary_XXX.csv`: Generates a small *summary* CSV file containing a snapshot of values from the start/middle/end of each log, min/mean/max aggregate values, and deltas between them. This is a good first port of call, to check which columns might be worth graphing to chase down a memory leak or unresponsive application. 
 - `status_summary_XXX.json`: Optionally, the status line extraction can also write a json file, which could be handy if you want to write a script to process them.
+- Calculates derived statistics including:
+	
+	- *rx/tx/rt rate /sec*, which are useful for determining typical receive/send rates and any anomolous periods of high/low/zero rates
+	- *log lines /sec*, which is useful for detecting excessive logging
+	- *warn and error lines /sec*, which is useful for identifying periods where bad things happened (error includes both ERROR and FATAL levels)
+	- *memory usage deltas* (both Java and total), which are useful for identifying application or plug-in memory leaks
+	
 - Supported Apama releases: *Apama 4.3 through to latest* (10.5+). Also works with correlator logging from `apama-ctrl`, downloaded from *Cumulocity*. 
 - Licensed under the *Apache License 2.0*. 
 
