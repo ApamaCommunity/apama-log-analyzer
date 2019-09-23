@@ -74,6 +74,8 @@
 2019-09-17 16:49:15.103 INFO  [56484] - Status: sm=1 nctx=1 ls=1 rq=0 eq=0 iq=0 oq=0 rx=1 tx=7 rt=0 nc=1 vm=75128 runq=0
 2019-09-17 16:49:20.103 INFO  [56484] - Status: sm=1 nctx=1 ls=1 rq=0 eq=0 iq=0 oq=0 rx=1 tx=7 rt=0 nc=1 vm=75128 runq=0
 2019-09-17 16:49:25.102 INFO  [56484] - Status: sm=1 nctx=1 ls=1 rq=0 eq=0 iq=0 oq=0 rx=1 tx=7 rt=0 nc=1 vm=75128 runq=0
+2019-09-17 16:49:25.102 WARN  [56484] - Pretend
+2019-09-17 16:49:25.102 ERROR [56484] - Pretend
 2019-09-17 16:49:30.103 INFO  [56484] - Status: sm=1 nctx=2 ls=3 rq=4 eq=5 iq=6 oq=7 rx=8 tx=9 rt=10 nc=11 vm=80000 runq=12
 2019-09-17 16:49:34.466 CRIT  [66080] - Received a SIGINT (2) signal, shutting down
 2019-09-17 16:49:34.466 INFO  [66336] - Receiver engine_receive (0000000001E93A90) removed subscriptions to [<wildcard channel>]
