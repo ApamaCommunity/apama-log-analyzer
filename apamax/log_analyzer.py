@@ -403,7 +403,7 @@ class LogAnalyzer(object):
 		# for handleRawStatusDict
 		self.columns = None # ordered dict of key:annotated_displayname
 		self.previousRawStatus = None # the previous raw status
-		self.errors = self.warns = 0
+		self.errorCount = self.warnCount = 0
 		
 		# for handleAnnotatedStatusDict summarization
 		self.status_min = self.status_max = self.status_sum = \
@@ -555,8 +555,8 @@ class LogAnalyzer(object):
 		secsSinceLast = -1 if previousStatus is None else seconds-previousStatus['seconds']
 
 		# treat warns/errors before the first status line as if they were after, else they won't be seen in the rate
-		status['warns'] = 0 if previousStatus is None else self.warns
-		status['errors'] = 0 if previousStatus is None else self.errors
+		status['warns'] = 0 if previousStatus is None else self.warnCount
+		status['errors'] = 0 if previousStatus is None else self.errorCount
 		
 		for k in display:
 			if k.startswith('='): # computed values
@@ -570,9 +570,9 @@ class LogAnalyzer(object):
 					val = 0
 
 				elif k == '=errors /sec':
-					val = (self.errors-previousStatus['errors'])/secsSinceLast
+					val = (self.errorCount-previousStatus['errors'])/secsSinceLast
 				elif k == '=warns /sec':
-					val = (self.warns-previousStatus['warns']) /secsSinceLast
+					val = (self.warnCount-previousStatus['warns']) /secsSinceLast
 				elif k == '=log lines /sec':
 					val = (status['line num']-previousStatus['line num'])/secsSinceLast
 
@@ -733,9 +733,9 @@ class LogAnalyzer(object):
 
 	def handleWarnOrError(self, isError, line, **extra):
 		if isError:
-			self.errors += 1
+			self.errorCount += 1
 		else:
-			self.warns += 1
+			self.warnCount += 1
 
 	def getMetadataDictForCurrentFile(self):
 		""" Get an ordered dictionary of additional information to be included with the header for the current file, 
