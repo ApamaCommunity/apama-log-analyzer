@@ -95,6 +95,9 @@ class PySysTest(AnalyzerBaseTest):
 
 		self.assertEval("{mean_jvm_delta} == {expected}", mean_jvm_delta=findstat('mean')['jvm delta MB'], expected=math.trunc(sum([(70-7)*(10**(n-1)) for n in range(8)])/8.0))
 
+		# check CSV file has the annotated headinghs
+		self.assertGrep('loganalyzer_output/status_generated-log-08.csv',  expr=',rq=queued route,')
+
 		# formatting of final JVM in CSV
 		self.assertGrep('loganalyzer_output/status_generated-log-08.csv',  expr='1554728400.111,.*,7.000,')
 		self.assertGrep('loganalyzer_output/summary_generated-log-08.csv', expr='1554728400.111,.*,7.000,')
