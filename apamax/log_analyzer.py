@@ -274,7 +274,7 @@ class CSVStatusWriter(BaseWriter):
 			if isinstance(item, int):
 				return f'{item:,}'
 			if isinstance(item, float):
-				return f'{item:,.3f}' # 3 dp is helpful for most of our numbers e.g. mem usage kb->MB
+				return f'{item:,.2f}' # deliberately make it different from the 3 we use for grouping e.g. mem usage kb->MB
 			if item in [True,False]: return str(item).upper()
 			return str(item)
 		except Exception as ex:
@@ -635,8 +635,8 @@ class LogAnalyzer(object):
 				if isinstance(self.status_0pc[k], float): 
 					# for precision, use integers (which in python have infinite precision!) 
 					# to keep runnning total, even for float types; 
-					# to get final number that look right to 3 dp, scale up by 5 dp
-					v = int(100000*v) 
+					# to get final number that look right to 4 dp, scale up by 6 dp
+					v = int(1000000*v) 
 				self.status_sum[k] += v
 
 	def handleFilePercentComplete(self, percent, **extra):
@@ -666,8 +666,8 @@ class LogAnalyzer(object):
 			v = self.status_sum[k]
 			if v is None or isinstance(v, str) or isinstance(self.status_0pc.get(k, ''), str): return ''
 
-			# to get improved precision we convert floats to ints, scaling up by 100000 - turn them back here
-			if isinstance(self.status_0pc[k], float): v = v/100000.0
+			# to get improved precision we convert floats to ints, scaling up  - turn them back here
+			if isinstance(self.status_0pc[k], float): v = v/1000000.0
 
 			v = v / float(self.totalStatusLinesInFile) # force a floating point division
 			if v==0: v = 0 # keep it concise for zero values

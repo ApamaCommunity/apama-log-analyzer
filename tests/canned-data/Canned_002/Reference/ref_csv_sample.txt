@@ -7,8 +7,8 @@ oq=queued output : 8
 rq=queued route : 6
 runq=queued ctxs : 19
 nc=ext+int consumers : 16
-rx /sec : 25.785
-tx /sec : 279.432
+rx /sec : 25.78
+tx /sec : 279.43
 rt /sec : "2,998"
 rx=received : 130
 tx=sent : "1,400"
@@ -16,21 +16,21 @@ rt=routed : "15,000"
 sm=monitor instances : 3
 nctx=contexts : 4
 ls=listeners : "50,000"
-pm=resident MB : 17.687
+pm=resident MB : 17.69
 vm=virtual MB : "16,710"
 jvm=Java MB : "2,256"
-pm delta MB : 17.683
+pm delta MB : 17.68
 vm delta MB : "16,710"
 jvm delta MB : "2,256"
-si=swap pages read /sec : 20.610
-so=swap pages written /sec : 21.600
+si=swap pages read /sec : 20.61
+so=swap pages written /sec : 21.60
 is swapping : 1
-errors /sec : 0.000
-warns /sec : 0.000
-log lines /sec : 0.200
+errors /sec : 0.00
+warns /sec : 0.00
+log lines /sec : 0.20
 lcn=slowest ctx : slowest context
 lcq=slowest ctx input queue : 10
-lct=slowest ctx latency secs : 12.340
+lct=slowest ctx latency secs : 12.34
 srn=slowest consumer/plugin : slowest consumer
 srq=slowest consumer/plugin queue : 22
 mynewstatus : 11

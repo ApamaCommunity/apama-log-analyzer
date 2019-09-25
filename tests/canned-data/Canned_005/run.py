@@ -105,8 +105,8 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertGrep('loganalyzer_output/status_generated-log-08.csv',  expr=',rq=queued route,')
 
 		# formatting of final JVM in CSV
-		self.assertGrep('loganalyzer_output/status_generated-log-08.csv',  expr='1554728400.111,.*,7.000,')
-		self.assertGrep('loganalyzer_output/summary_generated-log-08.csv', expr='1554728400.111,.*,7.000,')
+		self.assertGrep('loganalyzer_output/status_generated-log-08.csv',  expr='1554728400.111,.*,7.00,')
+		self.assertGrep('loganalyzer_output/summary_generated-log-08.csv', expr='1554728400.111,.*,7.00,')
 		self.assertGrep('loganalyzer_output/status_generated-log-08.csv',  expr='1554728407.111,.*"70,000,000"')
 		self.assertGrep('loganalyzer_output/summary_generated-log-08.csv', expr='1554728407.111,.*"70,000,000"')
 
