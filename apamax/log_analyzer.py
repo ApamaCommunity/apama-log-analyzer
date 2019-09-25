@@ -13,6 +13,7 @@ __license__ = "Apache"
 
 import logging, os, io, argparse, re, time, sys, collections, datetime, calendar
 import json
+import glob
 
 log = logging.getLogger('loganalyzer')
 
@@ -328,11 +329,11 @@ class LogAnalyzer(object):
 		if args.statusjson:
 			self.writers.append(JSONStatusWriter(self))
 	
-	def processFiles(self):
-		for f in self.args.files:
-			assert os.path.isfile(f), f
-		for f in self.args.files:
-			self.processFile(f)
+	def processFiles(self, files):
+		for name, path in files:
+			if not os.path.isfile(path): raise UserError(f'Cannot find file "{path}"')
+		for name, path in files:
+			self.processFile(path)
 		self.handleAllFilesFinished()
 
 	def processFile(self, file):
@@ -767,7 +768,7 @@ class LogAnalyzerTool(object):
 		self.argparser.add_argument('--loglevel', '-l', '-v', default='INFO',
 			help='Log level/verbosity for this tool')
 		self.argparser.add_argument('files', metavar='FILE', nargs='+',
-			help='One or more correlator log files to be analyzed')#TODO:; glob-style expressions e.g. *.log are permitted')
+			help='One or more correlator log files to be analyzed; glob-style expressions e.g. *.log are permitted')
 		self.argparser.add_argument('--output', '-o', metavar='DIR',  # later might also support zip output
 			help='The directory to which output files will be written. Existing files are overwritten if it already exists.')
 
@@ -787,12 +788,23 @@ class LogAnalyzerTool(object):
 		duration = time.time()
 		
 		logfiles = []
-		for f in args.files: # probably want to factor this out to an overridable method
-			assert '*' not in f, 'globbing not implemented yet' # TODO: impl globbing (with sort), maybe directory analysis, incl special-casing of "logs/" and ignoring already-analyzed files. zip file handling. 
+		def addlog(f):
 			name = LogAnalyzer.logFileToLogName(f)
 			if not os.path.isfile(f):
 				raise UserError(f'Cannot find log file: {os.path.normpath(f)}')
 			logfiles.append( (name, f))
+			
+		for f in args.files: # probably want to factor this out to an overridable method
+			if '*' in f:
+				globbed = sorted(glob.glob(f))
+				if not globbed:
+					raise UserError(f'No files found matching glob: {f}')
+				for f in globbed: addlog(f)
+			else:
+				addlog(f)
+				
+			# TODO: add directory analysis, incl special-casing of "logs/" and ignoring already-analyzed files. zip file handling. 
+			
 		logfiles.sort() # hopefully puts the latest one at the end
 		
 		if not logfiles: raise UserError('No log files specified')
@@ -811,7 +823,7 @@ class LogAnalyzerTool(object):
 		if not os.path.exists(args.output): os.makedirs(args.output)
 		
 		manager = self.createManager(args)
-		manager.processFiles()
+		manager.processFiles(logfiles)
 
 		duration = time.time()-duration
 		log.info('Completed analysis in %s', (('%d seconds'%duration) if duration < 120 else ('%0.1f minutes' % (duration/60))))
