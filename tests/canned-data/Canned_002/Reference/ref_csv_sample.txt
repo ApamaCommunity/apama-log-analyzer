@@ -22,8 +22,8 @@ jvm=Java MB : "2,256"
 pm delta MB : 17.683
 vm delta MB : "16,710"
 jvm delta MB : "2,256"
-si=swap pages read/sec : 20.610
-so=swap pages written/sec : 21.600
+si=swap pages read /sec : 20.610
+so=swap pages written /sec : 21.600
 errors /sec : 0.000
 warns /sec : 0.000
 log lines /sec : 0.200

@@ -54,8 +54,8 @@ COLUMN_DISPLAY_NAMES = collections.OrderedDict([
 	('=jvm delta MB', 'jvm delta MB'),
 
 	# swapping
-	('si','si=swap pages read/sec'),
-	('so','so=swap pages written/sec'),
+	('si','si=swap pages read /sec'),
+	('so','so=swap pages written /sec'),
 	
 	# log messages
 	('=errors /sec','errors /sec'),
@@ -767,8 +767,7 @@ class LogAnalyzerTool(object):
 			help='The directory to which output files will be written. Existing files are overwritten if it already exists.')
 
 		self.argparser.add_argument('--statusjson', action='store_true',
-			help='Advanced/debugging option to extract status lines in json format.')
-
+			help='Advanced/debugging option to extract status lines in json format suitable for processing by scripts.')
 		
 	def main(self, args):
 		args = self.argparser.parse_args(args)
