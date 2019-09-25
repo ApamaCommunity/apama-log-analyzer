@@ -19,6 +19,7 @@ Features:
 	- *log lines /sec*, which is useful for detecting excessive logging
 	- *warn and error lines /sec*, which is useful for identifying periods where bad things happened (error includes both ERROR and FATAL levels)
 	- *memory usage deltas* (both Java and total), which are useful for identifying application or plug-in memory leaks
+	- *is swapping*, which is 1 if any swapping in or out is occurring or 0 if not; the mean of this is useful for identifying how much of the time was spent swapping
 	
 - Supported Apama releases: *Apama 4.3 through to latest* (10.5+). Also works with correlator logging from `apama-ctrl`, downloaded from *Cumulocity*. 
 - Licensed under the *Apache License 2.0*. 

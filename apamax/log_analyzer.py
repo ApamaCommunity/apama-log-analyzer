@@ -49,18 +49,19 @@ COLUMN_DISPLAY_NAMES = collections.OrderedDict([
 	('vm','vm=virtual MB'),
 	('jvm','jvm=Java MB'), # cf JMS
 	
-	('=pm delta MB', 'pm delta MB'),
-	('=vm delta MB', 'vm delta MB'),
-	('=jvm delta MB', 'jvm delta MB'),
+	('=pm delta MB', None),
+	('=vm delta MB', None),
+	('=jvm delta MB', None),
 
 	# swapping
 	('si','si=swap pages read /sec'),
 	('so','so=swap pages written /sec'),
+	('=is swapping', None), # 1 if swapping, 0 if not; use integer not bool so we can graph it and sum it
 	
 	# log messages
-	('=errors /sec','errors /sec'),
-	('=warns /sec','warns /sec'),
-	('=log lines /sec','log lines /sec'),
+	('=errors /sec',None),
+	('=warns /sec',None),
+	('=log lines /sec',None),
 	
 	# slow contexts and consumers (some of these are strings, so put them at the end)
 	('lcn','lcn=slowest ctx'), # name
@@ -526,7 +527,7 @@ class LogAnalyzer(object):
 				allkeys = set(status.keys())
 				for k in COLUMN_DISPLAY_NAMES:
 					if k.startswith('='):
-						columns[k] = COLUMN_DISPLAY_NAMES[k]
+						columns[k] = k[1:]
 					elif k in allkeys:
 						columns[k] = COLUMN_DISPLAY_NAMES[k]
 						allkeys.remove(k)
@@ -558,15 +559,19 @@ class LogAnalyzer(object):
 		
 		for k in display:
 			if k.startswith('='): # computed values
-				if previousStatus is None or secsSinceLast==0: # can't calculate rates until we have a baseline
+				if k == '=is swapping':
+					try:
+						val = 1 if (status['si']+status['so']>0) else 0
+					except KeyError: # not present in all Apama versions
+						continue
+
+				elif previousStatus is None or secsSinceLast==0: # can't calculate rates until we have a baseline
 					val = 0
 
 				elif k == '=errors /sec':
 					val = (self.errors-previousStatus['errors'])/secsSinceLast
-
 				elif k == '=warns /sec':
 					val = (self.warns-previousStatus['warns']) /secsSinceLast
-
 				elif k == '=log lines /sec':
 					val = (status['line num']-previousStatus['line num'])/secsSinceLast
 

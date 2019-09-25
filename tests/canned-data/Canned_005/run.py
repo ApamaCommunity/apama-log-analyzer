@@ -29,6 +29,8 @@ class PySysTest(AnalyzerBaseTest):
 						val = self.initialvalues[k]
 						if l > 0 and not isinstance(val, str):
 							val = val*(10**l)
+							if k=='si': val = 0.5 if l%5==0 else 0.0
+							if k=='so': val = 0.9 if l%10==0 else 0.0
 						f.write(f'{k}={val} ')
 					# no need to test everything individually
 					f.write('rt=0 nc=0 vm=3 pm=4 runq=0  somethingelse=123\n')
@@ -79,6 +81,10 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertEval("{min_rq} == 4", min_rq=findstat('min')['rq=queued route'])
 		self.assertEval("{max_rq} == 4*10000000", max_rq=findstat('max')['rq=queued route'])
 		self.assertEval("{mean_rq} == {expected}", mean_rq=findstat('mean')['rq=queued route'], expected=math.trunc(sum([4*(10**n) for n in range(8)])/8.0))
+
+		self.assertEval("{min_swapping} == 0", min_swapping=findstat('min')['is swapping'])
+		self.assertEval("{max_swapping} == 1", max_swapping=findstat('max')['is swapping'])
+		self.assertEval("{mean_swapping} == 2/8.0", mean_swapping=findstat('mean')['is swapping'])
 
 		self.assertEval("{min_mean_max_datetime} == ''", min_mean_max_datetime=findstat('min')['datetime']+findstat('mean')['datetime']+findstat('max')['datetime'])
 
