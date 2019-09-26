@@ -7,7 +7,8 @@ from correlatorloganalyzer.analyzer_basetest import AnalyzerBaseTest
 
 class PySysTest(AnalyzerBaseTest):
 	def execute(self):			
-		self.logAnalyzer([], logfiles=[
+		self.logAnalyzer(['--XmaxSampleWarnOrErrorLines', '0',
+			], logfiles=[
 			'*.log',
 			])
 

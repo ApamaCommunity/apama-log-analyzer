@@ -1,0 +1,23 @@
+2019-01-01 18:04:30.123 WARN  [53100:DistMemStore] - <com.acme.MyJavaClass> This is a #1 unique warning message A
+2019-01-01 18:04:30.123 WARN  [53100:DistMemStore] - <com.acme.MyJavaClass> This is a #1 unique warning message B
+2019-01-01 18:04:30.123 WARN  [53100:DistMemStore] - <com.acme.MyJavaClass> This is a #1 unique warning message C
+2019-01-01 18:04:30.123 WARN  [53100:DistMemStore] - <com.acme.MyJavaClass> This is a #1 unique warning message D
+
+# 14 of these
+2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 1 took 0.555 seconds
+2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 2 took 0.555 seconds
+2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 3 took 0.555 seconds
+2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 4 took 0.555 seconds
+2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 5 took 0.555 seconds
+2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 6 took 0.555 seconds
+2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 7 took 0.555 seconds
+2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 8 took 0.555 seconds
+2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 9 took 0.555 seconds
+2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 10 took 0.555 seconds
+2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 11 took 0.555 seconds
+2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 12 took 0.555 seconds
+2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 13 took 0.555 seconds
+2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 14 took 0.555 seconds
+
+2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ODD warning for process 1 took 0.555 seconds
+2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ODD warning for process 2 took 0.555 seconds

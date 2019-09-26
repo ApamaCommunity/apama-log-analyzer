@@ -764,9 +764,19 @@ class LogAnalyzer(object):
 			file['warningsCount'] += 1
 			tracker = self.warns
 		
+		XmaxUniqueWarnOrErrorLines = self.args.XmaxUniqueWarnOrErrorLines
+		
 		msg = line.message
 		# normalize so we can group them together
 		normmsg = LogAnalyzer.WARN_ERROR_NORMALIZATION_REGEX.sub('___', msg)
+		
+		# bound the total amount of memory used for this data structure by limiting the number of unique messages 
+		# (if the normalization regex is doing its job this hopefully won't be hit; if it is, we need a way to 
+		# customize the regex, or add a new exclusions regex)
+		if XmaxUniqueWarnOrErrorLines>0 and len(tracker)==XmaxUniqueWarnOrErrorLines and normmsg not in tracker:
+			log.debug('Not adding new isError=%s message as XmaxUniqueWarnOrErrorLines was hit', isError)
+			return
+		
 		tracker = tracker.setdefault(normmsg, {})
 		tracker = tracker.setdefault(self.currentpath, {})
 		if not tracker:
@@ -781,16 +791,19 @@ class LogAnalyzer(object):
 			tracker['count'] += 1
 			
 		tracker['samples'].append(line)
-		#if len(tracker['samples']) > 10: # avoid using too much memory; TODO: make this configurable
-		#	tracker['samples'] = tracker['samples'][:5]+tracker['samples'][-5:]
+
+		# avoid using too much memory for holding sample lines (per unique msg)
+		maxSampleWarnOrErrorLines = self.args.XmaxSampleWarnOrErrorLines
+		if maxSampleWarnOrErrorLines>0 and len(tracker['samples'])>maxSampleWarnOrErrorLines*2:
+			tracker['samples'] = tracker['samples'][:maxSampleWarnOrErrorLines//2]+tracker['samples'][-maxSampleWarnOrErrorLines//2:]
 
 	def writeWarnOrErrorSummaryForAllFiles(self):
+		maxSampleWarnOrErrorLines = self.args.XmaxSampleWarnOrErrorLines if self.args.XmaxSampleWarnOrErrorLines>0 else None
 		for kind, tracker in [('warnings', self.warns), ('errors', self.errors)]:
 			if not tracker: 
 				log.info(f'No {kind} were found in any of these log files.')
 				continue
 			
-			# TODO: make name unique, to support rolling of long ones?
 			path = f'{self.outputdir}/{kind}.txt'
 			with io.open(path, 'w', encoding='utf-8') as f:
 				
@@ -799,9 +812,15 @@ class LogAnalyzer(object):
 					f.write(f"{file[f'{kind}Count']} {kind} in {file['name']}\n")
 				f.write("\n")
 
+				if self.args.XmaxUniqueWarnOrErrorLines>0 and len(tracker)==self.args.XmaxUniqueWarnOrErrorLines:
+					f.write(f'WARNING: Some messages are NOT included in this file due to the XmaxUniqueWarnOrErrorLines limit of {self.args.XmaxUniqueWarnOrErrorLines}\n\n')
+					log.warn(f'Some messages are NOT included in the {kind} file due to the XmaxUniqueWarnOrErrorLines limit of {self.args.XmaxUniqueWarnOrErrorLines})')
+
 				f.write(f"Summary of {kind}, sorted by normalized message: \n\n")
 				
 				for normmsg in sorted(tracker):
+					remainingSamples = maxSampleWarnOrErrorLines or 0
+				
 					byfiles = tracker[normmsg]
 					totalcount = sum(byfile['count'] for byfile in byfiles.values())
 					f.write(f"--- x{totalcount}: ")
@@ -810,6 +829,7 @@ class LogAnalyzer(object):
 						sampleline = byfile['samples'][0]
 						f.write(f"{sampleline.line}\n")
 						f.write(f"      in {self.logFileToLogName(logfile)} line {sampleline.lineno}\n")
+						remainingSamples -= 1
 					else:
 						f.write(f"{normmsg}\n")
 						for logfile, byfile in byfiles.items():
@@ -817,11 +837,20 @@ class LogAnalyzer(object):
 								f.write(f"      x1 at   {self.formatDateTime(byfile['first'].getDateTime())} in {self.logFileToLogName(logfile)}\n")
 							else:
 								f.write(f"      x{byfile['count']} from {self.formatDateTimeRange(byfile['first'].getDateTime(), byfile['last'].getDateTime())} in {self.logFileToLogName(logfile)}\n")
-						# TODO: limit what we print, maybe
+
 						for logfile, byfile in byfiles.items():
-							f.write(f"      Examples from {self.logFileToLogName(logfile)}:\n")
+							f.write(f"      Examples from {self.logFileToLogName(logfile)}:\n")							
+							
+							if maxSampleWarnOrErrorLines and len(byfile['samples']) > remainingSamples:
+								# first half and last half is most informative
+								byfile['samples'] = byfile['samples'][:remainingSamples//2]+byfile['samples'][-remainingSamples//2:]
+							
 							for sampleline in byfile['samples']:
 								f.write(f"       line {sampleline.lineno} : {sampleline.line}\n")
+								remainingSamples -= 1
+								if maxSampleWarnOrErrorLines and remainingSamples <= 0:
+									break # only print the first example per file if we've already exceeded our quota
+
 					f.write('\n')
 
 	def getMetadataDictForCurrentFile(self):
@@ -869,7 +898,9 @@ class LogAnalyzerTool(object):
 	
 	@ivar argparser: A argparse.ArgumentParser that subclasses can add arguments to if desired. 
 	"""
-	def __init__(self):
+	def __init__(self, analyzerFactory=LogAnalyzer):
+		self.analyzerFactory = analyzerFactory
+
 		self.argparser = argparse.ArgumentParser(description=u'Analyzes Apama correlator log files v%s/%s'%(__version__, __date__), 
 			epilog=u'For Apama versions before 10.3 only the first log file contains the header section specifying version and environment information, so be sure to include that first log file otherwise critical information will be missing.')
 			
@@ -882,6 +913,12 @@ class LogAnalyzerTool(object):
 
 		self.argparser.add_argument('--statusjson', action='store_true',
 			help='Advanced/debugging option to extract status lines in json format suitable for processing by scripts.')
+
+		self.argparser.add_argument('--XmaxUniqueWarnOrErrorLines', metavar='INT', default=1000, type=int,
+			help='Advanced option to put an upper limit on the number of unique warn/error log lines that will be held in memory. Specify 0 to disable warn/error line tracking.')
+		self.argparser.add_argument('--XmaxSampleWarnOrErrorLines', metavar='INT', default=5, type=int,
+			help='Advanced option to specify how many sample warn/error log lines to include in the summary for each unique log message. Use 0 to include all matching log lines.')
+		
 		
 	def main(self, args):
 		args = self.argparser.parse_args(args)
@@ -925,7 +962,7 @@ class LogAnalyzerTool(object):
 		assert os.path.abspath(args.output) != os.path.abspath(os.path.dirname(logpaths[-1])), 'Please put output into a different directory to the input log files'
 		if not os.path.exists(args.output): os.makedirs(args.output)
 		
-		manager = self.createManager(args)
+		manager = self.analyzerFactory(args)
 		manager.processFiles(logpaths)
 
 		duration = time.time()-duration
@@ -935,9 +972,6 @@ class LogAnalyzerTool(object):
 		log.info('If you need to request help analyzing a log file be sure to tell us: the 4-digit Apama version, the time period when the bad behaviour was observed, any ERROR/WARN messages, who is the author/expert of the EPL application code, and if possible attach the full original correlator log files (including the very first log file - which contains all the header information - and the log file during which the bad behaviour occurred). ')
 		
 		return 0
-	
-	def createManager(self, args):
-		return LogAnalyzer(args)
 	
 if __name__ == "__main__":
 	try:
