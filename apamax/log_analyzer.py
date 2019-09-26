@@ -825,7 +825,7 @@ class LogAnalyzer(object):
 	def formatDateTimeRange(datetime1, datetime2):
 		"""Format a date-time. By default milliseconds aren't included but day-of-week is. 
 		"""
-		if datetime1==datetime2: return self.formatDateTime(datetime1)
+		if datetime1==datetime2: return LogAnalyzer.formatDateTime(datetime1)
 		delta = datetime2-datetime1
 		delta = delta-datetime.timedelta(microseconds=delta.microseconds)
 		
