@@ -80,4 +80,6 @@
 2019-08-01 18:04:30.728 INFO  [53100] - Will log queue size every 5.000000 seconds
 2019-08-01 18:04:31.563 CRIT  [53100:DistMemStore] - <TestBean> TestBean.afterPropertiesSet called
 
+2019-08-01 18:04:31.563 INFO  [22872] - Correlator Status: sm=0 nctx=1 ls=10 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=0 vm=22580 pm=25312 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=0
+
 2019-08-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 91011 took 0.1 seconds

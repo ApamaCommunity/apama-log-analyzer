@@ -13,7 +13,7 @@ __license__ = "Apache"
 
 import logging, os, io, argparse, re, time, sys, collections, datetime, calendar
 import json
-import glob
+import glob 
 
 log = logging.getLogger('loganalyzer')
 
@@ -422,7 +422,7 @@ class LogAnalyzer(object):
 		# for handleRawStatusDict
 		self.columns = None # ordered dict of key:annotated_displayname
 		self.previousRawStatus = None # the previous raw status
-		file['errorCount'] = file['warnCount'] = 0
+		file['errorsCount'] = file['warningsCount'] = 0
 		
 		# for handleAnnotatedStatusDict summarization
 		file['status-min'] = file['status-max'] = file['status-sum'] = \
@@ -574,8 +574,8 @@ class LogAnalyzer(object):
 		secsSinceLast = -1 if previousStatus is None else seconds-previousStatus['seconds']
 
 		# treat warns/errors before the first status line as if they were after, else they won't be seen in the first value
-		status['warns'] = 0 if previousStatus is None else file['warnCount']
-		status['errors'] = 0 if previousStatus is None else file['errorCount']
+		status['warns'] = 0 if previousStatus is None else file['warningsCount']
+		status['errors'] = 0 if previousStatus is None else file['errorsCount']
 		for k in display:
 			if k.startswith('='): # computed values
 				if k == '=is swapping':
@@ -588,9 +588,9 @@ class LogAnalyzer(object):
 					val = 0
 
 				elif k == '=errors':
-					val = (file['errorCount']-previousStatus['errors'])
+					val = (file['errorsCount']-previousStatus['errors'])
 				elif k == '=warns':
-					val = (file['warnCount']-previousStatus['warns'])
+					val = (file['warningsCount']-previousStatus['warns'])
 
 				elif k == '=log lines /sec':
 					val = (status['line num']-previousStatus['line num'])/secsSinceLast
@@ -758,10 +758,10 @@ class LogAnalyzer(object):
 	WARN_ERROR_NORMALIZATION_REGEX = re.compile('[0-9][0-9.]*')
 	def handleWarnOrError(self, file, isError, line, **extra):
 		if isError:
-			file['errorCount'] += 1
+			file['errorsCount'] += 1
 			tracker = self.errors
 		else:
-			file['warnCount'] += 1
+			file['warningsCount'] += 1
 			tracker = self.warns
 		
 		msg = line.message
@@ -794,9 +794,9 @@ class LogAnalyzer(object):
 			path = f'{self.outputdir}/{kind}.txt'
 			with io.open(path, 'w', encoding='utf-8') as f:
 				
-				# first show a summary: TODO make this work
+				# first show a summary
 				for file in self.files:
-					f.write(f"{10:} {kind} in {file['name']}\n")
+					f.write(f"{file[f'{kind}Count']} {kind} in {file['name']}\n")
 				f.write("\n")
 
 				f.write(f"Summary of {kind}, sorted by normalized message: \n\n")

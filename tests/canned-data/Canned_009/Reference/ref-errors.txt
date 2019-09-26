@@ -1,7 +1,7 @@
-10 errors in correlator1
-10 errors in correlator2
-10 errors in correlator3
-10 errors in correlator4
+4 errors in correlator1
+0 errors in correlator2
+0 errors in correlator3
+0 errors in correlator4
 
 Summary of errors, sorted by normalized message: 
 

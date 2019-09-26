@@ -1,7 +1,7 @@
-10 warnings in correlator1
-10 warnings in correlator2
-10 warnings in correlator3
-10 warnings in correlator4
+7 warnings in correlator1
+1 warnings in correlator2
+1 warnings in correlator3
+1 warnings in correlator4
 
 Summary of warnings, sorted by normalized message: 
 
@@ -21,7 +21,7 @@ Summary of warnings, sorted by normalized message:
        line 89 : 2019-07-30 18:04:35.567 WARN  [53100:DistMemStore] - ABC warning for process 456 took 9999.10.123.123 seconds
        line 90 : 2019-07-30 18:04:36.567 WARN  [53100:DistMemStore] - ABC warning for process 456 took 29.10 seconds
       Examples from correlator2:
-       line 83 : 2019-08-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 91011 took 0.1 seconds
+       line 85 : 2019-08-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 91011 took 0.1 seconds
       Examples from correlator3:
        line 83 : 2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 91011 took 0.1111 seconds
       Examples from correlator4:
