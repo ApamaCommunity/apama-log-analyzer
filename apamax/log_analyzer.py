@@ -425,8 +425,8 @@ class LogAnalyzer(object):
 		self.errorCount = self.warnCount = 0
 		
 		# for handleAnnotatedStatusDict summarization
-		self.status_min = self.status_max = self.status_sum = \
-			self.status_0pc = self.status_25pc = self.status_50pc = self.status_75pc = self.status_100pc = None
+		file['status-min'] = file['status-max'] = file['status-sum'] = \
+			file['status-0pc'] = file['status-25pc'] = file['status-50pc'] = file['status-75pc'] = file['status-100pc'] = None
 		self.previousAnnotatedStatus = None # annotated status
 		self.totalStatusLinesInFile = 0
 
@@ -639,40 +639,40 @@ class LogAnalyzer(object):
 	
 		# summary
 		if self.previousAnnotatedStatus is None: 
-			self.status_0pc = dict(status)
-			self.status_sum = {k:0 for k in status} 
-			self.status_min = dict(status)
-			self.status_max = dict(status)
+			file['status-0pc'] = dict(status)
+			file['status-sum'] = {k:0 for k in status} 
+			file['status-min'] = dict(status)
+			file['status-max'] = dict(status)
 		self.previousAnnotatedStatus = status
 		self.totalStatusLinesInFile += 1
 		for k, v in status.items():
 			if isinstance(v, str): continue
-			if v > self.status_max[k]: self.status_max[k] = v
-			if v < self.status_min[k]: self.status_min[k] = v
+			if v > file['status-max'][k]: file['status-max'][k] = v
+			if v < file['status-min'][k]: file['status-min'][k] = v
 			
 			if v != 0: 
-				if isinstance(self.status_0pc[k], float): 
+				if isinstance(file['status-0pc'][k], float): 
 					# for precision, use integers (which in python have infinite precision!) 
 					# to keep runnning total, even for float types; 
 					# to get final number that look right to 4 dp, scale up by 6 dp
 					v = int(1000000*v) 
-				self.status_sum[k] += v
+				file['status-sum'][k] += v
 
 	def handleFilePercentComplete(self, file, percent, **extra):
 		# update status summary
 		if percent >= 25:
-			self.status_25pc = self.status_25pc or self.previousAnnotatedStatus
+			file['status-25pc'] = file['status-25pc'] or self.previousAnnotatedStatus
 		if percent >= 50:
-			self.status_50pc = self.status_50pc or self.previousAnnotatedStatus
+			file['status-50pc'] = file['status-50pc'] or self.previousAnnotatedStatus
 		if percent >= 75:
-			self.status_75pc = self.status_75pc or self.previousAnnotatedStatus
+			file['status-75pc'] = file['status-75pc'] or self.previousAnnotatedStatus
 		if percent == 100:
-			self.status_100pc = self.previousAnnotatedStatus
+			file['status-100pc'] = self.previousAnnotatedStatus
 
 	def writeStatusSummaryForCurrentFile(self, file):
 		""" Called when the current log file is finished to write out status summary csv/json. 
 		"""
-		if self.totalStatusLinesInFile < 2 or (not self.previousAnnotatedStatus) or (not self.status_100pc):
+		if self.totalStatusLinesInFile < 2 or (not self.previousAnnotatedStatus) or (not file.get('status-100pc')):
 			log.warn('%d status line(s) found in %s; not enough to analyze', self.totalStatusLinesInFile, self.currentname)
 			return
 
@@ -682,37 +682,37 @@ class LogAnalyzer(object):
 			return v
 		
 		def calcmean(k):
-			v = self.status_sum[k]
-			if v is None or isinstance(v, str) or isinstance(self.status_0pc.get(k, ''), str): return ''
+			v = file['status-sum'][k]
+			if v is None or isinstance(v, str) or isinstance(file['status-0pc'].get(k, ''), str): return ''
 
 			# to get improved precision we convert floats to ints, scaling up  - turn them back here
-			if isinstance(self.status_0pc[k], float): v = v/1000000.0
+			if isinstance(file['status-0pc'][k], float): v = v/1000000.0
 
 			v = v / float(self.totalStatusLinesInFile) # force a floating point division
 			if v==0: v = 0 # keep it concise for zero values
 			
 			
 			# don't bother with decimal places for large integer values
-			if abs(v) > 1000 and isinstance(self.status_0pc.get(k, ''), int): v = int(v)
+			if abs(v) > 1000 and isinstance(file['status-0pc'].get(k, ''), int): v = int(v)
 			
 			return v
 			
 		rows = {
-			'0% (start)':self.status_0pc,
-			'25%':self.status_25pc,
-			'50%':self.status_50pc,
-			'75%':self.status_75pc,
-			'100% (end)':self.status_100pc,
+			'0% (start)':file['status-0pc'],
+			'25%':file['status-25pc'],
+			'50%':file['status-50pc'],
+			'75%':file['status-75pc'],
+			'100% (end)':file['status-100pc'],
 			'':None,
-			'min':{k: numberOrEmpty(self.status_min[k]) for k in self.status_min},
-			'mean':{k: calcmean(k) for k in self.status_sum},
-			'max':{k: numberOrEmpty(self.status_max[k]) for k in self.status_max},
+			'min':{k: numberOrEmpty(file['status-min'][k]) for k in file['status-min']},
+			'mean':{k: calcmean(k) for k in file['status-sum']},
+			'max':{k: numberOrEmpty(file['status-max'][k]) for k in file['status-max']},
 		}
-		for k in self.status_0pc:
-			if isinstance(self.status_0pc[k], str):
-				self.status_sum[k] = ''
-				self.status_min[k] = ''
-				self.status_max[k] = ''
+		for k in file['status-0pc']:
+			if isinstance(file['status-0pc'][k], str):
+				file['status-sum'][k] = ''
+				file['status-min'][k] = ''
+				file['status-max'][k] = ''
 
 		writers = [CSVStatusWriter(self), JSONStatusWriter(self)]
 		for w in writers:
