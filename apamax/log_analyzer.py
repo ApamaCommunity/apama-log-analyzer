@@ -643,6 +643,11 @@ class LogAnalyzer(object):
 			file['status-sum'] = {k:0 for k in status} 
 			file['status-min'] = dict(status)
 			file['status-max'] = dict(status)
+			
+			file['status-floatKeys'] = set()
+			for k in status:
+				if isinstance(status[k], float): 
+					file['status-floatKeys'].add(k)
 		self.previousAnnotatedStatus = status
 		self.totalStatusLinesInFile += 1
 		for k, v in status.items():
@@ -651,7 +656,7 @@ class LogAnalyzer(object):
 			if v < file['status-min'][k]: file['status-min'][k] = v
 			
 			if v != 0: 
-				if isinstance(file['status-0pc'][k], float): 
+				if k in file['status-floatKeys']: 
 					# for precision, use integers (which in python have infinite precision!) 
 					# to keep runnning total, even for float types; 
 					# to get final number that look right to 4 dp, scale up by 6 dp
@@ -686,7 +691,7 @@ class LogAnalyzer(object):
 			if v is None or isinstance(v, str) or isinstance(file['status-0pc'].get(k, ''), str): return ''
 
 			# to get improved precision we convert floats to ints, scaling up  - turn them back here
-			if isinstance(file['status-0pc'][k], float): v = v/1000000.0
+			if k in file['status-floatKeys']: v = v/1000000.0
 
 			v = v / float(self.totalStatusLinesInFile) # force a floating point division
 			if v==0: v = 0 # keep it concise for zero values
