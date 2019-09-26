@@ -316,6 +316,10 @@ class JSONStatusWriter(BaseWriter):
 class LogAnalyzer(object):
 	"""
 	Managers analysis of one or more log files. 
+	
+	@ivar currentname: The display name of the log file currently being processed
+	@ivar currentpath: The full path of the log file currently being processed
+	@ivar current: The dictionary of the current log file. 
 	"""
 
 	def __init__(self, args):
@@ -323,34 +327,41 @@ class LogAnalyzer(object):
 		self.args = args
 		self.outputdir = args.output
 		
-		self.currentfile = None
-		self.currentname = None # identifies the current correlator instance
 		self.writers = [CSVStatusWriter(self)]
 		if args.statusjson:
 			self.writers.append(JSONStatusWriter(self))
 	
-	def processFiles(self, files):
-		self.files = files
-		for name, path in files:
+	def processFiles(self, filepaths):
+		for path in filepaths:
 			if not os.path.isfile(path): raise UserError(f'Cannot find file "{path}"')
+		self.files = [ # list of dictionaries
+			{'path':fp, 'name': self.logFileToLogName(fp), 'startTime':None, 'endTime':None}
+			for fp in filepaths
+		]
 		self.handleAllFilesStarted()
-		for name, path in files:
-			self.processFile(path)
+		for file in self.files:
+			self.processFile(file=file)
 		self.handleAllFilesFinished()
+		self.files = None
 
 	def processFile(self, file):
+		"""
+		@param file: The dictionary for the file to be processed. 
+		"""
 		duration = time.time()
 		# open in utf-8 with repl chars
 		
-		self.currentfile, self.currentname, self.currentfilebytes = file, self.logFileToLogName(file), os.path.getsize(file)
+		self.currentpath = file['path']
+		self.currentname = file['name']
+		self.currentpathbytes = os.path.getsize(self.currentpath)
 		
-		log.info('Starting analysis of %s (%s MB)', os.path.basename(file), '{:,}'.format(int(self.currentfilebytes/1024.0/1024)))
+		log.info('Starting analysis of %s (%s MB)', os.path.basename(self.currentpath), '{:,}'.format(int(self.currentpathbytes/1024.0/1024)))
 		self.handleFileStarted(file=file)
-		self.handleFilePercentComplete(percent=0)
+		self.handleFilePercentComplete(file=file, percent=0)
 
 		lastpercent = 0
 		
-		with io.open(file, encoding='utf-8', errors='replace') as f:
+		with io.open(self.currentpath, encoding='utf-8', errors='replace') as f:
 			self.__currentfilehandle = f
 			charcount = 0
 			lineno = 0
@@ -358,12 +369,12 @@ class LogAnalyzer(object):
 				lineno += 1
 				charcount += len(line)
 				
-				if self.currentfilebytes < 10*1000 or lineno % 10 == 0: # don't do it too often for large files
+				if self.currentpathbytes < 10*1000 or lineno % 10 == 0: # don't do it too often for large files
 					# can't use tell() on a text file (without inefficiency), so assume 1 byte per char (usually true for ascii) as a rough heuristic
-					percent = 100.0*charcount / (self.currentfilebytes or -1) # (-1 is to avoid div by zero when we're testing against a fake)
+					percent = 100.0*charcount / (self.currentpathbytes or -1) # (-1 is to avoid div by zero when we're testing against a fake)
 					for threshold in [25, 50, 75]:
 						if percent >= threshold and lastpercent < threshold:
-							self.handleFilePercentComplete(percent=threshold)
+							self.handleFilePercentComplete(file=file, percent=threshold)
 							lastpercent = threshold
 				
 				self.currentlineno = lineno
@@ -373,40 +384,41 @@ class LogAnalyzer(object):
 				
 				try:
 					logline = LogLine(line, lineno)
-					self.handleLine(line=logline)
+					self.handleLine(file=file, line=logline)
 
 				except Exception as e:
-					log.exception(u'Failed to handle %s:%s %s - '%(line, os.path.basename(self.currentfile), self.currentlineno))
+					log.exception(u'Failed to handle %s:%s %s - '%(line, os.path.basename(self.currentpath), self.currentlineno))
 					raise
 
 		# publish 100% and any earlier ones that were skipped if it's a tiny file
 		for threshold in [25, 50, 75, 100]:
 			if lastpercent < threshold:
-				self.handleFilePercentComplete(percent=threshold)
-		self.handleFileFinished()
+				self.handleFilePercentComplete(file=file, percent=threshold)
+		self.handleFileFinished(file=file)
 		
 		self.currentlineno = -1
 		self.__currentfilehandle = None
-		self.currentfile, self.currentfilebytes = None, 0
+		self.currentpath, self.currentpathbytes = None, 0
+		self.currentfile = file
 
 		duration = time.time()-duration
 		if duration > 10:
-			log.info('Completed analysis of %s in %s', os.path.basename(file), (('%d seconds'%duration) if duration < 120 else ('%0.1f minutes' % (duration/60))))
+			log.info('Completed analysis of %s in %s', os.path.basename(self.currentpath), (('%d seconds'%duration) if duration < 120 else ('%0.1f minutes' % (duration/60))))
 
-	def handleFileFinished(self):
+	def handleFileFinished(self, file, **extra):
 		for w in self.writers:
 			w.closeFile()
-		self.writeStatusSummaryForCurrentFile()
+		self.writeStatusSummaryForCurrentFile(file=file)
 
 	def handleAllFilesFinished(self):
-		self.writeWarnOrErrorSummary()
+		self.writeWarnOrErrorSummaryForAllFiles()
 
 	def handleAllFilesStarted(self):
 		# for handleWarnOrError
 		self.warns = {} # {normmsg: {logfile:{first:logline, last:logline, all:[logline]}}}
 		self.errors = {}
 
-	def handleFileStarted(self, file):
+	def handleFileStarted(self, file, **extra):
 		# for handleRawStatusDict
 		self.columns = None # ordered dict of key:annotated_displayname
 		self.previousRawStatus = None # the previous raw status
@@ -418,19 +430,19 @@ class LogAnalyzer(object):
 		self.previousAnnotatedStatus = None # annotated status
 		self.totalStatusLinesInFile = 0
 
-	def handleLine(self, line, **extra):
+	def handleLine(self, file, line, **extra):
 		m = line.message
 		if m.startswith('Correlator Status: ') or m.startswith('Status: sm'): # "Status: " is for very old versions e.g. 4.3
-			self.handleRawStatusLine(line=line)
+			self.handleRawStatusLine(file=file, line=line)
 			return
 			
 		level = line.level
 		if level == 'W':
-			self.handleWarnOrError(isError=False, line=line)
+			self.handleWarnOrError(file=file, isError=False, line=line)
 		elif level == 'E' or level == 'F':
-			self.handleWarnOrError(isError=True, line=line)
+			self.handleWarnOrError(file=file, isError=True, line=line)
 		
-	def handleRawStatusLine(self, line, **extra):
+	def handleRawStatusLine(self, file, line, **extra):
 		m = line.message
 		d = collections.OrderedDict()
 		d['datetime'] = line.getDetails()['datetimestring']
@@ -479,7 +491,7 @@ class LogAnalyzer(object):
 		if not d: return
 		
 		#log.debug('Extracted status line %s: %s', d)
-		self.handleRawStatusDict(status=d)
+		self.handleRawStatusDict(file=file, status=d)
 		
 		"""
 		also requires this in file started:
@@ -515,7 +527,7 @@ class LogAnalyzer(object):
 		"""
 	
 		
-	def handleRawStatusDict(self, status=None, **extra):
+	def handleRawStatusDict(self, file, status=None, **extra):
 		"""
 		Accepts a raw status dictionary and converts it to an annotated status 
 		dict (unordered) whose keys match the columns returned by 
@@ -609,18 +621,18 @@ class LogAnalyzer(object):
 					val = val/1024.0 # kb to MB
 			d[display[k]] = val
 
-		self.handleAnnotatedStatusDict(status=d)
+		self.handleAnnotatedStatusDict(file=file, status=d)
 		self.previousRawStatus = status # both raw and annotated values
 
-	def handleAnnotatedStatusDict(self, status, **extra):
+	def handleAnnotatedStatusDict(self, file, status, **extra):
 		for w in self.writers:
 			w.writeStatus(status=status)
-		self._updateStatusSummary(status=status)
+		self._updateStatusSummary(file=file, status=status)
 
 	############################################################################
 	# summarization
 
-	def _updateStatusSummary(self, status):
+	def _updateStatusSummary(self, file, status):
 		"""
 		Called for each parsed and annotated status value to allow us to update per-file summary stats
 		"""
@@ -646,7 +658,7 @@ class LogAnalyzer(object):
 					v = int(1000000*v) 
 				self.status_sum[k] += v
 
-	def handleFilePercentComplete(self, percent, **extra):
+	def handleFilePercentComplete(self, file, percent, **extra):
 		# update status summary
 		if percent >= 25:
 			self.status_25pc = self.status_25pc or self.previousAnnotatedStatus
@@ -657,7 +669,7 @@ class LogAnalyzer(object):
 		if percent == 100:
 			self.status_100pc = self.previousAnnotatedStatus
 
-	def writeStatusSummaryForCurrentFile(self):
+	def writeStatusSummaryForCurrentFile(self, file):
 		""" Called when the current log file is finished to write out status summary csv/json. 
 		"""
 		if self.totalStatusLinesInFile < 2 or (not self.previousAnnotatedStatus) or (not self.status_100pc):
@@ -739,7 +751,7 @@ class LogAnalyzer(object):
 			w.closeFile()
 
 	WARN_ERROR_NORMALIZATION_REGEX = re.compile('[0-9][0-9.]*')
-	def handleWarnOrError(self, isError, line, **extra):
+	def handleWarnOrError(self, file, isError, line, **extra):
 		if isError:
 			self.errorCount += 1
 			tracker = self.errors
@@ -751,7 +763,7 @@ class LogAnalyzer(object):
 		# normalize so we can group them together
 		normmsg = LogAnalyzer.WARN_ERROR_NORMALIZATION_REGEX.sub('___', msg)
 		tracker = tracker.setdefault(normmsg, {})
-		tracker = tracker.setdefault(self.currentfile, {})
+		tracker = tracker.setdefault(self.currentpath, {})
 		if not tracker:
 			tracker['first'] = tracker['last'] = line
 			tracker['count'] = 1
@@ -767,7 +779,7 @@ class LogAnalyzer(object):
 		#if len(tracker['samples']) > 10: # avoid using too much memory; TODO: make this configurable
 		#	tracker['samples'] = tracker['samples'][:5]+tracker['samples'][-5:]
 
-	def writeWarnOrErrorSummary(self):
+	def writeWarnOrErrorSummaryForAllFiles(self):
 		for kind, tracker in [('warnings', self.warns), ('errors', self.errors)]:
 			if not tracker: 
 				log.info(f'No {kind} were found in any of these log files.')
@@ -778,8 +790,8 @@ class LogAnalyzer(object):
 			with io.open(path, 'w', encoding='utf-8') as f:
 				
 				# first show a summary: TODO make this work
-				for logname, logpath in self.files:
-					f.write(f"{10:} {kind} in {logname}\n")
+				for file in self.files:
+					f.write(f"{10:} {kind} in {file['name']}\n")
 				f.write("\n")
 
 				f.write(f"Summary of {kind}, sorted by normalized message: \n\n")
@@ -878,31 +890,26 @@ class LogAnalyzerTool(object):
 		
 		duration = time.time()
 		
-		logfiles = []
-		def addlog(f):
-			name = LogAnalyzer.logFileToLogName(f)
-			if not os.path.isfile(f):
-				raise UserError(f'Cannot find log file: {os.path.normpath(f)}')
-			logfiles.append( (name, f))
+		logpaths = []
 			
 		for f in args.files: # probably want to factor this out to an overridable method
 			if '*' in f:
 				globbed = sorted(glob.glob(f))
 				if not globbed:
 					raise UserError(f'No files found matching glob: {f}')
-				for f in globbed: addlog(f)
+				for f in globbed: logpaths.append(f)
 			else:
-				addlog(f)
+				logpaths.append(f)
 				
-			# TODO: add directory analysis, incl special-casing of "logs/" and ignoring already-analyzed files. zip file handling. 
+			# TODO: add directory analysis, input log skipping, incl special-casing of "logs/" and ignoring already-analyzed files. zip file handling. 
 			
-		logfiles.sort() # hopefully puts the latest one at the end
+		logpaths.sort() # best we can do until wen start reading them - hopefully puts the latest one at the end
 		
-		if not logfiles: raise UserError('No log files specified')
+		if not logpaths: raise UserError('No log files specified')
 		
 		if not args.output: 
 			# if not explicitly specified, create a new unique dir
-			outputname = 'log_analyzer_%s'%logfiles[-1][0] # base it on the most recent name
+			outputname = 'log_analyzer_%s'%LogAnalyzer.logFileToLogName(logpaths[-1]) # base it on the most recent name
 			args.output = outputname
 			i = 2
 			while os.path.exists(args.output) and os.listdir(args.output): # unless it's empty
@@ -910,11 +917,11 @@ class LogAnalyzerTool(object):
 				i += 1
 
 		log.info('Output directory is: %s', os.path.abspath(args.output))
-		assert os.path.abspath(args.output) != os.path.abspath(os.path.dirname(logfiles[-1][0])), 'Please put output into a different directory to the input log files'
+		assert os.path.abspath(args.output) != os.path.abspath(os.path.dirname(logpaths[-1])), 'Please put output into a different directory to the input log files'
 		if not os.path.exists(args.output): os.makedirs(args.output)
 		
 		manager = self.createManager(args)
-		manager.processFiles(logfiles)
+		manager.processFiles(logpaths)
 
 		duration = time.time()-duration
 		log.info('Completed analysis in %s', (('%d seconds'%duration) if duration < 120 else ('%0.1f minutes' % (duration/60))))
