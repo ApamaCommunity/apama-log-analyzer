@@ -20,16 +20,16 @@ class PySysTest(AnalyzerBaseTest):
 
 		# first line will have zeros since can't calculate a rate withut a line period
 		line = 0
-		self.assertEval("{value} == 0", value=s[line]['warns /sec'], valueName=f'warns for {log}.log line {line}')
-		self.assertEval("{value} == 0", value=s[line]['errors /sec'], valueName=f'errors for {log}.log line {line}')
+		self.assertEval("{value} == 0", value=s[line]['warns'], valueName=f'warns for {log}.log line {line}')
+		self.assertEval("{value} == 0", value=s[line]['errors'], valueName=f'errors for {log}.log line {line}')
 		self.assertEval("{value} == 0", value=s[line]['log lines /sec'], valueName=f'total log lines for {log}.log line {line}')
 
 		# second line also includes warns from before the first line
 		line = 1
-		self.assertEval("{value} == 2.0/5", value=s[line]['warns /sec'], valueName=f'warns for {log}.log line {line}')
-		self.assertEval("{value} == 3.0/5", value=s[line]['errors /sec'], valueName=f'errors for {log}.log line {line}')
-		self.assertEval("{value} == 7.0/5", value=s[line]['log lines /sec'], valueName=f'total log lines for {log}.log line {line}')
+		self.assertEval("{value} == 2", value=s[line]['warns'], valueName=f'warns for {log}.log line {line}')
+		self.assertEval("{value} == 3", value=s[line]['errors'], valueName=f'errors for {log}.log line {line}')
+		self.assertEval("{value} == 7/5.0", value=s[line]['log lines /sec'], valueName=f'total log lines for {log}.log line {line}')
 
 		line = 2
-		self.assertEval("{value} == 0.0", value=s[line]['warns /sec'], valueName=f'warns for {log}.log line {line}')
-		self.assertEval("{value} == 1.0/5", value=s[line]['errors /sec'], valueName=f'errors for {log}.log line {line}')
+		self.assertEval("{value} == 0", value=s[line]['warns'], valueName=f'warns for {log}.log line {line}')
+		self.assertEval("{value} == 1", value=s[line]['errors'], valueName=f'errors for {log}.log line {line}')

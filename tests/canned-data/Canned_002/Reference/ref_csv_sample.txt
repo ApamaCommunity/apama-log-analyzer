@@ -25,8 +25,8 @@ jvm delta MB : "2,256"
 si=swap pages read /sec : 20.61
 so=swap pages written /sec : 21.60
 is swapping : 1
-errors /sec : 0.00
-warns /sec : 0.00
+errors : 0
+warns : 0
 log lines /sec : 0.20
 lcn=slowest ctx : slowest context
 lcq=slowest ctx input queue : 10

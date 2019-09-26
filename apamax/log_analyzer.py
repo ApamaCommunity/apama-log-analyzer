@@ -60,8 +60,8 @@ COLUMN_DISPLAY_NAMES = collections.OrderedDict([
 	('=is swapping', None), # 1 if swapping, 0 if not; use integer not bool so we can graph it and sum it
 	
 	# log messages
-	('=errors /sec',None),
-	('=warns /sec',None),
+	('=errors',None), # since last status
+	('=warns',None),
 	('=log lines /sec',None),
 	
 	# slow contexts and consumers (some of these are strings, so put them at the end)
@@ -422,7 +422,7 @@ class LogAnalyzer(object):
 		# for handleRawStatusDict
 		self.columns = None # ordered dict of key:annotated_displayname
 		self.previousRawStatus = None # the previous raw status
-		self.errorCount = self.warnCount = 0
+		file['errorCount'] = file['warnCount'] = 0
 		
 		# for handleAnnotatedStatusDict summarization
 		file['status-min'] = file['status-max'] = file['status-sum'] = \
@@ -573,10 +573,9 @@ class LogAnalyzer(object):
 		
 		secsSinceLast = -1 if previousStatus is None else seconds-previousStatus['seconds']
 
-		# treat warns/errors before the first status line as if they were after, else they won't be seen in the rate
-		status['warns'] = 0 if previousStatus is None else self.warnCount
-		status['errors'] = 0 if previousStatus is None else self.errorCount
-		
+		# treat warns/errors before the first status line as if they were after, else they won't be seen in the first value
+		status['warns'] = 0 if previousStatus is None else file['warnCount']
+		status['errors'] = 0 if previousStatus is None else file['errorCount']
 		for k in display:
 			if k.startswith('='): # computed values
 				if k == '=is swapping':
@@ -588,10 +587,11 @@ class LogAnalyzer(object):
 				elif previousStatus is None or secsSinceLast==0: # can't calculate rates until we have a baseline
 					val = 0
 
-				elif k == '=errors /sec':
-					val = (self.errorCount-previousStatus['errors'])/secsSinceLast
-				elif k == '=warns /sec':
-					val = (self.warnCount-previousStatus['warns']) /secsSinceLast
+				elif k == '=errors':
+					val = (file['errorCount']-previousStatus['errors'])
+				elif k == '=warns':
+					val = (file['warnCount']-previousStatus['warns'])
+
 				elif k == '=log lines /sec':
 					val = (status['line num']-previousStatus['line num'])/secsSinceLast
 
@@ -753,10 +753,10 @@ class LogAnalyzer(object):
 	WARN_ERROR_NORMALIZATION_REGEX = re.compile('[0-9][0-9.]*')
 	def handleWarnOrError(self, file, isError, line, **extra):
 		if isError:
-			self.errorCount += 1
+			file['errorCount'] += 1
 			tracker = self.errors
 		else:
-			self.warnCount += 1
+			file['warnCount'] += 1
 			tracker = self.warns
 		
 		msg = line.message
