@@ -2,7 +2,7 @@
 <pysystest type="auto" state="runnable">
     
   <description> 
-    <title>WARN/ERROR processing - stats</title>    
+    <title>WARN/ERROR processing - summarization of normalized messages across multiple files</title>    
     <purpose><![CDATA[
     ]]>
     </purpose>

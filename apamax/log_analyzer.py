@@ -330,8 +330,10 @@ class LogAnalyzer(object):
 			self.writers.append(JSONStatusWriter(self))
 	
 	def processFiles(self, files):
+		self.files = files
 		for name, path in files:
 			if not os.path.isfile(path): raise UserError(f'Cannot find file "{path}"')
+		self.handleAllFilesStarted()
 		for name, path in files:
 			self.processFile(path)
 		self.handleAllFilesFinished()
@@ -397,7 +399,12 @@ class LogAnalyzer(object):
 		self.writeStatusSummaryForCurrentFile()
 
 	def handleAllFilesFinished(self):
-		pass
+		self.writeWarnOrErrorSummary()
+
+	def handleAllFilesStarted(self):
+		# for handleWarnOrError
+		self.warns = {} # {normmsg: {logfile:{first:logline, last:logline, all:[logline]}}}
+		self.errors = {}
 
 	def handleFileStarted(self, file):
 		# for handleRawStatusDict
@@ -731,11 +738,74 @@ class LogAnalyzer(object):
 				prev = status
 			w.closeFile()
 
+	WARN_ERROR_NORMALIZATION_REGEX = re.compile('[0-9][0-9.]*')
 	def handleWarnOrError(self, isError, line, **extra):
 		if isError:
 			self.errorCount += 1
+			tracker = self.errors
 		else:
 			self.warnCount += 1
+			tracker = self.warns
+		
+		msg = line.message
+		# normalize so we can group them together
+		normmsg = LogAnalyzer.WARN_ERROR_NORMALIZATION_REGEX.sub('___', msg)
+		tracker = tracker.setdefault(normmsg, {})
+		tracker = tracker.setdefault(self.currentfile, {})
+		if not tracker:
+			tracker['first'] = tracker['last'] = line
+			tracker['count'] = 1
+			tracker['samples'] = []
+		else:
+			if tracker['first'].getDateTime() > line.getDateTime():
+				tracker['first'] = line
+			if tracker['last'].getDateTime() < line.getDateTime():
+				tracker['last'] = line
+			tracker['count'] += 1
+			
+		tracker['samples'].append(line)
+		#if len(tracker['samples']) > 10: # avoid using too much memory; TODO: make this configurable
+		#	tracker['samples'] = tracker['samples'][:5]+tracker['samples'][-5:]
+
+	def writeWarnOrErrorSummary(self):
+		for kind, tracker in [('warnings', self.warns), ('errors', self.errors)]:
+			if not tracker: 
+				log.info(f'No {kind} were found in any of these log files.')
+				continue
+			
+			# TODO: make name unique, to support rolling of long ones?
+			path = f'{self.outputdir}/{kind}.txt'
+			with io.open(path, 'w', encoding='utf-8') as f:
+				
+				# first show a summary: TODO make this work
+				for logname, logpath in self.files:
+					f.write(f"{10:} {kind} in {logname}\n")
+				f.write("\n")
+
+				f.write(f"Summary of {kind}, sorted by normalized message: \n\n")
+				
+				for normmsg in sorted(tracker):
+					byfiles = tracker[normmsg]
+					totalcount = sum(byfile['count'] for byfile in byfiles.values())
+					f.write(f"--- x{totalcount}: ")
+					if totalcount == 1:
+						[(logfile, byfile)] = byfiles.items()
+						sampleline = byfile['samples'][0]
+						f.write(f"{sampleline.line}\n")
+						f.write(f"      in {self.logFileToLogName(logfile)} line {sampleline.lineno}\n")
+					else:
+						f.write(f"{normmsg}\n")
+						for logfile, byfile in byfiles.items():
+							if byfile['count'] == 1:
+								f.write(f"      x1 at   {self.formatDateTime(byfile['first'].getDateTime())} in {self.logFileToLogName(logfile)}\n")
+							else:
+								f.write(f"      x{byfile['count']} from {self.formatDateTimeRange(byfile['first'].getDateTime(), byfile['last'].getDateTime())} in {self.logFileToLogName(logfile)}\n")
+						# TODO: limit what we print, maybe
+						for logfile, byfile in byfiles.items():
+							f.write(f"      Examples from {self.logFileToLogName(logfile)}:\n")
+							for sampleline in byfile['samples']:
+								f.write(f"       line {sampleline.lineno} : {sampleline.line}\n")
+					f.write('\n')
 
 	def getMetadataDictForCurrentFile(self):
 		""" Get an ordered dictionary of additional information to be included with the header for the current file, 
@@ -744,6 +814,27 @@ class LogAnalyzer(object):
 		d['analyzer'] = f'v{__version__}/{__date__}' # always include the version of the script that generated it
 		return d
 
+	@staticmethod
+	def formatDateTime(datetime):
+		"""Format a date-time. By default milliseconds aren't included but day-of-week is. 
+		"""
+		if not datetime: return '<no datetime>'
+		return datetime.strftime('%a %Y-%m-%d %H:%M:%S')
+
+	@staticmethod
+	def formatDateTimeRange(datetime1, datetime2):
+		"""Format a date-time. By default milliseconds aren't included but day-of-week is. 
+		"""
+		if datetime1==datetime2: return self.formatDateTime(datetime1)
+		delta = datetime2-datetime1
+		delta = delta-datetime.timedelta(microseconds=delta.microseconds)
+		
+		if datetime1.date()==datetime2.date():
+			formatted2 = datetime2.strftime('%H:%M:%S')
+		else:
+			formatted2 = LogAnalyzer.formatDateTime(datetime2)
+		
+		return f'{LogAnalyzer.formatDateTime(datetime1)} to {formatted2} (={delta})'
 
 	@staticmethod
 	def logFileToLogName(filename):
