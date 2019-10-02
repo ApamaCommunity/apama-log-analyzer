@@ -1,0 +1,66 @@
+4 errors in correlator-java-errors
+
+Summary of errors, sorted by normalized message: 
+
+--- x1: 2019-07-30 18:04:31.578 ERROR [53100] - Distributed MemoryStore initialization error: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ThrowsNpeFromInitBean1' defined in URL [file:/C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_1324/Input/ThrowsNpeFromInit/sample-spring.xml]: Invocation of init method failed; nested exception is java.lang.NullPointerException: Simulated error during afterPropertiesSet
+        	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1745)
+        	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:576)
+        	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:498)
+        	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+        	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+        	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+        	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+        	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:846)
+        	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:863)
+        	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:546)
+        	at com.apama.spring.ApamaSpringXmlContext.<init>(ApamaSpringXmlContext.java:51)
+        	at com.apama.correlator.memstore.internal.DistMemStoreConfigManager.createStoreManager(DistMemStoreConfigManager.java:143)
+        Caused by: java.lang.NullPointerException: Simulated error during afterPropertiesSet
+        	at TestBean.afterPropertiesSet(TestBean.java:18)
+        	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        	at java.lang.reflect.Method.invoke(Method.java:498)
+        	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.lambda$invokeCustomInitMethod$7(AbstractAutowireCapableBeanFactory.java:1860)
+        	at java.security.AccessController.doPrivileged(Native Method)
+        	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeCustomInitMethod(AbstractAutowireCapableBeanFactory.java:1859)
+        	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1813)
+        	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1741)
+        	... 11 more
+      in correlator-java-errors line 84
+
+--- x1: 2019-07-30 18:04:32.578 ERROR [53100] - Failed to initialize correlator: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ThrowsNpeFromInitBean1' defined in URL [file:/C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_1324/Input/ThrowsNpeFromInit/sample-spring.xml]: Invocation of init method failed; nested exception is java.lang.NullPointerException: Simulated error during afterPropertiesSet
+      in correlator-java-errors line 110
+
+--- x2: Java stack trace ___:
+      x2 from Tue 2019-07-30 18:05:33 to 18:06:34 (=0:01:01) in correlator-java-errors
+      Examples from correlator-java-errors:
+       line 112 : 2019-07-30 18:05:33.578 ERROR [53100] - Java stack trace 1:
+                  	at com.apama.correlator.memstore.internal.DistMemStoreConfigManager.createStoreManager(DistMemStoreConfigManager.java:143)
+                  Caused by: java.lang.NullPointerException: Simulated error during afterPropertiesSet
+                  	at TestBean.afterPropertiesSet(TestBean.java:18)
+                  	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+                  	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+                  	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+                  	at java.lang.reflect.Method.invoke(Method.java:498)
+                  	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.lambda$invokeCustomInitMethod$7(AbstractAutowireCapableBeanFactory.java:1860)
+                  	at java.security.AccessController.doPrivileged(Native Method)
+                  	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeCustomInitMethod(AbstractAutowireCapableBeanFactory.java:1859)
+                  	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1813)
+                  	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1741)
+                  	... 11 more
+       line 127 : 2019-07-30 18:06:34.578 ERROR [53100] - Java stack trace 2:
+                  	at com.apama.correlator.memstore.internal.DistMemStoreConfigManager.createStoreManager(DistMemStoreConfigManager.java:143)
+                  Caused by: java.lang.NullPointerException: Simulated error during afterPropertiesSet
+                  	at TestBean.afterPropertiesSet(TestBean.java:18)
+                  	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+                  	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+                  	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+                  	at java.lang.reflect.Method.invoke(Method.java:498)
+                  	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.lambda$invokeCustomInitMethod$7(AbstractAutowireCapableBeanFactory.java:1860)
+                  	at java.security.AccessController.doPrivileged(Native Method)
+                  	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeCustomInitMethod(AbstractAutowireCapableBeanFactory.java:1859)
+                  	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1813)
+                  	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1741)
+                  	... 11 more
+

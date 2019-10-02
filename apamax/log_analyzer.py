@@ -100,10 +100,12 @@ class LogLine(object):
 	level - the first character of the log level (upper case), e.g. "I" for info, "E" for error, "#" for force. None if not a normal log line. 
 	
 	It is possible to get the timestamp, level and other details by calling getDetails
+	
+	@ivar extraLines: unassigned, or a list of strings which are extra lines logically part of this one (typically for warn/error stacks etc)
 	"""
 	LINE_REGEX = re.compile(r'(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d[.]\d\d\d) ([A-Z]+) +\[([^\]]+)\] -( <[^>]+>)? (.*)')
 	
-	__slots__ = ['line', 'lineno', 'message', 'level', '__details', '__rawdetails'] # be memory-efficient
+	__slots__ = ['line', 'lineno', 'message', 'level', '__details', '__rawdetails', 'extraLines'] # be memory-efficient
 	def __init__(self, line, lineno):
 		self.line = line
 		self.lineno = lineno
@@ -139,9 +141,9 @@ class LogLine(object):
 	
 	def getDetails(self):
 		"""
-		Returns a dictionary containing: datetimestring, thread, logcategory
+		Returns a dictionary containing: datetimestring, thread, logcategory, messagewithoutcat
 		
-		The result is cached, as getting this data is a bit time-consuming; avoid unless you're sure you need it. 
+		The result is cached, as getting this data is a bit time-consuming; avoid calling this unless you're sure you need it. 
 		"""
 	
 		det = self.__details
@@ -154,14 +156,15 @@ class LogLine(object):
 					'datetimestring':g[0],
 					'thread':g[2],
 					'logcategory':g[3].strip() if g[3] else '',
+					'messagewithoutcat':g[4],
 				}
-				self.message = g[4]
 				return self.__details
 
 		self.__details = {
 					'datetimestring':'',
 					'thread':'',
 					'logcategory':'',
+					'messagewithoutcat':self.message,
 				}
 		return self.__details
 	
@@ -247,8 +250,8 @@ class CSVStatusWriter(BaseWriter):
 		self.writeCSVLine(items)
 		
 	def writeStatus(self, status=None, **extra):
-		assert self.columns
-		assert status
+		#assert self.columns
+		#assert status
 		items = [self.formatItem(status.get(k, '?'), k) for k in self.columns]
 		self.writeCSVLine(items)
 	
@@ -300,7 +303,7 @@ class JSONStatusWriter(BaseWriter):
 		self.prependComma = False
 		
 	def writeStatus(self, status=None, **extra):
-		assert status
+		#assert status
 		# write it out incrementally to avoid excessive memory consumption
 		if self.prependComma: self.output.write(', ')
 		self.output.write(u'\n'+json.dumps(status))
@@ -365,6 +368,7 @@ class LogAnalyzer(object):
 			self.__currentfilehandle = f
 			charcount = 0
 			lineno = 0
+			previousLine = None
 			for line in f:
 				lineno += 1
 				charcount += len(line)
@@ -384,7 +388,8 @@ class LogAnalyzer(object):
 				
 				try:
 					logline = LogLine(line, lineno)
-					self.handleLine(file=file, line=logline)
+					if self.handleLine(file=file, line=logline, previousLine=previousLine) != LogAnalyzer.DONT_UPDATE_PREVIOUS_LINE:
+						previousLine = logline
 
 				except Exception as e:
 					log.exception(u'Failed to handle %s:%s %s - '%(line, os.path.basename(self.currentpath), self.currentlineno))
@@ -430,9 +435,10 @@ class LogAnalyzer(object):
 		self.previousAnnotatedStatus = None # annotated status
 		self.totalStatusLinesInFile = 0
 
-	def handleLine(self, file, line, **extra):
+	DONT_UPDATE_PREVIOUS_LINE = 123
+	def handleLine(self, file, line, previousLine, **extra):
 		m = line.message
-		if m.startswith('Correlator Status: ') or m.startswith('Status: sm'): # "Status: " is for very old versions e.g. 4.3
+		if m.startswith(('Correlator Status: ', 'Status: sm')): # "Status: " is for very old versions e.g. 4.3
 			self.handleRawStatusLine(file=file, line=line)
 			return
 			
@@ -440,7 +446,21 @@ class LogAnalyzer(object):
 		if level == 'W':
 			self.handleWarnOrError(file=file, isError=False, line=line)
 		elif level == 'E' or level == 'F':
+			# handle multi-line errors. Usually we need time AND thread to match, but FATAL stack trace lines are logged independently
+			if previousLine is not None and previousLine.level == level and previousLine.getDetails()['thread']==line.getDetails()['thread'] and (
+					level=='F' or previousLine.getDateTime()==line.getDateTime()):
+				# treat a line with no date/level this as part of the preceding warn/error message
+				if not hasattr(previousLine, 'extraLines'): previousLine.extraLines = []
+				previousLine.extraLines.append(line.line)
+				return LogAnalyzer.DONT_UPDATE_PREVIOUS_LINE
+		
 			self.handleWarnOrError(file=file, isError=True, line=line)
+		elif line.level is None and previousLine is not None:
+			if previousLine.level in ['W', 'E', 'F']:
+				# treat a line with no date/level this as part of the preceding warn/error message
+				if not hasattr(previousLine, 'extraLines'): previousLine.extraLines = []
+				previousLine.extraLines.append(line.line)
+				return LogAnalyzer.DONT_UPDATE_PREVIOUS_LINE
 		
 	def handleRawStatusLine(self, file, line, **extra):
 		m = line.message
@@ -818,19 +838,30 @@ class LogAnalyzer(object):
 
 				f.write(f"Summary of {kind}, sorted by normalized message: \n\n")
 				
+				def writeSampleLine(prefix, line):
+					f.write(f'{prefix}{line.line}\n')
+					if hasattr(line, 'extraLines'):
+						for e in line.extraLines:
+							f.write(' '*len(prefix))
+							f.write(f'{e}\n')
+				
 				for normmsg in sorted(tracker):
 					remainingSamples = maxSampleWarnOrErrorLines or 0
 				
 					byfiles = tracker[normmsg]
 					totalcount = sum(byfile['count'] for byfile in byfiles.values())
-					f.write(f"--- x{totalcount}: ")
+
+					prefix = f"--- x{totalcount}: "
+					
 					if totalcount == 1:
 						[(logfile, byfile)] = byfiles.items()
 						sampleline = byfile['samples'][0]
-						f.write(f"{sampleline.line}\n")
+						
+						writeSampleLine(prefix, sampleline)
 						f.write(f"      in {self.logFileToLogName(logfile)} line {sampleline.lineno}\n")
 						remainingSamples -= 1
 					else:
+						f.write(prefix)
 						f.write(f"{normmsg}\n")
 						for logfile, byfile in byfiles.items():
 							if byfile['count'] == 1:
@@ -846,7 +877,7 @@ class LogAnalyzer(object):
 								byfile['samples'] = byfile['samples'][:remainingSamples//2]+byfile['samples'][-remainingSamples//2:]
 							
 							for sampleline in byfile['samples']:
-								f.write(f"       line {sampleline.lineno} : {sampleline.line}\n")
+								writeSampleLine(f"       line {sampleline.lineno} : ", sampleline)
 								remainingSamples -= 1
 								if maxSampleWarnOrErrorLines and remainingSamples <= 0:
 									break # only print the first example per file if we've already exceeded our quota

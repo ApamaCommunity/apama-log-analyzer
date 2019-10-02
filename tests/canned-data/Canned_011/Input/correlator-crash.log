@@ -1,0 +1,118 @@
+2019-07-30 18:21:31.587 ##### [49276] - Correlator, version 10.5.0.0.0 (build UNKNOWN_VERSION@0 on amd64-win using Software AG suite version 10.5), started.
+2019-07-30 18:21:31.591 ##### [49276] - Running on host 'SAG-F4LBLQ2.eur.ad.sag' as user 'BSP'.
+2019-07-30 18:21:31.591 ##### [49276] - Running on platform 'Windows 10 Enterprise'.
+2019-07-30 18:21:31.591 ##### [49276] - Running on CPU 'GenuineIntel family 6 model 14 stepping 10 Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz'.
+2019-07-30 18:21:31.591 ##### [49276] - Running with process Id 49168.
+2019-07-30 18:21:31.591 ##### [49276] - Running with 32587.22MB of available memory.
+2019-07-30 18:21:31.591 ##### [49276] - There are 12 CPU(s)
+2019-07-30 18:21:31.591 ##### [49276] - Correlator command line: C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator -l C:\dev\10.5.0.x\apama-test\tools\output-amd64-win-release\apwork\license/ApamaServerLicense.xml -p 65499 -f correlator.log
+2019-07-30 18:21:31.591 ##### [49276] - Current Working Directory: C:\dev\10.5.0.x\apama-test\system\correlator\corba\testcases\correctness\Corr_Corba_cor_422\Output\amd64-win
+2019-07-30 18:21:31.592 ##### [49276] - PATH: C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin;C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\adapters\bin;C:\dev\10.5.0.x\apama-test\tools\output-amd64-win-release\native-adapters;c:\dev\10.5.0.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre\bin\server;c:\dev\10.5.0.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre\bin;c:\dev\10.5.0.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre;c:\dev\10.5.0.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\common\security\openssl\bin;c:\dev\10.5.0.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre\bin;C:\WINDOWS;C:\WINDOWS\system32;C:\WINDOWS\System32\Wbem;C:\dev\10.5.0.x\apama-test\tools\output-amd64-win-release\epl-plugins
+2019-07-30 18:21:31.592 ##### [49276] - Current UTC time: 2019-07-30 17:21:31, local timezone: GMT Daylight Time
+2019-07-30 18:21:31.592 ##### [49276] - Input value - port                     = 65499
+2019-07-30 18:21:31.592 ##### [49276] - Input value - output queue size        = 10000
+2019-07-30 18:21:31.592 ##### [49276] - Input value - output queue batch size  = 100
+2019-07-30 18:21:31.592 ##### [49276] - Input value - output queue mode        = blocking
+2019-07-30 18:21:31.592 ##### [49276] - Input value - environment variable     = APAMA_HOME=C:/dev/10.5.0.x/apama-src/output-amd64-win-release/SoftwareAG/Apama
+2019-07-30 18:21:31.592 ##### [49276] - Input value - environment variable     = AP_TEST_VERBOSE=true
+2019-07-30 18:21:31.592 ##### [49276] - Input value - environment variable     = AP_ASCII_COLOURS=true
+2019-07-30 18:21:31.592 ##### [49276] - Using memory allocator                 = TBB scalable allocator
+2019-07-30 18:21:31.592 ##### [49276] - License File: C:\dev\10.5.0.x\apama-test\tools\output-amd64-win-release\apwork\license\ApamaServerLicense.xml
+2019-07-30 18:21:31.648 ##### [49276] - ================= Software AG License Data =================
+2019-07-30 18:21:31.648 ##### [49276] - Sales Information
+2019-07-30 18:21:31.648 ##### [49276] -      Serial Number      : 0000028449
+2019-07-30 18:21:31.648 ##### [49276] -      Customer ID        : 1
+2019-07-30 18:21:31.648 ##### [49276] -      Customer Name      : Software AG internal
+2019-07-30 18:21:31.648 ##### [49276] - Product Information
+2019-07-30 18:21:31.648 ##### [49276] -      Product Name       : Apama Server
+2019-07-30 18:21:31.648 ##### [49276] -      Product Code       : PAMCO
+2019-07-30 18:21:31.648 ##### [49276] -      Operating System   : Linux
+2019-07-30 18:21:31.648 ##### [49276] -      Product Version    : 10.0
+2019-07-30 18:21:31.648 ##### [49276] -      Product Usage      : 
+2019-07-30 18:21:31.648 ##### [49276] -      Expiration Date    : 2020/01/19
+2019-07-30 18:21:31.648 ##### [49276] - License Information
+2019-07-30 18:21:31.648 ##### [49276] -      License Type       : 
+2019-07-30 18:21:31.648 ##### [49276] -      Price Unit         : ST
+2019-07-30 18:21:31.648 ##### [49276] -      Price Quantity     : 1
+2019-07-30 18:21:31.648 ##### [49276] -      Extended Rights    : 
+2019-07-30 18:21:31.648 ##### [49276] -      License Version    : 1.2
+2019-07-30 18:21:31.648 ##### [49276] - Physical Hardware
+2019-07-30 18:21:31.648 ##### [49276] -      Model              : Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz
+2019-07-30 18:21:31.648 ##### [49276] -      Sockets            : 1
+2019-07-30 18:21:31.648 ##### [49276] -      Physical cores     : 6
+2019-07-30 18:21:31.648 ##### [49276] -      Logical cores      : 12
+2019-07-30 18:21:31.648 ##### [49276] -      Performance Bucket : CoreD
+2019-07-30 18:21:31.648 ##### [49276] -      Virtualization     : no
+2019-07-30 18:21:31.648 ##### [49276] - ==================== End License Data ======================
+2019-07-30 18:21:31.648 ##### [49276] - 
+2019-07-30 18:21:31.651 ##### [49276] - Input value - pidfile                  = 
+2019-07-30 18:21:31.651 ##### [49276] - Input value - per receiver queue size  = 10 s
+2019-07-30 18:21:31.651 ##### [49276] - Input value - per receiver queue size  = 10240 kb
+2019-07-30 18:21:31.651 ##### [49276] - Input value - input queue size         = 20000
+2019-07-30 18:21:31.651 ##### [49276] - External clocking                      = disabled
+2019-07-30 18:21:31.651 ##### [49276] - Input value - logfile                  = correlator.log
+2019-07-30 18:21:31.651 ##### [49276] - Input value - loglevel                 = INFO
+2019-07-30 18:21:31.651 ##### [49276] - Input value - inputLog                 = ** Warning input log not enabled **
+2019-07-30 18:21:31.651 ##### [49276] - Compiler optimizations                 = enabled - the debugger cannot be used; specify command line option "-g" to use it.
+2019-07-30 18:21:31.651 ##### [49276] - Using EPL runtime                      = interpreted
+2019-07-30 18:21:31.653 ##### [49276] - Python support                         = automatic
+2019-07-30 18:21:31.658 ##### [49276] - Java support                           = disabled
+2019-07-30 18:21:31.659 ##### [49276] - Input value - persistence              = disabled
+2019-07-30 18:21:31.666 INFO  [49276] - Will log queue size every 5.000000 seconds
+2019-07-30 18:21:31.666 INFO  [49276] - Starting scheduler with 12 threads (determined from hardware)
+2019-07-30 18:21:31.668 INFO  [49276] - Server socket opened listening on 0.0.0.0:65499
+2019-07-30 18:21:31.668 ##### [49276] - Component ID: correlator (correlator/6719507652420883040/6719507652420883040)
+2019-07-30 18:21:31.668 ##### [49276] - Correlator, version 10.5.0.0.0, running
+2019-07-30 18:21:32.218 INFO  [20504] - Sender engine_inject (BSP) (0000018510F45ED0) (component ID 6719507656583991904/6719789131560702560) connected from 127.0.0.1:53051
+2019-07-30 18:21:32.222 INFO  [86860] - Loading EPL plugin BadPlugin from library BadPlugin.dll
+2019-07-30 18:21:32.224 INFO  [86860] - Couldn't find AP_PLUGIN_GET_CAPABILITIES_FUNCTION function for plugin BadPlugin: The specified procedure could not be found. (127)
+2019-07-30 18:21:32.224 INFO  [86860] - Will assume plugin has no advanced capabilities
+2019-07-30 18:21:32.224 WARN  [86860] - Plugin BadPlugin is using a deprecated API. It should be ported to the new API in epl_plugin.hpp
+2019-07-30 18:21:32.224 INFO  [86860] - Plugin library BadPlugin (C++ API v9.0) loaded OK
+2019-07-30 18:21:32.225 INFO  [37296] - Added monitor dodgy
+2019-07-30 18:21:32.225 INFO  [37296] - Added type Go
+2019-07-30 18:21:32.225 INFO  [37296] - Injected MonitorScript from file C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_422/Input/bad.mon (76d3e419a0a7671c4cebc7e17174f301), size 222 bytes, compile time 0.00 seconds
+2019-07-30 18:21:32.226 INFO  [41708] - Sender engine_inject (BSP) (0000018510F45ED0) (component ID 6719507656583991904/6719789131560702560) disconnected cleanly: Other party requested disconnection
+2019-07-30 18:21:32.328 INFO  [20504] - Sender engine_send (BSP) (000001851524A4F0) (component ID 6719507656457638496/6719789131434349152) connected from 127.0.0.1:53055
+2019-07-30 18:21:32.332 CRIT  [45088] - dodgy [1] Calling BadPlugin plugin which will call abort().
+2019-07-30 18:21:32.332 FATAL [45088] - Intercepted exception, aborting
+2019-07-30 18:21:32.332 FATAL [45088] - Please contact Software AG Global Support (http://empower.softwareag.com) with details
+2019-07-30 18:21:32.332 FATAL [45088] - This is: Apama 10.5.0.0.0 (build UNKNOWN_VERSION@0 on amd64-win)
+2019-07-30 18:21:32.332 FATAL [45088] - Got windows exception code c0000094
+2019-07-30 18:21:32.334 FATAL [45088] - Backtrace should follow. If this shows a custom plugin, then please investigate if there is a bug in the plugin.
+2019-07-30 18:21:32.336 FATAL [45088] - Stacktrace: addr=00007FFD086E167B offset=661115 base=00007FFD08640000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\apclient.dll
+2019-07-30 18:21:32.338 FATAL [45088] - Stacktrace: addr=00007FFD4FAAC01B offset=49179 base=00007FFD4FAA0000 C:\WINDOWS\SYSTEM32\VCRUNTIME140.dll
+2019-07-30 18:21:32.339 FATAL [45088] - Stacktrace: addr=00007FFD4FAA2666 offset=9830 base=00007FFD4FAA0000 C:\WINDOWS\SYSTEM32\VCRUNTIME140.dll
+2019-07-30 18:21:32.340 FATAL [45088] - Stacktrace: addr=00007FFD4FAA252A offset=9514 base=00007FFD4FAA0000 C:\WINDOWS\SYSTEM32\VCRUNTIME140.dll
+2019-07-30 18:21:32.341 FATAL [45088] - Stacktrace: addr=00007FFD4FAA1FDF offset=8159 base=00007FFD4FAA0000 C:\WINDOWS\SYSTEM32\VCRUNTIME140.dll
+2019-07-30 18:21:32.341 FATAL [45088] - Stacktrace: addr=00007FFD4FAABFB0 offset=49072 base=00007FFD4FAA0000 C:\WINDOWS\SYSTEM32\VCRUNTIME140.dll
+2019-07-30 18:21:32.341 FATAL [45088] - Stacktrace: addr=00007FF6B0D865BC offset=8021436 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.342 FATAL [45088] - Stacktrace: addr=00007FFD6930477F offset=673663 base=00007FFD69260000 C:\WINDOWS\SYSTEM32\ntdll.dll
+2019-07-30 18:21:32.342 FATAL [45088] - Stacktrace: addr=00007FFD69264BEF offset=19439 base=00007FFD69260000 C:\WINDOWS\SYSTEM32\ntdll.dll
+2019-07-30 18:21:32.343 FATAL [45088] - Stacktrace: addr=00007FFD693034EE offset=668910 base=00007FFD69260000 C:\WINDOWS\SYSTEM32\ntdll.dll
+2019-07-30 18:21:32.343 FATAL [45088] - Stacktrace: addr=00007FFD53EF1047 offset=4167 base=00007FFD53EF0000 C:\dev\10.5.0.x\apama-test\tools\output-amd64-win-release\epl-plugins\BadPlugin.dll
+2019-07-30 18:21:32.344 FATAL [45088] - Stacktrace: addr=00007FF6B099C141 offset=3916097 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.345 FATAL [45088] - Stacktrace: addr=00007FF6B0C1046F offset=6489199 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.345 FATAL [45088] - Stacktrace: addr=00007FF6B09F27D9 offset=4270041 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.346 FATAL [45088] - Stacktrace: addr=00007FF6B0996F5C offset=3895132 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.347 FATAL [45088] - Stacktrace: addr=00007FF6B091534C offset=3363660 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.347 FATAL [45088] - Stacktrace: addr=00007FF6B09CD189 offset=4116873 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.348 FATAL [45088] - Stacktrace: addr=00007FF6B09C8292 offset=4096658 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.348 FATAL [45088] - Stacktrace: addr=00007FF6B0966259 offset=3695193 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.349 FATAL [45088] - Stacktrace: addr=00007FF6B0A643C0 offset=4735936 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.350 FATAL [45088] - Stacktrace: addr=00007FF6B0A626CD offset=4728525 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.350 FATAL [45088] - Stacktrace: addr=00007FF6B0A5EEA0 offset=4714144 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.351 FATAL [45088] - Stacktrace: addr=00007FF6B0A5CCA2 offset=4705442 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.352 FATAL [45088] - Stacktrace: addr=00007FF6B0732FE0 offset=1388512 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.352 FATAL [45088] - Stacktrace: addr=00007FF6B0733E90 offset=1392272 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.353 FATAL [45088] - Stacktrace: addr=00007FF6B0734879 offset=1394809 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.354 FATAL [45088] - Stacktrace: addr=00007FF6B094E4AE offset=3597486 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.355 FATAL [45088] - Stacktrace: addr=00007FF6B094E312 offset=3597074 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+2019-07-30 18:21:32.355 FATAL [45088] - Stacktrace: addr=00007FFD086A3B17 offset=408343 base=00007FFD08640000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\apclient.dll
+2019-07-30 18:21:32.356 FATAL [45088] - Stacktrace: addr=00007FFD086A460C offset=411148 base=00007FFD08640000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\apclient.dll
+2019-07-30 18:21:32.356 FATAL [45088] - Stacktrace: addr=00007FFD086A2D27 offset=404775 base=00007FFD08640000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\apclient.dll
+2019-07-30 18:21:32.357 FATAL [45088] - Stacktrace: addr=00007FFD086A2CD9 offset=404697 base=00007FFD08640000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\apclient.dll
+2019-07-30 18:21:32.358 FATAL [45088] - Stacktrace: addr=00007FFD68C07974 offset=96628 base=00007FFD68BF0000 C:\WINDOWS\System32\KERNEL32.DLL
+2019-07-30 18:21:32.358 FATAL [45088] - Stacktrace: addr=00007FFD692CA271 offset=434801 base=00007FFD69260000 C:\WINDOWS\SYSTEM32\ntdll.dll
+2019-07-30 18:21:32.359 FATAL [45088] - Stacktrace addresses: 00007FFD086E167B,00007FFD4FAAC01B,00007FFD4FAA2666,00007FFD4FAA252A,00007FFD4FAA1FDF,00007FFD4FAABFB0,00007FF6B0D865BC,00007FFD6930477F,00007FFD69264BEF,00007FFD693034EE,00007FFD53EF1047,00007FF6B099C141,00007FF6B0C1046F,00007FF6B09F27D9,00007FF6B0996F5C,00007FF6B091534C,00007FF6B09CD189,
+2019-07-30 18:21:32.361 FATAL [45088] - Stacktrace addresses: 00007FF6B09C8292,00007FF6B0966259,00007FF6B0A643C0,00007FF6B0A626CD,00007FF6B0A5EEA0,00007FF6B0A5CCA2,00007FF6B0732FE0,00007FF6B0733E90,00007FF6B0734879,00007FF6B094E4AE,00007FF6B094E312,00007FFD086A3B17,00007FFD086A460C,00007FFD086A2D27,00007FFD086A2CD9,00007FFD68C07974,00007FFD692CA271,

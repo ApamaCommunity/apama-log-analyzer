@@ -1,0 +1,307 @@
+1 errors in correlator-crash
+5 errors in correlator-epl-errors
+
+Summary of errors, sorted by normalized message: 
+
+--- x1: 2019-07-30 18:18:19.284 ERROR [12424] - Error on line 7 in action sepukku in event bar.baz.quux.Aact: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-action-div-by-zero.mon
+        2019-07-30 18:18:19.284 ERROR [12424] - bar.baz.quux.foo [5] Stack dump:
+        2019-07-30 18:18:19.284 ERROR [12424] - 	bar.baz.quux.Aact.sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-action-div-by-zero.mon:7
+        2019-07-30 18:18:19.284 ERROR [12424] - 	bar.baz.quux.foo.::listenerAction::4() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-action-div-by-zero.mon:16
+      in correlator-epl-errors line 310
+
+--- x1: 2019-07-30 18:18:19.152 ERROR [12424] - Error on line 18 of monitor bar.baz.quux.foo: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/action-variable-div-by-zero.mon
+        2019-07-30 18:18:19.152 ERROR [12424] - bar.baz.quux.foo [4] Stack dump:
+        2019-07-30 18:18:19.152 ERROR [12424] - 	bar.baz.quux.foo.called_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/action-variable-div-by-zero.mon:18
+        2019-07-30 18:18:19.152 ERROR [12424] - 	bar.baz.quux.foo.::listenerAction::5() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/action-variable-div-by-zero.mon:11
+      in correlator-epl-errors line 306
+
+--- x1: 2019-07-30 18:18:18.837 ERROR [32424] - Error on line 15 of monitor bar.baz.quux.foo: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon
+        2019-07-30 18:18:18.837 ERROR [32424] - bar.baz.quux.foo [1] Stack dump:
+        2019-07-30 18:18:18.837 ERROR [32424] - 	bar.baz.quux.foo.sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon:15
+        2019-07-30 18:18:18.837 ERROR [32424] - 	bar.baz.quux.foo.indirect_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon:10
+        2019-07-30 18:18:18.837 ERROR [32424] - 	bar.baz.quux.foo.onload() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon:6
+        2019-07-30 18:18:18.837 ERROR [32424] - 	bar.baz.quux.foo.::startupAction::() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon:3
+      in correlator-epl-errors line 65
+
+--- x1: 2019-07-30 18:18:18.960 ERROR [32424] - Error on line 16 of monitor bar.baz.quux.foo: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-div-by-zero.mon
+        2019-07-30 18:18:18.960 ERROR [32424] - bar.baz.quux.foo [2] Stack dump:
+        2019-07-30 18:18:18.960 ERROR [32424] - 	bar.baz.quux.foo.sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-div-by-zero.mon:16
+        2019-07-30 18:18:18.960 ERROR [32424] - 	bar.baz.quux.foo.::listenerAction::5() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-div-by-zero.mon:9
+      in correlator-epl-errors line 71
+
+--- x1: 2019-07-30 18:18:19.069 ERROR [32424] - Error on line 24 of monitor bar.baz.quux.foo: StackOverflowException - Stack overflow - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon
+        2019-07-30 18:18:19.069 ERROR [32424] - bar.baz.quux.foo [3] Stack dump:
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.onload() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:6
+        2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.::startupAction::() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:3
+      in correlator-epl-errors line 75
+
+--- x1: 2019-07-30 18:21:32.332 FATAL [45088] - Intercepted exception, aborting
+        2019-07-30 18:21:32.332 FATAL [45088] - Please contact Software AG Global Support (http://empower.softwareag.com) with details
+        2019-07-30 18:21:32.332 FATAL [45088] - This is: Apama 10.5.0.0.0 (build UNKNOWN_VERSION@0 on amd64-win)
+        2019-07-30 18:21:32.332 FATAL [45088] - Got windows exception code c0000094
+        2019-07-30 18:21:32.334 FATAL [45088] - Backtrace should follow. If this shows a custom plugin, then please investigate if there is a bug in the plugin.
+        2019-07-30 18:21:32.336 FATAL [45088] - Stacktrace: addr=00007FFD086E167B offset=661115 base=00007FFD08640000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\apclient.dll
+        2019-07-30 18:21:32.338 FATAL [45088] - Stacktrace: addr=00007FFD4FAAC01B offset=49179 base=00007FFD4FAA0000 C:\WINDOWS\SYSTEM32\VCRUNTIME140.dll
+        2019-07-30 18:21:32.339 FATAL [45088] - Stacktrace: addr=00007FFD4FAA2666 offset=9830 base=00007FFD4FAA0000 C:\WINDOWS\SYSTEM32\VCRUNTIME140.dll
+        2019-07-30 18:21:32.340 FATAL [45088] - Stacktrace: addr=00007FFD4FAA252A offset=9514 base=00007FFD4FAA0000 C:\WINDOWS\SYSTEM32\VCRUNTIME140.dll
+        2019-07-30 18:21:32.341 FATAL [45088] - Stacktrace: addr=00007FFD4FAA1FDF offset=8159 base=00007FFD4FAA0000 C:\WINDOWS\SYSTEM32\VCRUNTIME140.dll
+        2019-07-30 18:21:32.341 FATAL [45088] - Stacktrace: addr=00007FFD4FAABFB0 offset=49072 base=00007FFD4FAA0000 C:\WINDOWS\SYSTEM32\VCRUNTIME140.dll
+        2019-07-30 18:21:32.341 FATAL [45088] - Stacktrace: addr=00007FF6B0D865BC offset=8021436 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.342 FATAL [45088] - Stacktrace: addr=00007FFD6930477F offset=673663 base=00007FFD69260000 C:\WINDOWS\SYSTEM32\ntdll.dll
+        2019-07-30 18:21:32.342 FATAL [45088] - Stacktrace: addr=00007FFD69264BEF offset=19439 base=00007FFD69260000 C:\WINDOWS\SYSTEM32\ntdll.dll
+        2019-07-30 18:21:32.343 FATAL [45088] - Stacktrace: addr=00007FFD693034EE offset=668910 base=00007FFD69260000 C:\WINDOWS\SYSTEM32\ntdll.dll
+        2019-07-30 18:21:32.343 FATAL [45088] - Stacktrace: addr=00007FFD53EF1047 offset=4167 base=00007FFD53EF0000 C:\dev\10.5.0.x\apama-test\tools\output-amd64-win-release\epl-plugins\BadPlugin.dll
+        2019-07-30 18:21:32.344 FATAL [45088] - Stacktrace: addr=00007FF6B099C141 offset=3916097 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.345 FATAL [45088] - Stacktrace: addr=00007FF6B0C1046F offset=6489199 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.345 FATAL [45088] - Stacktrace: addr=00007FF6B09F27D9 offset=4270041 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.346 FATAL [45088] - Stacktrace: addr=00007FF6B0996F5C offset=3895132 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.347 FATAL [45088] - Stacktrace: addr=00007FF6B091534C offset=3363660 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.347 FATAL [45088] - Stacktrace: addr=00007FF6B09CD189 offset=4116873 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.348 FATAL [45088] - Stacktrace: addr=00007FF6B09C8292 offset=4096658 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.348 FATAL [45088] - Stacktrace: addr=00007FF6B0966259 offset=3695193 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.349 FATAL [45088] - Stacktrace: addr=00007FF6B0A643C0 offset=4735936 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.350 FATAL [45088] - Stacktrace: addr=00007FF6B0A626CD offset=4728525 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.350 FATAL [45088] - Stacktrace: addr=00007FF6B0A5EEA0 offset=4714144 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.351 FATAL [45088] - Stacktrace: addr=00007FF6B0A5CCA2 offset=4705442 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.352 FATAL [45088] - Stacktrace: addr=00007FF6B0732FE0 offset=1388512 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.352 FATAL [45088] - Stacktrace: addr=00007FF6B0733E90 offset=1392272 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.353 FATAL [45088] - Stacktrace: addr=00007FF6B0734879 offset=1394809 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.354 FATAL [45088] - Stacktrace: addr=00007FF6B094E4AE offset=3597486 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.355 FATAL [45088] - Stacktrace: addr=00007FF6B094E312 offset=3597074 base=00007FF6B05E0000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator.exe
+        2019-07-30 18:21:32.355 FATAL [45088] - Stacktrace: addr=00007FFD086A3B17 offset=408343 base=00007FFD08640000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\apclient.dll
+        2019-07-30 18:21:32.356 FATAL [45088] - Stacktrace: addr=00007FFD086A460C offset=411148 base=00007FFD08640000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\apclient.dll
+        2019-07-30 18:21:32.356 FATAL [45088] - Stacktrace: addr=00007FFD086A2D27 offset=404775 base=00007FFD08640000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\apclient.dll
+        2019-07-30 18:21:32.357 FATAL [45088] - Stacktrace: addr=00007FFD086A2CD9 offset=404697 base=00007FFD08640000 C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\apclient.dll
+        2019-07-30 18:21:32.358 FATAL [45088] - Stacktrace: addr=00007FFD68C07974 offset=96628 base=00007FFD68BF0000 C:\WINDOWS\System32\KERNEL32.DLL
+        2019-07-30 18:21:32.358 FATAL [45088] - Stacktrace: addr=00007FFD692CA271 offset=434801 base=00007FFD69260000 C:\WINDOWS\SYSTEM32\ntdll.dll
+        2019-07-30 18:21:32.359 FATAL [45088] - Stacktrace addresses: 00007FFD086E167B,00007FFD4FAAC01B,00007FFD4FAA2666,00007FFD4FAA252A,00007FFD4FAA1FDF,00007FFD4FAABFB0,00007FF6B0D865BC,00007FFD6930477F,00007FFD69264BEF,00007FFD693034EE,00007FFD53EF1047,00007FF6B099C141,00007FF6B0C1046F,00007FF6B09F27D9,00007FF6B0996F5C,00007FF6B091534C,00007FF6B09CD189,
+        2019-07-30 18:21:32.361 FATAL [45088] - Stacktrace addresses: 00007FF6B09C8292,00007FF6B0966259,00007FF6B0A643C0,00007FF6B0A626CD,00007FF6B0A5EEA0,00007FF6B0A5CCA2,00007FF6B0732FE0,00007FF6B0733E90,00007FF6B0734879,00007FF6B094E4AE,00007FF6B094E312,00007FFD086A3B17,00007FFD086A460C,00007FFD086A2D27,00007FFD086A2CD9,00007FFD68C07974,00007FFD692CA271,
+      in correlator-crash line 78
+

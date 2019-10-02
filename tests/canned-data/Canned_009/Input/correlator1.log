@@ -92,5 +92,5 @@
 2019-07-30 18:04:32.567 ERROR [53100:DistMemStore] - <TestBean> Bad thing happened: timeout after 123.5 seconds
 2019-07-30 18:04:32.567 INFO  [53100:DistMemStore] - Hmmm
 2019-07-31 18:04:32.567 ERROR [53100:DistMemStore] - <TestBean> Bad thing happened: timeout after 200 seconds
-2019-07-31 18:04:33.567 ERROR [53100:DistMemStore] - <TestBean> Another bad thing happened: timeout after 300 seconds
-2019-07-31 18:04:33.567 ERROR [53100:DistMemStore] - <TestBean> Cor blimey, a really bad thing happened - timeout after 300 seconds!!
+2019-07-31 18:04:33.568 ERROR [53100:DistMemStore] - <TestBean> Another bad thing happened: timeout after 300 seconds
+2019-07-31 18:04:33.569 ERROR [53100:DistMemStore] - <TestBean> Cor blimey, a really bad thing happened - timeout after 300 seconds!!
