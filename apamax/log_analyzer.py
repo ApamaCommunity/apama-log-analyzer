@@ -745,7 +745,7 @@ class LogAnalyzer(object):
 
 		writers = [CSVStatusWriter(self)]
 		if self.args.statusjson:
-			writers.append([JSONStatusWriter(self)])
+			writers.append(JSONStatusWriter(self))
 		for w in writers:
 			w.output_file = 'summary_'+w.output_file.split('_', 1)[1]
 			w.writeHeader(columns = ['statistic']+list(self.columns.values()), extraInfo=self.getMetadataDictForCurrentFile())
