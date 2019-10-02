@@ -743,7 +743,9 @@ class LogAnalyzer(object):
 				file['status-min'][k] = ''
 				file['status-max'][k] = ''
 
-		writers = [CSVStatusWriter(self), JSONStatusWriter(self)]
+		writers = [CSVStatusWriter(self)]
+		if self.args.statusjson:
+			writers.append([JSONStatusWriter(self)])
 		for w in writers:
 			w.output_file = 'summary_'+w.output_file.split('_', 1)[1]
 			w.writeHeader(columns = ['statistic']+list(self.columns.values()), extraInfo=self.getMetadataDictForCurrentFile())
@@ -957,7 +959,6 @@ class LogAnalyzerTool(object):
 		
 	def main(self, args):
 		args = self.argparser.parse_args(args)
-
 		loglevel = getattr(logging, args.loglevel.upper())
 		logging.basicConfig(format=u'%(relativeCreated)05d %(levelname)-5s - %(message)s' if loglevel == logging.DEBUG 
 			else u'%(levelname)-5s - %(message)s', 
