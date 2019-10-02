@@ -103,9 +103,10 @@ class LogLine(object):
 	
 	@ivar extraLines: unassigned, or a list of strings which are extra lines logically part of this one (typically for warn/error stacks etc)
 	"""
-	LINE_REGEX = re.compile(r'(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d[.]\d\d\d) ([A-Z]+) +\[([^\]]+)\] -( <[^>]+>)? (.*)')
+	#                          date                                        level     thread       apama-ctrl/std cat  message
+	LINE_REGEX = re.compile(r'(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d[.]\d\d\d) ([A-Z]+) +\[([^\]]+)\] ([^-]*)-( <[^>]+>)? (.*)')
 	
-	__slots__ = ['line', 'lineno', 'message', 'level', '__details', '__rawdetails', 'extraLines'] # be memory-efficient
+	__slots__ = ['line', 'lineno', 'message', 'level', '__details', 'extraLines'] # be memory-efficient
 	def __init__(self, line, lineno):
 		self.line = line
 		self.lineno = lineno
@@ -133,11 +134,9 @@ class LogLine(object):
 				self.level = line[24] # this is a nice efficient way to get the log level without slow regexes
 			except IndexError: # just in case it's not a normal log line (though we hope the firstchar.isdigit() check will catch most of those)
 				self.level = None
-			self.__rawdetails = line[:i]
 		else:
 			self.message = line
 			self.level = None
-			self.__rawdetails = None
 	
 	def getDetails(self):
 		"""
@@ -148,15 +147,15 @@ class LogLine(object):
 	
 		det = self.__details
 		if det is not None: return det
-		if self.__rawdetails is not None: 
+		if self.level is not None: # signifies it's not a proper log line
 			m = LogLine.LINE_REGEX.match(self.line)
 			if m:
 				g = m.groups()
 				self.__details = {
 					'datetimestring':g[0],
 					'thread':g[2],
-					'logcategory':g[3].strip() if g[3] else '',
-					'messagewithoutcat':g[4],
+					'logcategory': (g[3] or g[4] or '').strip(),
+					'messagewithoutcat':g[5],
 				}
 				return self.__details
 
@@ -171,12 +170,17 @@ class LogLine(object):
 	def getDateTime(self):
 		"""
 		Parse the datetime object from this log line. Don't do this unless you need it.  
+		
+		Returns None if this isn't a properly formatted log line with a date and time etc
 		"""
+		if self.level is None: return None
 		det = self.getDetails()
 		if 'datetime' in det:
 			return det['datetime']
-			
-		d = datetime.datetime.strptime(self.getDetails()['datetimestring'], '%Y-%m-%d %H:%M:%S.%f')
+		try:
+			d = datetime.datetime.strptime(self.getDetails()['datetimestring'], '%Y-%m-%d %H:%M:%S.%f')
+		except Exception:
+			assert False, [det, self.level]
 		# rather than using timezone of current machine which may not match origin, convert to utc
 		d = d.replace(tzinfo=datetime.timezone.utc) 
 		det['datetime'] = d
@@ -392,7 +396,7 @@ class LogAnalyzer(object):
 						previousLine = logline
 
 				except Exception as e:
-					log.exception(u'Failed to handle %s:%s %s - '%(line, os.path.basename(self.currentpath), self.currentlineno))
+					log.exception(f'Failed to handle {os.path.basename(self.currentpath)} line {self.currentlineno}: {line} - ')
 					raise
 
 		# publish 100% and any earlier ones that were skipped if it's a tiny file
