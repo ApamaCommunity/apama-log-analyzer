@@ -24,7 +24,9 @@
 	<!-- Custom test framework extensions, if needed -->
 	<path value="framework" relative="true" />
 
-	<performance-reporter classname="correlatorloganalyzer.customperfreporter.CustomPerfReporter"/>
+	<performance-reporter classname="correlatorloganalyzer.customperfreporter.CustomPerfReporter"
+		summaryfile="${testRootDir}/performance/performance_output/@OUTDIR@/perf_@HOSTNAME@_${startTime}.csv"
+	/>
 
 	<writers>
 		<writer classname="TravisCIWriter" module="pysys.writer.ci"></writer>
