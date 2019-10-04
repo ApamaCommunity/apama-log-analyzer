@@ -21,11 +21,11 @@ class FakeLogFile(io.TextIOBase):
 		self.linenum = 0
 		self.statuslines = 0
 		self.buffer = [] # allow a single readline
+		self.finished = False
 	
-	def generateLogLine(self):
+	def generateLogLine(self, forceStatusLine):
 		self.linenum = i = self.linenum+1
 
-		
 		timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(1546398245 + self.linenum))+'.123'
 		
 		# initialize for TypicalMix_StatusEvery3Lines
@@ -41,30 +41,30 @@ class FakeLogFile(io.TextIOBase):
 				warn_error_msg_period = None
 				status_line_period = 1
 				
-			if warn_error_msg_period:
+			if warn_error_msg_period and not forceStatusLine:
 				if i % warn_error_msg_period == 0:
-					return f"{timestamp} 14:04:17.495 WARN [140084627105536{i}] - <plugins.JmsPlugin> Got an unexpected warning: java.lang.RuntimeException: Failed to process Correlator-JMS control event 'com.apama.correlator.jms.__ReceiverAcknowledgeAndResume(\"WebSphere_MQ-receiver-queue-myq\")': Cannot resume receiver which is already resumed: 'MyQ'"
+					return f"{timestamp} WARN [140084627105536{i}] - <plugins.JmsPlugin> Got an unexpected warning: java.lang.RuntimeException: Failed to process Correlator-JMS control event 'com.apama.correlator.jms.__ReceiverAcknowledgeAndResume(\"WebSphere_MQ-receiver-queue-myq\")': Cannot resume receiver which is already resumed: 'MyQ'"
 				if i % warn_error_msg_period == 1:
-					return f"{timestamp} 14:04:17.495 ERROR [140084627105536{i}] - <plugins.JmsPlugin> Got an unexpected error: java.lang.RuntimeException: Failed to process Correlator-JMS control event 'com.apama.correlator.jms.__ReceiverAcknowledgeAndResume(\"WebSphere_MQ-receiver-queue-myq\")': Cannot resume receiver which is already resumed: 'MyQ' - stack trace is:"
+					return f"{timestamp} ERROR [140084627105536{i}] - <plugins.JmsPlugin> Got an unexpected error: java.lang.RuntimeException: Failed to process Correlator-JMS control event 'com.apama.correlator.jms.__ReceiverAcknowledgeAndResume(\"WebSphere_MQ-receiver-queue-myq\")': Cannot resume receiver which is already resumed: 'MyQ' - stack trace is:"
 				if i % warn_error_msg_period == 2: # multi-line error message
 					return f" 	at com.apama.foo()"
 				if i % warn_error_msg_period == 3:
 					return f" 	at com.apama.bar()"
 			
-			if status_line_period and (i % status_line_period == 0):
+			# always write a status line as the first and last
+			if forceStatusLine or status_line_period and (i % status_line_period == 0):
 				self.statuslines += 1
 				lcn = '<none>' if i%2==0 else '"my context"'
 				return f'{timestamp} INFO  [22872] - Correlator Status: sm=1 nctx=2 ls=3 rq=4 lcn={lcn} lct=5.5 si=0.0 so=1.1 jvm={7000+i*100} rx={i*10} tx={i*20} mynewstatus=10 rt=0 nc=0 vm=3 pm=4 runq=0'
 
 		# the rest of the file is some random info log messages which we will ignore
-		return f'{timestamp} INFO  [22872] - com.acme.myackage.MyServiceMonitor [123] This is a message from a service monitor indicating that we\'re processing event MyThingHappened("1231111111111", 123, 456, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx {i}")'
-	
-		return f'{timestamp} INFO  [22872] - Correlator Status: sm=1 nctx=2 ls=3 rq=4 lcn=<none> lct=5.5 si=6.6 so=1.1 jvm=7168 rx=8 tx=9 mynewstatus=10 rt=0 nc=0 vm=3 pm=4 runq=0  somethingelse=123'
-		
+		return f'{timestamp} INFO  [22872] - com.acme.myackage.MyServiceMonitor [123] This is a message from a service monitor indicating that we\'re processing event MyThingHappened("1231111111111", 123, 456, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx {i}")'		
 	
 	def readline(self, size=-1):
-		l = self.generateLogLine()
+		if self.finished: return ''
+		
 		i = self.linenum
+		l = self.generateLogLine(forceStatusLine=i==0)
 		if i < 200:
 			# write out the first few so we know what it looks like
 			sys.stdout.write(l+'\n')
@@ -78,7 +78,9 @@ class FakeLogFile(io.TextIOBase):
 				elapsed = timenow-self.starttime
 				log.info(f'Completed performance test: {int(i/ elapsed)} total lines/second, {int(self.statuslines/ elapsed)} status lines/second, {5*self.statuslines/elapsed/60.0/60.0:0.3} log hours per second, duration: {elapsed} seconds')
 				# don't bother measuring the one-off end of file costs
-				return ''
+				
+				self.finished = True
+				return self.generateLogLine(forceStatusLine=True)
 		
 		return l
 	
