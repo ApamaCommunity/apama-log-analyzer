@@ -7,7 +7,7 @@ log messages.
 """
 
 __version__ = '3.0.dev'
-__date__ = '2019-09-24'
+__date__ = '2019-10-03'
 __author__ = "Ben Spiller"
 __license__ = "Apache"
 
@@ -20,7 +20,8 @@ log = logging.getLogger('loganalyzer')
 COLUMN_DISPLAY_NAMES = collections.OrderedDict([
 	# timing
 	('datetime', 'datetime'), # date time string
-	('seconds', 'seconds'), # epoch time in seconds, in case people want to calculate rates. Currently this is in local time not UTC
+	('epoch secs', None), # secs since the 1970 epoch; currently this in local time (which isn't ideal)
+	('=interval secs', None), # interval time between , in case people want to calculate rates.
 	('line num', 'line num'),
 
 	# queues first
@@ -104,7 +105,7 @@ class LogLine(object):
 	@ivar extraLines: unassigned, or a list of strings which are extra lines logically part of this one (typically for warn/error stacks etc)
 	"""
 	#                          date                                        level     thread       apama-ctrl/std cat  message
-	LINE_REGEX = re.compile(r'(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d[.]\d\d\d) ([A-Z]+) +\[([^\]]+)\] ([^-]*)-( <[^>]+>)? (.*)')
+	LINE_REGEX = re.compile(r'(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d[.]\d\d\d) ([A-Z#]+) +\[([^\]]+)\] ([^-]*)-( <[^>]+>)? (.*)')
 	
 	__slots__ = ['line', 'lineno', 'message', 'level', '__details', 'extraLines'] # be memory-efficient
 	def __init__(self, line, lineno):
@@ -158,6 +159,8 @@ class LogLine(object):
 					'messagewithoutcat':g[5],
 				}
 				return self.__details
+			else:
+				log.debug('Log line starts with a digit but does not match regex: %s', self.line)
 
 		self.__details = {
 					'datetimestring':'',
@@ -165,6 +168,7 @@ class LogLine(object):
 					'logcategory':'',
 					'messagewithoutcat':self.message,
 				}
+		self.level = None # to indicate it's not a proper valid log line after all
 		return self.__details
 	
 	def getDateTime(self):
@@ -175,12 +179,14 @@ class LogLine(object):
 		"""
 		if self.level is None: return None
 		det = self.getDetails()
-		if 'datetime' in det:
+		if 'datetime' in det: # cache this
 			return det['datetime']
+			
 		try:
 			d = datetime.datetime.strptime(self.getDetails()['datetimestring'], '%Y-%m-%d %H:%M:%S.%f')
-		except Exception:
-			assert False, [det, self.level]
+		except Exception as ex: # might have 
+			log.debug('Cannot parse date time from "%s": %s - from line: %s', self.getDetails()['datetimestring'], ex, self.line)
+			return None
 		# rather than using timezone of current machine which may not match origin, convert to utc
 		d = d.replace(tzinfo=datetime.timezone.utc) 
 		det['datetime'] = d
@@ -272,8 +278,6 @@ class CSVStatusWriter(BaseWriter):
 		"""
 		try:
 			if item is None: return '?'
-			if columnDisplayName in ['seconds'] and item: 
-				return f'{item:.3f}'
 			if columnDisplayName == 'datetime':
 				return item[:item.find('.')] # strip off seconds as excel misformats it if present
 			if isinstance(item, float) and item.is_integer and abs(item)>=1000.0:
@@ -368,11 +372,14 @@ class LogAnalyzer(object):
 
 		lastpercent = 0
 		
+		finalLineWithTimestamp = None
+		
 		with io.open(self.currentpath, encoding='utf-8', errors='replace') as f:
 			self.__currentfilehandle = f
 			charcount = 0
 			lineno = 0
 			previousLine = None
+			startTime = None
 			for line in f:
 				lineno += 1
 				charcount += len(line)
@@ -386,18 +393,26 @@ class LogAnalyzer(object):
 							lastpercent = threshold
 				
 				self.currentlineno = lineno
+				
 				line = line.rstrip()
 				
 				if len(line)==0: continue # blank lines aren't useful
 				
 				try:
 					logline = LogLine(line, lineno)
+					if startTime is None and logline.level is not None: 
+						startTime = logline.getDateTime()
+						file['startTime'] = startTime
+					
 					if self.handleLine(file=file, line=logline, previousLine=previousLine) != LogAnalyzer.DONT_UPDATE_PREVIOUS_LINE:
 						previousLine = logline
+					if logline.level is not None: finalLineWithTimestamp = logline
 
 				except Exception as e:
 					log.exception(f'Failed to handle {os.path.basename(self.currentpath)} line {self.currentlineno}: {line} - ')
 					raise
+			if finalLineWithTimestamp is not None:
+				file['endTime'] = finalLineWithTimestamp.getDateTime()
 
 		# publish 100% and any earlier ones that were skipped if it's a tiny file
 		for threshold in [25, 50, 75, 100]:
@@ -470,7 +485,7 @@ class LogAnalyzer(object):
 		m = line.message
 		d = collections.OrderedDict()
 		d['datetime'] = line.getDetails()['datetimestring']
-		d['seconds'] = line.getDateTime().timestamp()
+		d['epoch secs'] = line.getDateTime().timestamp()
 		d['line num'] = line.lineno
 		
 		"""if kind==EVENT_JMS_STATUS_DICT:
@@ -573,7 +588,7 @@ class LogAnalyzer(object):
 					if k.startswith('='):
 						columns[k] = k[1:]
 					elif k in allkeys:
-						columns[k] = COLUMN_DISPLAY_NAMES[k]
+						columns[k] = COLUMN_DISPLAY_NAMES[k] or k
 						allkeys.remove(k)
 					else:
 						log.debug('This log file does not contain key: %s', k)
@@ -593,9 +608,15 @@ class LogAnalyzer(object):
 		d = {}
 		display = self.columns # local var to speed up lookup
 		
-		seconds = status['seconds'] # floating point epoch seconds
+		seconds = status['epoch secs'] # floating point epoch seconds
 		
-		secsSinceLast = -1 if previousStatus is None else seconds-previousStatus['seconds']
+		if previousStatus is None:
+			if file['startTime'] is not None:
+				secsSinceLast = status['epoch secs']-file['startTime'].timestamp()
+			else:
+				secsSinceLast = -1 # hopefully won't happen
+		else:
+			secsSinceLast = seconds-previousStatus['epoch secs']
 
 		# treat warns/errors before the first status line as if they were after, else they won't be seen in the first value
 		status['warns'] = 0 if previousStatus is None else file['warningsCount']
@@ -608,7 +629,10 @@ class LogAnalyzer(object):
 					except KeyError: # not present in all Apama versions
 						continue
 
-				elif previousStatus is None or secsSinceLast==0: # can't calculate rates until we have a baseline
+				elif k == '=interval secs':
+					val = secsSinceLast
+					
+				elif previousStatus is None or secsSinceLast <= 0: # can't calculate rates if for some reason we have a negative divisor (else div by zero)
 					val = 0
 
 				elif k == '=errors':
@@ -617,7 +641,8 @@ class LogAnalyzer(object):
 					val = (file['warningsCount']-previousStatus['warns'])
 
 				elif k == '=log lines /sec':
-					val = (status['line num']-previousStatus['line num'])/secsSinceLast
+					# avoid skewing the stats with data from before the start
+					val = 0 if previousStatus is None else (status['line num']-previousStatus['line num'])/secsSinceLast
 
 				elif k == '=rx /sec':
 					val = (status['rx']-previousStatus['rx'])/secsSinceLast
@@ -675,9 +700,9 @@ class LogAnalyzer(object):
 		self.previousAnnotatedStatus = status
 		self.totalStatusLinesInFile += 1
 		for k, v in status.items():
-			if isinstance(v, str): continue
-			if v > file['status-max'][k]: file['status-max'][k] = v
+			if v is None or isinstance(v, str): continue
 			if v < file['status-min'][k]: file['status-min'][k] = v
+			if v > file['status-max'][k]: file['status-max'][k] = v
 			
 			if v != 0: 
 				if k in file['status-floatKeys']: 
@@ -761,7 +786,7 @@ class LogAnalyzer(object):
 					delta = collections.OrderedDict()
 					delta['statistic'] = f'... delta: {display} - {prev["statistic"]}'
 					for k in status:
-						if isinstance(status[k], str) or k in ['seconds', 'line num']:
+						if isinstance(status[k], str) or k in ['seconds', 'line num', 'interval secs']:
 							delta[k] = ''
 						else:
 							try:

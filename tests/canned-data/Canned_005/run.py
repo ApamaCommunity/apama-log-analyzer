@@ -54,7 +54,12 @@ class PySysTest(AnalyzerBaseTest):
 
 		self.assertGrep('loganalyzer_output/summary_generated-log-08.json', literal=True, 
 			# check for ordering of key, and that the right things are present
-			expr='{"statistic": "0% (start)", "datetime": "2019-04-08 13:00:00.111", "seconds": 1554728400.111, "line num": 1, ')
+			expr='{"statistic": "0% (start)", "datetime": "2019-04-08 13:00:00.111", "epoch secs": 1554728400.111, "interval secs": 0.0, "line num": 1, ')
+
+		self.assertGrep('loganalyzer_output/summary_generated-log-08.json', literal=True, 
+			# check it's represented as a float
+			expr='"interval secs": 1.0')
+			
 		self.assertGrep('loganalyzer_output/summary_generated-log-08.json', expr='mynewstatus')
 		self.assertGrep('loganalyzer_output/summary_generated-log-08.json', expr='somethingelse')
 
@@ -105,10 +110,10 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertGrep('loganalyzer_output/status_generated-log-08.csv',  expr=',rq=queued route,')
 
 		# formatting of final JVM in CSV
-		self.assertGrep('loganalyzer_output/status_generated-log-08.csv',  expr='1554728400.111,.*,7.00,')
-		self.assertGrep('loganalyzer_output/summary_generated-log-08.csv', expr='1554728400.111,.*,7.00,')
-		self.assertGrep('loganalyzer_output/status_generated-log-08.csv',  expr='1554728407.111,.*"70,000,000"')
-		self.assertGrep('loganalyzer_output/summary_generated-log-08.csv', expr='1554728407.111,.*"70,000,000"')
+		self.assertGrep('loganalyzer_output/status_generated-log-08.csv',  expr='13:00:00,.*,7.00,')
+		self.assertGrep('loganalyzer_output/summary_generated-log-08.csv', expr='13:00:00,.*,7.00,')
+		self.assertGrep('loganalyzer_output/status_generated-log-08.csv',  expr='13:00:07,.*"70,000,000"')
+		self.assertGrep('loganalyzer_output/summary_generated-log-08.csv', expr='13:00:07,.*"70,000,000"')
 
 		# sanity check that min<=mean<=max
 		for k in findstat('min'):
