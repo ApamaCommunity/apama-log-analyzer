@@ -38,6 +38,8 @@ To run the script, simply execute::
 
 	> python3 apamax\log_analyzer.py mycorrelator.log
 
+For more information about the meaning of the status lines, see the `List of Correlator Status Statistics <http://www.apamacommunity.com/documents/10.3.1.1/apama_10.3.1.1_webhelp/apama-webhelp/index.html#page/apama-webhelp%2Fre-DepAndManApaApp_list_of_correlator_status_statistics.html>`_ in the Apama documentation. 
+
 Cumulocity
 ----------
 If you're using Apama inside Cumulocity, to download the log use the App Switcher icon to go to `Administration`, then `Applications` > `Subscribed applications` > `Apama-ctrl-XXX`. Assuming Apama-ctrl is running, you'll see a `Logs` tab. You should try to get the full log - to do that click the `|<<` button to find out the date of the first entry then click `Download` select the time range from the start date to the day after today. 
@@ -49,3 +51,5 @@ When you open a CSV file in Excel, to automatically resize all columns so that t
 Contributions
 =============
 Please feel free to add suggestions as github tickets, or to contribute a fix or feature yourself (just send a pull request). 
+
+If you want to submit a pull request, be sure to run the existing tests, create new tests (and check the coverage is good), and do a before-and-after run of the performance tests to avoid unwittingly making it slower. 
