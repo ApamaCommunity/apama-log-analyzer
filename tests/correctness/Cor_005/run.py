@@ -49,12 +49,12 @@ class PySysTest(AnalyzerBaseTest):
 		self.checkForAnalyzerErrors()
 
 		# check we include some metadata in the summary
-		self.assertGrep('loganalyzer_output/summary_generated-log-08.csv', expr='# metadata.*,analyzer=v[0-9]')
-		self.assertGrep('loganalyzer_output/summary_generated-log-08.json', expr='"analyzer":.*"v[0-9]')
+		self.assertGrep('loganalyzer_output/summary_generated-log-08.csv', expr='# metadata.*,analyzerVersion=,[0-9]')
+		self.assertGrep('loganalyzer_output/summary_generated-log-08.json', expr='"analyzerVersion":.*"[0-9]')
 
 		self.assertGrep('loganalyzer_output/summary_generated-log-08.json', literal=True, 
 			# check for ordering of key, and that the right things are present
-			expr='{"statistic": "0% (start)", "datetime": "2019-04-08 13:00:00.111", "epoch secs": 1554728400.111, "interval secs": 0.0, "line num": 1, ')
+			expr='{"statistic": "0% (start)", "local datetime": "2019-04-08 13:00:00.111", "epoch secs": 1554728400.111, "interval secs": 0.0, "line num": 1, ')
 
 		self.assertGrep('loganalyzer_output/summary_generated-log-08.json', literal=True, 
 			# check it's represented as a float
@@ -91,7 +91,7 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertEval("{max_swapping} == 1", max_swapping=findstat('max')['is swapping'])
 		self.assertEval("{mean_swapping} == 2/8.0", mean_swapping=findstat('mean')['is swapping'])
 
-		self.assertEval("{min_mean_max_datetime} == ''", min_mean_max_datetime=findstat('min')['datetime']+findstat('mean')['datetime']+findstat('max')['datetime'])
+		self.assertEval("{min_mean_max_datetime} == ''", min_mean_max_datetime=findstat('min')['local datetime']+findstat('mean')['local datetime']+findstat('max')['local datetime'])
 
 		# user-defined statuses
 		self.assertEval("{min_mynewstatus} == 10", min_mynewstatus=findstat('min')['mynewstatus'])

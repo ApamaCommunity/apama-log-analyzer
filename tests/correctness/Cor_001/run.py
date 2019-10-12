@@ -61,6 +61,6 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertGrep(outputdir+'/status_mycorrelator.csv', expr='(jms|JMS).*', contains=False)
 		
 		self.assertLineCount(outputdir+'/status_mycorrelator.csv', expr='.', condition='==1+3')
-		self.assertLineCount(outputdir+'/status_mycorrelator.json', expr='"datetime":', condition='==3')
+		self.assertLineCount(outputdir+'/status_mycorrelator.json', expr='"local datetime":', condition='==3')
 
 		self.assertGrep(outputdir+'/status_mycorrelator.csv', expr='.*[?]', contains=False)

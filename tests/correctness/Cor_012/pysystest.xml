@@ -2,9 +2,9 @@
 <pysystest type="auto" state="runnable">
     
   <description> 
-    <title>Status line extraction - old and new correlator log files</title>
+    <title>Startup stanza - extraction of values, csv metadata, timezone detection</title>
     <purpose><![CDATA[
-    Check for correct extraction of status lines even with old correlator log files. 
+    Check we can extract the required values correctly. 
 ]]>
     </purpose>
   </description>

@@ -1,0 +1,151 @@
+2019-10-04 19:02:53.247 ##### [140008308907904] - Correlator, version 10.5.1.0.0 (build UNKNOWN_VERSION@0 on amd64-rhel7 using Software AG suite version 10.5), started.
+2019-10-04 19:02:53.248 ##### [140008308907904] - Running on host 'troll.apama.com' as user 'bsp'.
+2019-10-04 19:02:53.248 ##### [140008308907904] - Running on platform '"CentOS Linux 7 (Core)"'.
+2019-10-04 19:02:53.248 ##### [140008308907904] - Running on CPU 'vendor GenuineIntel family 6 model 63 stepping 2: Intel(R) Xeon(R) CPU E5-2690 v3 @ 2.60GHz'.
+2019-10-04 19:02:53.248 ##### [140008308907904] - Running with process Id 46974.
+2019-10-04 19:02:53.248 ##### [140008308907904] - Running with 257673.14MB of available memory.
+2019-10-04 19:02:53.248 ##### [140008308907904] - Operating system process limits:
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Limit                     Soft Limit           Hard Limit           Units     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max cpu time              unlimited            unlimited            seconds   
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max file size             10737418240          unlimited            bytes     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max data size             unlimited            unlimited            bytes     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max stack size            8388608              unlimited            bytes     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max core file size        unlimited            unlimited            bytes     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max resident set          unlimited            unlimited            bytes     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max processes             20000                1030567              processes 
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max open files            5000                 5000                 files     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max locked memory         65536                65536                bytes     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max address space         540379742208         unlimited            bytes     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max file locks            unlimited            unlimited            locks     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max pending signals       1030567              1030567              signals   
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max msgqueue size         819200               819200               bytes     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max nice priority         0                    0                    
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max realtime priority     0                    0                    
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max realtime timeout      unlimited            unlimited            us        
+2019-10-04 19:02:53.248 ##### [140008308907904] -   RLIMIT_CORE = 1000
+2019-10-04 19:02:53.248 ##### [140008308907904] -   RLIMIT_AS   = 540379742208
+2019-10-04 19:02:53.248 ##### [140008308907904] - There are 48 CPU(s)
+2019-10-04 19:02:53.249 INFO  [140008308907904] - cgroups - available CPU(s)                = unlimited
+2019-10-04 19:02:53.249 INFO  [140008308907904] - cgroups - CPU shares                      = 1024/1024
+2019-10-04 19:02:53.249 INFO  [140008308907904] - cgroups - maximum memory                  = 2,147,483,648 bytes
+2019-10-04 19:02:53.249 INFO  [140008308907904] - cgroups - memory swap limit               = unlimited
+2019-10-04 19:02:53.249 INFO  [140008308907904] - cgroups - memory swappiness               = 60 %
+2019-10-04 19:02:53.249 ##### [140008308907904] - Correlator command line: /dev/shm/bsp/10.5.1.x/apama-src/output-amd64-rhel7-release/SoftwareAG/Apama/bin/correlator -l /dev/shm/bsp/10.5.1.x/apama-test/tools/output-amd64-rhel7-release/apwork/license/ApamaServerLicense.xml -p 6705 --javaopt -Djava.class.path=/dev/shm/bsp/10.5.1.x/apama-test/etc -j -P
+2019-10-04 19:02:53.249 ##### [140008308907904] - Current Working Directory: /dev/shm/bsp/10.5.1.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_1490/Output/amd64-rhel7
+2019-10-04 19:02:53.249 ##### [140008308907904] - PATH: /dev/shm/bsp/10.5.1.x/apama-src/output-amd64-rhel7-release/SoftwareAG/Apama/bin:/dev/shm/bsp/10.5.1.x/apama-lib4/branched/linux/amd64/10.5.0.x/saginstallation/jvm/jvm/jre/bin:/bin:/usr/bin:/usr/sbin:/usr/local/bin
+2019-10-04 19:02:53.249 ##### [140008308907904] - LD_LIBRARY_PATH: /dev/shm/bsp/10.5.1.x/apama-src/output-amd64-rhel7-release/SoftwareAG/Apama/lib:/dev/shm/bsp/10.5.1.x/apama-src/output-amd64-rhel7-release/SoftwareAG/Apama/adapters/lib:/dev/shm/bsp/10.5.1.x/apama-test/tools/output-amd64-rhel7-release/native-adapters:/dev/shm/bsp/10.5.1.x/apama-lib4/branched/linux/amd64/10.5.0.x/saginstallation/jvm/jvm/jre/lib/amd64/server:/dev/shm/bsp/10.5.1.x/apama-lib4/branched/linux/amd64/10.5.0.x/saginstallation/jvm/jvm/jre/lib/amd64:/usr/lib:cannot-find-test-tool-engine-clients/dotnet:/dev/shm/bsp/10.5.1.x/apama-src/output-amd64-rhel7-release/SoftwareAG/Apama/bin
+2019-10-04 19:02:53.249 ##### [140008308907904] - Current UTC time: 2019-10-04 17:14:55, local timezone: My Timezone
+2019-10-04 19:02:53.249 ##### [140008308907904] - Input value - port                     = 6705
+2019-10-04 19:02:53.249 ##### [140008308907904] - Input value - output queue size        = 10000
+2019-10-04 19:02:53.249 ##### [140008308907904] - Input value - output queue batch size  = 100
+2019-10-04 19:02:53.249 ##### [140008308907904] - Input value - output queue mode        = blocking
+2019-10-04 19:02:53.249 ##### [140008308907904] - Input value - environment variable     = APAMA_HOME=/dev/shm/bsp/10.5.1.x/apama-src/output-amd64-rhel7-release/SoftwareAG/Apama
+2019-10-04 19:02:53.249 ##### [140008308907904] - Input value - environment variable     = AP_ZIP_OUTPUT_IF_LARGER_THAN=100000000
+2019-10-04 19:02:53.249 ##### [140008308907904] - Input value - environment variable     = APAMA_MACHTYPE=amd64-rhel7-gcc4.8.5
+2019-10-04 19:02:53.249 ##### [140008308907904] - Input value - environment variable     = AP_ASCII_COLOURS=true
+2019-10-04 19:02:53.249 ##### [140008308907904] - Input value - environment variable     = AP_TEST_VERBOSE=true
+2019-10-04 19:02:53.249 ##### [140008308907904] - Using memory allocator                 = Platform allocator
+2019-10-05 21:32:46.701 CRIT  [10708] - *************************************************************************
+2019-10-05 21:32:46.701 CRIT  [10708] - * License file not present at c:\dev\10.5.1.x\apama-src\output-amd64-win-release/license/ApamaServerLicense.xml
+2019-10-05 21:32:46.701 CRIT  [10708] - * Without a license file the correlator has the following restrictions: 
+2019-10-05 21:32:46.701 CRIT  [10708] - * 1024MB memory, 4 threads, 5 persistent EPL monitors, 20 contexts, 
+2019-10-05 21:32:46.701 CRIT  [10708] - * 5 query definitions with 5 instances of each, 50 query partitions, non-reliable JMS
+2019-10-05 21:32:46.701 CRIT  [10708] - * connections only, and no Correlator Deployment Packages.
+2019-10-05 21:32:46.701 CRIT  [10708] - * Refer to the Apama license agreement and user documentation topic "Running Apama without
+2019-10-05 21:32:46.701 CRIT  [10708] - * a license file" for further information on the restrictions. 
+2019-10-05 21:32:46.701 CRIT  [10708] - * The correlator may stop without warning if the memory limit is breached.
+2019-10-05 21:32:46.701 CRIT  [10708] - * If using Java features, you may need to use -J-Xmx256M to limit the JVM's memory usage.
+2019-10-05 21:32:46.701 CRIT  [10708] - *************************************************************************
+2019-10-05 21:32:46.701 CRIT  [10708] - 
+2019-10-05 21:32:46.731 ##### [10708] - Correlator is restricted to 1024.0 MB of resident memory
+NB: this is a hacked-up log file that includes both no-license and an actual license, just to make testing easier :)
+2019-04-09 13:57:22.757 ##### [32376] - ================= Software AG License Data =================
+2019-04-09 13:57:22.757 ##### [32376] - Sales Information
+2019-04-09 13:57:22.757 ##### [32376] -      Serial Number      : 0000028449
+2019-04-09 13:57:22.757 ##### [32376] -      Customer ID        : 1
+2019-04-09 13:57:22.757 ##### [32376] -      Customer Name      : Software AG internal
+2019-04-09 13:57:22.757 ##### [32376] - Product Information
+2019-04-09 13:57:22.757 ##### [32376] -      Product Name       : Apama Server
+2019-04-09 13:57:22.757 ##### [32376] -      Product Code       : PAMCO
+2019-04-09 13:57:22.757 ##### [32376] -      Operating System   : Linux
+2019-04-09 13:57:22.757 ##### [32376] -      Product Version    : 10.0
+2019-04-09 13:57:22.757 ##### [32376] -      Product Usage      : 
+2019-04-09 13:57:22.757 ##### [32376] -      Expiration Date    : 2019/04/22
+2019-04-09 13:57:22.757 ##### [32376] - License Information
+2019-04-09 13:57:22.757 ##### [32376] -      License Type       : 
+2019-04-09 13:57:22.757 ##### [32376] -      Price Unit         : ST
+2019-04-09 13:57:22.757 ##### [32376] -      Price Quantity     : 1
+2019-04-09 13:57:22.757 ##### [32376] -      Extended Rights    : 
+2019-04-09 13:57:22.757 ##### [32376] -      License Version    : 1.2
+2019-04-09 13:57:22.757 ##### [32376] - Physical Hardware
+2019-04-09 13:57:22.757 ##### [32376] -      Model              : Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz
+2019-04-09 13:57:22.757 ##### [32376] -      Sockets            : 1
+2019-04-09 13:57:22.757 ##### [32376] -      Physical cores     : 6
+2019-04-09 13:57:22.757 ##### [32376] -      Logical cores      : 12
+2019-04-09 13:57:22.757 ##### [32376] -      Performance Bucket : CoreD
+2019-04-09 13:57:22.757 ##### [32376] -      Virtualization     : yes
+2019-04-09 13:57:22.757 ##### [32376] - ==================== End License Data ======================
+2019-10-04 19:02:53.257 ##### [140008308907904] - 
+2019-10-04 19:02:53.258 ##### [140008308907904] - Input value - pidfile                  = 
+2019-10-04 19:02:53.258 ##### [140008308907904] - Input value - per receiver queue size  = 10 s
+2019-10-04 19:02:53.258 ##### [140008308907904] - Input value - per receiver queue size  = 10240 kb
+2019-10-04 19:02:53.258 ##### [140008308907904] - Input value - input queue size         = 20000
+2019-10-04 19:02:53.258 ##### [140008308907904] - Input value - JVM Option               = -Djava.class.path=/dev/shm/bsp/10.5.1.x/apama-test/etc
+2019-10-04 19:02:53.258 ##### [140008308907904] - External clocking                      = enabled
+2019-10-04 19:02:53.258 ##### [140008308907904] - Input value - logfile                  = stdout
+2019-10-04 19:02:53.258 ##### [140008308907904] - Input value - loglevel                 = DEBUG
+2019-10-04 19:02:53.258 ##### [140008308907904] - Input value - inputLog                 = /inputlogpath.log
+2019-10-04 19:02:53.258 ##### [140008308907904] - Compiler optimizations                 = disabled - debugger available; for best performance and scalability, remove "-g" option (disables use of the debugger)
+2019-10-04 19:02:53.258 ##### [140008308907904] - Using EPL runtime                      = compiled
+2019-10-04 19:02:53.260 ##### [140008308907904] - Python support                         = automatic
+2019-10-04 19:02:53.262 ##### [140008308907904] - Java support                           = enabled
+2019-10-04 19:02:53.262 INFO  [140008308907904] - Starting JVM with options:
+2019-10-04 19:02:53.262 INFO  [140008308907904] -   -Djava.class.path=/dev/shm/bsp/10.5.1.x/apama-test/etc:/dev/shm/bsp/10.5.1.x/apama-src/output-amd64-rhel7-release/SoftwareAG/Apama/lib/ap-correlator-extension-api.jar:/dev/shm/bsp/10.5.1.x/apama-src/output-amd64-rhel7-release/SoftwareAG/Apama/lib/ap-util.jar
+2019-10-04 19:02:53.262 INFO  [140008308907904] -   -DAPAMA_LOG_LEVEL=INFO
+2019-10-04 19:02:53.262 INFO  [140008308907904] -   -Xrs
+2019-10-04 19:02:53.262 INFO  [140008308907904] -   -XX:+HeapDumpOnOutOfMemoryError
+2019-10-04 19:02:53.262 INFO  [140008308907904] -   -DAPAMA_CORRELATOR_NAME=my correlator
+2019-10-04 19:02:53.262 INFO  [140008308907904] -   -Dlog4j.configurationFile=file:////dev/shm/bsp/10.5.1.x/apama-src/output-amd64-rhel7-release/SoftwareAG/Apama/etc/log4j-correlator.xml
+2019-10-04 19:02:53.382 ##### [140008308907904] - Java virtual machine created - OpenJDK 64-Bit Server VM 1.8.0_222-b10.
+2019-10-04 19:02:53.722 INFO  [140008308907904:java] - Logging started
+2019-10-04 19:02:53.785 INFO  [140008308907904:init] - 
+2019-10-04 19:02:53.785 INFO  [140008308907904:init] - ================================================================================
+2019-10-04 19:02:53.785 INFO  [140008308907904:init] - Java logging begins at: 04-Oct-2019 19:02:53; root log level is: INFO
+2019-10-04 19:02:53.785 INFO  [140008308907904:init] - Apama Platform Version: 10.5.1.0.0 (UNKNOWN_VERSION@0)
+2019-10-04 19:02:53.785 INFO  [140008308907904:init] - ================================================================================
+2019-10-04 19:02:53.785 INFO  [140008308907904:init] - 
+2019-10-04 19:02:53.794 INFO  [140008308907904:init] - Java maximum heap size = 736MB
+2019-10-04 19:02:53.804 CRIT  [140008308907904] - JMon framework ready
+2019-10-04 19:02:53.804 ##### [140008308907904] - Input value - persistence              = enabled
+2019-10-04 19:02:53.804 ##### [140008308907904] - Input value - snapshot interval        = 200
+2019-10-04 19:02:53.804 ##### [140008308907904] - Input value - adjust snapshot          = true
+2019-10-04 19:02:53.804 ##### [140008308907904] - Input value - store location           = .
+2019-10-04 19:02:53.804 ##### [140008308907904] - Input value - store name               = persistence.db
+2019-10-04 19:02:53.804 ##### [140008308907904] - Input value - clear store on startup   = false
+2019-10-11 18:00:29.442 INFO  [139851173076864:ConnectivityManager.initialisation] - <com.softwareag.connectivity.impl.apama.ConnectivityLoader> Loading Java class com.softwareag.connectivity.testplugins.NullTransport for plug-in nullTransport using classpath:
+file:/dev/shm/bsp/10.5.1.x/apama-src/output-amd64-rhel7-release/SoftwareAG/Apama/lib/connectivity-unit-test-harness.jar
+2019-10-11 18:00:29.446 INFO  [139851173076864:ConnectivityManager.initialisation] - <com.softwareag.connectivity.impl.apama.ConnectivityLoader> Loading Java class com.softwareag.connectivity.testplugins.UnitTestHarness for plug-in unitTestHarness using classpath:
+file:/dev/shm/bsp/10.5.1.x/apama-src/output-amd64-rhel7-release/SoftwareAG/Apama/lib/connectivity-unit-test-harness.jar
+2019-10-11 18:00:29.558 INFO  [139851173076864] - Connectivity plug-ins: Loaded C++ plugin from path /dev/shm/bsp/10.5.1.x/apama-test/system/connectivity-plugins/plugins/correctness/ConnPlugin_cor_162/Output/amd64-rhel7//libtest_cumulocityCodec.so
+2019-10-11 18:00:29.558 INFO  [139851173076864] - Connectivity plug-ins: Loaded C++ plugin from path /dev/shm/bsp/10.5.1.x/apama-test/system/connectivity-plugins/plugins/correctness/ConnPlugin_cor_162/Output/amd64-rhel7//libtest_cumulocityCodec.so
+2019-10-12 21:55:26.576 INFO  [26140] - Connectivity plug-ins: Loaded C++ plugin from path libDiagnosticCodec.so
+2019-10-12 21:55:26.580 INFO  [26140] - Connectivity plug-ins: Loaded C++ plugin from path libMapperCodec.so
+2019-10-12 21:55:26.583 INFO  [26140] - Connectivity plug-ins: Loaded C++ plugin from path libClassifierCodec.so
+2019-10-12 21:55:26.619 INFO  [26140] - Connectivity plug-ins: Loaded C++ plugin from path libconnectivity-http-client.so
+2019-10-04 19:02:53.804 ##### [140008308907904] - Input value - DistMemStore config      = /dmsconfigdir
+2019-10-04 19:02:53.804 ##### [140008308907904] - Input value - Java Transport config    = /jmsconfigdir
+2019-10-04 19:02:53.855 INFO  [140008308907904] - Will log queue size every 5.000000 seconds
+2019-10-04 19:02:53.855 INFO  [140008308907904] - Starting scheduler with 48 threads (determined from hardware)
+2019-10-04 19:02:53.804 ##### [140008308907904] - Upgrading persistent database
+2019-10-04 19:02:53.863 INFO  [140008308907904] - Recovery: Committing any changed state to disk
+2019-10-04 19:02:53.905 INFO  [140008308907904] - Server socket opened listening on 0.0.0.0:6705
+2019-10-04 19:02:53.905 INFO  [140008308907904] - Recovery: Completed
+2019-10-04 19:02:53.905 ##### [140008308907904] - Component ID: my correlator (correlator/6744009933894590820/6744009933894590820)
+2019-10-04 19:02:53.905 ##### [140008308907904] - Correlator, version 10.5.1.0.0, running
+2019-10-04 19:02:58.860 INFO  [140005703669504] - Correlator Status: sm=0 nctx=1 ls=0 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=0 vm=6946464 pm=120700 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=106
+2019-10-04 19:02:58.860 INFO  [140005703669504] - Persistence Status: numSnapshots=25 lastSnapshotTime=1570212178 snapshotWaitTimeEwmaMillis=0.04 commitTimeEwmaMillis=12.80 lastSnapshotRowsChangedEwma=203
+2019-10-04 19:03:03.855 INFO  [140005703669504] - Correlator Status: sm=0 nctx=1 ls=0 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=0 vm=6946464 pm=120712 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=110
+2019-10-04 19:03:03.855 INFO  [140005703669504] - Persistence Status: numSnapshots=50 lastSnapshotTime=1570212183 snapshotWaitTimeEwmaMillis=0.04 commitTimeEwmaMillis=4.16 lastSnapshotRowsChangedEwma=61
+2019-10-04 19:03:03.969 ##### [140005670319872] - Shutting down correlator in response to client (127.0.0.1:12725) request: Shutdown requested by test framework
+2019-10-04 19:03:04.003 INFO  [140008308907904] - Correlator shutdown is complete
+2019-10-04 19:03:04.003 INFO  [140008308907904] - Shutting down Java virtual machine

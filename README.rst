@@ -10,7 +10,7 @@ The log analyzer is a simple but powerful Python script for analyzing Apama corr
 
 Features:
 
-- `status_XXX.csv`: Extracts all periodic statistics from "Correlator Status:" lines, exporting them to an *Excel-friendly CSV file*. Columns are named in a user-friendly way, and some derived stats such as event rate are calculated. 
+- `status_XXX.csv`: Extracts all periodic statistics from "Correlator Status:" lines, exporting them to an *Excel-friendly CSV file*. Columns are named in a user-friendly way, and some derived stats such as event rate are calculated. The header line contains additional metadata such as machine info, host:port and timezone. 
 - `summary_XXX.csv`: Generates a small *summary* CSV file containing a snapshot of values from the start/middle/end of each log, min/mean/max aggregate values, and deltas between them. This is a good first port of call, to check which columns might be worth graphing to chase down a memory leak or unresponsive application. 
 - `status_summary_XXX.json`: Optionally, the status line extraction can also write a json file, which could be handy if you want to write a script to process them.
 - Calculates derived statistics including:

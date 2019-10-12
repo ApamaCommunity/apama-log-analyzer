@@ -1,4 +1,4 @@
-# datetime : 2019-04-09 13:57:32
+# local datetime : 2019-04-09 13:57:32
 epoch secs : "1,554,818,252"
 interval secs : 5.00
 line num : 77

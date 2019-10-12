@@ -13,13 +13,14 @@ __license__ = "Apache"
 
 import logging, os, io, argparse, re, time, sys, collections, datetime, calendar
 import json
-import glob 
+import glob
+import math
 
 log = logging.getLogger('loganalyzer')
 
 COLUMN_DISPLAY_NAMES = collections.OrderedDict([
 	# timing
-	('datetime', 'datetime'), # date time string
+	('datetime', 'local datetime'), # date time string
 	('epoch secs', None), # secs since the 1970 epoch; currently this in local time (which isn't ideal)
 	('=interval secs', None), # interval time between , in case people want to calculate rates.
 	('line num', 'line num'),
@@ -184,11 +185,9 @@ class LogLine(object):
 			
 		try:
 			d = datetime.datetime.strptime(self.getDetails()['datetimestring'], '%Y-%m-%d %H:%M:%S.%f')
-		except Exception as ex: # might have 
+		except Exception as ex: # might not be a valid line
 			log.debug('Cannot parse date time from "%s": %s - from line: %s', self.getDetails()['datetimestring'], ex, self.line)
 			return None
-		# rather than using timezone of current machine which may not match origin, convert to utc
-		d = d.replace(tzinfo=datetime.timezone.utc) 
 		det['datetime'] = d
 		return d
 
@@ -256,7 +255,8 @@ class CSVStatusWriter(BaseWriter):
 			items.append('# metadata: ')
 			
 			# this is a relatively CSV-friendly way of putting extra metadata into the file without messing with the main columns
-			items.extend(['%s=%s'%(k, extraInfo[k]) for k in extraInfo])
+			#items.extend(['%s=%s'%(k, extraInfo[k]) for k in extraInfo])
+			for k in extraInfo: items.extend([f'{k}=', self.formatItem(extraInfo[k], k)])
 		self.writeCSVLine(items)
 		
 	def writeStatus(self, status=None, **extra):
@@ -278,7 +278,7 @@ class CSVStatusWriter(BaseWriter):
 		"""
 		try:
 			if item is None: return '?'
-			if columnDisplayName == 'datetime':
+			if columnDisplayName == 'local datetime':
 				return item[:item.find('.')] # strip off seconds as excel misformats it if present
 			if isinstance(item, float) and item.is_integer and abs(item)>=1000.0:
 				item = int(item) # don't show decimal points for large floats like 7000.0, for consistency with smaller values like 7 when shown in excel (weird excel rules)
@@ -286,6 +286,8 @@ class CSVStatusWriter(BaseWriter):
 				return f'{item:,}'
 			if isinstance(item, float):
 				return f'{item:,.2f}' # deliberately make it different from the 3 we use for grouping e.g. mem usage kb->MB
+			if isinstance(item, list): # e.g. for notableFeatures list
+				return '; '.join(item)
 			if item in [True,False]: return str(item).upper()
 			return str(item)
 		except Exception as ex:
@@ -304,10 +306,14 @@ class CSVStatusWriter(BaseWriter):
 class JSONStatusWriter(BaseWriter):
 	output_file = 'status_@LOG_NAME@.json'
 
+	@staticmethod
+	def toMultilineJSON(data):
+		return json.dumps(data, ensure_ascii=False, indent=4, sort_keys=False)
+
 	def writeHeader(self, columns=None, extraInfo=None, **extra):
 		self.output = self.createFile(self.output_file)
 		# write one log line per json line, for ease of testing
-		self.output.write('{"metadata":%s, "status":['%json.dumps(extraInfo or {}, ensure_ascii=False, indent=4, sort_keys=False))
+		self.output.write('{"metadata":%s, "status":['%JSONStatusWriter.toMultilineJSON(extraInfo or {}))
 		self.prependComma = False
 		
 	def writeStatus(self, status=None, **extra):
@@ -433,6 +439,8 @@ class LogAnalyzer(object):
 		for w in self.writers:
 			w.closeFile()
 		self.writeStatusSummaryForCurrentFile(file=file)
+		
+		self.writeStartupStanzaSummaryForCurrentFile(file=file)
 
 	def handleAllFilesFinished(self):
 		self.writeWarnOrErrorSummaryForAllFiles()
@@ -453,6 +461,10 @@ class LogAnalyzer(object):
 			file['status-0pc'] = file['status-25pc'] = file['status-50pc'] = file['status-75pc'] = file['status-100pc'] = None
 		self.previousAnnotatedStatus = None # annotated status
 		self.totalStatusLinesInFile = 0
+		
+		file['startupStanzas'] = [{}]
+		file['inStartupStanza'] = False
+		
 
 	DONT_UPDATE_PREVIOUS_LINE = 123
 	def handleLine(self, file, line, previousLine, **extra):
@@ -474,18 +486,23 @@ class LogAnalyzer(object):
 				return LogAnalyzer.DONT_UPDATE_PREVIOUS_LINE
 		
 			self.handleWarnOrError(file=file, isError=True, line=line)
-		elif line.level is None and previousLine is not None:
+		elif level is None and previousLine is not None:
 			if previousLine.level in ['W', 'E', 'F']:
 				# treat a line with no date/level this as part of the preceding warn/error message
 				if not hasattr(previousLine, 'extraLines'): previousLine.extraLines = []
 				previousLine.extraLines.append(line.line)
 				return LogAnalyzer.DONT_UPDATE_PREVIOUS_LINE
+		elif level == '#' or (file['inStartupStanza'] and level == 'I'):
+			self.handleStartupLine(file=file, line=line)
 		
 	def handleRawStatusLine(self, file, line, **extra):
 		m = line.message
 		d = collections.OrderedDict()
 		d['datetime'] = line.getDetails()['datetimestring']
-		d['epoch secs'] = line.getDateTime().timestamp()
+		
+		# TODO: fix the epoch calculation; treating this as UTC isn't correct since it probably isn't
+		d['epoch secs'] = line.getDateTime().replace(tzinfo=datetime.timezone.utc).timestamp()
+
 		d['line num'] = line.lineno
 		
 		"""if kind==EVENT_JMS_STATUS_DICT:
@@ -602,7 +619,7 @@ class LogAnalyzer(object):
 			for w in self.writers:
 				w.writeHeader(
 					columns=self.columns.values(), 
-					extraInfo=self.getMetadataDictForCurrentFile()
+					extraInfo=self.getMetadataDictForCurrentFile(file=file)
 				)
 			
 		d = {}
@@ -612,7 +629,7 @@ class LogAnalyzer(object):
 		
 		if previousStatus is None:
 			if file['startTime'] is not None:
-				secsSinceLast = status['epoch secs']-file['startTime'].timestamp()
+				secsSinceLast = status['epoch secs']-file['startTime'].replace(tzinfo=datetime.timezone.utc).timestamp()
 			else:
 				secsSinceLast = -1 # hopefully won't happen
 		else:
@@ -773,7 +790,7 @@ class LogAnalyzer(object):
 			writers.append(JSONStatusWriter(self))
 		for w in writers:
 			w.output_file = 'summary_'+w.output_file.split('_', 1)[1]
-			w.writeHeader(columns = ['statistic']+list(self.columns.values()), extraInfo=self.getMetadataDictForCurrentFile())
+			w.writeHeader(columns = ['statistic']+list(self.columns.values()), extraInfo=self.getMetadataDictForCurrentFile(file=file))
 			prev = None
 			for display, status in rows.items():
 				if not display:
@@ -798,7 +815,7 @@ class LogAnalyzer(object):
 				status = collections.OrderedDict(status)
 				status['statistic'] = display
 				if '%' not in display:
-					status['datetime'] = status['seconds'] = ''
+					status['local datetime'] = status['seconds'] = ''
 					if 'mean' in display:
 						status['seconds'] = ''
 				status.move_to_end('statistic', last=False)
@@ -914,12 +931,238 @@ class LogAnalyzer(object):
 									break # only print the first example per file if we've already exceeded our quota
 
 					f.write('\n')
+	
+	FORCE_LOG_LINE_REGEX = re.compile('(%s)'%'|'.join([
+		# This big regex is for ##### (and during startup, INFO) lines which don't have a key=value structure;
+		# the (?P<name>xxxx) syntax identifies named groups in the regular expression
+	
+		# should usually be present on recent versions:
+		"Correlator, version (?P<apamaVersion>[^ ]+).*, started.",
+		"Correlator, version .*, (?P<end_of_startup>running)",
+		"Running on host '(?P<qualifiedHost>(?P<host>[^'.]+)[^']*)'( as user '(?P<user>[^']+)')?",
+		"Running on platform '[\"]?(?P<OS>[^\"']*)[\"]?",
+		"Running on CPU '(?P<cpuDetail>.*?(Intel[(]R[)] (?P<cpuShortName>.+)))'",
+		"Running with process Id (?P<pid>[0-9]+)",
+		"Running with (?P<physicalMemoryMB>[0-9.]+)MB of available memory",
+		"There are (?P<cpuCount>[0-9]+) CPU",
+		"Component ID: (?P<componentName>.+) [(]correlator/(?P<physicalID>[0-9]+)",
+		"Current UTC time: (?P<utcTime>[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]), local timezone: (?P<timezoneName>.+)",
+		"Correlator command line: (?P<commandLine>.*)",
+		
+		# may or may not be present:
+		"Java virtual machine created - (?P<jvmVersion>.*).", 
+		"License File: (?P<licenseFile>[^ ]+)",
+		"(?P<persistenceUpgrade>Upgrading persistent database)",
+		"Correlator is restricted to (?P<licenceMaxMemoryMB>[0-9.]+) MB of resident memory",
+		
+		"<com.softwareag.connectivity.impl.apama.ConnectivityLoader> Loading Java class .* for plug-in (?P<connectivityPluginsJava>[^ ]+) using classpath",
+		"Connectivity plug-ins: Loaded C[+][+] plugin from path (?P<connectivityPluginsCPP>.+)",
+		
+		# from the saglic section:
+		" +Customer Name *: (?P<licenseCustomerName>.+)",
+		" +Expiration Date *: (?P<licenseExpirationDate>[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9])",
+		" +Virtualization *: (?P<virtualizationDetected>.+)",
+		]))
+		
+	FORCE_LOG_LINE_VALUE_LOOKUP = {
+		# values to automatically convert
+		'automatic':None, 
+		'disabled':False, 
+		'enabled':True,
+		'false':False, 
+		'true':True,
+		'no':False, # saglic
+		'yes':True,
+		'** Warning input log not enabled **':None,
+		'** Warning replay log not enabled **':None,
+		'interpreted':None, 'compiled':'compiled(LLVM)',
+		'TZ not set so using system default':None,
+		}
+	def handleStartupLine(self, file, line):
+		"""Called for (likely) startup lines - any ##### but also some INFO lines that occur during the startup period. """
+		msg = line.message
+		
+		d = file['startupStanzas'][-1] # current (latest) startup stanza
+			
+		i = msg.find(' = ')
+		if i > 0:
+			k = msg[:i+1].strip()
+			v = msg[i+2:].strip()
+			v = LogAnalyzer.FORCE_LOG_LINE_VALUE_LOOKUP.get(v, v)
+			if k.startswith('Input value - '): k = k[len('Input value - '):]
+			k = k.lower() # best to normalize these are too variable otherwise (even between Apama versions!)
+			if k in {'jvm option', 'environment variable'}:
+				d.setdefault(k, []).append(v)
+			else:
+				d[k] = v
+		else:
+			match = LogAnalyzer.FORCE_LOG_LINE_REGEX.match(msg)
+			if match:
+				for k, v in match.groupdict().items():
+					if v is None: continue
+					
+					if k == 'end_of_startup':
+						file['inStartupStanza'] = False
+						self.handleCompletedStartupStanza(file=file, stanza=d)
+						continue
+					
+					if k == 'apamaVersion':
+						if d: # start of a new startup stanza - finish the old one first
+							self.handleCompletedStartupStanza(file=file, stanza=d)
+							d = {}
+							file['startupStanzas'].append(d)
+							
+						file['inStartupStanza'] = True
+						d['startTime'] = LogAnalyzer.formatDateTime(line.getDateTime())
+					
+					v = LogAnalyzer.FORCE_LOG_LINE_VALUE_LOOKUP.get(v, v)
+					if k in {'connectivityPluginsJava', 'connectivityPluginsCPP'}:
+						d.setdefault(k, []).append(v)
+					else:
+						d[k] = v
+					
+					if k == 'utcTime':
+						utcTime = datetime.datetime.strptime(v, '%Y-%m-%d %H:%M:%S')
+						localTime = line.getDateTime()
+						# Follow ISO 8601 and RFC 822 convention of positive offsets to East of meridian (not POSIX convention of + to the West)
+						# so that utcTime + utfOffSet=local time
+						utcOffsetHours = round((localTime-utcTime).total_seconds()/60.0/15.0)*(15.0/60.0)
+						
+						d['utcOffsetHours'] = utcOffsetHours
+						offsetFractional,offsetIntegral = math.modf(abs(utcOffsetHours))
+						d['utcOffset'] = f'UTC{"+" if utcOffsetHours>=0 else "-"}{int(offsetIntegral):02}:{int(60*offsetFractional):02}'
+	
+	def handleCompletedStartupStanza(self, file, stanza, **extra):
+		"""Called when there's nothing more to add to this startup stanza, typically when first status line is received, or after correlator restart. 
+		
+		This method populates additional fields to make data easier to work with.
+		
+		This method is idempotent - may be called more than once. 
+		"""
+		if not stanza: return # nothing to do if it's missing
+		
+		# coerse types of known float values; don't bother converting floats which we only ever need in string form
+		for k in ['physicalMemoryMB', 'RLIMIT_AS', 'licenceMaxMemoryMB']:
+			if stanza.get(k): 
+				try:
+					stanza[k] = float(stanza[k])
+				except ValueError:
+					pass
+		
+		if isinstance(stanza.get("compiler optimizations",None), str):
+			if stanza["compiler optimizations"].startswith("enabled"):
+				stanza["compiler optimizations"] = True
+			elif stanza["compiler optimizations"].startswith("disabled"):
+				stanza["compiler optimizations"] = False
+		
+		stanza['cpuSummary'] = (stanza.get('cpuShortName') or stanza.get('cpuDetail') or '')\
+			.replace('(R)','').replace('(TM)','').replace(' CPU ', ' ').replace('  ',' ')
+		if stanza.get('cpuCount'): stanza['cpuSummary'] = f'{stanza["cpuCount"]}-core {stanza["cpuSummary"]}'
+		if stanza.get('cgroups - available cpu(s)'):
+			stanza['cpuSummary'] += f' (cgroups {stanza["cgroups - available cpu(s)"]} CPUs; {stanza.get("cgroups - cpu shares")} shares)'
 
-	def getMetadataDictForCurrentFile(self):
+		stanza['connectivity'] = sorted(list(set(stanza.get('connectivityPluginsJava',[]))))+sorted(list(set(
+			[os.path.basename(path) for path in stanza.get('connectivityPluginsCPP',[])])))
+		stanza['connectivity'] = [conn for conn in stanza['connectivity'] if 'codec' not in conn.lower()] # just transports
+		if 'java transport config' in stanza: stanza['connectivity'] = ['Correlator-JMS']+stanza['connectivity']
+		if 'distmemstore config' in stanza: stanza['connectivity'] = ['DistMemStore']+stanza['connectivity']
+
+
+		# pick out binary notable features that indicate problems or useful information about how the machine is configured
+		features = []
+		if 'licenceMaxMemoryMB' in stanza:
+			features.append('noLicenseConstrainedMode')
+		elif not stanza.get('licenseFile'):
+			features.append('licenseMayBeMissing!')
+
+		if stanza.get('cgroups - maximum memory'):
+			stanza['cgroups - maximum memory MB'] = float(stanza['cgroups - maximum memory'].replace(' bytes','').replace(',',''))/1024.0/1024.0
+			
+		allocator = stanza.get('using memory allocator',None)
+		if allocator not in {None, "TBB scalable allocator"}:
+			features.append(f'non-standard allocator: {allocator}')
+
+		if stanza.get('virtualizationDetected'): features.append('virtualizationDetected')
+		if 'cgroups - cpu shares' in stanza: features.append('cgroupsLimits')
+		if stanza.get('rlimit_core') and stanza['rlimit_core'] != 'unlimited': features.append('coreHasResourceLimit(should be unlimited!)')
+
+		if stanza.get('loglevel','INFO')!='INFO':
+			features.append(f"non-standard log level: {stanza['loglevel']}")
+		if stanza.get('using epl runtime'): features.append(f"runtime: {stanza['using epl runtime']}")
+		if stanza.get('persistence'): features.append('persistence')
+		if stanza.get('persistenceUpgrade'): features.append('persistenceDatabaseUpgrade')
+		if stanza.get('inputlog'): features.append('inputLog')
+		if stanza.get('replaylog'): features.append('replayLog')
+		if stanza.get('external clocking'): features.append('externalClocking')
+		if not stanza.get('compiler optimizations'): features.append('optimizationsDisabled')
+
+
+		if 'jvmVersion' in stanza: features.append('JVM')
+		
+		stanza['noteableFeatures'] = features
+		stanza['analyzerVersion'] = f'{__version__}/{__date__}' # always include the version of the script that generated it
+		
+		if stanza.get('physicalMemoryMB'): 
+			maxMem = float(stanza.get('physicalMemoryMB'))
+			if stanza.get('cgroups - maximum memory MB'):
+				maxMem = min(maxMem, stanza['cgroups - maximum memory MB'])
+			if stanza.get('licenceMaxMemoryMB'):
+				maxMem = min(maxMem, stanza['licenceMaxMemoryMB'])
+			
+			stanza['usableMemoryMB'] = maxMem
+		
+		# calculate UTC offset
+
+		# uniquely identify this correlator
+		instance = f"{stanza.get('host','?')}:{stanza.get('port','?')}"
+		if stanza.get('componentName','correlator') not in {'correlator', 'defaultCorrelator'}: # ignore default name as doesn't add any information
+			instance += f"[{stanza['componentName']}]"
+		
+		stanza['instance'] = instance
+
+	def writeStartupStanzaSummaryForCurrentFile(self, file, **extra):
+		# just in case this wasn't yet done
+		self.handleCompletedStartupStanza(file=file, stanza=file['startupStanzas'][-1])
+
+		# write the whole thing to json
+		if not file['startupStanzas'][0]:
+			log.warn('The ##### startup stanza was not found in this log file - please try to get the log file containing the time period when from when the correlator was first started, otherwise many problems are much harder to diagnose!')
+			return
+		
+		if self.args.statusjson:
+			# output the full set of recovered data here
+			with io.open(os.path.join(self.outputdir, f'startup_summary_{self.currentname}.json'), 'w', encoding='utf-8') as jsonfile:
+				jsonfile.write(JSONStatusWriter.toMultilineJSON(file['startupStanzas'])) # write the list of stanzas
+		
+		# show textual summary and delta from previous
+
+	def getMetadataDictForCurrentFile(self, file):
 		""" Get an ordered dictionary of additional information to be included with the header for the current file, 
 		such as date, version, etc. """
+		stanza = file['startupStanzas'][0] # just focus on the first one
+		
 		d = collections.OrderedDict()
-		d['analyzer'] = f'v{__version__}/{__date__}' # always include the version of the script that generated it
+		metadataAliases = { # keys are from startupStanzas, values are aliases if needed
+			'apamaVersion':None,
+			'instance':None,
+			'pid':None,
+			'utcOffset':None,
+			'utcOffsetHours':None,
+			'timezoneName':'timezone',
+			'OS':None,
+			'physicalMemoryMB':None,
+			'usableMemoryMB':None,
+			'cpuSummary':None,
+			'noteableFeatures':None,
+			'connectivity':None,
+			'analyzerVersion':None,
+		}
+		for k, alias in metadataAliases.items():
+			v = stanza.get(k)
+			if v is None: continue
+			k = alias or k
+			d[alias or k] = v
+		d['analyzerVersion'] = f'{__version__}/{__date__}' # always include the version of the script that generated it
 		return d
 
 	@staticmethod
