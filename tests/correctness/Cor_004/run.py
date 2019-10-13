@@ -4,7 +4,7 @@ from correlatorloganalyzer.analyzer_basetest import AnalyzerBaseTest
 
 class PySysTest(AnalyzerBaseTest):
 	def execute(self):
-		self.logAnalyzer(['--statusjson'], logfiles=['empty.log', 'garbage.log'])
+		self.logAnalyzer(['--json'], logfiles=['empty.log', 'garbage.log'])
 
 	def validate(self):
 		self.checkForAnalyzerErrors()

@@ -7,7 +7,7 @@ class PySysTest(AnalyzerBaseTest):
 		self.logAnalyzer([
 			self.input+'/correlator-4.3.2.0.log', 
 			self.input+'/correlator-10.3.1.0.log', 
-			'--statusjson'
+			'--json'
 		])
 
 

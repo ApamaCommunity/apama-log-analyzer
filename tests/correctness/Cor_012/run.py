@@ -10,7 +10,7 @@ class PySysTest(AnalyzerBaseTest):
 			self.input+'/correlator-10.3.1.0-win.log', 
 			# hacked up to have everything turned on
 			self.input+'/correlator-10.5.1.0-linux-everything.log', 
-			'--statusjson'
+			'--json'
 		])
 
 

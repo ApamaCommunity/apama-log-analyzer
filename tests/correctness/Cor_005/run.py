@@ -38,7 +38,7 @@ class PySysTest(AnalyzerBaseTest):
 			
 		# run with multiple files to check we don't get errors for small numbers of inputs, 
 		# and that they don't interfere with each other
-		self.logAnalyzer(['--statusjson'], logfiles=[
+		self.logAnalyzer(['--json'], logfiles=[
 			self.output+'/generated-log-20.log',
 			self.output+'/generated-log-08.log',
 			self.output+'/generated-log-02.log',

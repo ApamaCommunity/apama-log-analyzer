@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-""" This is a script for analyzing Apama correlator log files. 
+""" This is a script for analyzing Apama correlator (and apama-ctrl) log files. 
 
 It extracts and summarizes information from status lines and other 
 log messages. 
 """
 
 __version__ = '3.0.dev'
-__date__ = '2019-10-03'
+__date__ = '2019-10-13'
 __author__ = "Ben Spiller"
 __license__ = "Apache"
 
@@ -345,7 +345,7 @@ class LogAnalyzer(object):
 		self.outputdir = args.output
 		
 		self.writers = [CSVStatusWriter(self)]
-		if args.statusjson:
+		if args.json:
 			self.writers.append(JSONStatusWriter(self))
 	
 	def processFiles(self, filepaths):
@@ -786,7 +786,7 @@ class LogAnalyzer(object):
 				file['status-max'][k] = ''
 
 		writers = [CSVStatusWriter(self)]
-		if self.args.statusjson:
+		if self.args.json:
 			writers.append(JSONStatusWriter(self))
 		for w in writers:
 			w.output_file = 'summary_'+w.output_file.split('_', 1)[1]
@@ -1111,8 +1111,6 @@ class LogAnalyzer(object):
 			
 			stanza['usableMemoryMB'] = maxMem
 		
-		# calculate UTC offset
-
 		# uniquely identify this correlator
 		instance = f"{stanza.get('host','?')}:{stanza.get('port','?')}"
 		if stanza.get('componentName','correlator') not in {'correlator', 'defaultCorrelator'}: # ignore default name as doesn't add any information
@@ -1129,7 +1127,7 @@ class LogAnalyzer(object):
 			log.warn('The ##### startup stanza was not found in this log file - please try to get the log file containing the time period when from when the correlator was first started, otherwise many problems are much harder to diagnose!')
 			return
 		
-		if self.args.statusjson:
+		if self.args.json:
 			# output the full set of recovered data here
 			with io.open(os.path.join(self.outputdir, f'startup_summary_{self.currentname}.json'), 'w', encoding='utf-8') as jsonfile:
 				jsonfile.write(JSONStatusWriter.toMultilineJSON(file['startupStanzas'])) # write the list of stanzas
@@ -1216,8 +1214,8 @@ class LogAnalyzerTool(object):
 		self.argparser.add_argument('--output', '-o', metavar='DIR',  # later might also support zip output
 			help='The directory to which output files will be written. Existing files are overwritten if it already exists.')
 
-		self.argparser.add_argument('--statusjson', action='store_true',
-			help='Advanced/debugging option to extract status lines in json format suitable for processing by scripts.')
+		self.argparser.add_argument('--json', action='store_true',
+			help='Advanced/debugging option to additionally write output in JSON format suitable for processing by scripts.')
 
 		self.argparser.add_argument('--XmaxUniqueWarnOrErrorLines', metavar='INT', default=1000, type=int,
 			help='Advanced option to put an upper limit on the number of unique warn/error log lines that will be held in memory. Specify 0 to disable warn/error line tracking.')

@@ -7,7 +7,7 @@ class PySysTest(AnalyzerBaseTest):
 		self.logAnalyzer([
 			self.input+'/apama-ctrl-10.5.0.0.log', 
 			self.input+'/apama-small-10.3.1.0.log', 
-			'--statusjson', 
+			'--json', 
 		])
 
 

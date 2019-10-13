@@ -4,7 +4,7 @@ from correlatorloganalyzer.analyzer_basetest import AnalyzerBaseTest
 
 class PySysTest(AnalyzerBaseTest):
 	def execute(self):
-		self.logAnalyzer(['--statusjson'], logfiles=['mycorrelator.log'])
+		self.logAnalyzer(['--json'], logfiles=['mycorrelator.log'])
 
 	def validate(self):
 		def splitcsvline(l):

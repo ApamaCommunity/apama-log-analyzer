@@ -7,7 +7,7 @@ from correlatorloganalyzer.analyzer_basetest import AnalyzerBaseTest
 
 class PySysTest(AnalyzerBaseTest):
 	def execute(self):			
-		self.logAnalyzer(['--statusjson'], logfiles=[
+		self.logAnalyzer(['--json'], logfiles=[
 			'correlator-warns-and-errors.log',
 			])
 
