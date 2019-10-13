@@ -872,7 +872,7 @@ class LogAnalyzer(object):
 				log.info(f'No {kind} were found in any of these log files.')
 				continue
 			
-			path = f'{self.outputdir}/{kind}.txt'
+			path = f'{self.outputdir}/logged_{kind}.txt'
 			with io.open(path, 'w', encoding='utf-8') as f:
 				
 				# first show a summary

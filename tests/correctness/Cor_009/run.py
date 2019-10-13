@@ -15,8 +15,8 @@ class PySysTest(AnalyzerBaseTest):
 	def validate(self):
 		self.checkForAnalyzerErrors()
 		
-		self.logFileContents('loganalyzer_output/errors.txt', maxLines=0)
-		self.logFileContents('loganalyzer_output/warnings.txt', maxLines=0)
+		self.logFileContents('loganalyzer_output/logged_errors.txt', maxLines=0)
+		self.logFileContents('loganalyzer_output/logged_warnings.txt', maxLines=0)
 		
-		self.assertDiff('loganalyzer_output/errors.txt', 'ref-errors.txt')
-		self.assertDiff('loganalyzer_output/warnings.txt', 'ref-warnings.txt')
+		self.assertDiff('loganalyzer_output/logged_errors.txt', 'ref-errors.txt')
+		self.assertDiff('loganalyzer_output/logged_warnings.txt', 'ref-warnings.txt')

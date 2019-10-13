@@ -14,6 +14,6 @@ class PySysTest(AnalyzerBaseTest):
 		self.checkForAnalyzerErrors(stdouterr='loganalyzer_java')
 		self.checkForAnalyzerErrors(stdouterr='loganalyzer_nonjava')
 		
-		self.assertDiff('loganalyzer_java_output/errors.txt', 'ref-java-errors.txt')
-		self.assertDiff('loganalyzer_java_output/warnings.txt', 'ref-java-warnings.txt')
-		self.assertDiff('loganalyzer_nonjava_output/errors.txt', 'ref-nonjava-errors.txt')
+		self.assertDiff('loganalyzer_java_output/logged_errors.txt', 'ref-java-errors.txt')
+		self.assertDiff('loganalyzer_java_output/logged_warnings.txt', 'ref-java-warnings.txt')
+		self.assertDiff('loganalyzer_nonjava_output/logged_errors.txt', 'ref-nonjava-errors.txt')
