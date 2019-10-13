@@ -4,12 +4,17 @@ from correlatorloganalyzer.analyzer_basetest import AnalyzerBaseTest
 
 class PySysTest(AnalyzerBaseTest):
 	def execute(self):
+		self.copy(self.input+'/correlator-10.5.1.0-linux-everything.log', 'x-copy-of-correlator-10.5.1.0-linux-everything.log')
 		self.logAnalyzer([
+			# deliberately add a copy with a different name and order, to check for sorting in the overview
+			self.output+'/x-copy-of-correlator-10.5.1.0-linux-everything.log',
+			
 			# these are mostly just here for manual testing purposes and to show there's no error
 			self.input+'/correlator-4.3.2.0-win.log', 
 			self.input+'/correlator-10.3.1.0-win.log', 
 			# hacked up to have everything turned on
 			self.input+'/correlator-10.5.1.0-linux-everything.log', 
+			
 			'--json'
 		])
 
@@ -38,3 +43,7 @@ class PySysTest(AnalyzerBaseTest):
 			expr='INFO ')
 		self.assertGrep(outputdir+'/startup_stanza.correlator-10.5.1.0-linux-everything.log', 
 			expr='Shutting down correlator', contains=False) # #### level message not part of startup
+
+		self.assertDiff(outputdir+'/overview.txt', 'ref-overview.txt')
+
+		self.logFileContents(outputdir+'/overview.txt', maxLines=0)

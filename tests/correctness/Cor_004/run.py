@@ -16,4 +16,4 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertGrep('loganalyzer.err', expr='WARN.* 0 status line[(]s[)] found in garbage; not enough to analyze')
 
 		outputdir = self.output+'/loganalyzer_output'
-		self.assertEval('len({output_files})==0', output_files=os.listdir(outputdir))
+		self.assertEval('{output_files}==["overview.txt"]', output_files=os.listdir(outputdir))

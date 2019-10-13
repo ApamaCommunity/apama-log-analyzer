@@ -444,6 +444,7 @@ class LogAnalyzer(object):
 
 	def handleAllFilesFinished(self):
 		self.writeWarnOrErrorSummaryForAllFiles()
+		self.writeOverviewForAllFiles()
 
 	def handleAllFilesStarted(self):
 		# for handleWarnOrError
@@ -1067,10 +1068,14 @@ class LogAnalyzer(object):
 				stanza["compiler optimizations"] = True
 			elif stanza["compiler optimizations"].startswith("disabled"):
 				stanza["compiler optimizations"] = False
+
+		if isinstance(stanza.get("java maximum heap size",None), str):
+			stanza['jvmMemoryHeapMaxMB'] = float(stanza["java maximum heap size"][:-2])
 		
 		stanza['cpuSummary'] = (stanza.get('cpuShortName') or stanza.get('cpuDetail') or '')\
 			.replace('(R)','').replace('(TM)','').replace(' CPU ', ' ').replace('  ',' ')
 		if stanza.get('cpuCount'): stanza['cpuSummary'] = f'{stanza["cpuCount"]}-core {stanza["cpuSummary"]}'
+		if stanza.get('virtualizationDetected'): stanza['cpuSummary'] = 'VM with '+stanza['cpuSummary']
 		if stanza.get('cgroups - available cpu(s)'):
 			stanza['cpuSummary'] += f' (cgroups {stanza["cgroups - available cpu(s)"]} CPUs; {stanza.get("cgroups - cpu shares")} shares)'
 
@@ -1095,7 +1100,7 @@ class LogAnalyzer(object):
 		if allocator not in {None, "TBB scalable allocator"}:
 			features.append(f'non-standard allocator: {allocator}')
 
-		if stanza.get('virtualizationDetected'): features.append('virtualizationDetected')
+		#if stanza.get('virtualizationDetected'): features.append('virtualizationDetected')
 		if 'cgroups - cpu shares' in stanza: features.append('cgroupsLimits')
 		if stanza.get('rlimit_core') and stanza['rlimit_core'] != 'unlimited': features.append('coreHasResourceLimit(should be unlimited!)')
 
@@ -1112,7 +1117,7 @@ class LogAnalyzer(object):
 
 		if 'jvmVersion' in stanza: features.append('JVM')
 		
-		stanza['noteableFeatures'] = features
+		stanza['notableFeatures'] = features
 		stanza['analyzerVersion'] = f'{__version__}/{__date__}' # always include the version of the script that generated it
 		
 		if stanza.get('physicalMemoryMB'): 
@@ -1145,8 +1150,6 @@ class LogAnalyzer(object):
 			with io.open(os.path.join(self.outputdir, f'startup_stanza.{self.currentname}.json'), 'w', encoding='utf-8') as jsonfile:
 				jsonfile.write(JSONStatusWriter.toMultilineJSON(file['startupStanzas'])) # write the list of stanzas
 		
-		# show textual summary and delta from previous
-
 	def getMetadataDictForCurrentFile(self, file):
 		""" Get an ordered dictionary of additional information to be included with the header for the current file, 
 		such as date, version, etc. """
@@ -1163,8 +1166,9 @@ class LogAnalyzer(object):
 			'OS':None,
 			'physicalMemoryMB':None,
 			'usableMemoryMB':None,
+			'jvmMemoryHeapMaxMB':None,
 			'cpuSummary':None,
-			'noteableFeatures':None,
+			'notableFeatures':None,
 			'connectivity':None,
 			'analyzerVersion':None,
 		}
@@ -1175,6 +1179,67 @@ class LogAnalyzer(object):
 			d[alias or k] = v
 		d['analyzerVersion'] = f'{__version__}/{__date__}' # always include the version of the script that generated it
 		return d
+
+	def writeOverviewForAllFiles(self, **extra):
+		# re-sort based on what we know now
+		self.files.sort(key=lambda f: [
+			# put all files for a given instance together first, then sorted by start time
+			f['startupStanzas'][0].get('instance', '?'),
+			f['startTime'] or datetime.datetime.min,
+			# fall back on filename if not available
+			f['name'],
+			f['path'],
+			])
+		
+		previousOverview = {}
+		
+		with io.open(os.path.join(self.outputdir, 'overview.txt'), 'w', encoding='utf-8') as out:
+			for file in self.files:
+				out.write(f"- {os.path.basename(file['path'])}\n")
+				if not file['startTime']:
+					out.write('  Not a valid Apama log file\n\n')
+					continue
+				out.write(f"  {self.formatDateTimeRange(file['startTime'], file['endTime'])}\n\n")
+				ss = file['startupStanzas'][0]
+				if not ss:
+					out.write('  No startup stanza present in this file!\n')
+				else:
+
+					ov = {} # overview sorted dict# if key ends with : then it will be prefixed
+					ov['Instance:'] = f"{ss.get('instance')}, pid {ss.get('pid') or '?'}"
+
+					ov['Apama version:'] = f"{ss.get('apamaVersion', '?')}, running on {ss.get('OS')}"
+					ov['Log timezone:'] = f"{ss.get('utcOffset') or '?'}"+(f" ({ss.get('timezoneName')})" if ss.get('timezoneName') else '')
+					if ss.get('licenseCustomerName'):
+						ov['Customer:'] = f"{ss.get('licenseCustomerName')} (license expires {ss.get('licenseExpirationDate', '?')})"
+
+					ov['Hardware:'] = f"{ss.get('cpuSummary')}"
+					if ss.get('physicalMemoryMB'):
+						ov['Memory:'] = f"{ss.get('physicalMemoryMB')/1024.0:0.1f} GB physical memory"
+						if ss.get('usableMemoryMB')!=ss.get('physicalMemoryMB'):
+							ov['Memory:'] = f"{ss.get('usableMemoryMB')/1024.0:0.1f} GB usable, "+ov['Memory:']
+						if ss.get('jvmMemoryHeapMaxMB'):
+							ov['Memory:'] = ov['Memory:']+f" ({ss['jvmMemoryHeapMaxMB']/1024.0:0.1f} GB Java max heap)"
+
+					ov['Connectivity:'] = ', '.join(ss.get('connectivity', ['?']) or ['-'])
+					ov['Notable:'] = ', '.join(ss.get('notableFeatures', ['?']) or ['-'])
+					
+					# print overview of each log, but only delta from previous, since most of the time everything's the same
+					for k in ov:
+						if previousOverview.get(k)!=ov[k]:
+							out.write('  ')
+							if k.endswith(':'): out.write(f"{k:15} ")
+							out.write(ov[k])
+							out.write('\n')
+					
+					previousOverview = ov
+
+				out.write('\n')
+
+		with io.open(os.path.join(self.outputdir, 'overview.txt'), 'r', encoding='utf-8') as out:
+			
+			log.info('Overview: \n%s%s', out.read(), '' if len(self.files)==1 else 
+				'NB: Values are shown only when they differ from the preceding listed log file\n')
 
 	@staticmethod
 	def formatDateTime(datetime):
