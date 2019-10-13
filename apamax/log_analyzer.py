@@ -1003,6 +1003,7 @@ class LogAnalyzer(object):
 					
 					if k == 'end_of_startup':
 						file['inStartupStanza'] = False
+						if file.get('startupContentsFile'): file.get('startupContentsFile').write(line.line+'\n')
 						self.handleCompletedStartupStanza(file=file, stanza=d)
 						continue
 					
@@ -1013,6 +1014,10 @@ class LogAnalyzer(object):
 							file['startupStanzas'].append(d)
 							
 						file['inStartupStanza'] = True
+						if 'startupContentsFile' not in file:
+							file['startupContentsFile'] = io.open(f'{self.outputdir}/startup_stanza_{self.currentname}.log', 
+								'w', encoding='utf-8')
+							
 						d['startTime'] = LogAnalyzer.formatDateTime(line.getDateTime())
 					
 					v = LogAnalyzer.FORCE_LOG_LINE_VALUE_LOOKUP.get(v, v)
@@ -1031,6 +1036,9 @@ class LogAnalyzer(object):
 						d['utcOffsetHours'] = utcOffsetHours
 						offsetFractional,offsetIntegral = math.modf(abs(utcOffsetHours))
 						d['utcOffset'] = f'UTC{"+" if utcOffsetHours>=0 else "-"}{int(offsetIntegral):02}:{int(60*offsetFractional):02}'
+
+		startupContents = file.get('startupContentsFile')
+		if startupContents: startupContents.write(line.line+'\n')
 	
 	def handleCompletedStartupStanza(self, file, stanza, **extra):
 		"""Called when there's nothing more to add to this startup stanza, typically when first status line is received, or after correlator restart. 
@@ -1040,6 +1048,11 @@ class LogAnalyzer(object):
 		This method is idempotent - may be called more than once. 
 		"""
 		if not stanza: return # nothing to do if it's missing
+		
+		if file.get('startupContentsFile'):
+			# to avoid include extra force lines from later, stop the file after this point
+			file['startupContentsFile'].close()
+			file['startupContentsFile'] = None
 		
 		# coerse types of known float values; don't bother converting floats which we only ever need in string form
 		for k in ['physicalMemoryMB', 'RLIMIT_AS', 'licenceMaxMemoryMB']:

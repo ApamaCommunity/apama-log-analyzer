@@ -6,13 +6,12 @@
 
 About the Apama Correlator Log Analyzer
 =======================================
-The log analyzer is a simple but powerful Python script for analyzing Apama correlator log files and extracting useful diagnostic information. 
+The log analyzer is a simple but powerful Python 3 script for analyzing Apama correlator log files and extracting useful diagnostic information. 
 
 Features:
 
 - `status_XXX.csv`: Extracts all periodic statistics from "Correlator Status:" lines, exporting them to an *Excel-friendly CSV file*. Columns are named in a user-friendly way, and some derived stats such as event rate are calculated. The header line contains additional metadata such as machine info, host:port and timezone. 
 - `summary_XXX.csv`: Generates a small *summary* CSV file containing a snapshot of values from the start/middle/end of each log, min/mean/max aggregate values, and deltas between them. This is a good first port of call, to check which columns might be worth graphing to chase down a memory leak or unresponsive application. 
-- `status_summary_XXX.json`: Optionally, the status line extraction can also write a json file, which could be handy if you want to write a script to process them.
 - Calculates derived statistics including:
 	
 	- *rx/tx/rt rate /sec*, which are useful for determining typical receive/send rates and any anomolous periods of high/low/zero rates
@@ -23,20 +22,24 @@ Features:
 
 - `logged_errors.txt`/`logged_warnings.txt` - Summarizes WARN and ERROR/FATAL messages across multiple log files, de-duplicating (by removing numeric bits from the message) and displaying the time range where each error/warning occurred in each log file. This makes it easy to skim past unimportant errors/warnings and spot the ones that really matter, and to correlate them with the times during which the problem occurred. 
 
+- `startup_stanza_XXX.log` - A copy of the first few lines of the log file that contain critical startup information such as host/port/name/configuration. If the log file does not contain startup information (perhaps it only contains recent log messages) this file will be missing. As a missing startup stanza impairs some functionality of this tool, try to obtain the missing startup information if at all possible. 
+
+- *JSON* output mode. Most of the above can also be written in JSON format if desired, for post-processing by other scripts. Alternatively, the apamax.log_analyzer.LogAnalyzer (or LogAnalyzerTool) Python class can be imported and subclassed or used from your own Python scripts. 
+
 - Supported Apama releases: *Apama 4.3 through to latest* (10.5+). Also works with correlator logging from `apama-ctrl`, downloaded from *Cumulocity*. 
 - Licensed under the *Apache License 2.0*. 
 
 Coming soon:
 
 - A first official release.
-- Ability to extract and sort/categorize ERROR and WARN messsages. 
-- Improved support for multiple log files including extraction of key information about the host/port/correlator name and duration of each log file. 
 
 Usage
 =====
-To run the script, simply execute::
+To run the script, simply execute the script with Python 3::
 
-	> python3 apamax\log_analyzer.py mycorrelator.log
+	> apamax\log_analyzer.py mycorrelator.log
+
+On linux, make sure `python3` is on `PATH`. On Windows, ensure you have a `.py` file association for (or explicitly run it with) `py.exe` or `python.exe` from a Python 3 installation. Recent Apama releases contain Python 3. 
 
 For more information about the meaning of the status lines, see the `List of Correlator Status Statistics <http://www.apamacommunity.com/documents/10.3.1.1/apama_10.3.1.1_webhelp/apama-webhelp/index.html#page/apama-webhelp%2Fre-DepAndManApaApp_list_of_correlator_status_statistics.html>`_ in the Apama documentation. 
 

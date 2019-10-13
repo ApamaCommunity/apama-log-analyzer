@@ -30,3 +30,11 @@ class PySysTest(AnalyzerBaseTest):
 			('analyzerVersion=.+', 'analyzerVersion=VERSIONHERE'),
 		])
 		
+		self.assertGrep(outputdir+'/startup_stanza_correlator-10.5.1.0-linux-everything.log', 
+			expr='Correlator, version .*started')
+		self.assertGrep(outputdir+'/startup_stanza_correlator-10.5.1.0-linux-everything.log', 
+			expr='Correlator, version .*running')
+		self.assertGrep(outputdir+'/startup_stanza_correlator-10.5.1.0-linux-everything.log', 
+			expr='INFO ')
+		self.assertGrep(outputdir+'/startup_stanza_correlator-10.5.1.0-linux-everything.log', 
+			expr='Shutting down correlator', contains=False) # #### level message not part of startup
