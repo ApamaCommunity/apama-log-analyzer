@@ -14,10 +14,10 @@
       <group>performance</group>
     </groups>
     <modes>
+		<mode>TypicalMix_StatusEvery3Lines</mode>
 		<mode>OnlyStatusLines</mode>
 		<mode>OnlyWarnErrorLines</mode>
 		<mode>OnlyIgnoredLines</mode>
-		<mode>TypicalMix_StatusEvery3Lines</mode>
     </modes>
   </classification>
 
