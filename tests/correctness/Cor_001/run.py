@@ -30,11 +30,11 @@ class PySysTest(AnalyzerBaseTest):
 		outputdir = self.output+'/log_analyzer_mycorrelator'
 		self.assertPathExists(outputdir)
 		self.log.info('Created files: %s'%sorted(os.listdir(outputdir)))
-		with io.open(outputdir+'/status_mycorrelator.json') as f:
+		with io.open(outputdir+'/status.mycorrelator.json') as f:
 			json.load(f) # check it's a valid json document
 		
 		# check CSV is sane
-		with io.open(outputdir+'/status_mycorrelator.csv', encoding='utf-8') as f:
+		with io.open(outputdir+'/status.mycorrelator.csv', encoding='utf-8') as f:
 			csvlines = f.readlines()
 		header = csvlines[0].strip().split(',')
 		METADATA_START = '# metadata: '
@@ -52,15 +52,15 @@ class PySysTest(AnalyzerBaseTest):
 			extra_cols=3 # dateline, line number, seconds; plus extras for rates
 			)
 		
-		self.logFileContents(outputdir+'/status_mycorrelator.csv')
+		self.logFileContents(outputdir+'/status.mycorrelator.csv')
 		
-		self.assertGrep(outputdir+'/status_mycorrelator.json', expr='"line num": 76, .*"ls[^"]*": 50000,')
-		self.assertGrep(outputdir+'/status_mycorrelator.json', expr='"line num": 77, .*"ls[^"]*": 10,')
+		self.assertGrep(outputdir+'/status.mycorrelator.json', expr='"line num": 76, .*"ls[^"]*": 50000,')
+		self.assertGrep(outputdir+'/status.mycorrelator.json', expr='"line num": 77, .*"ls[^"]*": 10,')
 		
 		# JMS not enabled in this correlator
-		self.assertGrep(outputdir+'/status_mycorrelator.csv', expr='(jms|JMS).*', contains=False)
+		self.assertGrep(outputdir+'/status.mycorrelator.csv', expr='(jms|JMS).*', contains=False)
 		
-		self.assertLineCount(outputdir+'/status_mycorrelator.csv', expr='.', condition='==1+3')
-		self.assertLineCount(outputdir+'/status_mycorrelator.json', expr='"local datetime":', condition='==3')
+		self.assertLineCount(outputdir+'/status.mycorrelator.csv', expr='.', condition='==1+3')
+		self.assertLineCount(outputdir+'/status.mycorrelator.json', expr='"local datetime":', condition='==3')
 
-		self.assertGrep(outputdir+'/status_mycorrelator.csv', expr='.*[?]', contains=False)
+		self.assertGrep(outputdir+'/status.mycorrelator.csv', expr='.*[?]', contains=False)

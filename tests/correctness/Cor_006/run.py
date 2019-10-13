@@ -14,7 +14,7 @@ class PySysTest(AnalyzerBaseTest):
 	def validate(self):
 		self.checkForAnalyzerErrors()
 		outputdir = self.output+'/loganalyzer_output'
-		with io.open(outputdir+'/status_correlator-4.3.2.0.json') as f:
+		with io.open(outputdir+'/status.correlator-4.3.2.0.json') as f:
 			data = json.load(f) # check it's a valid json document
 		last = data['status'][-1]
 		last_4_3_2_0=last
@@ -23,7 +23,7 @@ class PySysTest(AnalyzerBaseTest):
 
 		self.assertEval("'icq' not in {last_4_3_2_0} and 'jvm' not in {last_4_3_2_0} and 'jvm delta MB' not in {last_4_3_2_0}", last_4_3_2_0=last)
 
-		with io.open(outputdir+'/status_correlator-10.3.1.0.json') as f:
+		with io.open(outputdir+'/status.correlator-10.3.1.0.json') as f:
 			data = json.load(f) # check it's a valid json document
 		last = data['status'][-1]
 		self.assertEval("{last_new}['local datetime'].startswith('2019-04-')", last_new=last)

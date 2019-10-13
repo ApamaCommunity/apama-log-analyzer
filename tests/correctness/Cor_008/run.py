@@ -15,7 +15,7 @@ class PySysTest(AnalyzerBaseTest):
 		self.checkForAnalyzerErrors()
 
 		log='warns-and-errors'
-		with io.open(self.output+f'/loganalyzer_output/status_correlator-{log}.json') as f:
+		with io.open(self.output+f'/loganalyzer_output/status.correlator-{log}.json') as f:
 			s = json.load(f)['status']
 
 		# first line will have zeros since can't calculate a rate withut a line period

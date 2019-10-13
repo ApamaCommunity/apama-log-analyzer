@@ -17,12 +17,12 @@ class PySysTest(AnalyzerBaseTest):
 	def validate(self):
 		self.checkForAnalyzerErrors()
 		outputdir = self.output+'/loganalyzer_output'
-		self.assertDiff(outputdir+'/startup_summary_correlator-10.5.1.0-linux-everything.json', 
+		self.assertDiff(outputdir+'/startup_stanza.correlator-10.5.1.0-linux-everything.json', 
 			'ref_startup_summary_correlator-everything.json', replace=[
 				('"analyzerVersion": *".+"', '"analyzerVersion":"VERSIONHERE"'),
 		])
 		
-		self.copy(outputdir+'/status_correlator-10.5.1.0-linux-everything.csv', 'csv-metadata.txt', mappers=[
+		self.copy(outputdir+'/status.correlator-10.5.1.0-linux-everything.csv', 'csv-metadata.txt', mappers=[
 			lambda line: None if ('# metadata: ' not in line) else re.sub('\n([0-9])',',\\1', line[line.find('# metadata'):].replace(',','\n').replace('=\n','=')), 
 		])
 		self.logFileContents('csv-metadata.txt')
@@ -30,11 +30,11 @@ class PySysTest(AnalyzerBaseTest):
 			('analyzerVersion=.+', 'analyzerVersion=VERSIONHERE'),
 		])
 		
-		self.assertGrep(outputdir+'/startup_stanza_correlator-10.5.1.0-linux-everything.log', 
+		self.assertGrep(outputdir+'/startup_stanza.correlator-10.5.1.0-linux-everything.log', 
 			expr='Correlator, version .*started')
-		self.assertGrep(outputdir+'/startup_stanza_correlator-10.5.1.0-linux-everything.log', 
+		self.assertGrep(outputdir+'/startup_stanza.correlator-10.5.1.0-linux-everything.log', 
 			expr='Correlator, version .*running')
-		self.assertGrep(outputdir+'/startup_stanza_correlator-10.5.1.0-linux-everything.log', 
+		self.assertGrep(outputdir+'/startup_stanza.correlator-10.5.1.0-linux-everything.log', 
 			expr='INFO ')
-		self.assertGrep(outputdir+'/startup_stanza_correlator-10.5.1.0-linux-everything.log', 
+		self.assertGrep(outputdir+'/startup_stanza.correlator-10.5.1.0-linux-everything.log', 
 			expr='Shutting down correlator', contains=False) # #### level message not part of startup

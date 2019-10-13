@@ -10,8 +10,8 @@ The log analyzer is a simple but powerful Python 3 script for analyzing Apama co
 
 Features:
 
-- `status_XXX.csv`: Extracts all periodic statistics from "Correlator Status:" lines, exporting them to an *Excel-friendly CSV file*. Columns are named in a user-friendly way, and some derived stats such as event rate are calculated. The header line contains additional metadata such as machine info, host:port and timezone. 
-- `summary_XXX.csv`: Generates a small *summary* CSV file containing a snapshot of values from the start/middle/end of each log, min/mean/max aggregate values, and deltas between them. This is a good first port of call, to check which columns might be worth graphing to chase down a memory leak or unresponsive application. 
+- `status.XXX.csv`: Extracts all periodic statistics from "Correlator Status:" lines, exporting them to an *Excel-friendly CSV file*. Columns are named in a user-friendly way, and some derived stats such as event rate are calculated. The header line contains additional metadata such as machine info, host:port and timezone. 
+- `summary_status.XXX.csv`: Generates a small *summary* CSV file containing a snapshot of values from the start/middle/end of each log, min/mean/max aggregate values, and deltas between them. This is a good first port of call, to check which columns might be worth graphing to chase down a memory leak or unresponsive application. 
 - Calculates derived statistics including:
 	
 	- *rx/tx/rt rate /sec*, which are useful for determining typical receive/send rates and any anomolous periods of high/low/zero rates
@@ -22,7 +22,7 @@ Features:
 
 - `logged_errors.txt`/`logged_warnings.txt` - Summarizes WARN and ERROR/FATAL messages across multiple log files, de-duplicating (by removing numeric bits from the message) and displaying the time range where each error/warning occurred in each log file. This makes it easy to skim past unimportant errors/warnings and spot the ones that really matter, and to correlate them with the times during which the problem occurred. 
 
-- `startup_stanza_XXX.log` - A copy of the first few lines of the log file that contain critical startup information such as host/port/name/configuration. If the log file does not contain startup information (perhaps it only contains recent log messages) this file will be missing. As a missing startup stanza impairs some functionality of this tool, try to obtain the missing startup information if at all possible. 
+- `startup_stanza.XXX.log` - A copy of the first few lines of the log file that contain critical startup information such as host/port/name/configuration. If the log file does not contain startup information (perhaps it only contains recent log messages) this file will be missing. As a missing startup stanza impairs some functionality of this tool, try to obtain the missing startup information if at all possible. 
 
 - *JSON* output mode. Most of the above can also be written in JSON format if desired, for post-processing by other scripts. Alternatively, the apamax.log_analyzer.LogAnalyzer (or LogAnalyzerTool) Python class can be imported and subclassed or used from your own Python scripts. 
 

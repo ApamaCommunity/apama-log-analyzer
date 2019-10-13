@@ -23,11 +23,11 @@ class PySysTest(AnalyzerBaseTest):
 		self.checkForAnalyzerErrors()
 
 		outputdir = self.output+'/loganalyzer_output'
-		with io.open(outputdir+'/status_mycorrelator.json') as f:
+		with io.open(outputdir+'/status.mycorrelator.json') as f:
 			json.load(f) # check it's a valid json document
 		
 		# check CSV is sane
-		with io.open(outputdir+'/status_mycorrelator.csv', encoding='utf-8') as f:
+		with io.open(outputdir+'/status.mycorrelator.csv', encoding='utf-8') as f:
 			csvlines = f.readlines()
 		header = csvlines[0].strip().split(',')
 		
@@ -44,9 +44,9 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertDiff('csv_sample.txt', 'ref_csv_sample.txt', sort=True) # to show if it's just an ordering change
 		self.assertDiff('csv_sample.txt', 'ref_csv_sample.txt') 
 		
-		self.assertGrep(outputdir+'/status_mycorrelator.csv', expr='[?]', contains=False)
+		self.assertGrep(outputdir+'/status.mycorrelator.csv', expr='[?]', contains=False)
 
 		self.logFileContents('csv_sample.txt', maxLines=0)
-		self.logFileContents(outputdir+'/status_mycorrelator.csv')
+		self.logFileContents(outputdir+'/status.mycorrelator.csv')
 		
 		

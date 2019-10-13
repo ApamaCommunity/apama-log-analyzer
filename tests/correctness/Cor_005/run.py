@@ -49,21 +49,21 @@ class PySysTest(AnalyzerBaseTest):
 		self.checkForAnalyzerErrors()
 
 		# check we include some metadata in the summary
-		self.assertGrep('loganalyzer_output/summary_generated-log-08.csv', expr='# metadata.*,analyzerVersion=,[0-9]')
-		self.assertGrep('loganalyzer_output/summary_generated-log-08.json', expr='"analyzerVersion":.*"[0-9]')
+		self.assertGrep('loganalyzer_output/summary_status.generated-log-08.csv', expr='# metadata.*,analyzerVersion=,[0-9]')
+		self.assertGrep('loganalyzer_output/summary_status.generated-log-08.json', expr='"analyzerVersion":.*"[0-9]')
 
-		self.assertGrep('loganalyzer_output/summary_generated-log-08.json', literal=True, 
+		self.assertGrep('loganalyzer_output/summary_status.generated-log-08.json', literal=True, 
 			# check for ordering of key, and that the right things are present
 			expr='{"statistic": "0% (start)", "local datetime": "2019-04-08 13:00:00.111", "epoch secs": 1554728400.111, "interval secs": 0.0, "line num": 1, ')
 
-		self.assertGrep('loganalyzer_output/summary_generated-log-08.json', literal=True, 
+		self.assertGrep('loganalyzer_output/summary_status.generated-log-08.json', literal=True, 
 			# check it's represented as a float
 			expr='"interval secs": 1.0')
 			
-		self.assertGrep('loganalyzer_output/summary_generated-log-08.json', expr='mynewstatus')
-		self.assertGrep('loganalyzer_output/summary_generated-log-08.json', expr='somethingelse')
+		self.assertGrep('loganalyzer_output/summary_status.generated-log-08.json', expr='mynewstatus')
+		self.assertGrep('loganalyzer_output/summary_status.generated-log-08.json', expr='somethingelse')
 
-		with io.open(self.output+'/loganalyzer_output/summary_generated-log-08.json') as f:
+		with io.open(self.output+'/loganalyzer_output/summary_status.generated-log-08.json') as f:
 			s = json.load(f)['status']
 		
 		def findstat(statistic):
@@ -107,13 +107,13 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertEval("{mean_jvm_delta} == {expected}", mean_jvm_delta=findstat('mean')['jvm delta MB'], expected=math.trunc(sum([(70-7)*(10**(n-1)) for n in range(8)])/8.0))
 
 		# check CSV file has the annotated headinghs
-		self.assertGrep('loganalyzer_output/status_generated-log-08.csv',  expr=',rq=queued route,')
+		self.assertGrep('loganalyzer_output/status.generated-log-08.csv',  expr=',rq=queued route,')
 
 		# formatting of final JVM in CSV
-		self.assertGrep('loganalyzer_output/status_generated-log-08.csv',  expr='13:00:00,.*,7.00,')
-		self.assertGrep('loganalyzer_output/summary_generated-log-08.csv', expr='13:00:00,.*,7.00,')
-		self.assertGrep('loganalyzer_output/status_generated-log-08.csv',  expr='13:00:07,.*"70,000,000"')
-		self.assertGrep('loganalyzer_output/summary_generated-log-08.csv', expr='13:00:07,.*"70,000,000"')
+		self.assertGrep('loganalyzer_output/status.generated-log-08.csv',  expr='13:00:00,.*,7.00,')
+		self.assertGrep('loganalyzer_output/summary_status.generated-log-08.csv', expr='13:00:00,.*,7.00,')
+		self.assertGrep('loganalyzer_output/status.generated-log-08.csv',  expr='13:00:07,.*"70,000,000"')
+		self.assertGrep('loganalyzer_output/summary_status.generated-log-08.csv', expr='13:00:07,.*"70,000,000"')
 
 		# sanity check that min<=mean<=max
 		for k in findstat('min'):

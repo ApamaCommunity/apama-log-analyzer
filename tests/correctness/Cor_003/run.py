@@ -19,15 +19,15 @@ class PySysTest(AnalyzerBaseTest):
 		outputdir = self.output+'/loganalyzer_output'
 
 		# logs look sane, contains the right timestamps
-		self.assertGrep(outputdir+'/status_correlator1.json', expr='2019-04-08 ')
-		self.assertGrep(outputdir+'/status_correlator2.json', expr='2019-04-09 ')
+		self.assertGrep(outputdir+'/status.correlator1.json', expr='2019-04-08 ')
+		self.assertGrep(outputdir+'/status.correlator2.json', expr='2019-04-09 ')
 
 		# ensure log 2 not affected by values from log 1
-		self.assertGrep(outputdir+'/status_correlator2.json', expr='2019-04-09 13:57:32.*"rx /sec": 0,')
+		self.assertGrep(outputdir+'/status.correlator2.json', expr='2019-04-09 13:57:32.*"rx /sec": 0,')
 		# but is affected by its own prev values
-		self.assertGrep(outputdir+'/status_correlator2.json', expr='2019-04-09 13:57:33.*"rx /sec": 100.0,')
+		self.assertGrep(outputdir+'/status.correlator2.json', expr='2019-04-09 13:57:33.*"rx /sec": 100.0,')
 
-		with io.open(outputdir+'/status_correlator1.json') as f:
+		with io.open(outputdir+'/status.correlator1.json') as f:
 			json.load(f) # check it's a valid json document
-		with io.open(outputdir+'/status_correlator2.json') as f:
+		with io.open(outputdir+'/status.correlator2.json') as f:
 			json.load(f) # check it's a valid json document

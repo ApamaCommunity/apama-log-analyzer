@@ -244,7 +244,7 @@ class BaseWriter(object):
 			self.output = None
 
 class CSVStatusWriter(BaseWriter):
-	output_file = 'status_@LOG_NAME@.csv'
+	output_file = 'status.@LOG_NAME@.csv'
 
 	def writeHeader(self, columns=None, extraInfo=None, **extra):
 		self.output = self.createFile(self.output_file)
@@ -304,7 +304,7 @@ class CSVStatusWriter(BaseWriter):
 		self.output.write(','.join(items)+'\n')
 
 class JSONStatusWriter(BaseWriter):
-	output_file = 'status_@LOG_NAME@.json'
+	output_file = 'status.@LOG_NAME@.json'
 
 	@staticmethod
 	def toMultilineJSON(data):
@@ -789,7 +789,7 @@ class LogAnalyzer(object):
 		if self.args.json:
 			writers.append(JSONStatusWriter(self))
 		for w in writers:
-			w.output_file = 'summary_'+w.output_file.split('_', 1)[1]
+			w.output_file = 'summary_status.'+w.output_file.split('.', 1)[1]
 			w.writeHeader(columns = ['statistic']+list(self.columns.values()), extraInfo=self.getMetadataDictForCurrentFile(file=file))
 			prev = None
 			for display, status in rows.items():
@@ -1015,7 +1015,7 @@ class LogAnalyzer(object):
 							
 						file['inStartupStanza'] = True
 						if 'startupContentsFile' not in file:
-							file['startupContentsFile'] = io.open(f'{self.outputdir}/startup_stanza_{self.currentname}.log', 
+							file['startupContentsFile'] = io.open(f'{self.outputdir}/startup_stanza.{self.currentname}.log', 
 								'w', encoding='utf-8')
 							
 						d['startTime'] = LogAnalyzer.formatDateTime(line.getDateTime())
@@ -1142,7 +1142,7 @@ class LogAnalyzer(object):
 		
 		if self.args.json:
 			# output the full set of recovered data here
-			with io.open(os.path.join(self.outputdir, f'startup_summary_{self.currentname}.json'), 'w', encoding='utf-8') as jsonfile:
+			with io.open(os.path.join(self.outputdir, f'startup_stanza.{self.currentname}.json'), 'w', encoding='utf-8') as jsonfile:
 				jsonfile.write(JSONStatusWriter.toMultilineJSON(file['startupStanzas'])) # write the list of stanzas
 		
 		# show textual summary and delta from previous

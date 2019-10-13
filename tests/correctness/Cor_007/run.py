@@ -16,14 +16,14 @@ class PySysTest(AnalyzerBaseTest):
 		outputdir = self.output+'/loganalyzer_output'
 
 		logversion = '10.5.0.0'
-		with io.open(outputdir+f'/status_apama-ctrl-{logversion}.json') as f:
+		with io.open(outputdir+f'/status.apama-ctrl-{logversion}.json') as f:
 			data = json.load(f) # check it's a valid json document
 		last = data['status'][-1]
 		self.assertEval("{value}.startswith('2019-09-16 ')", value=last['local datetime'], valueName=f'last datetime for {logversion}')
 		self.assertEval("{value} == 12345", value=last['sm=monitor instances'], valueName=f'last sm value for {logversion} log')
 
 		logversion = '10.3.1.0'
-		with io.open(outputdir+f'/status_apama-small-{logversion}.json') as f:
+		with io.open(outputdir+f'/status.apama-small-{logversion}.json') as f:
 			data = json.load(f) # check it's a valid json document
 		last = data['status'][-1]
 		self.assertEval("{value}.startswith('2019-09-24 ')", value=last['local datetime'], valueName=f'last datetime for {logversion}')
