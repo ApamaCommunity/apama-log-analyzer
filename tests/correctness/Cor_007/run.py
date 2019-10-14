@@ -7,6 +7,7 @@ class PySysTest(AnalyzerBaseTest):
 		self.logAnalyzer([
 			self.input+'/apama-ctrl-10.5.0.0.log', 
 			self.input+'/apama-small-10.3.1.0.log', 
+			self.input+'/apama-ctrl-10.5.0.2.log', 
 			'--json', 
 		])
 
@@ -35,5 +36,6 @@ class PySysTest(AnalyzerBaseTest):
 		
 		# check overview includes apama-ctrl
 		self.assertGrep(outputdir+'/overview.txt', expr='Apama version: +10.5.0.0.357983, apama-ctrl: 10.5.0.1_359159M; ')
+		self.assertGrep(outputdir+'/overview.txt', expr='Apama version: +10.5.0.1.[0-9]+, apama-ctrl: 10.5.0.2_[0-9]+; ')
 		
 		self.logFileContents(outputdir+'/overview.txt', maxLines=0)
