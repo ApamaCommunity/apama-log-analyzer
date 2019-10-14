@@ -32,3 +32,8 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertGrep(outputdir+'/logged_warnings.txt', expr=r'767 .*2019-09-16 10:27:41.499 WARN  \[Thread-8\] com.apama.in_c8y.AlarmUtil.raise - MAJOR APAMA_CTRL_ERROR_63951550 CalculatePowerValues')
 		# 2x occurrences of this message
 		self.assertGrep(outputdir+'/logged_errors.txt', expr=r'2.* eplfiles.CalculatePowerValues.CalculatePowerValues')
+		
+		# check overview includes apama-ctrl
+		self.assertGrep(outputdir+'/overview.txt', expr='Apama version: +10.5.0.0.357983, apama-ctrl: 10.5.0.1_359159M; ')
+		
+		self.logFileContents(outputdir+'/overview.txt', maxLines=0)

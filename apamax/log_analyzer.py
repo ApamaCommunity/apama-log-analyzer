@@ -129,9 +129,12 @@ class LogLine(object):
 		# do minimal parsing by default to keep speed high for messages we don't care about - just separate message from prefix
 		i = line.find(' - ')
 		if i >= 0 and firstchar.isdigit(): # if it looks like a log line
-			self.message = line[i+3:]
 			if isapamactrl:
-				self.message = f'<apama-ctrl> {self.message}'
+				 # use '] ' for apama-ctrl so we can capture the log category
+				self.message = f'<apama-ctrl> {line[line.find("] ")+2:]}'
+			else:
+				self.message = line[i+3:]
+			
 			try:
 				self.level = line[24] # this is a nice efficient way to get the log level without slow regexes
 			except IndexError: # just in case it's not a normal log line (though we hope the firstchar.isdigit() check will catch most of those)
@@ -142,7 +145,7 @@ class LogLine(object):
 	
 	def getDetails(self):
 		"""
-		Returns a dictionary containing: datetimestring, thread, logcategory, messagewithoutcat
+		Returns a dictionary containing: datetimestring, thread
 		
 		The result is cached, as getting this data is a bit time-consuming; avoid calling this unless you're sure you need it. 
 		"""
@@ -156,8 +159,8 @@ class LogLine(object):
 				self.__details = {
 					'datetimestring':g[0],
 					'thread':g[2],
-					'logcategory': (g[3] or g[4] or '').strip(),
-					'messagewithoutcat':g[5],
+					#'logcategory': (g[3] or g[4] or '').strip(),
+					#'messagewithoutcat':g[5],
 				}
 				return self.__details
 			else:
@@ -166,8 +169,8 @@ class LogLine(object):
 		self.__details = {
 					'datetimestring':'',
 					'thread':'',
-					'logcategory':'',
-					'messagewithoutcat':self.message,
+					#'logcategory':'',
+					#'messagewithoutcat':self.message,
 				}
 		self.level = None # to indicate it's not a proper valid log line after all
 		return self.__details
@@ -477,7 +480,7 @@ class LogAnalyzer(object):
 		level = line.level
 		if level == 'W':
 			self.handleWarnOrError(file=file, isError=False, line=line)
-		elif level == 'E' or level == 'F':
+		elif level in {'E', 'F'}:
 			# handle multi-line errors. Usually we need time AND thread to match, but FATAL stack trace lines are logged independently
 			if previousLine is not None and previousLine.level == level and previousLine.getDetails()['thread']==line.getDetails()['thread'] and (
 					level=='F' or previousLine.getDateTime()==line.getDateTime()):
@@ -487,13 +490,18 @@ class LogAnalyzer(object):
 				return LogAnalyzer.DONT_UPDATE_PREVIOUS_LINE
 		
 			self.handleWarnOrError(file=file, isError=True, line=line)
-		elif level is None and previousLine is not None:
-			if previousLine.level in ['W', 'E', 'F']:
+		elif level is None:
+			if previousLine is not None and previousLine.level in {'W', 'E', 'F'}:
 				# treat a line with no date/level this as part of the preceding warn/error message
 				if not hasattr(previousLine, 'extraLines'): previousLine.extraLines = []
 				previousLine.extraLines.append(line.line)
-				return LogAnalyzer.DONT_UPDATE_PREVIOUS_LINE
-		elif level == '#' or (file['inStartupStanza'] and level == 'I'):
+			elif m.startswith('Running correlator [') and ' ##### ' in m:
+				# workaround for annoying bug in apama-ctrl's runDeploy.py in 10.3.2 to 10.5.0.0 (inclusive) which contains the first correlator startup line
+				return self.handleLine(file=file, line=LogLine(m[m.find(' #####' )-23:], lineno=line.lineno), previousLine=previousLine, **extra)
+			
+			return LogAnalyzer.DONT_UPDATE_PREVIOUS_LINE # previous line must always be a valid line with a level etc (ignore initial spring boot lines in apama-ctrl log)
+		elif level == '#' or (file['inStartupStanza'] and level == 'I') or previousLine is None:
+			# also grab info lines within a startup stanza, and (for the benefit of apama-ctrl) the very first line of the file regardless
 			self.handleStartupLine(file=file, line=line)
 		
 	def handleRawStatusLine(self, file, line, **extra):
@@ -959,6 +967,8 @@ class LogAnalyzer(object):
 		"<com.softwareag.connectivity.impl.apama.ConnectivityLoader> Loading Java class .* for plug-in (?P<connectivityPluginsJava>[^ ]+) using classpath",
 		"Connectivity plug-ins: Loaded C[+][+] plugin from path (?P<connectivityPluginsCPP>.+)",
 		
+		'<apama-ctrl> com.apama.in_c8y.*.logStarting - Starting [^ ]+ v(?P<apamaCtrlVersion>[^ ]+)', # version pulled from manifest of apama-ctrl by Spring Boot's logStarting method
+		
 		# from the saglic section:
 		" +Customer Name *: (?P<licenseCustomerName>.+)",
 		" +Expiration Date *: (?P<licenseExpirationDate>[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9])",
@@ -978,11 +988,11 @@ class LogAnalyzer(object):
 		'** Warning replay log not enabled **':None,
 		'interpreted':None, 'compiled':'compiled(LLVM)',
 		'TZ not set so using system default':None,
+		'Embedded license file for Apama for Cumulocity IoT provided by Software AG':'<generic apama-ctrl license>',
 		}
 	def handleStartupLine(self, file, line):
 		"""Called for (likely) startup lines - any ##### but also some INFO lines that occur during the startup period. """
 		msg = line.message
-		
 		d = file['startupStanzas'][-1] # current (latest) startup stanza
 			
 		i = msg.find(' = ')
@@ -1009,7 +1019,7 @@ class LogAnalyzer(object):
 						continue
 					
 					if k == 'apamaVersion':
-						if d: # start of a new startup stanza - finish the old one first
+						if d and (len(d)!=1 or list(d.keys())!=['apamaCtrlVersion']): # start of a new startup stanza - finish the old one first
 							self.handleCompletedStartupStanza(file=file, stanza=d)
 							d = {}
 							file['startupStanzas'].append(d)
@@ -1093,7 +1103,7 @@ class LogAnalyzer(object):
 		elif not stanza.get('licenseFile'):
 			features.append('licenseMayBeMissing!')
 
-		if stanza.get('cgroups - maximum memory'):
+		if stanza.get('cgroups - maximum memory') not in {None, 'unlimited', 'unknown'}:
 			stanza['cgroups - maximum memory MB'] = float(stanza['cgroups - maximum memory'].replace(' bytes','').replace(',',''))/1024.0/1024.0
 			
 		allocator = stanza.get('using memory allocator',None)
@@ -1113,7 +1123,6 @@ class LogAnalyzer(object):
 		if stanza.get('replaylog'): features.append('replayLog')
 		if stanza.get('external clocking'): features.append('externalClocking')
 		if not stanza.get('compiler optimizations'): features.append('optimizationsDisabled')
-
 
 		if 'jvmVersion' in stanza: features.append('JVM')
 		
@@ -1208,7 +1217,7 @@ class LogAnalyzer(object):
 					ov = {} # overview sorted dict# if key ends with : then it will be prefixed
 					ov['Instance:'] = f"{ss.get('instance')}, pid {ss.get('pid') or '?'}"
 
-					ov['Apama version:'] = f"{ss.get('apamaVersion', '?')}, running on {ss.get('OS')}"
+					ov['Apama version:'] = f"{ss.get('apamaVersion', '?')}{', apama-ctrl: '+ss['apamaCtrlVersion'] if ss.get('apamaCtrlVersion') else ''}; running on {ss.get('OS')}"
 					ov['Log timezone:'] = f"{ss.get('utcOffset') or '?'}"+(f" ({ss.get('timezoneName')})" if ss.get('timezoneName') else '')
 					if ss.get('licenseCustomerName'):
 						ov['Customer:'] = f"{ss.get('licenseCustomerName')} (license expires {ss.get('licenseExpirationDate', '?')})"

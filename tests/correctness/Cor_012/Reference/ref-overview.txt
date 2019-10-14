@@ -2,7 +2,7 @@
   Tue 2019-04-09 13:57:22 to 13:57:37 (=0:00:15)
 
   Instance:       myhost:15903, pid 21540
-  Apama version:  10.3.1.0.348044, running on Windows 10 Enterprise
+  Apama version:  10.3.1.0.348044; running on Windows 10 Enterprise
   Log timezone:   UTC+01:00 (GMT Daylight Time)
   Customer:       Software AG internal (license expires 2019/04/22)
   Hardware:       12-core Core i7-8850H @ 2.60GHz
@@ -13,7 +13,7 @@
   Tue 2019-09-17 16:49:05 to 16:49:34 (=0:00:29)
 
   Instance:       myhost:20719, pid ?
-  Apama version:  4.3.2.0, running on Unknown Windows platform 6.2
+  Apama version:  4.3.2.0; running on Unknown Windows platform 6.2
   Log timezone:   ?
   Hardware:       Core i7-8850H @ 2.60GHz
   Notable:        licenseMayBeMissing!, replayLog
@@ -22,7 +22,7 @@
   Fri 2019-10-04 19:02:53 to 19:03:04 (=0:00:10)
 
   Instance:       troll:6705[my correlator], pid 46974
-  Apama version:  10.5.1.0.0, running on CentOS Linux 7 (Core)
+  Apama version:  10.5.1.0.0; running on CentOS Linux 7 (Core)
   Log timezone:   UTC+01:45 (My Timezone)
   Customer:       Software AG internal (license expires 2019/04/22)
   Hardware:       VM with 48-core Xeon E5-2690 v3 @ 2.60GHz (cgroups unlimited CPUs; 1024/1024 shares)
