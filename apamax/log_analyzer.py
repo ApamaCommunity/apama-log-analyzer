@@ -7,9 +7,9 @@ log messages.
 """
 
 __version__ = '3.0.dev'
-__date__ = '2019-10-13'
-__author__ = "Ben Spiller"
-__license__ = "Apache"
+__date__ = '2019-10-14'
+__author__ = "Apama community"
+__license__ = "Apache 2.0"
 
 import logging, os, io, argparse, re, time, sys, collections, datetime, calendar
 import json
