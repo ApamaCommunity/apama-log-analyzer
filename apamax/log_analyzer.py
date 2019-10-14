@@ -968,6 +968,8 @@ class LogAnalyzer(object):
 		"Connectivity plug-ins: Loaded C[+][+] plugin from path (?P<connectivityPluginsCPP>.+)",
 		
 		'<apama-ctrl> com.apama.in_c8y.*.logStarting - Starting [^ ]+ v(?P<apamaCtrlVersion>[^ ]+)', # version pulled from manifest of apama-ctrl by Spring Boot's logStarting method
+
+		'Shutting down correlator in response to client [(][^)]+[)] request: (?P<shutdownReason>.*)',
 		
 		# from the saglic section:
 		" +Customer Name *: (?P<licenseCustomerName>.+)",
@@ -1018,7 +1020,7 @@ class LogAnalyzer(object):
 						self.handleCompletedStartupStanza(file=file, stanza=d)
 						continue
 					
-					if k == 'apamaVersion':
+					if k == 'apamaVersion': # start of a new correlator log
 						if d and (len(d)!=1 or list(d.keys())!=['apamaCtrlVersion']): # start of a new startup stanza - finish the old one first
 							self.handleCompletedStartupStanza(file=file, stanza=d)
 							d = {}
@@ -1030,12 +1032,18 @@ class LogAnalyzer(object):
 								'w', encoding='utf-8')
 							
 						d['startTime'] = LogAnalyzer.formatDateTime(line.getDateTime())
+						d['startLineNumber'] = line.lineno
+						if len(file['startupStanzas']) > 1:
+							file['startupStanzas'][-2]['endTime'] = LogAnalyzer.formatDateTime(line.getDateTime())
 					
 					v = LogAnalyzer.FORCE_LOG_LINE_VALUE_LOOKUP.get(v, v)
 					if k in {'connectivityPluginsJava', 'connectivityPluginsCPP'}:
 						d.setdefault(k, []).append(v)
 					else:
 						d[k] = v
+
+					if k == 'shutdownReason':
+						d['shutdownTime'] = LogAnalyzer.formatDateTime(line.getDateTime())
 					
 					if k == 'utcTime':
 						utcTime = datetime.datetime.strptime(v, '%Y-%m-%d %H:%M:%S')
@@ -1094,7 +1102,6 @@ class LogAnalyzer(object):
 		stanza['connectivity'] = [conn for conn in stanza['connectivity'] if 'codec' not in conn.lower()] # just transports
 		if 'java transport config' in stanza: stanza['connectivity'] = ['Correlator-JMS']+stanza['connectivity']
 		if 'distmemstore config' in stanza: stanza['connectivity'] = ['DistMemStore']+stanza['connectivity']
-
 
 		# pick out binary notable features that indicate problems or useful information about how the machine is configured
 		features = []
@@ -1211,39 +1218,45 @@ class LogAnalyzer(object):
 				out.write(f"  {self.formatDateTimeRange(file['startTime'], file['endTime'])}\n\n")
 				ss = file['startupStanzas'][0]
 				if not ss:
-					out.write('  No startup stanza present in this file!\n')
+					out.write('  No startup stanza present in this file!\n\n')
 				else:
+					for stanzaNum in range(len(file['startupStanzas'])):
+						ov = {} # overview sorted dict# if key ends with : then it will be prefixed
+						ov['Instance:'] = f"{ss.get('instance')}" #, pid {ss.get('pid') or '?'}"
+						ss = file['startupStanzas'][stanzaNum]
+						
+						ov['Process id:'] = f"{ss.get('pid') or '?'}"
+						if stanzaNum > 0: ov['Process id:']+= f" restart #{stanzaNum+1} at {ss.get('startTime')} (line {ss['startLineNumber']})"
 
-					ov = {} # overview sorted dict# if key ends with : then it will be prefixed
-					ov['Instance:'] = f"{ss.get('instance')}, pid {ss.get('pid') or '?'}"
+						ov['Apama version:'] = f"{ss.get('apamaVersion', '?')}{', apama-ctrl: '+ss['apamaCtrlVersion'] if ss.get('apamaCtrlVersion') else ''}; running on {ss.get('OS')}"
+						ov['Log timezone:'] = f"{ss.get('utcOffset') or '?'}"+(f" ({ss.get('timezoneName')})" if ss.get('timezoneName') else '')
+						if ss.get('licenseCustomerName'):
+							ov['Customer:'] = f"{ss.get('licenseCustomerName')} (license expires {ss.get('licenseExpirationDate', '?')})"
 
-					ov['Apama version:'] = f"{ss.get('apamaVersion', '?')}{', apama-ctrl: '+ss['apamaCtrlVersion'] if ss.get('apamaCtrlVersion') else ''}; running on {ss.get('OS')}"
-					ov['Log timezone:'] = f"{ss.get('utcOffset') or '?'}"+(f" ({ss.get('timezoneName')})" if ss.get('timezoneName') else '')
-					if ss.get('licenseCustomerName'):
-						ov['Customer:'] = f"{ss.get('licenseCustomerName')} (license expires {ss.get('licenseExpirationDate', '?')})"
+						ov['Hardware:'] = f"{ss.get('cpuSummary')}"
+						if ss.get('physicalMemoryMB'):
+							ov['Memory:'] = f"{ss.get('physicalMemoryMB')/1024.0:0.1f} GB physical memory"
+							if ss.get('usableMemoryMB')!=ss.get('physicalMemoryMB'):
+								ov['Memory:'] = f"{ss.get('usableMemoryMB')/1024.0:0.1f} GB usable, "+ov['Memory:']
+							if ss.get('jvmMemoryHeapMaxMB'):
+								ov['Memory:'] = ov['Memory:']+f" ({ss['jvmMemoryHeapMaxMB']/1024.0:0.1f} GB Java max heap)"
 
-					ov['Hardware:'] = f"{ss.get('cpuSummary')}"
-					if ss.get('physicalMemoryMB'):
-						ov['Memory:'] = f"{ss.get('physicalMemoryMB')/1024.0:0.1f} GB physical memory"
-						if ss.get('usableMemoryMB')!=ss.get('physicalMemoryMB'):
-							ov['Memory:'] = f"{ss.get('usableMemoryMB')/1024.0:0.1f} GB usable, "+ov['Memory:']
-						if ss.get('jvmMemoryHeapMaxMB'):
-							ov['Memory:'] = ov['Memory:']+f" ({ss['jvmMemoryHeapMaxMB']/1024.0:0.1f} GB Java max heap)"
+						ov['Connectivity:'] = ', '.join(ss.get('connectivity', ['?']) or ['-'])
+						ov['Notable:'] = ', '.join(ss.get('notableFeatures', ['?']) or ['-'])
 
-					ov['Connectivity:'] = ', '.join(ss.get('connectivity', ['?']) or ['-'])
-					ov['Notable:'] = ', '.join(ss.get('notableFeatures', ['?']) or ['-'])
-					
-					# print overview of each log, but only delta from previous, since most of the time everything's the same
-					for k in ov:
-						if previousOverview.get(k)!=ov[k]:
-							out.write('  ')
-							if k.endswith(':'): out.write(f"{k:15} ")
-							out.write(ov[k])
-							out.write('\n')
-					
-					previousOverview = ov
+						if 'shutdownTime' in ss: ov['Clean shutdown:'] = f"Requested at {ss['shutdownTime']} (reason: {ss['shutdownReason']})"
 
-				out.write('\n')
+						# print overview of each log, but only delta from previous, since most of the time everything's the same
+						for k in ov:
+							if previousOverview.get(k)!=ov[k]:
+								out.write('  ')
+								if k.endswith(':'): out.write(f"{k:15} ")
+								out.write(ov[k])
+								out.write('\n')
+						
+						previousOverview = ov
+
+						out.write('\n')
 
 		with io.open(os.path.join(self.outputdir, 'overview.txt'), 'r', encoding='utf-8') as out:
 			

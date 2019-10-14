@@ -1,0 +1,186 @@
+2019-10-14 22:26:59.038 ##### [54304] - Correlator, version 10.5.1.0.0 (build UNKNOWN_VERSION@0 on amd64-win using Software AG suite version 10.5), started.
+2019-10-14 22:26:59.039 ##### [54304] - Running on host 'myhost2' as user 'BSP'.
+2019-10-14 22:26:59.039 ##### [54304] - Running on platform 'Windows 10 Enterprise'.
+2019-10-14 22:26:59.039 ##### [54304] - Running on CPU 'GenuineIntel family 6 model 14 stepping 10 Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz'.
+2019-10-14 22:26:59.039 ##### [54304] - Running with process Id 19716.
+2019-10-14 22:26:59.039 ##### [54304] - Running with 32587.22MB of available memory.
+2019-10-14 22:26:59.041 ##### [54304] - There are 12 CPU(s)
+2019-10-14 22:26:59.041 ##### [54304] - Correlator command line: correlator --logfile ..\correlator-with-restarts.log
+2019-10-14 22:26:59.041 ##### [54304] - Current Working Directory: c:\dev\bin
+2019-10-14 22:26:59.041 ##### [54304] - Current UTC time: 2019-10-14 21:26:59, local timezone: GMT Daylight Time
+2019-10-14 22:26:59.041 ##### [54304] - Input value - port                     = 15903
+2019-10-14 22:26:59.041 ##### [54304] - Input value - output queue size        = 10000
+2019-10-14 22:26:59.041 ##### [54304] - Input value - output queue batch size  = 100
+2019-10-14 22:26:59.041 ##### [54304] - Input value - output queue mode        = blocking
+2019-10-14 22:26:59.041 ##### [54304] - Input value - environment variable     = APAMA_COMMON_JRE=c:\dev\10.5.1.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre
+2019-10-14 22:26:59.041 ##### [54304] - Input value - environment variable     = APAMA_CORRELATOR_HOME=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama
+2019-10-14 22:26:59.041 ##### [54304] - Input value - environment variable     = APAMA_DASHBOARD_HOME=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama
+2019-10-14 22:26:59.041 ##### [54304] - Input value - environment variable     = APAMA_DEV_HOME=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama
+2019-10-14 22:26:59.041 ##### [54304] - Input value - environment variable     = APAMA_ENVSET=10.5:c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama:amd64-win
+2019-10-14 22:26:59.041 ##### [54304] - Input value - environment variable     = APAMA_HOME=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama
+2019-10-14 22:26:59.041 ##### [54304] - Input value - environment variable     = APAMA_JRE=c:\dev\10.5.1.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre
+2019-10-14 22:26:59.041 ##### [54304] - Input value - environment variable     = APAMA_LIBRARY_VERSION=10.5
+2019-10-14 22:26:59.041 ##### [54304] - Input value - environment variable     = APAMA_MANAGEMENT_HOME=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama
+2019-10-14 22:26:59.041 ##### [54304] - Input value - environment variable     = APAMA_PLATFORM=amd64-win
+2019-10-14 22:26:59.041 ##### [54304] - Input value - environment variable     = APAMA_WORK=c:\dev\10.5.1.x\apama-src\output-amd64-win-release
+2019-10-14 22:26:59.041 ##### [54304] - Input value - environment variable     = AP_ASCII_COLOURS=true
+2019-10-14 22:26:59.041 ##### [54304] - Input value - environment variable     = AP_TEST_VERBOSE=true
+2019-10-14 22:26:59.041 ##### [54304] - Input value - environment variable     = SSL_CERT_FILE=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\..\common\security\openssl\cert.pem
+2019-10-14 22:26:59.041 ##### [54304] - Using memory allocator                 = TBB scalable allocator
+2019-10-14 22:26:59.041 CRIT  [54304] - *************************************************************************
+2019-10-14 22:26:59.041 CRIT  [54304] - * License file not present at c:\dev\10.5.1.x\apama-src\output-amd64-win-release/license/ApamaServerLicense.xml
+2019-10-14 22:26:59.041 CRIT  [54304] - * Without a license file the correlator has the following restrictions: 
+2019-10-14 22:26:59.041 CRIT  [54304] - * 1024MB memory, 4 threads, 5 persistent EPL monitors, 20 contexts, 
+2019-10-14 22:26:59.041 CRIT  [54304] - * 5 query definitions with 5 instances of each, 50 query partitions, non-reliable JMS
+2019-10-14 22:26:59.041 CRIT  [54304] - * connections only, and no Correlator Deployment Packages.
+2019-10-14 22:26:59.041 CRIT  [54304] - * Refer to the Apama license agreement and user documentation topic "Running Apama without
+2019-10-14 22:26:59.041 CRIT  [54304] - * a license file" for further information on the restrictions. 
+2019-10-14 22:26:59.041 CRIT  [54304] - * The correlator may stop without warning if the memory limit is breached.
+2019-10-14 22:26:59.041 CRIT  [54304] - * If using Java features, you may need to use -J-Xmx256M to limit the JVM's memory usage.
+2019-10-14 22:26:59.041 CRIT  [54304] - *************************************************************************
+2019-10-14 22:26:59.041 CRIT  [54304] - 
+2019-10-14 22:26:59.065 ##### [54304] - Correlator is restricted to 1024.0 MB of resident memory
+2019-10-14 22:26:59.066 ##### [54304] - Input value - pidfile                  = 
+2019-10-14 22:26:59.066 ##### [54304] - Input value - per receiver queue size  = 10 s
+2019-10-14 22:26:59.066 ##### [54304] - Input value - per receiver queue size  = 10240 kb
+2019-10-14 22:26:59.066 ##### [54304] - Input value - input queue size         = 20000
+2019-10-14 22:26:59.066 ##### [54304] - External clocking                      = disabled
+2019-10-14 22:26:59.066 ##### [54304] - Input value - logfile                  = ..\correlator-with-restarts.log
+2019-10-14 22:26:59.066 ##### [54304] - Input value - loglevel                 = INFO
+2019-10-14 22:26:59.066 ##### [54304] - Input value - inputLog                 = ** Warning input log not enabled **
+2019-10-14 22:26:59.066 ##### [54304] - Compiler optimizations                 = enabled - the debugger cannot be used; specify command line option "-g" to use it.
+2019-10-14 22:26:59.066 ##### [54304] - Using EPL runtime                      = interpreted
+2019-10-14 22:26:59.067 ##### [54304] - Python support                         = automatic
+2019-10-14 22:26:59.071 ##### [54304] - Java support                           = disabled
+2019-10-14 22:26:59.071 ##### [54304] - Input value - persistence              = disabled
+2019-10-14 22:26:59.074 INFO  [54304] - Will log queue size every 5.000000 seconds
+2019-10-14 22:26:59.075 INFO  [54304] - Starting scheduler with 4 threads (Without a license file the correlator is restricted)
+2019-10-14 22:26:59.077 INFO  [54304] - Server socket opened listening on 0.0.0.0:15903
+2019-10-14 22:26:59.077 ##### [54304] - Component ID: correlator (correlator/6747773380021456896/6747773380021456896)
+2019-10-14 22:26:59.077 ##### [54304] - Correlator, version 10.5.1.0.0, running
+2019-10-14 22:26:59.900 ##### [54304] - Shutting down correlator in response to client (127.0.0.1:50307) request: I want you to shut down
+2019-10-14 22:27:03.005 INFO  [54304] - Correlator shutdown is complete
+2019-10-14 22:27:06.035 ##### [52636] - Correlator, version 10.5.1.0.0 (build UNKNOWN_VERSION@0 on amd64-win using Software AG suite version 10.5), started.
+2019-10-14 22:27:06.036 ##### [52636] - Running on host 'myhost2' as user 'BSP'.
+2019-10-14 22:27:06.036 ##### [52636] - Running on platform 'Windows 10 Enterprise'.
+2019-10-14 22:27:06.036 ##### [52636] - Running on CPU 'GenuineIntel family 6 model 14 stepping 10 Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz'.
+2019-10-14 22:27:06.036 ##### [52636] - Running with process Id 14572.
+2019-10-14 22:27:06.036 ##### [52636] - Running with 32587.22MB of available memory.
+2019-10-14 22:27:06.036 ##### [52636] - There are 12 CPU(s)
+2019-10-14 22:27:06.036 ##### [52636] - Correlator command line: correlator --logfile ..\correlator-with-restarts.log
+2019-10-14 22:27:06.036 ##### [52636] - Current Working Directory: c:\dev\bin
+2019-10-14 22:27:06.036 ##### [52636] - Current UTC time: 2019-10-14 21:27:06, local timezone: GMT Daylight Time
+2019-10-14 22:27:06.036 ##### [52636] - Input value - port                     = 15903
+2019-10-14 22:27:06.036 ##### [52636] - Input value - output queue size        = 10000
+2019-10-14 22:27:06.036 ##### [52636] - Input value - output queue batch size  = 100
+2019-10-14 22:27:06.036 ##### [52636] - Input value - output queue mode        = blocking
+2019-10-14 22:27:06.036 ##### [52636] - Input value - environment variable     = APAMA_COMMON_JRE=c:\dev\10.5.1.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre
+2019-10-14 22:27:06.036 ##### [52636] - Input value - environment variable     = APAMA_CORRELATOR_HOME=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama
+2019-10-14 22:27:06.036 ##### [52636] - Input value - environment variable     = APAMA_DASHBOARD_HOME=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama
+2019-10-14 22:27:06.036 ##### [52636] - Input value - environment variable     = APAMA_DEV_HOME=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama
+2019-10-14 22:27:06.036 ##### [52636] - Input value - environment variable     = APAMA_ENVSET=10.5:c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama:amd64-win
+2019-10-14 22:27:06.036 ##### [52636] - Input value - environment variable     = APAMA_HOME=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama
+2019-10-14 22:27:06.036 ##### [52636] - Input value - environment variable     = APAMA_JRE=c:\dev\10.5.1.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre
+2019-10-14 22:27:06.036 ##### [52636] - Input value - environment variable     = APAMA_LIBRARY_VERSION=10.5
+2019-10-14 22:27:06.036 ##### [52636] - Input value - environment variable     = APAMA_MANAGEMENT_HOME=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama
+2019-10-14 22:27:06.036 ##### [52636] - Input value - environment variable     = APAMA_PLATFORM=amd64-win
+2019-10-14 22:27:06.036 ##### [52636] - Input value - environment variable     = APAMA_WORK=c:\dev\10.5.1.x\apama-src\output-amd64-win-release
+2019-10-14 22:27:06.036 ##### [52636] - Input value - environment variable     = AP_ASCII_COLOURS=true
+2019-10-14 22:27:06.036 ##### [52636] - Input value - environment variable     = AP_TEST_VERBOSE=true
+2019-10-14 22:27:06.036 ##### [52636] - Input value - environment variable     = SSL_CERT_FILE=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\..\common\security\openssl\cert.pem
+2019-10-14 22:27:06.036 ##### [52636] - Using memory allocator                 = TBB scalable allocator
+2019-10-14 22:27:06.037 CRIT  [52636] - *************************************************************************
+2019-10-14 22:27:06.037 CRIT  [52636] - * License file not present at c:\dev\10.5.1.x\apama-src\output-amd64-win-release/license/ApamaServerLicense.xml
+2019-10-14 22:27:06.037 CRIT  [52636] - * Without a license file the correlator has the following restrictions: 
+2019-10-14 22:27:06.037 CRIT  [52636] - * 1024MB memory, 4 threads, 5 persistent EPL monitors, 20 contexts, 
+2019-10-14 22:27:06.037 CRIT  [52636] - * 5 query definitions with 5 instances of each, 50 query partitions, non-reliable JMS
+2019-10-14 22:27:06.037 CRIT  [52636] - * connections only, and no Correlator Deployment Packages.
+2019-10-14 22:27:06.037 CRIT  [52636] - * Refer to the Apama license agreement and user documentation topic "Running Apama without
+2019-10-14 22:27:06.037 CRIT  [52636] - * a license file" for further information on the restrictions. 
+2019-10-14 22:27:06.037 CRIT  [52636] - * The correlator may stop without warning if the memory limit is breached.
+2019-10-14 22:27:06.037 CRIT  [52636] - * If using Java features, you may need to use -J-Xmx256M to limit the JVM's memory usage.
+2019-10-14 22:27:06.037 CRIT  [52636] - *************************************************************************
+2019-10-14 22:27:06.037 CRIT  [52636] - 
+2019-10-14 22:27:06.059 ##### [52636] - Correlator is restricted to 1024.0 MB of resident memory
+2019-10-14 22:27:06.059 ##### [52636] - Input value - pidfile                  = 
+2019-10-14 22:27:06.059 ##### [52636] - Input value - per receiver queue size  = 10 s
+2019-10-14 22:27:06.059 ##### [52636] - Input value - per receiver queue size  = 10240 kb
+2019-10-14 22:27:06.059 ##### [52636] - Input value - input queue size         = 20000
+2019-10-14 22:27:06.059 ##### [52636] - External clocking                      = disabled
+2019-10-14 22:27:06.059 ##### [52636] - Input value - logfile                  = ..\correlator-with-restarts.log
+2019-10-14 22:27:06.059 ##### [52636] - Input value - loglevel                 = INFO
+2019-10-14 22:27:06.059 ##### [52636] - Input value - inputLog                 = ** Warning input log not enabled **
+2019-10-14 22:27:06.059 ##### [52636] - Compiler optimizations                 = enabled - the debugger cannot be used; specify command line option "-g" to use it.
+2019-10-14 22:27:06.059 ##### [52636] - Using EPL runtime                      = interpreted
+2019-10-14 22:27:06.060 ##### [52636] - Python support                         = automatic
+2019-10-14 22:27:06.064 ##### [52636] - Java support                           = disabled
+2019-10-14 22:27:06.064 ##### [52636] - Input value - persistence              = disabled
+2019-10-14 22:27:06.068 INFO  [52636] - Will log queue size every 5.000000 seconds
+2019-10-14 22:27:06.069 INFO  [52636] - Starting scheduler with 4 threads (Without a license file the correlator is restricted)
+2019-10-14 22:27:06.071 INFO  [52636] - Server socket opened listening on 0.0.0.0:15903
+2019-10-14 22:27:06.071 ##### [52636] - Component ID: correlator (correlator/6747773409749110784/6747773409749110784)
+2019-10-14 22:27:06.071 ##### [52636] - Correlator, version 10.5.1.0.0, running
+2019-10-14 22:27:08.681 CRIT  [42920] - Received a SIGINT (2) signal, shutting down
+2019-10-14 22:27:08.702 INFO  [52636] - Correlator shutdown is complete
+2019-10-14 22:27:11.833 ##### [55912] - Correlator, version 10.5.1.0.0 (build UNKNOWN_VERSION@0 on amd64-win using Software AG suite version 10.5), started.
+2019-10-14 22:27:11.834 ##### [55912] - Running on host 'myhost2' as user 'BSP'.
+2019-10-14 22:27:11.835 ##### [55912] - Running on platform 'Windows 10 Enterprise'.
+2019-10-14 22:27:11.835 ##### [55912] - Running on CPU 'GenuineIntel family 6 model 14 stepping 10 Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz'.
+2019-10-14 22:27:11.835 ##### [55912] - Running with process Id 66760.
+2019-10-14 22:27:11.835 ##### [55912] - Running with 32587.22MB of available memory.
+2019-10-14 22:27:11.835 ##### [55912] - There are 12 CPU(s)
+2019-10-14 22:27:11.835 ##### [55912] - Correlator command line: correlator --logfile ..\correlator-with-restarts.log
+2019-10-14 22:27:11.835 ##### [55912] - Current Working Directory: c:\dev\bin
+2019-10-14 22:27:11.835 ##### [55912] - Current UTC time: 2019-10-14 21:27:11, local timezone: GMT Daylight Time
+2019-10-14 22:27:11.835 ##### [55912] - Input value - port                     = 15903
+2019-10-14 22:27:11.835 ##### [55912] - Input value - output queue size        = 10000
+2019-10-14 22:27:11.835 ##### [55912] - Input value - output queue batch size  = 100
+2019-10-14 22:27:11.835 ##### [55912] - Input value - output queue mode        = blocking
+2019-10-14 22:27:11.835 ##### [55912] - Input value - environment variable     = APAMA_COMMON_JRE=c:\dev\10.5.1.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre
+2019-10-14 22:27:11.835 ##### [55912] - Input value - environment variable     = APAMA_CORRELATOR_HOME=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama
+2019-10-14 22:27:11.835 ##### [55912] - Input value - environment variable     = APAMA_DASHBOARD_HOME=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama
+2019-10-14 22:27:11.835 ##### [55912] - Input value - environment variable     = APAMA_DEV_HOME=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama
+2019-10-14 22:27:11.835 ##### [55912] - Input value - environment variable     = APAMA_ENVSET=10.5:c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama:amd64-win
+2019-10-14 22:27:11.835 ##### [55912] - Input value - environment variable     = APAMA_HOME=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama
+2019-10-14 22:27:11.835 ##### [55912] - Input value - environment variable     = APAMA_JRE=c:\dev\10.5.1.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre
+2019-10-14 22:27:11.835 ##### [55912] - Input value - environment variable     = APAMA_LIBRARY_VERSION=10.5
+2019-10-14 22:27:11.835 ##### [55912] - Input value - environment variable     = APAMA_MANAGEMENT_HOME=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama
+2019-10-14 22:27:11.835 ##### [55912] - Input value - environment variable     = APAMA_PLATFORM=amd64-win
+2019-10-14 22:27:11.835 ##### [55912] - Input value - environment variable     = APAMA_WORK=c:\dev\10.5.1.x\apama-src\output-amd64-win-release
+2019-10-14 22:27:11.835 ##### [55912] - Input value - environment variable     = AP_ASCII_COLOURS=true
+2019-10-14 22:27:11.835 ##### [55912] - Input value - environment variable     = AP_TEST_VERBOSE=true
+2019-10-14 22:27:11.835 ##### [55912] - Input value - environment variable     = SSL_CERT_FILE=c:\dev\10.5.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\..\common\security\openssl\cert.pem
+2019-10-14 22:27:11.835 ##### [55912] - Using memory allocator                 = TBB scalable allocator
+2019-10-14 22:27:11.835 CRIT  [55912] - *************************************************************************
+2019-10-14 22:27:11.835 CRIT  [55912] - * License file not present at c:\dev\10.5.1.x\apama-src\output-amd64-win-release/license/ApamaServerLicense.xml
+2019-10-14 22:27:11.835 CRIT  [55912] - * Without a license file the correlator has the following restrictions: 
+2019-10-14 22:27:11.835 CRIT  [55912] - * 1024MB memory, 4 threads, 5 persistent EPL monitors, 20 contexts, 
+2019-10-14 22:27:11.835 CRIT  [55912] - * 5 query definitions with 5 instances of each, 50 query partitions, non-reliable JMS
+2019-10-14 22:27:11.835 CRIT  [55912] - * connections only, and no Correlator Deployment Packages.
+2019-10-14 22:27:11.835 CRIT  [55912] - * Refer to the Apama license agreement and user documentation topic "Running Apama without
+2019-10-14 22:27:11.835 CRIT  [55912] - * a license file" for further information on the restrictions. 
+2019-10-14 22:27:11.835 CRIT  [55912] - * The correlator may stop without warning if the memory limit is breached.
+2019-10-14 22:27:11.835 CRIT  [55912] - * If using Java features, you may need to use -J-Xmx256M to limit the JVM's memory usage.
+2019-10-14 22:27:11.835 CRIT  [55912] - *************************************************************************
+2019-10-14 22:27:11.835 CRIT  [55912] - 
+2019-10-14 22:27:11.860 ##### [55912] - Correlator is restricted to 1024.0 MB of resident memory
+2019-10-14 22:27:11.860 ##### [55912] - Input value - pidfile                  = 
+2019-10-14 22:27:11.860 ##### [55912] - Input value - per receiver queue size  = 10 s
+2019-10-14 22:27:11.860 ##### [55912] - Input value - per receiver queue size  = 10240 kb
+2019-10-14 22:27:11.860 ##### [55912] - Input value - input queue size         = 20000
+2019-10-14 22:27:11.860 ##### [55912] - External clocking                      = disabled
+2019-10-14 22:27:11.860 ##### [55912] - Input value - logfile                  = ..\correlator-with-restarts.log
+2019-10-14 22:27:11.860 ##### [55912] - Input value - loglevel                 = INFO
+2019-10-14 22:27:11.860 ##### [55912] - Input value - inputLog                 = ** Warning input log not enabled **
+2019-10-14 22:27:11.860 ##### [55912] - Compiler optimizations                 = enabled - the debugger cannot be used; specify command line option "-g" to use it.
+2019-10-14 22:27:11.860 ##### [55912] - Using EPL runtime                      = interpreted
+2019-10-14 22:27:11.861 ##### [55912] - Python support                         = automatic
+2019-10-14 22:27:11.865 ##### [55912] - Java support                           = disabled
+2019-10-14 22:27:11.865 ##### [55912] - Input value - persistence              = disabled
+2019-10-14 22:27:11.869 INFO  [55912] - Will log queue size every 5.000000 seconds
+2019-10-14 22:27:11.869 INFO  [55912] - Starting scheduler with 4 threads (Without a license file the correlator is restricted)
+2019-10-14 22:27:11.872 INFO  [55912] - Server socket opened listening on 0.0.0.0:15903
+2019-10-14 22:27:11.872 ##### [55912] - Component ID: correlator (correlator/6747773430349172736/6747773430349172736)
+2019-10-14 22:27:11.872 ##### [55912] - Correlator, version 10.5.1.0.0, running
+2019-10-14 22:27:13.977 CRIT  [68776] - Received a SIGINT (2) signal, shutting down
+2019-10-14 22:27:14.004 INFO  [55912] - Correlator shutdown is complete

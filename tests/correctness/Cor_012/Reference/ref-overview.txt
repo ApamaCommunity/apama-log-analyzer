@@ -1,18 +1,34 @@
+- correlator-with-restarts.log
+  Mon 2019-10-14 22:26:59 to 22:27:14 (=0:00:14)
+
+  Instance:       myhost2:15903
+  Process id:     19716
+  Apama version:  10.5.1.0.0; running on Windows 10 Enterprise
+  Log timezone:   UTC+01:00 (GMT Daylight Time)
+  Hardware:       12-core Core i7-8850H @ 2.60GHz
+  Memory:         1.0 GB usable, 31.8 GB physical memory
+  Connectivity:   -
+  Notable:        noLicenseConstrainedMode
+  Clean shutdown: Requested at Mon 2019-10-14 22:26:59 (reason: I want you to shut down)
+
+  Process id:     14572 restart #2 at Mon 2019-10-14 22:27:06 (line 63)
+
+  Process id:     66760 restart #3 at Mon 2019-10-14 22:27:11 (line 125)
+
 - correlator-10.3.1.0-win.log
   Tue 2019-04-09 13:57:22 to 13:57:37 (=0:00:15)
 
-  Instance:       myhost:15903, pid 21540
+  Instance:       myhost:15903
+  Process id:     21540
   Apama version:  10.3.1.0.348044; running on Windows 10 Enterprise
-  Log timezone:   UTC+01:00 (GMT Daylight Time)
   Customer:       Software AG internal (license expires 2019/04/22)
-  Hardware:       12-core Core i7-8850H @ 2.60GHz
-  Connectivity:   -
   Notable:        non-standard log level: DEBUG
 
 - correlator-4.3.2.0-win.log
   Tue 2019-09-17 16:49:05 to 16:49:34 (=0:00:29)
 
-  Instance:       myhost:20719, pid ?
+  Instance:       myhost:20719
+  Process id:     ?
   Apama version:  4.3.2.0; running on Unknown Windows platform 6.2
   Log timezone:   ?
   Hardware:       Core i7-8850H @ 2.60GHz
@@ -21,7 +37,8 @@
 - correlator-10.5.1.0-linux-everything.log
   Fri 2019-10-04 19:02:53 to 19:03:04 (=0:00:10)
 
-  Instance:       troll:6705[my correlator], pid 46974
+  Instance:       troll:6705[my correlator]
+  Process id:     46974
   Apama version:  10.5.1.0.0; running on CentOS Linux 7 (Core)
   Log timezone:   UTC+01:45 (My Timezone)
   Customer:       Software AG internal (license expires 2019/04/22)
@@ -29,6 +46,7 @@
   Memory:         1.0 GB usable, 251.6 GB physical memory (0.7 GB Java max heap)
   Connectivity:   DistMemStore, Correlator-JMS, nullTransport, unitTestHarness, libconnectivity-http-client.so
   Notable:        noLicenseConstrainedMode, non-default allocator: Platform allocator, cgroupsLimits, coreHasResourceLimit(should be unlimited!), non-standard log level: DEBUG, runtime: compiled(LLVM), persistence, persistenceDatabaseUpgrade, inputLog, externalClocking, optimizationsDisabled, JVM
+  Clean shutdown: Requested at Fri 2019-10-04 19:03:03 (reason: Shutdown requested by test framework)
 
 - x-copy-of-correlator-10.5.1.0-linux-everything.log
   Fri 2019-10-04 19:02:53 to 19:03:04 (=0:00:10)

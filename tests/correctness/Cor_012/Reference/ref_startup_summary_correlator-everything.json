@@ -1,6 +1,7 @@
 [
     {
         "startTime": "Fri 2019-10-04 19:02:53",
+        "startLineNumber": 1,
         "apamaVersion": "10.5.1.0.0",
         "qualifiedHost": "troll.apama.com",
         "host": "troll",
@@ -103,6 +104,8 @@
         ],
         "analyzerVersion": "3.0.dev/2019-10-03",
         "usableMemoryMB": 1024.0,
-        "instance": "troll:6705[my correlator]"
+        "instance": "troll:6705[my correlator]",
+        "shutdownReason": "Shutdown requested by test framework",
+        "shutdownTime": "Fri 2019-10-04 19:03:03"
     }
 ]

@@ -15,6 +15,7 @@ class PySysTest(AnalyzerBaseTest):
 			# hacked up to have everything turned on
 			self.input+'/correlator-10.5.1.0-linux-everything.log', 
 			
+			self.input+'/correlator-with-restarts.log',
 			'--json'
 		])
 
