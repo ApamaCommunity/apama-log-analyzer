@@ -44,7 +44,7 @@ To run the script, simply execute the script with Python 3::
 
 	> apamax\log_analyzer.py mycorrelator.log
 
-On linux, make sure `python3` is on `PATH`. On Windows, ensure you have a `.py` file association for (or explicitly run it with) `py.exe` or `python.exe` from a Python 3 installation. Recent Apama releases contain Python 3. 
+On linux, make sure `python3` is on `PATH`. On Windows, ensure you have a `.py` file association for (or explicitly run it with) `py.exe` or `python.exe` from a Python 3 installation. Apama releases from 10.3.0 onwards contain Python 3, so an Apama command prompt/apama_env shell will have the correct `python.exe`/`python3` on `PATH`. If you don't have Apama 10.3.0 available, you can download Python 3.6+ yourself. No other Python packages are required. 
 
 For more information about the meaning of the status lines, see the `List of Correlator Status Statistics <http://www.apamacommunity.com/documents/10.3.1.1/apama_10.3.1.1_webhelp/apama-webhelp/index.html#page/apama-webhelp%2Fre-DepAndManApaApp_list_of_correlator_status_statistics.html>`_ in the Apama documentation. 
 
