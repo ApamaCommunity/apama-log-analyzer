@@ -1,8 +1,8 @@
-.. image:: https://travis-ci.com/ben-spiller/correlator-log-analyzer.svg?branch=master
-	:target: https://travis-ci.com/ben-spiller/correlator-log-analyzer
+.. image:: https://travis-ci.com/ApamaCommunity/apama-log-analyzer.svg?branch=master
+	:target: https://travis-ci.com/ApamaCommunity/apama-log-analyzer
 
-.. image:: https://codecov.io/gh/ben-spiller/correlator-log-analyzer/branch/master/graph/badge.svg
-	:target: https://codecov.io/gh/ben-spiller/correlator-log-analyzer
+.. image:: https://codecov.io/gh/ApamaCommunity/apama-log-analyzer/branch/master/graph/badge.svg
+	:target: https://codecov.io/gh/ApamaCommunity/apama-log-analyzer
 
 About the Apama Correlator Log Analyzer
 =======================================
