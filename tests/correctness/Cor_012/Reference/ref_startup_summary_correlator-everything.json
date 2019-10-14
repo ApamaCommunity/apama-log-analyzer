@@ -89,7 +89,7 @@
         "cgroups - maximum memory MB": 2048.0,
         "notableFeatures": [
             "noLicenseConstrainedMode",
-            "non-standard allocator: Platform allocator",
+            "non-default allocator: Platform allocator",
             "cgroupsLimits",
             "coreHasResourceLimit(should be unlimited!)",
             "non-standard log level: DEBUG",

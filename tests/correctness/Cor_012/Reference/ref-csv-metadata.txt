@@ -10,6 +10,6 @@ physicalMemoryMB="257,673"
 usableMemoryMB="1,024"
 jvmMemoryHeapMaxMB=736.00
 cpuSummary=VM with 48-core Xeon E5-2690 v3 @ 2.60GHz (cgroups unlimited CPUs; 1024/1024 shares)
-notableFeatures=noLicenseConstrainedMode; non-standard allocator: Platform allocator; cgroupsLimits; coreHasResourceLimit(should be unlimited!); non-standard log level: DEBUG; runtime: compiled(LLVM); persistence; persistenceDatabaseUpgrade; inputLog; externalClocking; optimizationsDisabled; JVM
+notableFeatures=noLicenseConstrainedMode; non-default allocator: Platform allocator; cgroupsLimits; coreHasResourceLimit(should be unlimited!); non-standard log level: DEBUG; runtime: compiled(LLVM); persistence; persistenceDatabaseUpgrade; inputLog; externalClocking; optimizationsDisabled; JVM
 connectivity=DistMemStore; Correlator-JMS; nullTransport; unitTestHarness; libconnectivity-http-client.so
 analyzerVersion=XXX

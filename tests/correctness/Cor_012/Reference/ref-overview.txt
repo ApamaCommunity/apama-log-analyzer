@@ -28,7 +28,7 @@
   Hardware:       VM with 48-core Xeon E5-2690 v3 @ 2.60GHz (cgroups unlimited CPUs; 1024/1024 shares)
   Memory:         1.0 GB usable, 251.6 GB physical memory (0.7 GB Java max heap)
   Connectivity:   DistMemStore, Correlator-JMS, nullTransport, unitTestHarness, libconnectivity-http-client.so
-  Notable:        noLicenseConstrainedMode, non-standard allocator: Platform allocator, cgroupsLimits, coreHasResourceLimit(should be unlimited!), non-standard log level: DEBUG, runtime: compiled(LLVM), persistence, persistenceDatabaseUpgrade, inputLog, externalClocking, optimizationsDisabled, JVM
+  Notable:        noLicenseConstrainedMode, non-default allocator: Platform allocator, cgroupsLimits, coreHasResourceLimit(should be unlimited!), non-standard log level: DEBUG, runtime: compiled(LLVM), persistence, persistenceDatabaseUpgrade, inputLog, externalClocking, optimizationsDisabled, JVM
 
 - x-copy-of-correlator-10.5.1.0-linux-everything.log
   Fri 2019-10-04 19:02:53 to 19:03:04 (=0:00:10)

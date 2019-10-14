@@ -1098,7 +1098,7 @@ class LogAnalyzer(object):
 			
 		allocator = stanza.get('using memory allocator',None)
 		if allocator not in {None, "TBB scalable allocator"}:
-			features.append(f'non-standard allocator: {allocator}')
+			features.append(f'non-default allocator: {allocator}')
 
 		#if stanza.get('virtualizationDetected'): features.append('virtualizationDetected')
 		if 'cgroups - cpu shares' in stanza: features.append('cgroupsLimits')
