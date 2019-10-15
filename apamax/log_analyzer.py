@@ -1178,6 +1178,7 @@ class LogAnalyzer(object):
 		d = collections.OrderedDict()
 		metadataAliases = { # keys are from startupStanzas, values are aliases if needed
 			'apamaVersion':None,
+			'apamaCtrlVersion':None,
 			'instance':None,
 			'pid':None,
 			'utcOffset':None,
