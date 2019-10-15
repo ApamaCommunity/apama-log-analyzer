@@ -251,6 +251,10 @@ class CSVStatusWriter(BaseWriter):
 
 	def writeHeader(self, columns=None, extraInfo=None, **extra):
 		self.output = self.createFile(self.output_file)
+		
+		# write this special header to tell excel to treat csv as comma separated even in locales where , normally is used as a decimal separator
+		self.output.write("sep=,\n")
+		
 		self.columns = columns
 		items = list(columns)
 		items[0] = '# '+items[0]
