@@ -45,6 +45,10 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertGrep(outputdir+'/startup_stanza.correlator-10.5.1.0-linux-everything.log', 
 			expr='Shutting down correlator', contains=False) # #### level message not part of startup
 
-		self.assertDiff(outputdir+'/overview.txt', 'ref-overview.txt')
+		# strip out the stats since we test them elsewhere
+		self.copy(outputdir+'/overview.txt', 'overview-without-stats.txt', mappers=[
+			lambda line: None if ' = ' in line else line])
+
+		self.assertDiff('overview-without-stats.txt', 'ref-overview.txt')
 
 		self.logFileContents(outputdir+'/overview.txt', maxLines=0)

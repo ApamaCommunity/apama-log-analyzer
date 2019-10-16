@@ -22,7 +22,9 @@
   Process id:     21540
   Apama version:  10.3.1.0.348044; running on Windows 10 Enterprise
   Customer:       Software AG internal (license expires 2019/04/22)
+  Memory:         31.8 GB physical memory
   Notable:        non-standard log level: DEBUG
+
 
 - correlator-4.3.2.0-win.log
   Tue 2019-09-17 16:49:05 to 16:49:34 (=0:00:29)
@@ -33,6 +35,7 @@
   Log timezone:   ?
   Hardware:       Core i7-8850H @ 2.60GHz
   Notable:        licenseMayBeMissing!, replayLog
+
 
 - correlator-10.5.1.0-linux-everything.log
   Fri 2019-10-04 19:02:53 to 19:03:04 (=0:00:10)
@@ -47,6 +50,7 @@
   Connectivity:   DistMemStore, Correlator-JMS, nullTransport, unitTestHarness, libconnectivity-http-client.so
   Notable:        noLicenseConstrainedMode, non-default allocator: Platform allocator, cgroupsLimits, coreHasResourceLimit(should be unlimited!), non-standard log level: DEBUG, runtime: compiled(LLVM), persistence, persistenceDatabaseUpgrade, inputLog, externalClocking, optimizationsDisabled, JVM
   Clean shutdown: Requested at Fri 2019-10-04 19:03:03 (reason: Shutdown requested by test framework)
+
 
 - x-copy-of-correlator-10.5.1.0-linux-everything.log
   Fri 2019-10-04 19:02:53 to 19:03:04 (=0:00:10)

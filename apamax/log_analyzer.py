@@ -50,7 +50,7 @@ COLUMN_DISPLAY_NAMES = collections.OrderedDict([
 
 	('pm','pm=resident MB'), # convert to MB as easier to read than kb values
 	('vm','vm=virtual MB'),
-	('jvm','jvm=Java MB'), # cf JMS
+	('jvm','jvm=Java MB'), # this is the "total used" memory (also available in JMS line)
 	
 	('=pm delta MB', None),
 	('=vm delta MB', None),
@@ -194,6 +194,8 @@ class LogLine(object):
 		det['datetime'] = d
 		return d
 
+	def getDateTimeString(self):
+		return LogAnalyzer.formatDateTime(self.getDateTime())
 	
 	def __repr__(self): return '#%d: %s'%(self.lineno, self.line)
 
@@ -314,8 +316,16 @@ class JSONStatusWriter(BaseWriter):
 	output_file = 'status.@LOG_NAME@.json'
 
 	@staticmethod
+	def encodeCustomObjectAsJSON(o):
+		if isinstance(o, LogLine):
+			return {'lineno':o.lineno, 'datetime':o.getDateTime()}
+		if isinstance(o, datetime.datetime):
+			return o.strftime('%Y-%m-%d %H:%M:%S')
+		raise TypeError('Unhandled JSON type: %r'%o)
+
+	@staticmethod
 	def toMultilineJSON(data):
-		return json.dumps(data, ensure_ascii=False, indent=4, sort_keys=False)
+		return json.dumps(data, ensure_ascii=False, indent=4, sort_keys=False, default=JSONStatusWriter.encodeCustomObjectAsJSON)
 
 	def writeHeader(self, columns=None, extraInfo=None, **extra):
 		self.output = self.createFile(self.output_file)
@@ -327,7 +337,7 @@ class JSONStatusWriter(BaseWriter):
 		#assert status
 		# write it out incrementally to avoid excessive memory consumption
 		if self.prependComma: self.output.write(', ')
-		self.output.write(u'\n'+json.dumps(status))
+		self.output.write(u'\n'+json.dumps(status, default=JSONStatusWriter.encodeCustomObjectAsJSON))
 		self.prependComma = True
 
 	def _writeFooter(self, **extra):
@@ -373,7 +383,6 @@ class LogAnalyzer(object):
 		@param file: The dictionary for the file to be processed. 
 		"""
 		duration = time.time()
-		# open in utf-8 with repl chars
 		
 		self.currentpath = file['path']
 		self.currentname = file['name']
@@ -560,7 +569,7 @@ class LogAnalyzer(object):
 		if not d: return
 		
 		#log.debug('Extracted status line %s: %s', d)
-		self.handleRawStatusDict(file=file, status=d)
+		self.handleRawStatusDict(file=file, line=line, status=d)
 		
 		"""
 		also requires this in file started:
@@ -596,7 +605,7 @@ class LogAnalyzer(object):
 		"""
 	
 		
-	def handleRawStatusDict(self, file, status=None, **extra):
+	def handleRawStatusDict(self, file, line, status=None, **extra):
 		"""
 		Accepts a raw status dictionary and converts it to an annotated status 
 		dict (unordered) whose keys match the columns returned by 
@@ -612,7 +621,7 @@ class LogAnalyzer(object):
 				Returns a dict mapping key= to the display name column headings that will be used 
 				for every line in the file, based on a prototype status dictionary. 
 				"""
-				columns = {}
+				columns = collections.OrderedDict()
 				allkeys = set(status.keys())
 				for k in COLUMN_DISPLAY_NAMES:
 					if k.startswith('='):
@@ -658,6 +667,11 @@ class LogAnalyzer(object):
 						val = 1 if (status['si']+status['so']>0) else 0
 					except KeyError: # not present in all Apama versions
 						continue
+					if val == 1: 
+						file.setdefault('swappingStartLine', line)
+						file.pop('swappingEndLine',None)
+					elif 'swappingEndLine' not in file:
+						file['swappingEndLine'] = line
 
 				elif k == '=interval secs':
 					val = secsSinceLast
@@ -700,18 +714,21 @@ class LogAnalyzer(object):
 					val = val/1024.0 # kb to MB
 			d[display[k]] = val
 
-		self.handleAnnotatedStatusDict(file=file, status=d)
+		self.handleAnnotatedStatusDict(file=file, line=line, status=d)
 		self.previousRawStatus = status # both raw and annotated values
 
-	def handleAnnotatedStatusDict(self, file, status, **extra):
+	def handleAnnotatedStatusDict(self, file, line, status, **extra):
+		"""
+		@param line: There may be multiple lines associated with this status; this is typically the first one
+		"""
 		for w in self.writers:
 			w.writeStatus(status=status)
-		self._updateStatusSummary(file=file, status=status)
+		self._updateStatusSummary(file=file, line=line, status=status)
 
 	############################################################################
 	# summarization
 
-	def _updateStatusSummary(self, file, status):
+	def _updateStatusSummary(self, file, line, status):
 		"""
 		Called for each parsed and annotated status value to allow us to update per-file summary stats
 		"""
@@ -722,6 +739,7 @@ class LogAnalyzer(object):
 			file['status-sum'] = {k:0 for k in status} 
 			file['status-min'] = dict(status)
 			file['status-max'] = dict(status)
+			for k, v in status.items(): file['status-max'][k+'.line'] = line
 			
 			file['status-floatKeys'] = set()
 			for k in status:
@@ -732,7 +750,9 @@ class LogAnalyzer(object):
 		for k, v in status.items():
 			if v is None or isinstance(v, str): continue
 			if v < file['status-min'][k]: file['status-min'][k] = v
-			if v > file['status-max'][k]: file['status-max'][k] = v
+			if v > file['status-max'][k]: 
+				file['status-max'][k] = v
+				file['status-max'][k+'.line'] = line # also useful to have datetime/linenum for the maximum ones
 			
 			if v != 0: 
 				if k in file['status-floatKeys']: 
@@ -780,7 +800,9 @@ class LogAnalyzer(object):
 			if abs(v) > 1000 and isinstance(file['status-0pc'].get(k, ''), int): v = int(v)
 			
 			return v
-			
+		
+		file['status-mean'] = {k: calcmean(k) for k in file['status-sum']}
+		
 		rows = {
 			'0% (start)':file['status-0pc'],
 			'25%':file['status-25pc'],
@@ -789,7 +811,7 @@ class LogAnalyzer(object):
 			'100% (end)':file['status-100pc'],
 			'':None,
 			'min':{k: numberOrEmpty(file['status-min'][k]) for k in file['status-min']},
-			'mean':{k: calcmean(k) for k in file['status-sum']},
+			'mean':file['status-mean'],
 			'max':{k: numberOrEmpty(file['status-max'][k]) for k in file['status-max']},
 		}
 		for k in file['status-0pc']:
@@ -816,7 +838,7 @@ class LogAnalyzer(object):
 					delta = collections.OrderedDict()
 					delta['statistic'] = f'... delta: {display} - {prev["statistic"]}'
 					for k in status:
-						if isinstance(status[k], str) or k in ['seconds', 'line num', 'interval secs']:
+						if isinstance(status[k], str) or k in ['seconds', 'line num', 'interval secs'] or k.endswith('.line'):
 							delta[k] = ''
 						else:
 							try:
@@ -928,7 +950,7 @@ class LogAnalyzer(object):
 							if byfile['count'] == 1:
 								f.write(f"      x1 at   {self.formatDateTime(byfile['first'].getDateTime())} in {self.logFileToLogName(logfile)}\n")
 							else:
-								f.write(f"      x{byfile['count']} from {self.formatDateTimeRange(byfile['first'].getDateTime(), byfile['last'].getDateTime())} in {self.logFileToLogName(logfile)}\n")
+								f.write(f"      x{byfile['count']} {self.formatDateTimeRange(byfile['first'].getDateTime(), byfile['last'].getDateTime())} in {self.logFileToLogName(logfile)}\n")
 
 						for logfile, byfile in byfiles.items():
 							f.write(f"      Examples from {self.logFileToLogName(logfile)}:\n")							
@@ -956,7 +978,7 @@ class LogAnalyzer(object):
 		"Running on platform '[\"]?(?P<OS>[^\"']*)[\"]?",
 		"Running on CPU '(?P<cpuDetail>.*?(Intel[(]R[)] (?P<cpuShortName>.+)))'",
 		"Running with process Id (?P<pid>[0-9]+)",
-		"Running with (?P<physicalMemoryMB>[0-9.]+)MB of available memory",
+		"Running with (?P<physicalMemoryMB>[0-9.]+)MB of (available|physical) memory",
 		"There are (?P<cpuCount>[0-9]+) CPU",
 		"Component ID: (?P<componentName>.+) [(]correlator/(?P<physicalID>[0-9]+)",
 		"Current UTC time: (?P<utcTime>[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]), local timezone: (?P<timezoneName>.+)",
@@ -1220,13 +1242,13 @@ class LogAnalyzer(object):
 				if not file['startTime']:
 					out.write('  Not a valid Apama log file\n\n')
 					continue
-				out.write(f"  {self.formatDateTimeRange(file['startTime'], file['endTime'])}\n\n")
+				out.write(f"  {self.formatDateTimeRange(file['startTime'], file['endTime'], skipPrefix=True)}\n\n")
 				ss = file['startupStanzas'][0]
 				if not ss:
 					out.write('  No startup stanza present in this file!\n\n')
 				else:
 					for stanzaNum in range(len(file['startupStanzas'])):
-						ov = {} # overview sorted dict# if key ends with : then it will be prefixed
+						ov = collections.OrderedDict() # overview sorted dict# if key ends with : then it will be prefixed
 						ov['Instance:'] = f"{ss.get('instance')}" #, pid {ss.get('pid') or '?'}"
 						ss = file['startupStanzas'][stanzaNum]
 						
@@ -1248,12 +1270,15 @@ class LogAnalyzer(object):
 
 						ov['Connectivity:'] = ', '.join(ss.get('connectivity', ['?']) or ['-'])
 						ov['Notable:'] = ', '.join(ss.get('notableFeatures', ['?']) or ['-'])
-
+						
+						# put shutdown info last
 						if 'shutdownTime' in ss: ov['Clean shutdown:'] = f"Requested at {ss['shutdownTime']} (reason: {ss['shutdownReason']})"
 
 						# print overview of each log, but only delta from previous, since most of the time everything's the same
+						anythingwritten = False
 						for k in ov:
 							if previousOverview.get(k)!=ov[k]:
+								anythingwritten = True
 								out.write('  ')
 								if k.endswith(':'): out.write(f"{k:15} ")
 								out.write(ov[k])
@@ -1261,7 +1286,42 @@ class LogAnalyzer(object):
 						
 						previousOverview = ov
 
-						out.write('\n')
+						if anythingwritten: out.write('\n')
+				# end if if startupstanza
+				
+				# overview statistics - just a few to give a quick at-a-glance idea; more detailed analysis should go elsewhere
+				if 'status-mean' in file:
+					ov = {}
+					ov['errorswarns'] = f"Logged errors = {file['errorsCount']:,}, warnings = {file['warningsCount']:,}"
+					ov['sendreceiverates'] = f"Received event rate mean = {file['status-mean']['rx /sec']:,.1f} /sec (max = {file['status-max']['rx /sec']:,.1f} /sec)"+\
+						f", sent mean = {file['status-mean']['tx /sec']:,.1f} /sec (max = {file['status-max']['tx /sec']:,.1f} /sec)"
+					usableMemoryMB = file['startupStanzas'][0].get('usableMemoryMB')
+					if usableMemoryMB and 'pm=resident MB' in file['status-mean']:
+						ov['memoryusage'] = f"Correlator resident memory mean = {file['status-mean']['pm=resident MB']/1024.0:,.3f} GB, "+\
+							f"final = {file['status-100pc']['pm=resident MB']/1024.0:,.3f} GB, "+\
+							f"JVM mean = {(file['status-max'].get('jvm=Java MB') or 0.0)/1024.0:,.3f} GB"
+						ov['memoryusagemax'] = f"Correlator resident memory max  = {file['status-max']['pm=resident MB']/1024.0:,.3f} GB "+\
+							f"(={100.0*file['status-max']['pm=resident MB']/usableMemoryMB:.0f}% of {usableMemoryMB/1024.0:,.1f} GB usable), "+\
+							f"at {file['status-max']['pm=resident MB.line'].getDateTimeString()} (line {file['status-max']['pm=resident MB.line'].lineno})"
+					if 'is swapping' in file['status-sum']:
+						ov['swapping'] = f"Swapping occurrences = "
+						if file['status-sum']['is swapping'] == 0:
+							ov['swapping'] += 'none'
+						else:
+							ov['swapping'] += f"{100.0*file['status-mean']['is swapping']:.2f}% of log file"
+							ov['swapping'] += f", {self.formatDateTimeRange(file['swappingStartLine'].getDateTime(), file['swappingEndLine'].getDateTime() if 'swappingEndLine' in file else 'end')}, beginning at line {file['swappingStartLine'].lineno}"
+					
+					if 'iq=queued input' in file['status-max'] and 'oq=queued output' in file['status-max']:
+						ov['queued'] = f"Queued input max = {file['status-max']['iq=queued input']:,}"
+						ov['queued'] += f" at {file['status-max']['iq=queued input.line'].getDateTimeString()} (line {file['status-max']['iq=queued input.line'].lineno})"
+						ov['queued'] += f", queued output max = {file['status-max']['oq=queued output']:,}"
+						
+					for k in ov:
+							out.write('  ')
+							out.write(ov[k])
+							out.write('\n')
+					out.write('\n')
+
 
 		with io.open(os.path.join(self.outputdir, 'overview.txt'), 'r', encoding='utf-8') as out:
 			
@@ -1276,10 +1336,18 @@ class LogAnalyzer(object):
 		return datetime.strftime('%a %Y-%m-%d %H:%M:%S')
 
 	@staticmethod
-	def formatDateTimeRange(datetime1, datetime2):
-		"""Format a date-time. By default milliseconds aren't included but day-of-week is. 
+	def formatDateTimeRange(datetime1, datetime2, skipPrefix=False):
+		"""Format a pair of date-times, with the prefix from/at. By default milliseconds aren't included but day-of-week is. 
+		
+		If datetime2 is a string rather than a date-time, it is included as-is. 
 		"""
-		if datetime1==datetime2: return LogAnalyzer.formatDateTime(datetime1)
+		prefix = 'from ' if (datetime2 and datetime2!=datetime1) else 'at '
+		if skipPrefix: prefix = ''
+		if (not datetime2) or datetime1==datetime2: return prefix+LogAnalyzer.formatDateTime(datetime1)
+		
+		if isinstance(datetime2, str):
+			return f'{prefix}{LogAnalyzer.formatDateTime(datetime1)} to {datetime2}'
+
 		delta = datetime2-datetime1
 		delta = delta-datetime.timedelta(microseconds=delta.microseconds)
 		
@@ -1288,7 +1356,7 @@ class LogAnalyzer(object):
 		else:
 			formatted2 = LogAnalyzer.formatDateTime(datetime2)
 		
-		return f'{LogAnalyzer.formatDateTime(datetime1)} to {formatted2} (={delta})'
+		return f'{prefix}{LogAnalyzer.formatDateTime(datetime1)} to {formatted2} (={delta})'
 
 	@staticmethod
 	def logFileToLogName(filename):
