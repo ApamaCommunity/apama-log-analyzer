@@ -56,6 +56,8 @@ Excel/CSV
 ---------
 When you open a CSV file in Excel, to automatically resize all columns so that their contents can be viewed just select all (Ctrl+A), then double click the separator between any two of the column headings. 
 
+In recent versions of Excel, selecting cell B2 and then View > Split is useful for ensuring the datetime and header row are always visible as you scroll. 
+
 Contributions
 =============
 Please feel free to add suggestions as github tickets, or to contribute a fix or feature yourself (just send a pull request). 
