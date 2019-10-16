@@ -1,5 +1,5 @@
 7 warnings in correlator1
-1 warnings in correlator2
+3 warnings in correlator2
 1 warnings in correlator3
 1 warnings in correlator4
 
@@ -26,4 +26,10 @@ Summary of warnings, sorted by normalized message:
        line 83 : 2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 91011 took 0.1111 seconds
       Examples from correlator4:
        line 83 : 2019-02-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 91011 took 0.1112 seconds
+
+--- x2: Took ___s for an invocation of Writing log line
+      x2 from Thu 2019-08-01 18:04:35 to 18:05:31 (=0:00:56) in correlator2
+      Examples from correlator2:
+       line 87 : 2019-08-01 18:04:35.567 WARN  [29164] - Took 15.487733s for an invocation of Writing log line
+       line 88 : 2019-08-01 18:05:31.567 WARN  [29164] - Took 12.345532s for an invocation of Writing log line
 
