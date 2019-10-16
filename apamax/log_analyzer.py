@@ -710,7 +710,7 @@ class LogAnalyzer(object):
 					assert False, 'Unknown generated key: %s'%k
 			else:
 				val = status.get(k, None)
-				if display[k] in ['pm=resident MB', 'vm=virtual MB', 'jvm=Java MB'] and val is not None:
+				if display[k] in ['pm=resident MB', 'vm=virtual MB'] and val is not None:
 					val = val/1024.0 # kb to MB
 			d[display[k]] = val
 
@@ -1299,7 +1299,7 @@ class LogAnalyzer(object):
 					if usableMemoryMB and 'pm=resident MB' in file['status-mean']:
 						ov['memoryusage'] = f"Correlator resident memory mean = {file['status-mean']['pm=resident MB']/1024.0:,.3f} GB, "+\
 							f"final = {file['status-100pc']['pm=resident MB']/1024.0:,.3f} GB, "+\
-							f"JVM mean = {(file['status-max'].get('jvm=Java MB') or 0.0)/1024.0:,.3f} GB"
+							f"JVM mean = {(file['status-mean'].get('jvm=Java MB') or 0.0)/1024.0:,.3f} GB"
 						ov['memoryusagemax'] = f"Correlator resident memory max  = {file['status-max']['pm=resident MB']/1024.0:,.3f} GB "+\
 							f"(={100.0*file['status-max']['pm=resident MB']/usableMemoryMB:.0f}% of {usableMemoryMB/1024.0:,.1f} GB usable), "+\
 							f"at {file['status-max']['pm=resident MB.line'].getDateTimeString()} (line {file['status-max']['pm=resident MB.line'].lineno})"

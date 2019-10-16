@@ -19,7 +19,7 @@ nctx=contexts : 4
 ls=listeners : "50,000"
 pm=resident MB : 17.69
 vm=virtual MB : "16,710"
-jvm=Java MB : "2,256"
+jvm=Java MB : "2,311,111"
 pm delta MB : 17.68
 vm delta MB : "16,710"
 jvm delta MB : "2,256"

@@ -15,7 +15,7 @@ class PySysTest(AnalyzerBaseTest):
 		'lct':5.5,
 		'si':6.6,
 		'so':1.1,
-		'jvm':7*1024,
+		'pm':7*1024,
 		'rx':8,
 		'tx':9,
 		'mynewstatus':10,
@@ -33,7 +33,7 @@ class PySysTest(AnalyzerBaseTest):
 							if k=='so': val = 0.9 if l%10==0 else 0.0
 						f.write(f'{k}={val} ')
 					# no need to test everything individually
-					f.write('rt=0 nc=0 vm=3 pm=4 runq=0  somethingelse=123\n')
+					f.write('rt=0 nc=0 vm=3 jvm=4 runq=0  somethingelse=123\n')
 				
 			
 		# run with multiple files to check we don't get errors for small numbers of inputs, 
@@ -99,12 +99,12 @@ class PySysTest(AnalyzerBaseTest):
 		
 		self.assertEval("{mean_somethingelse} == 123", mean_somethingelse=findstat('mean')['somethingelse'])
 
-		# special check for JVM as it's a floating point number and we special-case those
-		self.assertEval("{min_jvm} == 7", min_jvm=findstat('min')['jvm=Java MB'])
-		self.assertEval("{max_jvm} == 70*1000*1000", max_jvm=findstat('max')['jvm=Java MB'])
-		self.assertEval("{mean_jvm} == {expected}", mean_jvm=findstat('mean')['jvm=Java MB'], expected=sum([7*(10**n) for n in range(8)])/8.0)
+		# special check for a key that is a floating point number and we special-case those
+		self.assertEval("{min_pm} == 7", min_pm=findstat('min')['pm=resident MB'])
+		self.assertEval("{max_pm} == 70*1000*1000", max_pm=findstat('max')['pm=resident MB'])
+		self.assertEval("{mean_pm} == {expected}", mean_pm=findstat('mean')['pm=resident MB'], expected=sum([7*(10**n) for n in range(8)])/8.0)
 
-		self.assertEval("{mean_jvm_delta} == {expected}", mean_jvm_delta=findstat('mean')['jvm delta MB'], expected=math.trunc(sum([(70-7)*(10**(n-1)) for n in range(8)])/8.0))
+		self.assertEval("{mean_pm_delta} == {expected}", mean_pm_delta=findstat('mean')['pm delta MB'], expected=math.trunc(sum([(70-7)*(10**(n-1)) for n in range(8)])/8.0))
 
 		# check CSV file has the annotated headinghs
 		self.assertGrep('loganalyzer_output/status.generated-log-08.csv',  expr=',rq=queued route,')
