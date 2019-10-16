@@ -1,8 +1,8 @@
 1 warnings in correlator-java-errors
 
-Summary of warnings, sorted by normalized message: 
+Summary of warnings, sorted by normalized message, with number of occurrences of that message indicated by 'xN': 
 
---- x1: 2019-07-30 18:04:31.567 WARN  [53100:DistMemStore] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ThrowsNpeFromInitBean1' defined in URL [file:/C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_1324/Input/ThrowsNpeFromInit/sample-spring.xml]: Invocation of init method failed; nested exception is java.lang.NullPointerException: Simulated error during afterPropertiesSet
+--- 1x: 2019-07-30 18:04:31.567 WARN  [53100:DistMemStore] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ThrowsNpeFromInitBean1' defined in URL [file:/C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_1324/Input/ThrowsNpeFromInit/sample-spring.xml]: Invocation of init method failed; nested exception is java.lang.NullPointerException: Simulated error during afterPropertiesSet
             at org.springframework.beans.factory.support.MyClass.initializeBean(AbstractAutowireCapableBeanFactory.java:1745)
       in correlator-java-errors line 82
 

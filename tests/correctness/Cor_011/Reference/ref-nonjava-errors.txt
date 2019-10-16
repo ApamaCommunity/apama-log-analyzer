@@ -1,21 +1,21 @@
 1 errors in correlator-crash
 5 errors in correlator-epl-errors
 
-Summary of errors, sorted by normalized message: 
+Summary of errors, sorted by normalized message, with number of occurrences of that message indicated by 'xN': 
 
---- x1: 2019-07-30 18:18:19.284 ERROR [12424] - Error on line 7 in action sepukku in event bar.baz.quux.Aact: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-action-div-by-zero.mon
+--- 1x: 2019-07-30 18:18:19.284 ERROR [12424] - Error on line 7 in action sepukku in event bar.baz.quux.Aact: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-action-div-by-zero.mon
         2019-07-30 18:18:19.284 ERROR [12424] - bar.baz.quux.foo [5] Stack dump:
         2019-07-30 18:18:19.284 ERROR [12424] - 	bar.baz.quux.Aact.sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-action-div-by-zero.mon:7
         2019-07-30 18:18:19.284 ERROR [12424] - 	bar.baz.quux.foo.::listenerAction::4() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-action-div-by-zero.mon:16
       in correlator-epl-errors line 310
 
---- x1: 2019-07-30 18:18:19.152 ERROR [12424] - Error on line 18 of monitor bar.baz.quux.foo: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/action-variable-div-by-zero.mon
+--- 1x: 2019-07-30 18:18:19.152 ERROR [12424] - Error on line 18 of monitor bar.baz.quux.foo: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/action-variable-div-by-zero.mon
         2019-07-30 18:18:19.152 ERROR [12424] - bar.baz.quux.foo [4] Stack dump:
         2019-07-30 18:18:19.152 ERROR [12424] - 	bar.baz.quux.foo.called_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/action-variable-div-by-zero.mon:18
         2019-07-30 18:18:19.152 ERROR [12424] - 	bar.baz.quux.foo.::listenerAction::5() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/action-variable-div-by-zero.mon:11
       in correlator-epl-errors line 306
 
---- x1: 2019-07-30 18:18:18.837 ERROR [32424] - Error on line 15 of monitor bar.baz.quux.foo: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon
+--- 1x: 2019-07-30 18:18:18.837 ERROR [32424] - Error on line 15 of monitor bar.baz.quux.foo: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon
         2019-07-30 18:18:18.837 ERROR [32424] - bar.baz.quux.foo [1] Stack dump:
         2019-07-30 18:18:18.837 ERROR [32424] - 	bar.baz.quux.foo.sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon:15
         2019-07-30 18:18:18.837 ERROR [32424] - 	bar.baz.quux.foo.indirect_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon:10
@@ -23,13 +23,13 @@ Summary of errors, sorted by normalized message:
         2019-07-30 18:18:18.837 ERROR [32424] - 	bar.baz.quux.foo.::startupAction::() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon:3
       in correlator-epl-errors line 65
 
---- x1: 2019-07-30 18:18:18.960 ERROR [32424] - Error on line 16 of monitor bar.baz.quux.foo: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-div-by-zero.mon
+--- 1x: 2019-07-30 18:18:18.960 ERROR [32424] - Error on line 16 of monitor bar.baz.quux.foo: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-div-by-zero.mon
         2019-07-30 18:18:18.960 ERROR [32424] - bar.baz.quux.foo [2] Stack dump:
         2019-07-30 18:18:18.960 ERROR [32424] - 	bar.baz.quux.foo.sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-div-by-zero.mon:16
         2019-07-30 18:18:18.960 ERROR [32424] - 	bar.baz.quux.foo.::listenerAction::5() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-div-by-zero.mon:9
       in correlator-epl-errors line 71
 
---- x1: 2019-07-30 18:18:19.069 ERROR [32424] - Error on line 24 of monitor bar.baz.quux.foo: StackOverflowException - Stack overflow - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon
+--- 1x: 2019-07-30 18:18:19.069 ERROR [32424] - Error on line 24 of monitor bar.baz.quux.foo: StackOverflowException - Stack overflow - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon
         2019-07-30 18:18:19.069 ERROR [32424] - bar.baz.quux.foo [3] Stack dump:
         2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
         2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.recursive_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:24
@@ -262,7 +262,7 @@ Summary of errors, sorted by normalized message:
         2019-07-30 18:18:19.069 ERROR [32424] - 	bar.baz.quux.foo.::startupAction::() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon:3
       in correlator-epl-errors line 75
 
---- x1: 2019-07-30 18:21:32.332 FATAL [45088] - Intercepted exception, aborting
+--- 1x: 2019-07-30 18:21:32.332 FATAL [45088] - Intercepted exception, aborting
         2019-07-30 18:21:32.332 FATAL [45088] - Please contact Software AG Global Support (http://empower.softwareag.com) with details
         2019-07-30 18:21:32.332 FATAL [45088] - This is: Apama 10.5.0.0.0 (build UNKNOWN_VERSION@0 on amd64-win)
         2019-07-30 18:21:32.332 FATAL [45088] - Got windows exception code c0000094

@@ -920,7 +920,7 @@ class LogAnalyzer(object):
 					f.write(f'WARNING: Some messages are NOT included in this file due to the XmaxUniqueWarnOrErrorLines limit of {self.args.XmaxUniqueWarnOrErrorLines}\n\n')
 					log.warning(f'Some messages are NOT included in the {kind} file due to the XmaxUniqueWarnOrErrorLines limit of {self.args.XmaxUniqueWarnOrErrorLines})')
 
-				f.write(f"Summary of {kind}, sorted by normalized message: \n\n")
+				f.write(f"Summary of {kind}, sorted by normalized message, with number of occurrences of that message indicated by 'xN': \n\n")
 				
 				def writeSampleLine(prefix, line):
 					f.write(f'{prefix}{line.line}\n')
@@ -929,13 +929,15 @@ class LogAnalyzer(object):
 							f.write(' '*len(prefix))
 							f.write(f'{e}\n')
 				
+				firstmessage = True
 				for normmsg in sorted(tracker):
 					remainingSamples = maxSampleWarnOrErrorLines or 0
 				
 					byfiles = tracker[normmsg]
 					totalcount = sum(byfile['count'] for byfile in byfiles.values())
 
-					prefix = f"--- x{totalcount}: "
+					prefix = f"--- {totalcount}x: "
+					firstmessage = False
 					
 					if totalcount == 1:
 						[(logfile, byfile)] = byfiles.items()

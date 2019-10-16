@@ -3,17 +3,17 @@
 0 errors in correlator3
 0 errors in correlator4
 
-Summary of errors, sorted by normalized message: 
+Summary of errors, sorted by normalized message, with number of occurrences of that message indicated by 'xN': 
 
---- x1: 2019-07-31 18:04:33.568 ERROR [53100:DistMemStore] - <TestBean> Another bad thing happened: timeout after 300 seconds
+--- 1x: 2019-07-31 18:04:33.568 ERROR [53100:DistMemStore] - <TestBean> Another bad thing happened: timeout after 300 seconds
       in correlator1 line 95
 
---- x2: <TestBean> Bad thing happened: timeout after ___ seconds
+--- 2x: <TestBean> Bad thing happened: timeout after ___ seconds
       x2 from Tue 2019-07-30 18:04:32 to Wed 2019-07-31 18:04:32 (=1 day, 0:00:00) in correlator1
       Examples from correlator1:
        line 92 : 2019-07-30 18:04:32.567 ERROR [53100:DistMemStore] - <TestBean> Bad thing happened: timeout after 123.5 seconds
        line 94 : 2019-07-31 18:04:32.567 ERROR [53100:DistMemStore] - <TestBean> Bad thing happened: timeout after 200 seconds
 
---- x1: 2019-07-31 18:04:33.569 ERROR [53100:DistMemStore] - <TestBean> Cor blimey, a really bad thing happened - timeout after 300 seconds!!
+--- 1x: 2019-07-31 18:04:33.569 ERROR [53100:DistMemStore] - <TestBean> Cor blimey, a really bad thing happened - timeout after 300 seconds!!
       in correlator1 line 96
 
