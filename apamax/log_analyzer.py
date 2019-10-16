@@ -17,6 +17,7 @@ import glob
 import math
 
 log = logging.getLogger('loganalyzer')
+log.warn = None # make it an error, since Python 3.7 isn't happy unless you use .warning
 
 COLUMN_DISPLAY_NAMES = collections.OrderedDict([
 	# timing
@@ -777,7 +778,7 @@ class LogAnalyzer(object):
 		""" Called when the current log file is finished to write out status summary csv/json. 
 		"""
 		if self.totalStatusLinesInFile < 2 or (not self.previousAnnotatedStatus) or (not file.get('status-100pc')):
-			log.warn('%d status line(s) found in %s; not enough to analyze', self.totalStatusLinesInFile, self.currentname)
+			log.warning('%d status line(s) found in %s; not enough to analyze', self.totalStatusLinesInFile, self.currentname)
 			return
 
 		def numberOrEmpty(v):
@@ -917,7 +918,7 @@ class LogAnalyzer(object):
 
 				if self.args.XmaxUniqueWarnOrErrorLines>0 and len(tracker)==self.args.XmaxUniqueWarnOrErrorLines:
 					f.write(f'WARNING: Some messages are NOT included in this file due to the XmaxUniqueWarnOrErrorLines limit of {self.args.XmaxUniqueWarnOrErrorLines}\n\n')
-					log.warn(f'Some messages are NOT included in the {kind} file due to the XmaxUniqueWarnOrErrorLines limit of {self.args.XmaxUniqueWarnOrErrorLines})')
+					log.warning(f'Some messages are NOT included in the {kind} file due to the XmaxUniqueWarnOrErrorLines limit of {self.args.XmaxUniqueWarnOrErrorLines})')
 
 				f.write(f"Summary of {kind}, sorted by normalized message: \n\n")
 				
@@ -1184,7 +1185,7 @@ class LogAnalyzer(object):
 
 		# write the whole thing to json
 		if not file['startupStanzas'][0]:
-			log.warn('The ##### startup stanza was not found in this log file - please try to get the log file containing the time period when from when the correlator was first started, otherwise many problems are much harder to diagnose!')
+			log.warning('The ##### startup stanza was not found in this log file - please try to get the log file containing the time period when from when the correlator was first started, otherwise many problems are much harder to diagnose!')
 			return
 		
 		if self.args.json:
