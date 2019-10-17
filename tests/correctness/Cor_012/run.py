@@ -49,6 +49,7 @@ class PySysTest(AnalyzerBaseTest):
 		self.copy(outputdir+'/overview.txt', 'overview-without-stats.txt', mappers=[
 			lambda line: None if ' = ' in line else line])
 
-		self.assertDiff('overview-without-stats.txt', 'ref-overview.txt')
+		self.assertDiff('overview-without-stats.txt', 'ref-overview.txt', replace=[
+			('Apama log analyzer v[0-9].+/.+', 'Apama log analyzer vXXX')])
 
 		self.logFileContents(outputdir+'/overview.txt', maxLines=0)

@@ -23,7 +23,7 @@ class PySysTest(AnalyzerBaseTest):
 			return r
 	
 		self.checkForAnalyzerErrors()
-		self.assertGrep('loganalyzer.err', expr='Apama correlator log analyzer v[0-9].*')
+		self.assertGrep('loganalyzer.err', expr='Apama log analyzer v[0-9].*')
 		self.assertGrep('loganalyzer.err', expr='Starting analysis of mycorrelator.log')
 		self.assertGrep('loganalyzer.err', expr='Completed analysis in [0-9]+ seconds')
 

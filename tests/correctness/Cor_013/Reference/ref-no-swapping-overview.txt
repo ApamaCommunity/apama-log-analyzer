@@ -1,20 +1,6 @@
-- no-swapping.log
-  Tue 2019-04-09 13:57:22 to 13:58:00 (=0:00:38)
-
-  Instance:       myhost:15903
-  Process id:     21540
-  Apama version:  10.3.1.0.348044; running on Windows 10 Enterprise
-  Log timezone:   UTC+01:00 (GMT Daylight Time)
-  Customer:       Software AG internal (license expires 2019/04/22)
-  Hardware:       12-core Core i7-8850H @ 2.60GHz
-  Memory:         31.8 GB physical memory
-  Connectivity:   -
-  Notable:        -
-
   Logged errors = 3, warnings = 2
   Received event rate mean = 150.2 /sec (max = 251.0 /sec), sent mean = 1,500.0 /sec (max = 2,050.0 /sec)
   Correlator resident memory mean = 27.418 GB, final = 26.226 GB, JVM mean = 0.042 GB
   Correlator resident memory max  = 29.087 GB (=91% of 31.8 GB usable), at Tue 2019-04-09 13:57:50 (line 95)
   Swapping occurrences = none
   Queued input max = 19,000 at Tue 2019-04-09 13:57:40 (line 92), queued output max = 9,000
-

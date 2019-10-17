@@ -17,12 +17,11 @@ class PySysTest(AnalyzerBaseTest):
 		])
 
 		# diff the no-swapping log
-		self.assertDiff('no-swapping_output/overview.txt', 'ref-no-swapping-overview.txt')
+		self.assertDiff('overview-stats-no-swapping.txt', 'ref-no-swapping-overview.txt')
 		
 		self.logFileContents('overview-stats-no-swapping.txt', maxLines=0)
 
-		# just check a few details in the other ones
-		
+		# just check a few details in the other ones:		
 		# this is where we test the max value logic still works if max is from the first status (it's a special case)
 		self.assertGrep('swapping-period_output/overview.txt', expr='resident memory max.* 29.087 GB.*, at Tue 2019-04-09 13:57:30 .*line 77')
 		self.assertGrep('swapping-period_output/overview.txt', expr='Swapping occurrences = 33.33% of log file, from Tue 2019-04-09 13:57:40 to 13:58:10 (=0:00:30), beginning at line 80', literal=True)
