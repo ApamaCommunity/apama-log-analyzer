@@ -40,6 +40,8 @@ Coming soon:
 
 Usage
 =====
+Download the latest stable version of the script from https://github.com/ApamaCommunity/apama-log-analyzer/releases
+
 To run the script, simply execute the script with Python 3::
 
 	> apamax\log_analyzer.py mycorrelator.log
