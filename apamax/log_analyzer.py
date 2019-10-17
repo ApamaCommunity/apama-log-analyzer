@@ -1413,7 +1413,7 @@ class LogAnalyzerTool(object):
 		duration = time.time()
 		
 		logpaths = []
-			
+		
 		for f in args.files: # probably want to factor this out to an overridable method
 			if '*' in f:
 				globbed = sorted(glob.glob(f))
@@ -1424,7 +1424,8 @@ class LogAnalyzerTool(object):
 				logpaths.append(f)
 				
 			# TODO: add directory analysis, input log skipping, incl special-casing of "logs/" and ignoring already-analyzed files. zip file handling. 
-			
+		
+		logpaths = [toLongPathSafe(p) for p in logpaths]	
 		logpaths.sort() # best we can do until wen start reading them - hopefully puts the latest one at the end
 		
 		if not logpaths: raise UserError('No log files specified')
@@ -1432,14 +1433,15 @@ class LogAnalyzerTool(object):
 		if not args.output: 
 			# if not explicitly specified, create a new unique dir
 			outputname = 'log_analyzer_%s'%LogAnalyzer.logFileToLogName(logpaths[-1]) # base it on the most recent name
-			args.output = outputname
+			args.output = toLongPathSafe(outputname)
 			i = 2
 			while os.path.exists(args.output) and os.listdir(args.output): # unless it's empty
-				args.output = '%s_%02d'%(outputname, i)
+				args.output = toLongPathSafe('%s_%02d'%(outputname, i))
 				i += 1
+		args.output = toLongPathSafe(args.output)
 
 		log.info('Output directory is: %s', os.path.abspath(args.output))
-		assert os.path.abspath(args.output) != os.path.abspath(os.path.dirname(logpaths[-1])), 'Please put output into a different directory to the input log files'
+		assert args.output != toLongPathSafe(os.path.dirname(logpaths[-1])), 'Please put output into a different directory to the input log files'
 		if not os.path.exists(args.output): os.makedirs(args.output)
 		
 		manager = self.analyzerFactory(args)
@@ -1452,7 +1454,44 @@ class LogAnalyzerTool(object):
 		log.info('If you need to request help analyzing a log file be sure to tell us: the 5-digit Apama version, the time period when the bad behaviour was observed, any ERROR/WARN messages, who is the author/expert of the EPL application code, and if possible attach the full original correlator log files (including the very first log file - which contains all the header information - and the log file during which the bad behaviour occurred). ')
 		
 		return 0
+
+def toLongPathSafe(path):
+	"""Converts the specified path string to a form suitable for passing to API 
+	calls if it exceeds the maximum path length on this OS. 
+
+	@param path: A path. Can be None/empty. Can contain ".." sequences. 
 	
+	@return: The passed-in path, absolutized, and possibly with a "\\?\" prefix added, 
+	forward slashes converted to backslashes on Windows, and converted to 
+	a unicode string. 
+	"""
+	if not path: return path
+	path = os.path.abspath(path) # for consistency, always absolutize it
+	if (os.name != 'nt'): return path
+	
+	if path[0] != path[0].upper(): path = path[0].upper()+path[1:]
+	if path.startswith('\\\\?\\'): return path
+	inputpath = path
+	# ".." is not permitted in \\?\ paths; normpath is expensive so don't do this unless we have to
+	if '.' in path: 
+		path = os.path.normpath(path)
+	else:
+		# path is most likely to contain / so more efficient to conditionalize this 
+		path = path.replace('/','\\')
+		if '\\\\' in path:
+		# consecutive \ separators are not permitted in \\?\ paths
+			path = path.replace('\\\\','\\')
+
+	if path.startswith(u'\\\\'): 
+		path = u'\\\\?\\UNC\\'+path.lstrip('\\') # \\?\UNC\server\share
+	else:
+		path = u'\\\\?\\'+path
+	return path
+orig_io_open = io.open
+def io_open_patched(path, *args, **kwargs):
+	return orig_io_open(toLongPathSafe(path), *args, **kwargs)
+io.open = io_open_patched
+
 if __name__ == "__main__":
 	try:
 		sys.exit(LogAnalyzerTool().main(sys.argv[1:]))
