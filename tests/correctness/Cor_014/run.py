@@ -7,7 +7,7 @@ class PySysTest(AnalyzerBaseTest):
 		# test globbing, handling of directories and archives
 		self.logAnalyzer([], logfiles=[self.input+'/mydir', self.input+'/archive*'])
 		
-		self.write_text('valid-log-files.txt', '\n'.join(f for f in os.listdir(self.output+'/loganalyzer_output') if f.startswith('startup_stanza.')), encoding='utf-8')
+		self.write_text('valid-log-files.txt', '\n'.join(f for f in sorted(os.listdir(self.output+'/loganalyzer_output')) if f.startswith('startup_stanza.')), encoding='utf-8')
 
 	def validate(self):
 		self.checkForAnalyzerErrors()
