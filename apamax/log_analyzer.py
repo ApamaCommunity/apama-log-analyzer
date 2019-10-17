@@ -19,7 +19,7 @@ These tools are provided as-is and without warranty or support. They do not cons
 
 """
 
-__version__ = '3.0'
+__version__ = '3.1.dev'
 __date__ = '2019-10-18'
 __author__ = "Apama community"
 __license__ = "Apache 2.0"
