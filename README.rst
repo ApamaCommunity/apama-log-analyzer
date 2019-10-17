@@ -46,7 +46,9 @@ To run the script, simply execute the script with Python 3::
 
 On linux, make sure `python3` is on `PATH`. On Windows, ensure you have a `.py` file association for (or explicitly run it with) `py.exe` or `python.exe` from a Python 3 installation. Apama releases from 10.3.0 onwards contain Python 3, so an Apama command prompt/apama_env shell will have the correct `python.exe`/`python3` on `PATH`. If you don't have Apama 10.3.0 available, you can download Python 3.6+ yourself. No other Python packages are required. 
 
-For more information about the meaning of the status lines, see the `List of Correlator Status Statistics <http://www.apamacommunity.com/documents/10.3.1.1/apama_10.3.1.1_webhelp/apama-webhelp/index.html#page/apama-webhelp%2Fre-DepAndManApaApp_list_of_correlator_status_statistics.html>`_ in the Apama documentation. 
+Start by reviewing the `overview.txt` (whcih is also displayed on stdout when you've run the tool), then identify which logs and columns you'd like to graph (`status_summary.XXX.csv` may help with this), and then open the relevant `status.XXX.csv` file in a spreadsheet such as Excel. The `logged_errors.txt` and `logged_warnings.txt` files are also worth reviewing carefully. 
+
+For information about the meaning of the status lines which may be helpful when analyzing the csv files, see the Resources section below. 
 
 Cumulocity
 ----------
@@ -58,8 +60,21 @@ When you open a CSV file in Excel, to automatically resize all columns so that t
 
 In recent versions of Excel, selecting cell B2 and then View > Split is useful for ensuring the datetime and header row are always visible as you scroll. 
 
+Resources
+=========
+
+From the Apama documentation:
+
+  - `List of Correlator Status Statistics <http://www.apamacommunity.com/documents/10.3.1.1/apama_10.3.1.1_webhelp/apama-webhelp/index.html#page/apama-webhelp%2Fre-DepAndManApaApp_list_of_correlator_status_statistics.html>`_ - for understanding the meaning of the statistics available
+
+  - `Inspecting correlator state <http://www.apamacommunity.com/documents/10.5.0.2/apama_10.5.0.2_webhelp/apama-webhelp/index.html#page/apama-webhelp%2Fre-DepAndManApaApp_inspecting_correlator_state.html%23>`_ - for using the engine_inspect tool to get detailed information on the number of monitor instances, listeners etc, which can help to identify application memory leaks
+
+  - `Shutting down and managing components <http://www.apamacommunity.com/documents/10.5.0.2/apama_10.5.0.2_webhelp/apama-webhelp/index.html#page/apama-webhelp/re-DepAndManApaApp_shutting_down_and_managing_components.html>`_ and its child topics - contain information on using `dorequest` to get detailed memory/CPU profiles, a string representation of the correlator queues, and various enhanced logging options
+
+
+
 Contributions
 =============
-Please feel free to add suggestions as github tickets, or to contribute a fix or feature yourself (just send a pull request). 
+Please feel free to add suggestions as GitHub tickets, or to contribute a fix or feature yourself (just send a pull request). 
 
 If you want to submit a pull request, be sure to run the existing tests, create new tests (and check the coverage is good), and do a before-and-after run of the performance tests to avoid unwittingly making it slower. 
