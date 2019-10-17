@@ -1,0 +1,7 @@
+startup_stanza.archive5.log
+startup_stanza.archive6.log
+startup_stanza.correlator-in-archive1.log
+startup_stanza.correlator-in-archive2.log
+startup_stanza.correlator-in-archive3.log
+startup_stanza.correlator-in-archive4.log
+startup_stanza.correlator1.out.log

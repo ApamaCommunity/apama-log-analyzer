@@ -15,6 +15,7 @@ import logging, os, io, argparse, re, time, sys, collections, datetime, calendar
 import json
 import glob
 import math
+import shutil
 
 log = logging.getLogger('loganalyzer')
 log.warn = None # make it an error, since Python 3.7 isn't happy unless you use .warning
@@ -1388,7 +1389,7 @@ class LogAnalyzerTool(object):
 		self.argparser.add_argument('--loglevel', '-l', '-v', default='INFO',
 			help='Log level/verbosity for this tool')
 		self.argparser.add_argument('files', metavar='FILE', nargs='+',
-			help='One or more correlator log files to be analyzed; glob-style expressions e.g. *.log are permitted')
+			help='One or more correlator log files to be analyzed; directories and glob-style expressions such as *.log are permitted. Archives such as .zip/.tar.gz/.xz will be automatically extracted.')
 		self.argparser.add_argument('--output', '-o', metavar='DIR',  # later might also support zip output
 			help='The directory to which output files will be written. Existing files are overwritten if it already exists.')
 
@@ -1412,27 +1413,25 @@ class LogAnalyzerTool(object):
 		
 		duration = time.time()
 		
-		logpaths = []
+		globbedpaths = []
 		
 		for f in args.files: # probably want to factor this out to an overridable method
 			if '*' in f:
-				globbed = sorted(glob.glob(f))
+				globbed = glob.glob(f)
 				if not globbed:
 					raise UserError(f'No files found matching glob: {f}')
-				for f in globbed: logpaths.append(f)
+				for f in globbed: globbedpaths.append(f)
 			else:
-				logpaths.append(f)
+				globbedpaths.append(f)
 				
-			# TODO: add directory analysis, input log skipping, incl special-casing of "logs/" and ignoring already-analyzed files. zip file handling. 
+		globbedpaths = [toLongPathSafe(p) for p in globbedpaths]	
+		globbedpaths.sort() # best we can do until when start reading them - hopefully puts the latest one at the end
 		
-		logpaths = [toLongPathSafe(p) for p in logpaths]	
-		logpaths.sort() # best we can do until wen start reading them - hopefully puts the latest one at the end
-		
-		if not logpaths: raise UserError('No log files specified')
+		if not globbedpaths: raise UserError('No log files specified')
 		
 		if not args.output: 
 			# if not explicitly specified, create a new unique dir
-			outputname = 'log_analyzer_%s'%LogAnalyzer.logFileToLogName(logpaths[-1]) # base it on the most recent name
+			outputname = 'log_analyzer_%s'%LogAnalyzer.logFileToLogName(globbedpaths[-1]) # base it on the most recent name
 			args.output = toLongPathSafe(outputname)
 			i = 2
 			while os.path.exists(args.output) and os.listdir(args.output): # unless it's empty
@@ -1441,11 +1440,65 @@ class LogAnalyzerTool(object):
 		args.output = toLongPathSafe(args.output)
 
 		log.info('Output directory is: %s', os.path.abspath(args.output))
-		assert args.output != toLongPathSafe(os.path.dirname(logpaths[-1])), 'Please put output into a different directory to the input log files'
+		assert args.output != toLongPathSafe(os.path.dirname(globbedpaths[-1])), 'Please put output into a different directory to the input log files'
 		if not os.path.exists(args.output): os.makedirs(args.output)
 		
+		archiveextensions = {}
+		for fmt, extensions, _ in shutil.get_unpack_formats():
+			for ext in extensions: archiveextensions[ext] = fmt
+		# add single-file archive types (i.e. without use of tar)
+		import lzma, bz2, gzip
+		archiveextensions['.xz'] = lzma
+		archiveextensions['.bz2'] = bz2
+		archiveextensions['.gzip'] = gzip
+		
+		logpaths = set()
+		def raiseOnError(e):
+			raise e
+		def addDirectory(root):
+			for (dirpath, dirnames, filenames) in os.walk(root, onerror=raiseOnError):
+				if 'logs' in dirnames:
+					# this looks like a project directory - don't check anything other than logs/
+					log.info('Found logs/ directory; will ignore other directories under %s', dirpath)
+					del dirnames[:]
+					dirnames.append('logs')
+					continue
+				for fn in filenames:
+					if (fn.endswith('.log') or fn.endswith('.out')) and not fn.endswith('.input.log') and not fn.startswith('iaf'):
+						logpaths.add(dirpath+os.sep+fn)
+					else:
+						log.info('Ignoring file (filename doesn\'t look like a correlator log): %s', dirpath+os.sep+fn)
+			
+		for p in globbedpaths:
+			if p in logpaths: continue
+
+			if os.path.isdir(p):
+				addDirectory(p)
+				continue
+			
+			if p.endswith('.7z'): raise UserError('This tool does not support .7z format; please use zip or tar.gz instead')
+			
+			archiveformat = next((archiveextensions[fmt] for fmt in archiveextensions if p.endswith(fmt)), None)
+			if archiveformat:
+				extractPath = os.path.join(args.output, 'extracted_logs', os.path.basename(os.path.splitext(p)[0]))
+				log.info('Extracting %s archive: %s (to extracted_logs/ directory)', archiveformat, p)
+				if isinstance(archiveformat, str):
+					shutil.unpack_archive(toLongPathSafe(p), extractPath, format=archiveformat)
+					addDirectory(extractPath)
+				else:
+					if not extractPath.endswith('.log'): extractPath += '.log'
+					os.makedirs(os.path.dirname(extractPath), exist_ok=True)
+					with archiveformat.open(p) as archivef:
+						with io.open(extractPath, 'wb') as outputf:
+							shutil.copyfileobj(archivef, outputf)
+					logpaths.add(extractPath)
+				continue
+			
+			# normal log file; do no filtering here, anything explicitly added we'll just include even if it contains .input.log or iaf
+			logpaths.add(p)
+		
 		manager = self.analyzerFactory(args)
-		manager.processFiles(logpaths)
+		manager.processFiles(sorted(list(logpaths)))
 
 		duration = time.time()-duration
 		log.info('Completed analysis in %s', (('%d seconds'%duration) if duration < 120 else ('%0.1f minutes' % (duration/60))))
