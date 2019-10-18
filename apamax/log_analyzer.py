@@ -1064,7 +1064,7 @@ class LogAnalyzer(object):
 						continue
 					
 					if k == 'apamaVersion': # start of a new correlator log
-						if d and (len(d)!=1 or list(d.keys())!=['apamaCtrlVersion']): # start of a new startup stanza - finish the old one first
+						if d: # start of a new startup stanza - finish the old one first
 							self.handleCompletedStartupStanza(file=file, stanza=d)
 							d = {}
 							file['startupStanzas'].append(d)
@@ -1080,6 +1080,12 @@ class LogAnalyzer(object):
 							file['startupStanzas'][-2]['endTime'] = LogAnalyzer.formatDateTime(line.getDateTime())
 					
 					v = LogAnalyzer.FORCE_LOG_LINE_VALUE_LOOKUP.get(v, v)
+					
+					if k == 'apamaCtrlVersion':
+						# don't put this into the correlator startup stanza
+						file['apamaCtrlVersion'] = v
+						continue
+					
 					if k in {'connectivityPluginsJava', 'connectivityPluginsCPP'}:
 						d.setdefault(k, []).append(v)
 					else:
@@ -1215,9 +1221,9 @@ class LogAnalyzer(object):
 		stanza = file['startupStanzas'][0] # just focus on the first one
 		
 		d = collections.OrderedDict()
+		if 'apamaCtrlVersion' in file: d['apamaCtrlVersion'] = file['apamaCtrlVersion']
 		metadataAliases = { # keys are from startupStanzas, values are aliases if needed
 			'apamaVersion':None,
-			'apamaCtrlVersion':None,
 			'instance':None,
 			'pid':None,
 			'utcOffset':None,
@@ -1262,7 +1268,9 @@ class LogAnalyzer(object):
 				out.write(f"  {self.formatDateTimeRange(file['startTime'], file['endTime'], skipPrefix=True)}\n\n")
 				ss = file['startupStanzas'][0]
 				if not ss:
-					out.write('  No startup stanza present in this file!\n\n')
+					if 'apamaCtrlVersion' in file:
+						out.write('  apama-ctrl: '+file['apamaCtrlVersion']+'\n')
+					out.write('  No correlator startup stanza present in this file!\n\n')
 				else:
 					for stanzaNum in range(len(file['startupStanzas'])):
 						ov = collections.OrderedDict() # overview sorted dict# if key ends with : then it will be prefixed
@@ -1272,7 +1280,7 @@ class LogAnalyzer(object):
 						ov['Process id:'] = f"{ss.get('pid') or '?'}"
 						if stanzaNum > 0: ov['Process id:']+= f" restart #{stanzaNum+1} at {ss.get('startTime')} (line {ss['startLineNumber']})"
 
-						ov['Apama version:'] = f"{ss.get('apamaVersion', '?')}{', apama-ctrl: '+ss['apamaCtrlVersion'] if ss.get('apamaCtrlVersion') else ''}; running on {ss.get('OS')}"
+						ov['Apama version:'] = f"{ss.get('apamaVersion', '?')}{', apama-ctrl: '+file['apamaCtrlVersion'] if file.get('apamaCtrlVersion') else ''}; running on {ss.get('OS')}"
 						ov['Log timezone:'] = f"{ss.get('utcOffset') or '?'}"+(f" ({ss.get('timezoneName')})" if ss.get('timezoneName') else '')
 						if ss.get('licenseCustomerName'):
 							ov['Customer:'] = f"{ss.get('licenseCustomerName')} (license expires {ss.get('licenseExpirationDate', '?')})"
@@ -1330,7 +1338,8 @@ class LogAnalyzer(object):
 					
 					if 'iq=queued input' in file['status-max'] and 'oq=queued output' in file['status-max']:
 						ov['queued'] = f"Queued input max = {file['status-max']['iq=queued input']:,}"
-						ov['queued'] += f" at {file['status-max']['iq=queued input.line'].getDateTimeString()} (line {file['status-max']['iq=queued input.line'].lineno})"
+						if file['status-max']['iq=queued input']>0:
+							ov['queued'] += f" at {file['status-max']['iq=queued input.line'].getDateTimeString()} (line {file['status-max']['iq=queued input.line'].lineno})"
 						ov['queued'] += f", queued output max = {file['status-max']['oq=queued output']:,}"
 						
 					for k in ov:
