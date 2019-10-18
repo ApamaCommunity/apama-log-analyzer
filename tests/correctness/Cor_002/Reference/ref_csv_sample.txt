@@ -1,5 +1,5 @@
 # local datetime : 2019-04-09 13:57:32
-epoch secs : "1,554,818,252"
+epoch secs : 1554818252
 interval secs : 5.00
 line num : 77
 iq=queued input : 7

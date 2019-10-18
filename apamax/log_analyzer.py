@@ -307,6 +307,8 @@ class CSVStatusWriter(BaseWriter):
 			if isinstance(item, float) and item.is_integer and abs(item)>=1000.0:
 				item = int(item) # don't show decimal points for large floats like 7000.0, for consistency with smaller values like 7 when shown in excel (weird excel rules)
 			if isinstance(item, int):
+				if columnDisplayName=='epoch secs':
+					return f'{item}'
 				return f'{item:,}'
 			if isinstance(item, float):
 				return f'{item:,.2f}' # deliberately make it different from the 3 we use for grouping e.g. mem usage kb->MB
