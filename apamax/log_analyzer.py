@@ -19,7 +19,7 @@ These tools are provided as-is and without warranty or support. They do not cons
 
 """
 
-__version__ = '3.1.dev'
+__version__ = '3.1'
 __date__ = '2019-10-18'
 __author__ = "Apama community"
 __license__ = "Apache 2.0"
@@ -456,15 +456,15 @@ class LogAnalyzer(object):
 			if lastpercent < threshold:
 				self.handleFilePercentComplete(file=file, percent=threshold)
 		self.handleFileFinished(file=file)
+
+		duration = time.time()-duration
+		if duration > 10:
+			log.info('Completed analysis of %s in %s', os.path.basename(self.currentpath), (('%d seconds'%duration) if duration < 120 else ('%0.1f minutes' % (duration/60))))
 		
 		self.currentlineno = -1
 		self.__currentfilehandle = None
 		self.currentpath, self.currentpathbytes = None, 0
 		self.currentfile = file
-
-		duration = time.time()-duration
-		if duration > 10:
-			log.info('Completed analysis of %s in %s', os.path.basename(self.currentpath), (('%d seconds'%duration) if duration < 120 else ('%0.1f minutes' % (duration/60))))
 
 	def handleFileFinished(self, file, **extra):
 		for w in self.writers:
@@ -1464,6 +1464,7 @@ class LogAnalyzerTool(object):
 		archiveextensions['.xz'] = lzma
 		archiveextensions['.bz2'] = bz2
 		archiveextensions['.gzip'] = gzip
+		archiveextensions['.gz'] = gzip
 		
 		logpaths = set()
 		def raiseOnError(e):
@@ -1477,7 +1478,7 @@ class LogAnalyzerTool(object):
 					dirnames.append('logs')
 					continue
 				for fn in filenames:
-					if (fn.endswith('.log') or fn.endswith('.out')) and not fn.endswith('.input.log') and not fn.startswith('iaf'):
+					if (fn.endswith('.log') or fn.endswith('.out') or fn.startswith('apama-ctrl-')) and not fn.endswith('.input.log') and not fn.startswith('iaf'):
 						logpaths.add(dirpath+os.sep+fn)
 					else:
 						log.info('Ignoring file (filename doesn\'t look like a correlator log): %s', dirpath+os.sep+fn)

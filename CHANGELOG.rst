@@ -1,7 +1,8 @@
 3.1
 ---
-
-...
+- Fix bug resulting in error when log analysis takes more than 10s.
+- Add supprot for .gz files.
+- Add special-case to parse apama-ctrl-* log files that don't end with .log. 
 
 3.0
 ---

@@ -55,7 +55,7 @@ deploy:
     skip_cleanup: true
     overwrite: true
     on: 
-       branch: master
+       branch: release
        condition: $DEPLOY_JOB = true
 
     name: "v<VERSION>"
