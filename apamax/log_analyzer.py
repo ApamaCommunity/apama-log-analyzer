@@ -967,9 +967,9 @@ class LogAnalyzer(object):
 						f.write(f"{normmsg}\n")
 						for logfile, byfile in byfiles.items():
 							if byfile['count'] == 1:
-								f.write(f"      x1 at   {self.formatDateTime(byfile['first'].getDateTime())} in {self.logFileToLogName(logfile)}\n")
+								f.write(f"      1x at   {self.formatDateTime(byfile['first'].getDateTime())} in {self.logFileToLogName(logfile)}\n")
 							else:
-								f.write(f"      x{byfile['count']} {self.formatDateTimeRange(byfile['first'].getDateTime(), byfile['last'].getDateTime())} in {self.logFileToLogName(logfile)}\n")
+								f.write(f"      {byfile['count']}x {self.formatDateTimeRange(byfile['first'].getDateTime(), byfile['last'].getDateTime())} in {self.logFileToLogName(logfile)}\n")
 
 						for logfile, byfile in byfiles.items():
 							f.write(f"      Examples from {self.logFileToLogName(logfile)}:\n")							

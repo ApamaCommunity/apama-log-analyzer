@@ -33,7 +33,7 @@ Summary of errors, sorted by normalized message, with number of occurrences of t
       in correlator-java-errors line 110
 
 --- 2x: Java stack trace ___:
-      x2 from Tue 2019-07-30 18:05:33 to 18:06:34 (=0:01:01) in correlator-java-errors
+      2x from Tue 2019-07-30 18:05:33 to 18:06:34 (=0:01:01) in correlator-java-errors
       Examples from correlator-java-errors:
        line 112 : 2019-07-30 18:05:33.578 ERROR [53100] - Java stack trace 1:
                   	at com.apama.correlator.memstore.internal.DistMemStoreConfigManager.createStoreManager(DistMemStoreConfigManager.java:143)

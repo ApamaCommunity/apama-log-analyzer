@@ -9,10 +9,10 @@ Summary of warnings, sorted by normalized message, with number of occurrences of
       in correlator1 line 83
 
 --- 9x: ABC warning for process ___ took ___ seconds
-      x6 from Tue 2019-07-30 18:04:31 to 18:04:36 (=0:00:05) in correlator1
-      x1 at   Thu 2019-08-01 18:04:31 in correlator2
-      x1 at   Tue 2019-01-01 18:04:31 in correlator3
-      x1 at   Fri 2019-02-01 18:04:31 in correlator4
+      6x from Tue 2019-07-30 18:04:31 to 18:04:36 (=0:00:05) in correlator1
+      1x at   Thu 2019-08-01 18:04:31 in correlator2
+      1x at   Tue 2019-01-01 18:04:31 in correlator3
+      1x at   Fri 2019-02-01 18:04:31 in correlator4
       Examples from correlator1:
        line 85 : 2019-07-30 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 12345 took 0.555 seconds
        line 86 : 2019-07-30 18:04:32.567 WARN  [53100:DistMemStore] - ABC warning for process 456 took 9.10 seconds
@@ -28,7 +28,7 @@ Summary of warnings, sorted by normalized message, with number of occurrences of
        line 83 : 2019-02-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 91011 took 0.1112 seconds
 
 --- 2x: Took ___s for an invocation of Writing log line
-      x2 from Thu 2019-08-01 18:04:35 to 18:05:31 (=0:00:56) in correlator2
+      2x from Thu 2019-08-01 18:04:35 to 18:05:31 (=0:00:56) in correlator2
       Examples from correlator2:
        line 87 : 2019-08-01 18:04:35.567 WARN  [29164] - Took 15.487733s for an invocation of Writing log line
        line 88 : 2019-08-01 18:05:31.567 WARN  [29164] - Took 12.345532s for an invocation of Writing log line
