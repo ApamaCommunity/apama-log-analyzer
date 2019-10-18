@@ -1016,7 +1016,7 @@ class LogAnalyzer(object):
 		
 		# from the saglic section:
 		" +Customer Name *: (?P<licenseCustomerName>.+)",
-		" +Expiration Date *: (?P<licenseExpirationDate>[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9])",
+		" +Expiration Date *: (?P<licenseExpirationDate>.+)", # can be "Unlimited"
 		" +Virtualization *: (?P<virtualizationDetected>.+)",
 		]))
 		
