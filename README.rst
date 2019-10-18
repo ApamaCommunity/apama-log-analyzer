@@ -67,7 +67,7 @@ Resources
 
 From the Apama documentation:
 
-  - `List of Correlator Status Statistics <http://www.apamacommunity.com/documents/10.3.1.1/apama_10.3.1.1_webhelp/apama-webhelp/index.html#page/apama-webhelp%2Fre-DepAndManApaApp_list_of_correlator_status_statistics.html>`_ - for understanding the meaning of the statistics available
+  - `List of Correlator Status Statistics <http://www.apamacommunity.com/documents/10.5.0.2/apama_10.5.0.2_webhelp/apama-webhelp/index.html#page/apama-webhelp%2Fre-DepAndManApaApp_list_of_correlator_status_statistics.html>`_ - for understanding the meaning of the statistics available
 
   - `Inspecting correlator state <http://www.apamacommunity.com/documents/10.5.0.2/apama_10.5.0.2_webhelp/apama-webhelp/index.html#page/apama-webhelp%2Fre-DepAndManApaApp_inspecting_correlator_state.html%23>`_ - for using the engine_inspect tool to get detailed information on the number of monitor instances, listeners etc, which can help to identify application memory leaks
 
