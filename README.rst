@@ -62,7 +62,7 @@ When you open a CSV file in Excel, to automatically resize all columns so that t
 
 In recent versions of Excel, selecting cell B2 and then View > Split is useful for ensuring the datetime and header row are always visible as you scroll. 
 
-It may be worth adding a trendline to your Excel graphs to smooth out any short-term artifacts, e.g. a moving average with a period of around 20 samples (=100s) can be useful when graphing the send (tx) rate in cases where the rate jumps between 2 or 3 values (as a result of the interaction between the 5 second log sample period and the batching of message sending within the correlator). 
+It may be worth adding a trendline to your Excel graphs to smooth out any short-term artifacts. For example, given that status lines are logged every 5 seconds, a moving average trendline with a period of 6 samples (=30s), 12 samples (=60s) or 24 samples (=2m) can be useful when graphing the send (tx) rate in cases where the rate appears to be modal over two or three values (as a result of the interaction between the 5 second log sample period and the batching of message sending within the correlator). 
 
 Resources
 =========
