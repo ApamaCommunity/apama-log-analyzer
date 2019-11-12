@@ -29,6 +29,7 @@ import json
 import glob
 import math
 import shutil
+from typing import List, Dict # Python 3 type hints
 
 log = logging.getLogger('loganalyzer')
 log.warn = None # make it an error, since Python 3.7 isn't happy unless you use .warning
@@ -283,13 +284,13 @@ class CSVStatusWriter(BaseWriter):
 			for k in extraInfo: items.extend([f'{k}=', self.formatItem(extraInfo[k], k)])
 		self.writeCSVLine(items)
 		
-	def writeStatus(self, status=None, **extra):
+	def writeStatus(self, status=None, missingItemValue='?', **extra):
 		#assert self.columns
 		#assert status
-		items = [self.formatItem(status.get(k, '?'), k) for k in self.columns]
+		items = [self.formatItem(status.get(k), k, missingItemValue=missingItemValue) for k in self.columns]
 		self.writeCSVLine(items)
 	
-	def formatItem(self, item, columnDisplayName):
+	def formatItem(self, item, columnDisplayName, missingItemValue='?'):
 		"""
 		Converts numbers and other data types into strings. 
 		
@@ -301,7 +302,7 @@ class CSVStatusWriter(BaseWriter):
 		anyway. 
 		"""
 		try:
-			if item is None: return '?'
+			if item is None: return missingItemValue
 			if columnDisplayName == 'local datetime':
 				return item[:item.find('.')] # strip off seconds as excel misformats it if present
 			if isinstance(item, float) and item.is_integer and abs(item)>=1000.0:
@@ -474,6 +475,7 @@ class LogAnalyzer(object):
 		self.writeStatusSummaryForCurrentFile(file=file)
 		
 		self.writeStartupStanzaSummaryForCurrentFile(file=file)
+		self.writeConnectionMessagesForCurrentFile(file=file)
 
 	def handleAllFilesFinished(self):
 		self.writeWarnOrErrorSummaryForAllFiles()
@@ -498,6 +500,9 @@ class LogAnalyzer(object):
 		
 		file['startupStanzas'] = [{}]
 		file['inStartupStanza'] = False
+		
+		file['connectionMessages'] : List = []
+		file['connectionIds'] : Dict[str,int] = {}
 		
 
 	DONT_UPDATE_PREVIOUS_LINE = 123
@@ -533,7 +538,13 @@ class LogAnalyzer(object):
 		elif level == '#' or (file['inStartupStanza'] and level == 'I') or previousLine is None:
 			# also grab info lines within a startup stanza, and (for the benefit of apama-ctrl) the very first line of the file regardless
 			self.handleStartupLine(file=file, line=line)
-		
+		elif level == 'I' and m.startswith((
+			'The receiver ',
+			'Receiver ',
+			'Blocking receiver ',
+			)):
+				self.handleConnectionMessage(file, line)
+	
 	def handleRawStatusLine(self, file, line, **extra):
 		m = line.message
 		d = collections.OrderedDict()
@@ -875,6 +886,9 @@ class LogAnalyzer(object):
 				prev = status
 			w.closeFile()
 
+	####################################################################################################################
+	# Warn/error handling
+
 	WARN_ERROR_NORMALIZATION_REGEX = re.compile('[0-9][0-9.]*')
 	def handleWarnOrError(self, file, isError, line, **extra):
 		if isError:
@@ -985,6 +999,168 @@ class LogAnalyzer(object):
 									break # only print the first example per file if we've already exceeded our quota
 
 					f.write('\n')
+
+	####################################################################################################################
+	# Sender/receiver connection events
+
+	CONNECTION_MESSAGE_IDS_REGEX = re.compile('^[(]component ID (?P<remotePhysicalId>[0-9]+)/(?P<remoteLogicalId>[0-9]+)[)] (?P<message>.+)$')
+	CONNECTION_MESSAGE_ADDR_REGEX = re.compile('^(?P<message>.+) from (?P<host>[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+):(?P<remotePort>[0-9]+) *$')
+
+	CONNECTION_LINE_REGEX = re.compile(
+		# This regex is for sender/receiver connection lines;
+		# the (?P<name>xxxx) syntax identifies named groups in the regular expression
+	
+		# TODO: could add senders here, though less useful since it's slow receivers that cause the issues usually
+		# hack: hope/assume that pointer addresses are always prefixed with 00 on linux 
+		"^(?P<prefix>Receiver|Connected to receiver|Blocking receiver) (?P<remoteProcessName>.+) [(](?P<object>(0x|00)[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]+)[)] (?P<message>.+)"
+		)
+		
+		# TODO: check performance of this
+		
+		#TODO: remove "," for line num
+
+		# TODO: maybe show time since last message?
+
+	def handleConnectionMessage(self, file, line, **extra):
+		match = LogAnalyzer.CONNECTION_LINE_REGEX.match(line.message)
+		if match is None: return
+		id = match.group('object') # pointer address of the local object for this connection
+		# nb: logicalId is a GUID for each connection; each connection can have zero or one receiver and zero or one sender
+		
+		if id not in file['connectionIds']: 
+			file['connectionIds'][id] = {'first':line.getDateTime()}
+		connectionInfo = file['connectionIds'][id]
+		
+		# TODO: also get: 	2019-09-25 12:20:25.183 INFO  [139622782797568] - Receiver agg-correlator (component ID 6740382990692585279/6731657373788737343 [0x7efe38000b30]) is no longer slow
+		
+		# TODO: could summarize lifetime of each receiver separately? e.g. if tehy become slow then don;t
+		# TODO; fix mix of camel case etc in titles
+		
+		evt = {
+			'local datetime':line.getDetails()['datetimestring'],
+			'local datetime object':line.getDateTime(),
+			'line num':line.lineno,
+			'connection ref':match.group('object'),
+			'remote process name':match.group('remoteProcessName'),
+		}
+		
+		# TODO: assert remoteIds don't change for a single connection
+		
+		# TODO: add something to summary about number of slow warnings and number of slow disconnections
+		
+		message = match.group('message')
+		detailmatch = LogAnalyzer.CONNECTION_MESSAGE_IDS_REGEX.match(message)
+		if detailmatch is not None:
+			evt['client(physical)Id'] = detailmatch.group('remotePhysicalId')
+			evt['connection(logical)Id'] = detailmatch.group('remoteLogicalId')
+			if connectionInfo.get('connection(logical)Id') and (evt['connection(logical)Id'] != connectionInfo['connection(logical)Id']):
+				log.warning(f"Connection information may be incorrect - connection object {evt['connection ref']} used for logical id {connectionInfo['connection(logical)Id']} and then reused for {evt['connection(logical)Id']}") 
+				# TODO: this assumption doesn't hold!!! need to key off logical id instead??
+			
+			connectionInfo['connection(logical)Id'] = evt['connection(logical)Id']
+			connectionInfo['client(physical)Id'] = evt['client(physical)Id']
+			message = detailmatch.group('message')
+
+		detailmatch = LogAnalyzer.CONNECTION_MESSAGE_ADDR_REGEX.match(message)
+		if detailmatch is not None:
+			connectionInfo['remotePort'] = detailmatch.group('remotePort')
+			connectionInfo['host'] = detailmatch.group('host')
+			assert connectionInfo['host'], detailmatch # TODO: remove
+			message = detailmatch.group('message')
+
+		if 'host# > client# > connection#' not in connectionInfo and connectionInfo.get('host') and connectionInfo.get('connection(logical)Id'):
+			key = connectionInfo['host']
+			hostnum = file['connectionIds'].get(key)
+			if hostnum is None:
+				hostnum = file['connectionIds'].get('hostnum', 0)+1
+				file['connectionIds'][key] = file['connectionIds']['hostnum'] = hostnum
+
+			key = 'P'+connectionInfo['client(physical)Id']
+			processnum = file['connectionIds'].get(key)
+			if processnum is None:
+				processnum = file['connectionIds'].get(connectionInfo['host']+'.processnum', 0)+1
+				file['connectionIds'][key] = file['connectionIds'][connectionInfo['host']+'.processnum'] = processnum
+
+			key = 'L'+connectionInfo['connection(logical)Id']
+			connectionnum = file['connectionIds'].get(key)
+			if connectionnum is None:
+				connectionnum = file['connectionIds'].get(connectionInfo['client(physical)Id']+'.connectionnum', 0)+1
+				file['connectionIds'][key] = file['connectionIds'][connectionInfo['client(physical)Id']+'.connectionnum'] = connectionnum
+
+			connectionInfo['host# > client# > connection#'] = f"h{hostnum:02} > cli{processnum:03} > conn{connectionnum:03}"
+			
+		evt['message'] = message = match.group('prefix')+' '+message
+		connectionInfo['last'] = evt['local datetime object']
+
+		if message.startswith('Receiver connected'):
+			evt['connections delta'] = +1
+		elif message.startswith('Receiver disconnected'):
+			evt['connections delta'] = -1
+			# TODO: format this delta more nicely https://stackoverflow.com/questions/538666/format-timedelta-to-string
+			evt['duration secs'] = int((connectionInfo['last']-connectionInfo['first']).total_seconds())
+		else:
+			evt['connections delta'] = 0
+
+		file['connectionMessages'].append(evt)
+
+
+	def writeConnectionMessagesForCurrentFile(self, file):
+		""" Called when the current log file is finished to write out csv/json of connection events. 
+		"""
+		if len(file['connectionMessages']) <= 1: return
+		
+		# TODO: add an isscenarioservice thingy? or a set of channels for each one
+		# TODO: record number of channels, and list them (except any temproary ones); or maybe do final ones
+		
+		# want a summary of receivers - start, end time range; try to understand mapping between the various IDs
+		#	 list of channels? max simultaneous channels?
+		
+		writers = [CSVStatusWriter(self)]
+		if self.args.json:
+			writers.append(JSONStatusWriter(self))
+		for w in writers:
+			w.output_file = 'receiver_connections.'+w.output_file.split('.', 1)[1]
+			#log.debug('Connections: %s', file['connectionIds'])
+			prevtime = None
+			connections = 0
+			columns = [
+				'local datetime',
+				'time delta secs',
+				'line num',
+				'host',
+				'remote process name',
+				'host# > client# > connection#', # a human-friendly and informative key
+				'connections',
+				'connections delta',
+				'duration secs',
+				'message',
+				'connection ref',
+				'client(physical)Id',
+				'connection(logical)Id',
+			]
+			w.writeHeader(columns=columns, extraInfo=self.getMetadataDictForCurrentFile(file=file))
+			for evt in file['connectionMessages']:
+				# only include the more verbose messages about subscriptions etc it the JSON writer
+				if evt['connections delta'] == 0 and not isinstance(w, JSONStatusWriter): continue
+				
+				connections += evt['connections delta']
+				evt['connections'] = connections
+				if prevtime:
+					evt['time delta secs'] = int((evt['local datetime object']-prevtime).total_seconds())
+				else:
+					evt['time delta secs'] = 0
+				prevtime = evt['local datetime object']
+				connectionInfo = file['connectionIds'][evt['connection ref']]
+				# not every line includes these, so fill in from the connection
+				for k in columns:
+					if k not in evt:
+						evt[k] = connectionInfo.get(k)
+				
+				w.writeStatus(evt, missingItemValue='') # we expect many durations to be None (e.g. when connecting) and don't want to show ? for them
+			w.closeFile()
+
+	####################################################################################################################
+	# Startup lines
 	
 	FORCE_LOG_LINE_REGEX = re.compile('(%s)'%'|'.join([
 		# This big regex is for ##### (and during startup, INFO) lines which don't have a key=value structure;

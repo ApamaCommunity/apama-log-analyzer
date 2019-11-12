@@ -1,0 +1,163 @@
+2019-07-30 18:04:29.591 ##### [53100] - Correlator, version 10.5.0.0.0 (build UNKNOWN_VERSION@0 on amd64-win using Software AG suite version 10.5), started.
+2019-07-30 18:04:29.593 ##### [53100] - Running on host 'SAG-F4LBLQ2.eur.ad.sag' as user 'BSP'.
+2019-07-30 18:04:29.594 ##### [53100] - Running on platform 'Windows 10 Enterprise'.
+2019-07-30 18:04:29.594 ##### [53100] - Running on CPU 'GenuineIntel family 6 model 14 stepping 10 Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz'.
+2019-07-30 18:04:29.594 ##### [53100] - Running with process Id 50192.
+2019-07-30 18:04:29.594 ##### [53100] - Running with 32587.22MB of available memory.
+2019-07-30 18:04:29.594 ##### [53100] - There are 12 CPU(s)
+2019-07-30 18:04:29.594 ##### [53100] - Correlator command line: C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator -l C:\dev\10.5.0.x\apama-test\tools\output-amd64-win-release\apwork\license/ApamaServerLicense.xml -p 42848 -f npe-from-init-dist-corr.log --javaopt -Djava.class.path=C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_1324/Output/amd64-win/javac_classes --distMemStoreConfig C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_1324/Input/ThrowsNpeFromInit
+2019-07-30 18:04:29.594 ##### [53100] - Current Working Directory: C:\dev\10.5.0.x\apama-test\system\correlator\corba\testcases\correctness\Corr_Corba_cor_1324\Output\amd64-win
+2019-07-30 18:04:29.594 ##### [53100] - PATH: C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin;C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\adapters\bin;C:\dev\10.5.0.x\apama-test\tools\output-amd64-win-release\native-adapters;c:\dev\10.5.0.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre\bin\server;c:\dev\10.5.0.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre\bin;c:\dev\10.5.0.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre;c:\dev\10.5.0.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\common\security\openssl\bin;c:\dev\10.5.0.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre\bin;C:\WINDOWS;C:\WINDOWS\system32;C:\WINDOWS\System32\Wbem
+2019-07-30 18:04:29.594 ##### [53100] - Current UTC time: 2019-07-30 17:04:29, local timezone: GMT Daylight Time
+2019-07-30 18:04:29.594 ##### [53100] - Input value - port                     = 42848
+2019-07-30 18:04:29.594 ##### [53100] - Input value - output queue size        = 10000
+2019-07-30 18:04:29.594 ##### [53100] - Input value - output queue batch size  = 100
+2019-07-30 18:04:29.594 ##### [53100] - Input value - output queue mode        = blocking
+2019-07-30 18:04:29.594 ##### [53100] - Input value - environment variable     = APAMA_HOME=C:/dev/10.5.0.x/apama-src/output-amd64-win-release/SoftwareAG/Apama
+2019-07-30 18:04:29.594 ##### [53100] - Input value - environment variable     = AP_TEST_VERBOSE=true
+2019-07-30 18:04:29.594 ##### [53100] - Input value - environment variable     = AP_ASCII_COLOURS=true
+2019-07-30 18:04:29.594 ##### [53100] - Using memory allocator                 = TBB scalable allocator
+2019-07-30 18:04:29.595 ##### [53100] - License File: C:\dev\10.5.0.x\apama-test\tools\output-amd64-win-release\apwork\license\ApamaServerLicense.xml
+2019-07-30 18:04:29.604 ##### [53100] - ================= Software AG License Data =================
+2019-07-30 18:04:29.604 ##### [53100] - Sales Information
+2019-07-30 18:04:29.604 ##### [53100] -      Serial Number      : 0000028449
+2019-07-30 18:04:29.604 ##### [53100] -      Customer ID        : 1
+2019-07-30 18:04:29.604 ##### [53100] -      Customer Name      : Software AG internal
+2019-07-30 18:04:29.604 ##### [53100] - Product Information
+2019-07-30 18:04:29.604 ##### [53100] -      Product Name       : Apama Server
+2019-07-30 18:04:29.604 ##### [53100] -      Product Code       : PAMCO
+2019-07-30 18:04:29.604 ##### [53100] -      Operating System   : Linux
+2019-07-30 18:04:29.604 ##### [53100] -      Product Version    : 10.0
+2019-07-30 18:04:29.604 ##### [53100] -      Product Usage      : 
+2019-07-30 18:04:29.604 ##### [53100] -      Expiration Date    : 2020/01/19
+2019-07-30 18:04:29.604 ##### [53100] - License Information
+2019-07-30 18:04:29.604 ##### [53100] -      License Type       : 
+2019-07-30 18:04:29.604 ##### [53100] -      Price Unit         : ST
+2019-07-30 18:04:29.604 ##### [53100] -      Price Quantity     : 1
+2019-07-30 18:04:29.604 ##### [53100] -      Extended Rights    : 
+2019-07-30 18:04:29.604 ##### [53100] -      License Version    : 1.2
+2019-07-30 18:04:29.604 ##### [53100] - Physical Hardware
+2019-07-30 18:04:29.604 ##### [53100] -      Model              : Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz
+2019-07-30 18:04:29.604 ##### [53100] -      Sockets            : 1
+2019-07-30 18:04:29.604 ##### [53100] -      Physical cores     : 6
+2019-07-30 18:04:29.604 ##### [53100] -      Logical cores      : 12
+2019-07-30 18:04:29.604 ##### [53100] -      Performance Bucket : CoreD
+2019-07-30 18:04:29.604 ##### [53100] -      Virtualization     : no
+2019-07-30 18:04:29.604 ##### [53100] - ==================== End License Data ======================
+2019-07-30 18:04:29.604 ##### [53100] - 
+2019-07-30 18:04:29.612 ##### [53100] - Input value - pidfile                  = 
+2019-07-30 18:04:29.612 ##### [53100] - Input value - per receiver queue size  = 10 s
+2019-07-30 18:04:29.612 ##### [53100] - Input value - per receiver queue size  = 10240 kb
+2019-07-30 18:04:29.612 ##### [53100] - Input value - input queue size         = 20000
+2019-07-30 18:04:29.612 ##### [53100] - Input value - DistMemStore config     = C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_1324/Input/ThrowsNpeFromInit
+2019-07-30 18:04:29.612 ##### [53100] - Input value - JVM Option               = -Djava.class.path=C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_1324/Output/amd64-win/javac_classes
+2019-07-30 18:04:29.612 ##### [53100] - External clocking                      = disabled
+2019-07-30 18:04:29.612 ##### [53100] - Input value - logfile                  = npe-from-init-dist-corr.log
+2019-07-30 18:04:29.612 ##### [53100] - Input value - loglevel                 = INFO
+2019-07-30 18:04:29.612 ##### [53100] - Input value - inputLog                 = ** Warning input log not enabled **
+2019-07-30 18:04:29.612 ##### [53100] - Compiler optimizations                 = enabled - the debugger cannot be used; specify command line option "-g" to use it.
+2019-07-30 18:04:29.612 ##### [53100] - Using EPL runtime                      = interpreted
+2019-07-30 18:04:29.614 ##### [53100] - Python support                         = automatic
+2019-07-30 18:04:29.620 ##### [53100] - Java support                           = enabled
+2019-07-30 18:04:29.620 INFO  [53100] - Starting JVM with options:
+2019-07-30 18:04:29.620 INFO  [53100] -   -Djava.class.path=C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_1324/Output/amd64-win/javac_classes;C:/dev/10.5.0.x/apama-src/output-amd64-win-release/SoftwareAG/Apama/lib/ap-correlator-extension-api.jar;C:/dev/10.5.0.x/apama-src/output-amd64-win-release/SoftwareAG/Apama/lib/ap-util.jar
+2019-07-30 18:04:29.620 INFO  [53100] -   -DAPAMA_LOG_LEVEL=INFO
+2019-07-30 18:04:29.620 INFO  [53100] -   -Xrs
+2019-07-30 18:04:29.620 INFO  [53100] -   -XX:+HeapDumpOnOutOfMemoryError
+2019-07-30 18:04:29.620 INFO  [53100] -   -DAPAMA_CORRELATOR_NAME=correlator
+2019-07-30 18:04:29.620 INFO  [53100] -   -Dlog4j.configurationFile=file:///C:/dev/10.5.0.x/apama-src/output-amd64-win-release/SoftwareAG/Apama/etc/log4j-correlator.xml
+2019-07-30 18:04:29.746 ##### [53100] - Java virtual machine created - OpenJDK 64-Bit Server VM 1.8.0_212-b04.
+2019-07-30 18:04:30.446 INFO  [53100:java] - Logging started
+2019-07-30 18:04:30.519 INFO  [53100:init] - 
+2019-07-30 18:04:30.519 INFO  [53100:init] - ================================================================================
+2019-07-30 18:04:30.519 INFO  [53100:init] - Java logging begins at: 30-Jul-2019 18:04:29; root log level is: INFO
+2019-07-30 18:04:30.519 INFO  [53100:init] - Apama Platform Version: 10.5.0.0.0 (UNKNOWN_VERSION@0)
+2019-07-30 18:04:30.519 INFO  [53100:init] - ================================================================================
+2019-07-30 18:04:30.519 INFO  [53100:init] - 
+2019-07-30 18:04:30.540 INFO  [53100:init] - Java maximum heap size = 683MB
+2019-07-30 18:04:30.596 CRIT  [53100] - JMon framework ready
+2019-07-30 18:04:30.596 ##### [53100] - Input value - persistence              = disabled
+2019-07-30 18:04:30.728 INFO  [53100] - Will log queue size every 5.000000 seconds
+2019-11-12 16:45:28.866 INFO  [44388] - Starting scheduler with 12 threads (determined from hardware)
+2019-11-12 16:45:28.868 INFO  [44388] - Server socket opened listening on 0.0.0.0:15903
+2019-11-12 16:45:28.868 ##### [44388] - Component ID: Apama Designer Correlator for ReceiverTest(ReceiverTest:defaultCorrelator) (correlator/6758462305225462368/6758462305225462368)
+2019-11-12 16:45:28.868 ##### [44388] - Correlator, version 10.5.0.0.348044, running
+2019-07-30 18:04:32.567 INFO  [22872] - Correlator Status: sm=0 nctx=1 ls=0 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=0 vm=22580 pm=25312 runq=0 si=0.4 so=0.0 srn="<none>" srq=0 jvm=0
+
+2019-11-12 16:31:30.253 INFO  [21740] - Sender Apama Designer (000002045DBECE10) (component ID 6950366761750102016/6950372134754451456) connected from 127.0.0.1:50382
+2019-11-12 16:31:30.272 INFO  [48712] - Sender Apama Designer (000002045DBECE10) (component ID 6950366761750102016/6950372134754451456) disconnected cleanly: Other party requested disconnection
+2019-11-12 16:31:34.568 INFO  [2072] - Correlator Status: sm=0 nctx=1 ls=0 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=0 vm=882056 pm=55448 runq=0 si=62.9 so=0.0 srn="<none>" srq=0 jvm=38
+2019-11-12 16:31:39.522 INFO  [2072] - Correlator Status: sm=0 nctx=1 ls=0 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=0 vm=882180 pm=55460 runq=0 si=20.0 so=0.0 srn="<none>" srq=0 jvm=40
+2019-11-12 16:31:44.523 INFO  [2072] - Correlator Status: sm=0 nctx=1 ls=0 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=0 vm=881664 pm=55500 runq=0 si=23.6 so=0.0 srn="<none>" srq=0 jvm=43
+2019-11-12 16:31:49.522 INFO  [2072] - Correlator Status: sm=0 nctx=1 ls=0 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=0 vm=881664 pm=55508 runq=0 si=54.0 so=0.0 srn="<none>" srq=0 jvm=45
+2019-11-12 16:31:49.810 INFO  [21740] - Sender Apama Studio (runtime views) (000002045DBEBD90) (component ID 6950366761750102016/6950456268869468160) connected from 127.0.0.1:50393
+2019-11-12 16:31:49.829 INFO  [21740] - Receiver Apama Studio (runtime views) (000002047793F070) (component ID 6950366761750102016/6950456268869468160) connected from 127.0.0.1:50393
+2019-11-12 16:31:49.829 INFO  [21740] - Receiver Apama Studio (runtime views) (000002047793F070) initially subscribed to <no channels>
+2019-11-12 16:31:49.829 INFO  [21740] - Blocking receiver Apama Studio (runtime views) (000002047793F070) will be blocked after 10.000000 seconds or 10240 kb if slow
+2019-11-12 16:31:49.830 INFO  [48712] - Receiver Apama Studio (runtime views) (000002047793F070) unsubscribed from all channels
+2019-11-12 16:31:49.832 INFO  [48712] - Receiver Apama Studio (runtime views) (000002047793F070) added subscriptions to [com.apama.scenario]
+2019-11-12 16:31:49.839 INFO  [48712] - Receiver Apama Studio (runtime views) (000002047793F070) added subscriptions to [com.apama.scenario.private_6950455298206728193_1573576309836]
+2019-11-12 16:31:50.085 INFO  [21740] - Sender Apama Designer (runtime views) (000002045DBDC600) (component ID 6950366761750102016/6950457626079461376) connected from 127.0.0.1:50398
+2019-11-12 16:31:50.354 INFO  [21740] - Sender ADBC DataService (000002045DBDCA20) (component ID 6950366761750102016/6950458639691939840) connected from 192.0.0.1:50401
+2019-11-12 16:31:50.367 INFO  [21740] - Receiver ADBC DataService (000002047793F9F0) (component ID 6950366761750102016/6950458639691939840) connected from 192.0.0.1:50401
+
+# simulate re-use of connection pointer value but different id
+2019-11-12 16:46:50.367 INFO  [21740] - Receiver My connection reuse receiver (000002047793F9F0) (component ID 2222222/2111111111) connected from 255.0.0.1:50401
+
+
+2019-11-12 16:31:50.367 INFO  [21740] - Receiver ADBC DataService (000002047793F9F0) initially subscribed to <no channels>
+2019-11-12 16:31:50.367 INFO  [21740] - Blocking receiver ADBC DataService (000002047793F9F0) will be blocked after 10.000000 seconds or 10240 kb if slow
+2019-11-12 16:31:50.367 INFO  [48712] - Receiver ADBC DataService (000002047793F9F0) unsubscribed from all channels
+2019-11-12 16:31:50.367 INFO  [48712] - Receiver ADBC DataService (000002047793F9F0) added subscriptions to [<wildcard channel>]
+2019-11-12 16:31:50.370 INFO  [48712] - Receiver ADBC DataService (000002047793F9F0) added subscriptions to [com.apama.adbc.service]
+
+2019-11-12 16:33:04.204 INFO  [40828] - MessageSenderImpl.Shutdown() - Disconnecting remote receiver 6950366761750102016:6950456268869468160
+2019-11-12 16:33:04.206 INFO  [40828] - MessageSenderImpl.Shutdown() - Disconnecting remote receiver 6950366761750102016:6950458639691939840
+2019-11-12 16:33:04.206 INFO  [48712] - Sender Apama Studio (runtime views) (000002045DBEBD90) (component ID 6950366761750102016/6950456268869468160) disconnected cleanly: Other party requested disconnection
+2019-11-12 16:33:04.207 INFO  [48712] - Sender ADBC DataService (000002045DBDCA20) (component ID 6950366761750102016/6950458639691939840) disconnected cleanly: Other party requested disconnection
+2019-11-12 16:33:04.207 INFO  [40828] - MessageReceiverImpl.Shutdown() - Disconnecting remote sender 6950366761750102016:6950457626079461376
+
+# disconnection of previously unknown receiver (e.g. in case we don't have a full log file)
+2019-11-12 16:33:04.206 INFO  [48712] - Receiver My receiver which connected in a previous log file (0000011111) (component ID 1111111/2222222) disconnected cleanly: Other party requested disconnection
+
+# connection from another correlator
+2019-11-12 16:45:32.908 INFO  [41556] - Receiver Apama Designer Correlator for ReceiverTest(ReceiverTest:Correlator2) (000001C8C572D300) (component ID 6758462315899703904/6759869695078224480) connected from 127.0.0.1:52207
+2019-11-12 16:45:32.908 INFO  [41556] - Receiver Apama Designer Correlator for ReceiverTest(ReceiverTest:Correlator2) (000001C8C572D300) initially subscribed to [channel 2,channel 1]
+2019-11-12 16:45:32.908 INFO  [41556] - Blocking receiver Apama Designer Correlator for ReceiverTest(ReceiverTest:Correlator2) (000001C8C572D300) will be disconnected after 10.000000 seconds or 10240 kb if slow
+2019-11-12 16:45:33.366 INFO  [41556] - Receiver Apama Designer Correlator for ReceiverTest(ReceiverTest:Correlator2) (000001C8C572E5A0) (component ID 6758462315899703904/6756210524675953248) connected from 127.0.0.1:52212
+2019-11-12 16:45:33.366 INFO  [41556] - Receiver Apama Designer Correlator for ReceiverTest(ReceiverTest:Correlator2) (000001C8C572E5A0) initially subscribed to [channel 3]
+2019-11-12 16:45:33.366 INFO  [41556] - Blocking receiver Apama Designer Correlator for ReceiverTest(ReceiverTest:Correlator2) (000001C8C572E5A0) will be blocked after 10.000000 seconds or 10240 kb if slow
+2019-11-12 16:45:33.369 INFO  [17680] - Receiver Apama Designer Correlator for ReceiverTest(ReceiverTest:Correlator2) (000001C8C572D300) (component ID 6758462315899703904/6759869695078224480) disconnected cleanly: Disconnected
+2019-11-12 16:45:33.884 INFO  [41720] - Correlator Status: sm=0 nctx=1 ls=0 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=2 vm=893780 pm=56732 runq=0 si=89.5 so=0.0 srn="<none>" srq=0 jvm=38
+2019-11-12 16:45:38.867 INFO  [41720] - Correlator Status: sm=0 nctx=1 ls=0 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=2 vm=893228 pm=56740 runq=0 si=393.1 so=0.0 srn="<none>" srq=0 jvm=40
+2019-11-12 16:45:43.866 INFO  [41720] - Correlator Status: sm=0 nctx=1 ls=0 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=2 vm=893228 pm=56748 runq=0 si=125.0 so=0.0 srn="<none>" srq=0 jvm=43
+
+# linux correlators (at least in 10.1) have a 0x prefix for %p formats whereas in Windows (10.5) we don't - test both
+2019-11-12 16:45:32.908 INFO  [41556] - Receiver My 10.1 receiver (oh yeah) (0xAAAAAAFFFFFF1) (component ID 333333/3111111) connected from 127.0.0.1:522073
+
+# non-incoming connection; not sure how this happens in the wild, got this from code review
+2019-11-12 16:45:32.908 INFO  [41556] - Connected to receiver My other connection (oh yeah) (AAAAAAFFFFFF2) (component ID 44444444/4111111) connected from 127.0.0.1:522074
+
+# unclean and slow - by size
+2019-11-12 17:09:19.431 INFO  [139627541513984] - Receiver engine_receiveSLOW (0x7efd74000a00) (component ID 6758468452563427684/6758749927540138340) connected from 127.0.0.1:46324
+2019-11-12 17:09:19.431 INFO  [139627541513984] - Receiver engine_receiveSLOW (0x7efd74000a00) initially subscribed to <no channels>
+2019-11-12 17:09:20.116 WARN  [139627924645632] - Receiver engine_receiveSLOW (component ID 6758468452563427684/6758749927540138340 [0x7efd74000a00]) is slow (have approx. 10240 kb of messages outstanding). Next event to be sent is MyEvent of approx. 14 bytes on channel 'mychannel'
+2019-11-12 17:09:23.360 INFO  [139627924645632] - Receiver engine_receiveSLOW (component ID 6758468452563427684/6758749927540138340 [0x7efd74000a00]) is no longer slow
+2019-11-12 17:34:06.757 INFO  [139643307144960] - Receiver engine_receiveSLOW (0x7efd74000a00) (component ID 6758468452563427684/6758749927540138340) disconnected uncleanly: The receiver has been disconnected as it is too slow (10240 kb of messages unacknowledged)
+
+# unclean and slow - by time
+
+2019-11-12 17:39:03.555 INFO  [139989807511296] - Receiver SLOW (01 by time) (0x7f51cc000a00) (component ID 6758476111613469028/6758757586590179684) connected from 127.0.0.1:41306
+2019-11-12 17:39:03.555 INFO  [139989807511296] - Receiver SLOW (01 by time) (0x7f51cc000a00) initially subscribed to <no channels>
+2019-11-12 17:39:03.555 INFO  [139989807511296] - Blocking receiver SLOW (01 by time) (0x7f51cc000a00) will be disconnected after 10.000000 seconds or 10240 kb if slow (even though receiver did
+not request disconnection, due to command line parameter -x or --qdisconnect)
+2019-11-12 17:39:03.555 INFO  [139989809616640] - Receiver SLOW (01 by time) (0x7f51cc000a00) unsubscribed from all channels
+2019-11-12 17:39:03.555 INFO  [139989809616640] - Receiver SLOW (01 by time) (0x7f51cc000a00) added subscriptions to [<wildcard channel>]
+2019-11-12 17:39:58.485 INFO  [139990192269056] - Correlator Status: sm=1 nctx=1 ls=1 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=17248 rt=0 nc=2 vm=1885284 pm=45104 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=0
+2019-11-12 17:40:00.001 INFO  [139990191216384] - The receiver SLOW (01 by time) will be disconnected as it is too slow (no acknowledgement for a message within 10 seconds)
+2019-11-12 17:40:00.001 INFO  [139988659328768] - AsynchronousDisconnectorThread.run() - attempting to disconnect receiver id 6758476111613469028:6758757586590179684: The receiver has been disconnected as it is too slow (no acknowledgement for a message within 10 seconds) (not clean)
+2019-11-12 17:40:00.002 INFO  [139988659328768] - Receiver SLOW (01 by time) (0x7f51cc000a00) (component ID 6758476111613469028/6758757586590179684) disconnected uncleanly: The receiver has been disconnected as it is too slow (no acknowledgement for a message within 10 seconds)
+
+# might also be relevant (but not currently handled)
+2019-11-12 17:09:34.806 INFO  [139814998361856] - PersistentReceivingConnection(0x7f295c062100): Attempting to (re-)connect to localhost:1887, channels=<wildcard channel>
+
