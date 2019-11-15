@@ -104,6 +104,10 @@
 # simulate re-use of connection pointer value but different id
 2019-11-12 16:46:50.367 INFO  [21740] - Receiver My connection reuse receiver (000002047793F9F0) (component ID 2222222/2111111111) connected from 255.0.0.1:50401
 
+# a connection id we've never heard of before
+2019-11-12 16:31:50.367 INFO  [21740] - Receiver New on with only connectionAddr (00000999999999) initially subscribed to <no channels>
+2019-11-12 16:31:50.367 INFO  [21740] - Receiver New on with only connectionAddr (00000999999999) initially subscribed to <no channels>
+2019-11-12 16:33:04.206 INFO  [48712] - Receiver New on with only connectionAddr (00000999999999) (component ID 99999991/99999992) disconnected cleanly: Other party requested disconnection
 
 2019-11-12 16:31:50.367 INFO  [21740] - Receiver ADBC DataService (000002047793F9F0) initially subscribed to <no channels>
 2019-11-12 16:31:50.367 INFO  [21740] - Blocking receiver ADBC DataService (000002047793F9F0) will be blocked after 10.000000 seconds or 10240 kb if slow
@@ -118,7 +122,7 @@
 2019-11-12 16:33:04.207 INFO  [40828] - MessageReceiverImpl.Shutdown() - Disconnecting remote sender 6950366761750102016:6950457626079461376
 
 # disconnection of previously unknown receiver (e.g. in case we don't have a full log file)
-2019-11-12 16:33:04.206 INFO  [48712] - Receiver My receiver which connected in a previous log file (0000011111) (component ID 1111111/2222222) disconnected cleanly: Other party requested disconnection
+2019-11-12 16:33:04.206 INFO  [48712] - Receiver My receiver which connected in a previous log file (00000aa11111) (component ID 1111111/2222222) disconnected cleanly: Other party requested disconnection
 
 # connection from another correlator
 2019-11-12 16:45:32.908 INFO  [41556] - Receiver Apama Designer Correlator for ReceiverTest(ReceiverTest:Correlator2) (000001C8C572D300) (component ID 6758462315899703904/6759869695078224480) connected from 127.0.0.1:52207
@@ -143,6 +147,7 @@
 2019-11-12 17:09:19.431 INFO  [139627541513984] - Receiver engine_receiveSLOW (0x7efd74000a00) initially subscribed to <no channels>
 2019-11-12 17:09:20.116 WARN  [139627924645632] - Receiver engine_receiveSLOW (component ID 6758468452563427684/6758749927540138340 [0x7efd74000a00]) is slow (have approx. 10240 kb of messages outstanding). Next event to be sent is MyEvent of approx. 14 bytes on channel 'mychannel'
 2019-11-12 17:09:23.360 INFO  [139627924645632] - Receiver engine_receiveSLOW (component ID 6758468452563427684/6758749927540138340 [0x7efd74000a00]) is no longer slow
+2019-11-12 17:30:20.116 WARN  [139627924645632] - Receiver engine_receiveSLOW (component ID 6758468452563427684/6758749927540138340 [0x7efd74000a00]) is slow (have approx. 10240 kb of messages outstanding). Next event to be sent is MyEvent2 of approx. 100 bytes on channel 'mychannel2'
 2019-11-12 17:34:06.757 INFO  [139643307144960] - Receiver engine_receiveSLOW (0x7efd74000a00) (component ID 6758468452563427684/6758749927540138340) disconnected uncleanly: The receiver has been disconnected as it is too slow (10240 kb of messages unacknowledged)
 
 # unclean and slow - by time

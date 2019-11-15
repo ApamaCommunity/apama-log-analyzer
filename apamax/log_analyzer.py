@@ -327,7 +327,8 @@ class CSVStatusWriter(BaseWriter):
 		@param items: a list of strings, integer or floats to be written to the file. 
 		Escaping will be performed
 		"""
-		items = ['"%s"'%(i.replace('"', '""')) if (',' in i or '"' in i) else i for i in items]
+		# nb if we output an integer as a string and it has 14-15 digits (e.g. a connection id) excel will helpfully convert it to an imprecise float - so quote it
+		items = ['%s"%s"'%('=' if i.isdigit() else '', i.replace('"', '""')) if (',' in i or '"' in i or (i.isdigit() and len(i)>14) ) else i for i in items]
 		self.output.write(','.join(items)+'\n')
 
 class JSONStatusWriter(BaseWriter):
@@ -514,6 +515,9 @@ class LogAnalyzer(object):
 			
 		level = line.level
 		if level == 'W':
+			if m.startswith('Receiver '):
+				self.handleConnectionMessage(file, line)
+			
 			self.handleWarnOrError(file=file, isError=False, line=line)
 		elif level in {'E', 'F'}:
 			# handle multi-line errors. Usually we need time AND thread to match, but FATAL stack trace lines are logged independently
@@ -539,9 +543,10 @@ class LogAnalyzer(object):
 			# also grab info lines within a startup stanza, and (for the benefit of apama-ctrl) the very first line of the file regardless
 			self.handleStartupLine(file=file, line=line)
 		elif level == 'I' and m.startswith((
-			'The receiver ',
 			'Receiver ',
-			'Blocking receiver ',
+			# don't really need these messages, they don't contain extra info we can't get from the other ones
+			#'The receiver ',
+			#'Blocking receiver ',
 			)):
 				self.handleConnectionMessage(file, line)
 	
@@ -1004,68 +1009,88 @@ class LogAnalyzer(object):
 	# Sender/receiver connection events
 
 	CONNECTION_MESSAGE_IDS_REGEX = re.compile('^[(]component ID (?P<remotePhysicalId>[0-9]+)/(?P<remoteLogicalId>[0-9]+)[)] (?P<message>.+)$')
+	
 	CONNECTION_MESSAGE_ADDR_REGEX = re.compile('^(?P<message>.+) from (?P<host>[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+):(?P<remotePort>[0-9]+) *$')
 
 	CONNECTION_LINE_REGEX = re.compile(
 		# This regex is for sender/receiver connection lines;
 		# the (?P<name>xxxx) syntax identifies named groups in the regular expression
 	
-		# TODO: could add senders here, though less useful since it's slow receivers that cause the issues usually
 		# hack: hope/assume that pointer addresses are always prefixed with 00 on linux 
-		"^(?P<prefix>Receiver|Connected to receiver|Blocking receiver) (?P<remoteProcessName>.+) [(](?P<object>(0x|00)[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]+)[)] (?P<message>.+)"
+		# this regex gets the objectAddr in all cases, and for "slow" messages also the logical/physical ids; for other 
+		# messages we separately use CONNECTION_MESSAGE_IDS_REGEX to get those
+		r"^(?P<prefix>Receiver|Connected to receiver|Blocking receiver) (?P<remoteProcessName>.+) [(]"+\
+			"(component ID (?P<remotePhysicalId>[0-9]+)/(?P<remoteLogicalId>[0-9]+) \[)?"+\
+			"(?P<objectAddr>(0x|00)[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]+)\]?[)] (?P<message>.+)"
 		)
 		
 		# TODO: check performance of this
 		
 		#TODO: remove "," for line num
+		# TODO: add count of slow receiver warnings so far
 
 		# TODO: maybe show time since last message?
+		# TODO: doc this
 
 	def handleConnectionMessage(self, file, line, **extra):
 		match = LogAnalyzer.CONNECTION_LINE_REGEX.match(line.message)
 		if match is None: return
-		id = match.group('object') # pointer address of the local object for this connection
+		
 		# nb: logicalId is a GUID for each connection; each connection can have zero or one receiver and zero or one sender
-		
-		if id not in file['connectionIds']: 
-			file['connectionIds'][id] = {'first':line.getDateTime()}
-		connectionInfo = file['connectionIds'][id]
-		
-		# TODO: also get: 	2019-09-25 12:20:25.183 INFO  [139622782797568] - Receiver agg-correlator (component ID 6740382990692585279/6731657373788737343 [0x7efe38000b30]) is no longer slow
-		
-		# TODO: could summarize lifetime of each receiver separately? e.g. if tehy become slow then don;t
-		# TODO; fix mix of camel case etc in titles
 		
 		evt = {
 			'local datetime':line.getDetails()['datetimestring'],
 			'local datetime object':line.getDateTime(),
 			'line num':line.lineno,
-			'connection ref':match.group('object'),
+			'connection ref':match.group('objectAddr'),
 			'remote process name':match.group('remoteProcessName'),
+			
 		}
 		
-		# TODO: assert remoteIds don't change for a single connection
-		
-		# TODO: add something to summary about number of slow warnings and number of slow disconnections
-		
 		message = match.group('message')
-		detailmatch = LogAnalyzer.CONNECTION_MESSAGE_IDS_REGEX.match(message)
-		if detailmatch is not None:
-			evt['client(physical)Id'] = detailmatch.group('remotePhysicalId')
-			evt['connection(logical)Id'] = detailmatch.group('remoteLogicalId')
-			if connectionInfo.get('connection(logical)Id') and (evt['connection(logical)Id'] != connectionInfo['connection(logical)Id']):
-				log.warning(f"Connection information may be incorrect - connection object {evt['connection ref']} used for logical id {connectionInfo['connection(logical)Id']} and then reused for {evt['connection(logical)Id']}") 
-				# TODO: this assumption doesn't hold!!! need to key off logical id instead??
-			
+		if match.group('remotePhysicalId'):
+			evt['client(physical)Id'] = match.group('remotePhysicalId')
+			evt['connection(logical)Id'] = match.group('remoteLogicalId')		
+		else:
+			detailmatch = LogAnalyzer.CONNECTION_MESSAGE_IDS_REGEX.match(message)
+			if detailmatch is not None:
+				evt['client(physical)Id'] = detailmatch.group('remotePhysicalId')
+				evt['connection(logical)Id'] = detailmatch.group('remoteLogicalId')
+				message = detailmatch.group('message')
+
+		# the logical id is the safest thing to key this off, but fall back to objectAddr if needed (though those can repeat, so be careful!)
+		# NB: with this algorithm there's a small race where if we first see a message with objectAddr and no logical id 
+		# we could fail it match it up later with the correct connection (since really we're using logical id for keying these), 
+		# but that's a relatively unlikely case and doesn't matter too much since it's only the subscription messages that don't have the logical id
+		newconnectioninfo = {'first':line.getDateTime(), '__slow periods':0}
+		if 'connection(logical)Id' in evt:
+			key = 'connection(logical)Id_'+evt['connection(logical)Id']
+			if key in file['connectionIds']:
+				connectionInfo = file['connectionIds'][key]
+			else:
+				file['connectionIds'][key] = connectionInfo = newconnectioninfo 
+		else:
+			key = 'connectionAddr_'+evt['connection ref']
+			if key in file['connectionIds']:
+				connectionInfo = file['connectionIds'][key]
+				# if we have the proper ids, add them here
+				if 'client(physical)Id' in connectionInfo:
+					evt['client(physical)Id'] = connectionInfo['client(physical)Id']
+					evt['connection(logical)Id'] = connectionInfo['connection(logical)Id']
+			else:
+				connectionInfo = newconnectioninfo 
+		# keep the most recent connection add updated regardless, since we might need it to handle a message that doesn't have this
+		file['connectionIds']['connectionAddr_'+evt['connection ref']] = connectionInfo
+		evt['connectionInfo'] = connectionInfo
+		
+		if 'connection(logical)Id' in evt:
 			connectionInfo['connection(logical)Id'] = evt['connection(logical)Id']
 			connectionInfo['client(physical)Id'] = evt['client(physical)Id']
-			message = detailmatch.group('message')
 
 		detailmatch = LogAnalyzer.CONNECTION_MESSAGE_ADDR_REGEX.match(message)
 		if detailmatch is not None:
 			connectionInfo['remotePort'] = detailmatch.group('remotePort')
 			connectionInfo['host'] = detailmatch.group('host')
-			assert connectionInfo['host'], detailmatch # TODO: remove
 			message = detailmatch.group('message')
 
 		if 'host# > client# > connection#' not in connectionInfo and connectionInfo.get('host') and connectionInfo.get('connection(logical)Id'):
@@ -1089,7 +1114,13 @@ class LogAnalyzer(object):
 
 			connectionInfo['host# > client# > connection#'] = f"h{hostnum:02} > cli{processnum:03} > conn{connectionnum:03}"
 			
-		evt['message'] = message = match.group('prefix')+' '+message
+		message = match.group('prefix')+' '+message
+		#if ':' in message:
+		#	message, evt['message detail'] = message.split(': ', 1)
+		#elif '(' in message:
+		#	message, evt['message detail'] = message.split('(', 1)
+		#	evt['message detail']='('+evt['message detail']
+		evt['message'] = message
 		connectionInfo['last'] = evt['local datetime object']
 
 		if message.startswith('Receiver connected'):
@@ -1098,8 +1129,16 @@ class LogAnalyzer(object):
 			evt['connections delta'] = -1
 			# TODO: format this delta more nicely https://stackoverflow.com/questions/538666/format-timedelta-to-string
 			evt['duration secs'] = int((connectionInfo['last']-connectionInfo['first']).total_seconds())
+			if connectionInfo['__slow periods']: # final value is useful when disconnecting
+				evt['slow periods'] = connectionInfo['__slow periods']
 		else:
 			evt['connections delta'] = 0
+		
+		if message.startswith('Receiver is slow'):
+			connectionInfo['__slow periods'] += 1
+			evt['slow periods'] = connectionInfo['__slow periods']
+		
+		if 'com.apama.scenario' in message: connectionInfo['scenario service'] = True
 
 		file['connectionMessages'].append(evt)
 
@@ -1109,12 +1148,11 @@ class LogAnalyzer(object):
 		"""
 		if len(file['connectionMessages']) <= 1: return
 		
-		# TODO: add an isscenarioservice thingy? or a set of channels for each one
-		# TODO: record number of channels, and list them (except any temproary ones); or maybe do final ones
+		# Extensions: could track channels, record #channels for each one, maybe list them
 		
-		# want a summary of receivers - start, end time range; try to understand mapping between the various IDs
-		#	 list of channels? max simultaneous channels?
-		
+		# TODO: add something to overview summary about number of slow warnings and number of slow disconnections and list first few
+		# TODO: could display the duration better
+
 		writers = [CSVStatusWriter(self)]
 		if self.args.json:
 			writers.append(JSONStatusWriter(self))
@@ -1133,16 +1171,24 @@ class LogAnalyzer(object):
 				'connections',
 				'connections delta',
 				'duration secs',
+				'slow periods',
 				'message',
+				'scenario service',
 				'connection ref',
 				'client(physical)Id',
 				'connection(logical)Id',
 			]
 			w.writeHeader(columns=columns, extraInfo=self.getMetadataDictForCurrentFile(file=file))
 			for evt in file['connectionMessages']:
-				# only include the more verbose messages about subscriptions etc it the JSON writer
-				if evt['connections delta'] == 0 and not isinstance(w, JSONStatusWriter): continue
+				evt = dict(evt)
+				# only include the more verbose messages about subscriptions etc in the JSON writer
+				if evt['message'].startswith((
+					'Receiver initially subscribed to ',
+					'Receiver unsubscribed from ',
+					'Receiver added subscriptions to ',
+				)) and not isinstance(w, JSONStatusWriter): continue
 				
+				assert 'connections delta' in evt, evt
 				connections += evt['connections delta']
 				evt['connections'] = connections
 				if prevtime:
@@ -1150,13 +1196,16 @@ class LogAnalyzer(object):
 				else:
 					evt['time delta secs'] = 0
 				prevtime = evt['local datetime object']
-				connectionInfo = file['connectionIds'][evt['connection ref']]
 				# not every line includes these, so fill in from the connection
 				for k in columns:
 					if k not in evt:
-						evt[k] = connectionInfo.get(k)
+						evt[k] = evt['connectionInfo'].get(k)
+						
+				if evt.get('connections delta') == 0: del evt['connections delta'] # makes the csv easier to read
 				
+				del evt['connectionInfo'] # no point stashing this in the json
 				w.writeStatus(evt, missingItemValue='') # we expect many durations to be None (e.g. when connecting) and don't want to show ? for them
+
 			w.closeFile()
 
 	####################################################################################################################
