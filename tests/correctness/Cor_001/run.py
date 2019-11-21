@@ -35,7 +35,7 @@ class PySysTest(AnalyzerBaseTest):
 		
 		# check CSV is sane
 		with io.open(outputdir+'/status.mycorrelator.csv', encoding='utf-8') as f:
-			f.readline() # strip off sep=, line
+			#f.readline() # strip off sep=, line
 			csvlines = f.readlines()
 		header = csvlines[0].strip().split(',')
 		METADATA_START = '# metadata: '
@@ -61,9 +61,7 @@ class PySysTest(AnalyzerBaseTest):
 		# JMS not enabled in this correlator
 		self.assertGrep(outputdir+'/status.mycorrelator.csv', expr='(jms|JMS).*', contains=False)
 		
-		self.assertLineCount(outputdir+'/status.mycorrelator.csv', expr='.', condition='==1+1+3')
+		self.assertLineCount(outputdir+'/status.mycorrelator.csv', expr='.', condition='==1+3')
 		self.assertLineCount(outputdir+'/status.mycorrelator.json', expr='"local datetime":', condition='==3')
 
 		self.assertGrep(outputdir+'/status.mycorrelator.csv', expr='.*[?]', contains=False)
-
-		self.assertGrep(outputdir+'/status.mycorrelator.csv', expr='sep=,') # first line specifies separator for benefit of excel

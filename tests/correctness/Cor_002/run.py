@@ -28,7 +28,6 @@ class PySysTest(AnalyzerBaseTest):
 		
 		# check CSV is sane
 		with io.open(outputdir+'/status.mycorrelator.csv', encoding='utf-8') as f:
-			f.readline() # strip off the separator
 			csvlines = f.readlines()
 		header = csvlines[0].strip().split(',')
 		

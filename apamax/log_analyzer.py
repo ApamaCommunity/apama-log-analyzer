@@ -29,6 +29,7 @@ import json
 import glob
 import math
 import shutil
+import locale
 from typing import List, Dict # Python 3 type hints
 
 log = logging.getLogger('loganalyzer')
@@ -269,9 +270,6 @@ class CSVStatusWriter(BaseWriter):
 
 	def writeHeader(self, columns=None, extraInfo=None, **extra):
 		self.output = self.createFile(self.output_file)
-		
-		# write this special header to tell excel to treat csv as comma separated even in locales where , normally is used as a decimal separator
-		self.output.write("sep=,\n")
 		
 		self.columns = columns
 		items = list(columns)
@@ -1658,7 +1656,7 @@ class LogAnalyzerTool(object):
 			else u'%(levelname)-5s - %(message)s', 
 			stream=sys.stderr, level=loglevel)
 
-		log.info('Apama log analyzer v%s/%s'%(__version__, __date__))
+		log.info('Apama log analyzer v%s/%s (locale=%s)'%(__version__, __date__, locale.getdefaultlocale()[0]))
 		
 		duration = time.time()
 		
