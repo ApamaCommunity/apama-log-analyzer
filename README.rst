@@ -44,9 +44,9 @@ Usage
 =====
 Download the latest stable version of the script from https://github.com/ApamaCommunity/apama-log-analyzer/releases
 
-To run the script, simply execute the script with Python 3::
+To run the script, simply execute the script with Python 3, specifying all log file(s) and/or archived log files and/or directories to be analyzed::
 
-	> apamax\log_analyzer.py mycorrelator.log
+	> apamax\log_analyzer.py mycorrelator1.log mycorrelator2.log
 
 On Linux, make sure ``python3`` is on ``PATH``. On Windows, ensure you have a ``.py`` file association for (or explicitly run it with) ``py.exe`` or ``python.exe`` from a Python 3 installation. Apama releases from 10.3.0 onwards contain Python 3, so an Apama command prompt/apama_env shell will have the correct ``python.exe``/``python3`` on ``PATH``. If you don't have Apama 10.3.0 available, you can download Python 3.6+ yourself. No other Python packages are required. 
 
