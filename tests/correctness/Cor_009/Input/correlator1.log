@@ -89,8 +89,20 @@
 2019-07-30 18:04:35.567 WARN  [53100:DistMemStore] - ABC warning for process 456 took 9999.10.123.123 seconds
 2019-07-30 18:04:36.567 WARN  [53100:DistMemStore] - ABC warning for process 456 took 29.10 seconds
 
+2019-07-30 18:09:20.116 WARN  [139627924645632] - Receiver engine_receiveSLOW (component ID 6758468452563427684/6758749927540138340 [0x7efd74000a00]) is slow (have approx. 10240 kb of messages outstanding). Next event to be sent is MyEvent of approx. 14 bytes on channel 'mychannel'
+2019-07-30 18:09:22.116 WARN  [139627924645632] - Receiver engine_receiveSLOW (component ID 6758468452563427684/11111111111 [007FFd74000a00]) is slow (have approx. 10240 kb of messages outstanding). Next event to be sent is MyEvent of approx. 22 bytes on channel 'mychannel'
+
 2019-07-30 18:04:32.567 ERROR [53100:DistMemStore] - <TestBean> Bad thing happened: timeout after 123.5 seconds
 2019-07-30 18:04:32.567 INFO  [53100:DistMemStore] - Hmmm
 2019-07-31 18:04:32.567 ERROR [53100:DistMemStore] - <TestBean> Bad thing happened: timeout after 200 seconds
 2019-07-31 18:04:33.568 ERROR [53100:DistMemStore] - <TestBean> Another bad thing happened: timeout after 300 seconds
 2019-07-31 18:04:33.569 ERROR [53100:DistMemStore] - <TestBean> Cor blimey, a really bad thing happened - timeout after 300 seconds!!
+
+2019-07-31 18:04:35.569 ERROR [53100:DistMemStore] - com.mycompany.mypkg1.mypkg2.MyMon [1] This is an example (of a) message with a prefix and then details: which are shown here
+2019-07-31 18:04:36.569 ERROR [53100:DistMemStore] - com.mycompany.mypkg1.mypkg2.MyMon [1] This is an example (of a) message with a prefix and then details: which are also shown here
+2019-07-31 18:04:37.569 ERROR [53100:DistMemStore] - com.mycompany.mypkg1.mypkg2.MyMon [1] Tiny prefix: this message should not be normalized at least not until this bit: where it should
+2019-07-31 18:04:37.969 ERROR [53100:DistMemStore] - com.mycompany.mypkg1.mypkg2.MyMon [1] Tiny prefix: this message should not be normalized at least not until this bit: where it should, yeah!
+2019-07-31 18:04:38.569 ERROR [53100:DistMemStore] - This is an example of a message with a stringified event com.foo.Bar("SOME STRING")
+2019-07-31 18:04:39.569 ERROR [53100:DistMemStore] - This is an example of a message with a stringified event com.foo.Bar("SOME OTHER STRING")
+2019-07-31 18:04:40.569 ERROR [53100:DistMemStore] - This is an example of a message with a stringified event com.foo.Ba999Z("SOME OTHER STRING")
+2019-07-31 18:04:41.569 ERROR [53100:DistMemStore] - This is an example of a message with a stringified event com.foo.Ba999Z("SOME THIRD STRING")

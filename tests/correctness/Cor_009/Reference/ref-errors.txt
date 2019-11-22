@@ -1,4 +1,4 @@
-4 errors in correlator1
+12 errors in correlator1
 0 errors in correlator2
 0 errors in correlator3
 0 errors in correlator4
@@ -6,14 +6,38 @@
 Summary of errors, sorted by normalized message, with number of occurrences of that message indicated by 'xN': 
 
 --- 1x: 2019-07-31 18:04:33.568 ERROR [53100:DistMemStore] - <TestBean> Another bad thing happened: timeout after 300 seconds
-      in correlator1 line 95
+      in correlator1 line 98
 
 --- 2x: <TestBean> Bad thing happened: timeout after ___ seconds
       2x from Tue 2019-07-30 18:04:32 to Wed 2019-07-31 18:04:32 (=1 day, 0:00:00) in correlator1
       Examples from correlator1:
-       line 92 : 2019-07-30 18:04:32.567 ERROR [53100:DistMemStore] - <TestBean> Bad thing happened: timeout after 123.5 seconds
-       line 94 : 2019-07-31 18:04:32.567 ERROR [53100:DistMemStore] - <TestBean> Bad thing happened: timeout after 200 seconds
+       line 95 : 2019-07-30 18:04:32.567 ERROR [53100:DistMemStore] - <TestBean> Bad thing happened: timeout after 123.5 seconds
+       line 97 : 2019-07-31 18:04:32.567 ERROR [53100:DistMemStore] - <TestBean> Bad thing happened: timeout after 200 seconds
 
 --- 1x: 2019-07-31 18:04:33.569 ERROR [53100:DistMemStore] - <TestBean> Cor blimey, a really bad thing happened - timeout after 300 seconds!!
-      in correlator1 line 96
+      in correlator1 line 99
+
+--- 2x: This is an example of a message with a stringified event com.foo.Ba999Z___
+      2x from Wed 2019-07-31 18:04:40 to 18:04:41 (=0:00:01) in correlator1
+      Examples from correlator1:
+       line 107 : 2019-07-31 18:04:40.569 ERROR [53100:DistMemStore] - This is an example of a message with a stringified event com.foo.Ba999Z("SOME OTHER STRING")
+       line 108 : 2019-07-31 18:04:41.569 ERROR [53100:DistMemStore] - This is an example of a message with a stringified event com.foo.Ba999Z("SOME THIRD STRING")
+
+--- 2x: This is an example of a message with a stringified event com.foo.Bar___
+      2x from Wed 2019-07-31 18:04:38 to 18:04:39 (=0:00:01) in correlator1
+      Examples from correlator1:
+       line 105 : 2019-07-31 18:04:38.569 ERROR [53100:DistMemStore] - This is an example of a message with a stringified event com.foo.Bar("SOME STRING")
+       line 106 : 2019-07-31 18:04:39.569 ERROR [53100:DistMemStore] - This is an example of a message with a stringified event com.foo.Bar("SOME OTHER STRING")
+
+--- 2x: com.mycompany.mypkg___mypkg___MyMon [___] This is an example (of a) message with a prefix and then details:___
+      2x from Wed 2019-07-31 18:04:35 to 18:04:36 (=0:00:01) in correlator1
+      Examples from correlator1:
+       line 101 : 2019-07-31 18:04:35.569 ERROR [53100:DistMemStore] - com.mycompany.mypkg1.mypkg2.MyMon [1] This is an example (of a) message with a prefix and then details: which are shown here
+       line 102 : 2019-07-31 18:04:36.569 ERROR [53100:DistMemStore] - com.mycompany.mypkg1.mypkg2.MyMon [1] This is an example (of a) message with a prefix and then details: which are also shown here
+
+--- 2x: com.mycompany.mypkg___mypkg___MyMon [___] Tiny prefix: this message should not be normalized at least not until this bit:___
+      2x from Wed 2019-07-31 18:04:37 to 18:04:37 (=0:00:00) in correlator1
+      Examples from correlator1:
+       line 103 : 2019-07-31 18:04:37.569 ERROR [53100:DistMemStore] - com.mycompany.mypkg1.mypkg2.MyMon [1] Tiny prefix: this message should not be normalized at least not until this bit: where it should
+       line 104 : 2019-07-31 18:04:37.969 ERROR [53100:DistMemStore] - com.mycompany.mypkg1.mypkg2.MyMon [1] Tiny prefix: this message should not be normalized at least not until this bit: where it should, yeah!
 

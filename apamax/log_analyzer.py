@@ -892,7 +892,20 @@ class LogAnalyzer(object):
 	####################################################################################################################
 	# Warn/error handling
 
-	WARN_ERROR_NORMALIZATION_REGEX = re.compile('[0-9][0-9.]*')
+	WARN_ERROR_NORMALIZATION_REGEX = re.compile('(%s)'%'|'.join([
+		# hexadecimal pointer address from an slow consumer message
+		r'\[[0-9a-fA-Fx][0-9a-fA-Fx][0-9a-fA-Fx][0-9a-fA-Fx][0-9a-fA-Fx][0-9a-fA-Fx]+\]',
+		# numbers
+		'[0-9][0-9.]*',
+		# the beginning of an event string
+		'[.][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9]+[(].*',
+		]))
+	@staticmethod
+	def __replaceWarnOrErrorWithSub(msg):
+		msg = msg.group(1)
+		if '(' in msg: 
+			return msg[:msg.find('(')]+'___'
+		return '___'
 	def handleWarnOrError(self, file, isError, line, **extra):
 		if isError:
 			file['errorsCount'] += 1
@@ -903,9 +916,10 @@ class LogAnalyzer(object):
 		
 		XmaxUniqueWarnOrErrorLines = self.args.XmaxUniqueWarnOrErrorLines
 		
-		msg = line.message
-		# normalize so we can group them together
-		normmsg = LogAnalyzer.WARN_ERROR_NORMALIZATION_REGEX.sub('___', msg)
+		normmsg = msg = line.message
+		# heuristically normalize so we can group potentially similar messages together
+		if normmsg.find(':',80)>0: normmsg = normmsg[:normmsg.find(':', 80)+1]+'___'
+		normmsg = LogAnalyzer.WARN_ERROR_NORMALIZATION_REGEX.sub(self.__replaceWarnOrErrorWithSub, normmsg)
 		
 		# bound the total amount of memory used for this data structure by limiting the number of unique messages 
 		# (if the normalization regex is doing its job this hopefully won't be hit; if it is, we need a way to 

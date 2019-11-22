@@ -1,4 +1,4 @@
-7 warnings in correlator1
+9 warnings in correlator1
 3 warnings in correlator2
 1 warnings in correlator3
 1 warnings in correlator4
@@ -26,6 +26,12 @@ Summary of warnings, sorted by normalized message, with number of occurrences of
        line 83 : 2019-01-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 91011 took 0.1111 seconds
       Examples from correlator4:
        line 83 : 2019-02-01 18:04:31.567 WARN  [53100:DistMemStore] - ABC warning for process 91011 took 0.1112 seconds
+
+--- 2x: Receiver engine_receiveSLOW (component ID ___/___ ___) is slow (have approx. ___ kb of messages outstanding). Next event to be sent is MyEvent of approx. ___ bytes on channel 'mychannel'
+      2x from Tue 2019-07-30 18:09:20 to 18:09:22 (=0:00:02) in correlator1
+      Examples from correlator1:
+       line 92 : 2019-07-30 18:09:20.116 WARN  [139627924645632] - Receiver engine_receiveSLOW (component ID 6758468452563427684/6758749927540138340 [0x7efd74000a00]) is slow (have approx. 10240 kb of messages outstanding). Next event to be sent is MyEvent of approx. 14 bytes on channel 'mychannel'
+       line 93 : 2019-07-30 18:09:22.116 WARN  [139627924645632] - Receiver engine_receiveSLOW (component ID 6758468452563427684/11111111111 [007FFd74000a00]) is slow (have approx. 10240 kb of messages outstanding). Next event to be sent is MyEvent of approx. 22 bytes on channel 'mychannel'
 
 --- 2x: Took ___s for an invocation of Writing log line
       2x from Thu 2019-08-01 18:04:35 to 18:05:31 (=0:00:56) in correlator2

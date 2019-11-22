@@ -9,25 +9,23 @@ Summary of errors, sorted by normalized message, with number of occurrences of t
         2019-07-30 18:18:19.284 ERROR [12424] - 	bar.baz.quux.foo.::listenerAction::4() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-action-div-by-zero.mon:16
       in correlator-epl-errors line 310
 
---- 1x: 2019-07-30 18:18:19.152 ERROR [12424] - Error on line 18 of monitor bar.baz.quux.foo: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/action-variable-div-by-zero.mon
-        2019-07-30 18:18:19.152 ERROR [12424] - bar.baz.quux.foo [4] Stack dump:
-        2019-07-30 18:18:19.152 ERROR [12424] - 	bar.baz.quux.foo.called_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/action-variable-div-by-zero.mon:18
-        2019-07-30 18:18:19.152 ERROR [12424] - 	bar.baz.quux.foo.::listenerAction::5() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/action-variable-div-by-zero.mon:11
-      in correlator-epl-errors line 306
-
---- 1x: 2019-07-30 18:18:18.837 ERROR [32424] - Error on line 15 of monitor bar.baz.quux.foo: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon
-        2019-07-30 18:18:18.837 ERROR [32424] - bar.baz.quux.foo [1] Stack dump:
-        2019-07-30 18:18:18.837 ERROR [32424] - 	bar.baz.quux.foo.sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon:15
-        2019-07-30 18:18:18.837 ERROR [32424] - 	bar.baz.quux.foo.indirect_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon:10
-        2019-07-30 18:18:18.837 ERROR [32424] - 	bar.baz.quux.foo.onload() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon:6
-        2019-07-30 18:18:18.837 ERROR [32424] - 	bar.baz.quux.foo.::startupAction::() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon:3
-      in correlator-epl-errors line 65
-
---- 1x: 2019-07-30 18:18:18.960 ERROR [32424] - Error on line 16 of monitor bar.baz.quux.foo: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-div-by-zero.mon
-        2019-07-30 18:18:18.960 ERROR [32424] - bar.baz.quux.foo [2] Stack dump:
-        2019-07-30 18:18:18.960 ERROR [32424] - 	bar.baz.quux.foo.sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-div-by-zero.mon:16
-        2019-07-30 18:18:18.960 ERROR [32424] - 	bar.baz.quux.foo.::listenerAction::5() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-div-by-zero.mon:9
-      in correlator-epl-errors line 71
+--- 3x: Error on line ___ of monitor bar.baz.quux.foo: ArithmeticException - Integer divide by zero - C:___
+      3x from Tue 2019-07-30 18:18:18 to 18:18:19 (=0:00:00) in correlator-epl-errors
+      Examples from correlator-epl-errors:
+       line 65 : 2019-07-30 18:18:18.837 ERROR [32424] - Error on line 15 of monitor bar.baz.quux.foo: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon
+                 2019-07-30 18:18:18.837 ERROR [32424] - bar.baz.quux.foo [1] Stack dump:
+                 2019-07-30 18:18:18.837 ERROR [32424] - 	bar.baz.quux.foo.sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon:15
+                 2019-07-30 18:18:18.837 ERROR [32424] - 	bar.baz.quux.foo.indirect_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon:10
+                 2019-07-30 18:18:18.837 ERROR [32424] - 	bar.baz.quux.foo.onload() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon:6
+                 2019-07-30 18:18:18.837 ERROR [32424] - 	bar.baz.quux.foo.::startupAction::() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/div-by-zero.mon:3
+       line 71 : 2019-07-30 18:18:18.960 ERROR [32424] - Error on line 16 of monitor bar.baz.quux.foo: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-div-by-zero.mon
+                 2019-07-30 18:18:18.960 ERROR [32424] - bar.baz.quux.foo [2] Stack dump:
+                 2019-07-30 18:18:18.960 ERROR [32424] - 	bar.baz.quux.foo.sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-div-by-zero.mon:16
+                 2019-07-30 18:18:18.960 ERROR [32424] - 	bar.baz.quux.foo.::listenerAction::5() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/event-div-by-zero.mon:9
+       line 306 : 2019-07-30 18:18:19.152 ERROR [12424] - Error on line 18 of monitor bar.baz.quux.foo: ArithmeticException - Integer divide by zero - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/action-variable-div-by-zero.mon
+                  2019-07-30 18:18:19.152 ERROR [12424] - bar.baz.quux.foo [4] Stack dump:
+                  2019-07-30 18:18:19.152 ERROR [12424] - 	bar.baz.quux.foo.called_sepukku() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/action-variable-div-by-zero.mon:18
+                  2019-07-30 18:18:19.152 ERROR [12424] - 	bar.baz.quux.foo.::listenerAction::5() C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/action-variable-div-by-zero.mon:11
 
 --- 1x: 2019-07-30 18:18:19.069 ERROR [32424] - Error on line 24 of monitor bar.baz.quux.foo: StackOverflowException - Stack overflow - C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_716/Input/recursive.mon
         2019-07-30 18:18:19.069 ERROR [32424] - bar.baz.quux.foo [3] Stack dump:
