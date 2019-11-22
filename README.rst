@@ -26,7 +26,7 @@ Features:
 
 - ``logged_errors.txt``/``logged_warnings.txt``: Summarizes **WARN and ERROR/FATAL messages** across multiple log files, de-duplicating (by removing numeric bits from the message) and displaying the time range where each error/warning occurred in each log file. This makes it easy to skim past unimportant errors/warnings and spot the ones that really matter, and to correlate them with the times during which the problem occurred. 
 
-- ``receiver_connections.XXX.csv``: Extract log messages about **connections**, disconnections and slowness in receivers.
+- ``receiver_connections.XXX.csv``: Extract log messages about connections, disconnections and slowness in **receivers**.
 
 - ``startup_stanza.XXX.log``: A copy of the first few lines of the log file that contain critical startup information such as host/port/name/configuration. If the log file does not contain startup information (perhaps it only contains recent log messages) this file will be missing. As a missing startup stanza impairs some functionality of this tool, try to obtain the missing startup information if at all possible. 
 
@@ -48,7 +48,7 @@ To run the script, simply execute the script with Python 3::
 
 	> apamax\log_analyzer.py mycorrelator.log
 
-On Linux, make sure ``python3`` is on `PATH`. On Windows, ensure you have a ``.py`` file association for (or explicitly run it with) ``py.exe`` or ``python.exe`` from a Python 3 installation. Apama releases from 10.3.0 onwards contain Python 3, so an Apama command prompt/apama_env shell will have the correct ``python.exe``/``python3`` on ``PATH``. If you don't have Apama 10.3.0 available, you can download Python 3.6+ yourself. No other Python packages are required. 
+On Linux, make sure ``python3`` is on ``PATH``. On Windows, ensure you have a ``.py`` file association for (or explicitly run it with) ``py.exe`` or ``python.exe`` from a Python 3 installation. Apama releases from 10.3.0 onwards contain Python 3, so an Apama command prompt/apama_env shell will have the correct ``python.exe``/``python3`` on ``PATH``. If you don't have Apama 10.3.0 available, you can download Python 3.6+ yourself. No other Python packages are required. 
 
 Start by reviewing the ``overview.txt`` (which is also displayed on stdout when you've run the tool), then identify which logs and columns you'd like to graph (``status_summary.XXX.csv`` may help with this), and then open the relevant ``status.XXX.csv`` file in a spreadsheet such as Excel. The ``logged_errors.txt`` and ``logged_warnings.txt`` files are also worth reviewing carefully. 
 
@@ -79,7 +79,7 @@ Unfortunately the CSV file format (and Excel in particular) has fairly poor supp
   #. Open Excel (it should be displaying an empty spreadsheet; don't open the CSV file yet).
   #. On the **Data** tab click **From Text/CSV** and select the CSV file to be imported.
   #. Ensure the **Delimiter** is set to **Comma**, then click **Edit**.
-  #. On the **Home** tab of the Power Query Editor dialog, click the **Use First Row as Headers** button.
+  #. On the **Home** tab of the Power Query Editor dialog, click **Use First Row as Headers**.
   #. Select all columns that contain numbers. To do this click the heading for ``epoch secs``, scroll right until you see ``# metadata:`` then hold down **SHIFT** and click the column before ``# metadata:``.
   #. (Optional: if you plan to use any values containing non-numeric data (e.g. slowest consumer or context name) then deselect those columns by holding down **CTRL** while clicking them; otherwise non-numeric values will show up as _Error_ or blank).
   #. Right-click the selected column headings, and choose **Change Type > Using Locale...**.
