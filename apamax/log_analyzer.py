@@ -303,6 +303,7 @@ class CSVStatusWriter(BaseWriter):
 			if item is None: return missingItemValue
 			if columnDisplayName == 'local datetime':
 				return item[:item.find('.')] # strip off seconds as excel misformats it if present
+			if item in [True,False]: return str(item).upper()
 			if isinstance(item, float) and item.is_integer and abs(item)>=1000.0:
 				item = int(item) # don't show decimal points for large floats like 7000.0, for consistency with smaller values like 7 when shown in excel (weird excel rules)
 			if isinstance(item, int):
@@ -313,7 +314,6 @@ class CSVStatusWriter(BaseWriter):
 				return f'{item:,.2f}' # deliberately make it different from the 3 we use for grouping e.g. mem usage kb->MB
 			if isinstance(item, list): # e.g. for notableFeatures list
 				return '; '.join(item)
-			if item in [True,False]: return str(item).upper()
 			return str(item)
 		except Exception as ex:
 			raise Exception(f'Failed to format "{columnDisplayName}" value {repr(item)}: {ex}')
