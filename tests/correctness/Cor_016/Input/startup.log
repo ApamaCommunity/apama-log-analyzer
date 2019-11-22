@@ -1,0 +1,84 @@
+2019-01-01 18:04:29.591 ##### [53100] - Correlator, version 10.5.0.0.0 (build UNKNOWN_VERSION@0 on amd64-win using Software AG suite version 10.5), started.
+2019-01-01 18:04:29.593 ##### [53100] - Running on host 'SAG-F4LBLQ2.eur.ad.sag' as user 'BSP'.
+2019-01-01 18:04:29.594 ##### [53100] - Running on platform 'Windows 10 Enterprise'.
+2019-01-01 18:04:29.594 ##### [53100] - Running on CPU 'GenuineIntel family 6 model 14 stepping 10 Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz'.
+2019-01-01 18:04:29.594 ##### [53100] - Running with process Id 50192.
+2019-01-01 18:04:29.594 ##### [53100] - Running with 32587.22MB of available memory.
+2019-01-01 18:04:29.594 ##### [53100] - There are 12 CPU(s)
+2019-01-01 18:04:29.594 ##### [53100] - Correlator command line: C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator -l C:\dev\10.5.0.x\apama-test\tools\output-amd64-win-release\apwork\license/ApamaServerLicense.xml -p 42848 -f npe-from-init-dist-corr.log --javaopt -Djava.class.path=C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_1324/Output/amd64-win/javac_classes --distMemStoreConfig C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_1324/Input/ThrowsNpeFromInit
+2019-01-01 18:04:29.594 ##### [53100] - Current Working Directory: C:\dev\10.5.0.x\apama-test\system\correlator\corba\testcases\correctness\Corr_Corba_cor_1324\Output\amd64-win
+2019-01-01 18:04:29.594 ##### [53100] - PATH: C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin;C:\dev\10.5.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\adapters\bin;C:\dev\10.5.0.x\apama-test\tools\output-amd64-win-release\native-adapters;c:\dev\10.5.0.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre\bin\server;c:\dev\10.5.0.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre\bin;c:\dev\10.5.0.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre;c:\dev\10.5.0.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\common\security\openssl\bin;c:\dev\10.5.0.x\apama-lib4\branched\win\amd64\10.5.0.x\saginstallation\jvm\jvm\jre\bin;C:\WINDOWS;C:\WINDOWS\system32;C:\WINDOWS\System32\Wbem
+2019-01-01 18:04:29.594 ##### [53100] - Current UTC time: 2019-01-01 17:04:29, local timezone: GMT Daylight Time
+2019-01-01 18:04:29.594 ##### [53100] - Input value - port                     = 42848
+2019-01-01 18:04:29.594 ##### [53100] - Input value - output queue size        = 10000
+2019-01-01 18:04:29.594 ##### [53100] - Input value - output queue batch size  = 100
+2019-01-01 18:04:29.594 ##### [53100] - Input value - output queue mode        = blocking
+2019-01-01 18:04:29.594 ##### [53100] - Input value - environment variable     = APAMA_HOME=C:/dev/10.5.0.x/apama-src/output-amd64-win-release/SoftwareAG/Apama
+2019-01-01 18:04:29.594 ##### [53100] - Input value - environment variable     = AP_TEST_VERBOSE=true
+2019-01-01 18:04:29.594 ##### [53100] - Input value - environment variable     = AP_ASCII_COLOURS=true
+2019-01-01 18:04:29.594 ##### [53100] - Using memory allocator                 = TBB scalable allocator
+2019-01-01 18:04:29.595 ##### [53100] - License File: C:\dev\10.5.0.x\apama-test\tools\output-amd64-win-release\apwork\license\ApamaServerLicense.xml
+2019-01-01 18:04:29.604 ##### [53100] - ================= Software AG License Data =================
+2019-01-01 18:04:29.604 ##### [53100] - Sales Information
+2019-01-01 18:04:29.604 ##### [53100] -      Serial Number      : 0000028449
+2019-01-01 18:04:29.604 ##### [53100] -      Customer ID        : 1
+2019-01-01 18:04:29.604 ##### [53100] -      Customer Name      : Software AG internal
+2019-01-01 18:04:29.604 ##### [53100] - Product Information
+2019-01-01 18:04:29.604 ##### [53100] -      Product Name       : Apama Server
+2019-01-01 18:04:29.604 ##### [53100] -      Product Code       : PAMCO
+2019-01-01 18:04:29.604 ##### [53100] -      Operating System   : Linux
+2019-01-01 18:04:29.604 ##### [53100] -      Product Version    : 10.0
+2019-01-01 18:04:29.604 ##### [53100] -      Product Usage      : 
+2019-01-01 18:04:29.604 ##### [53100] -      Expiration Date    : 2020/01/19
+2019-01-01 18:04:29.604 ##### [53100] - License Information
+2019-01-01 18:04:29.604 ##### [53100] -      License Type       : 
+2019-01-01 18:04:29.604 ##### [53100] -      Price Unit         : ST
+2019-01-01 18:04:29.604 ##### [53100] -      Price Quantity     : 1
+2019-01-01 18:04:29.604 ##### [53100] -      Extended Rights    : 
+2019-01-01 18:04:29.604 ##### [53100] -      License Version    : 1.2
+2019-01-01 18:04:29.604 ##### [53100] - Physical Hardware
+2019-01-01 18:04:29.604 ##### [53100] -      Model              : Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz
+2019-01-01 18:04:29.604 ##### [53100] -      Sockets            : 1
+2019-01-01 18:04:29.604 ##### [53100] -      Physical cores     : 6
+2019-01-01 18:04:29.604 ##### [53100] -      Logical cores      : 12
+2019-01-01 18:04:29.604 ##### [53100] -      Performance Bucket : CoreD
+2019-01-01 18:04:29.604 ##### [53100] -      Virtualization     : no
+2019-01-01 18:04:29.604 ##### [53100] - ==================== End License Data ======================
+2019-01-01 18:04:29.604 ##### [53100] - 
+2019-01-01 18:04:29.612 ##### [53100] - Input value - pidfile                  = 
+2019-01-01 18:04:29.612 ##### [53100] - Input value - per receiver queue size  = 10 s
+2019-01-01 18:04:29.612 ##### [53100] - Input value - per receiver queue size  = 10240 kb
+2019-01-01 18:04:29.612 ##### [53100] - Input value - input queue size         = 20000
+2019-01-01 18:04:29.612 ##### [53100] - Input value - DistMemStore config     = C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_1324/Input/ThrowsNpeFromInit
+2019-01-01 18:04:29.612 ##### [53100] - Input value - JVM Option               = -Djava.class.path=C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_1324/Output/amd64-win/javac_classes
+2019-01-01 18:04:29.612 ##### [53100] - External clocking                      = disabled
+2019-01-01 18:04:29.612 ##### [53100] - Input value - logfile                  = npe-from-init-dist-corr.log
+2019-01-01 18:04:29.612 ##### [53100] - Input value - loglevel                 = INFO
+2019-01-01 18:04:29.612 ##### [53100] - Input value - inputLog                 = ** Warning input log not enabled **
+2019-01-01 18:04:29.612 ##### [53100] - Compiler optimizations                 = enabled - the debugger cannot be used; specify command line option "-g" to use it.
+2019-01-01 18:04:29.612 ##### [53100] - Using EPL runtime                      = interpreted
+2019-01-01 18:04:29.614 ##### [53100] - Python support                         = automatic
+2019-01-01 18:04:29.620 ##### [53100] - Java support                           = enabled
+2019-01-01 18:04:29.620 INFO  [53100] - Starting JVM with options:
+2019-01-01 18:04:29.620 INFO  [53100] -   -Djava.class.path=C:/dev/10.5.0.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_1324/Output/amd64-win/javac_classes;C:/dev/10.5.0.x/apama-src/output-amd64-win-release/SoftwareAG/Apama/lib/ap-correlator-extension-api.jar;C:/dev/10.5.0.x/apama-src/output-amd64-win-release/SoftwareAG/Apama/lib/ap-util.jar
+2019-01-01 18:04:29.620 INFO  [53100] -   -DAPAMA_LOG_LEVEL=INFO
+2019-01-01 18:04:29.620 INFO  [53100] -   -Xrs
+2019-01-01 18:04:29.620 INFO  [53100] -   -XX:+HeapDumpOnOutOfMemoryError
+2019-01-01 18:04:29.620 INFO  [53100] -   -DAPAMA_CORRELATOR_NAME=correlator
+2019-01-01 18:04:29.620 INFO  [53100] -   -Dlog4j.configurationFile=file:///C:/dev/10.5.0.x/apama-src/output-amd64-win-release/SoftwareAG/Apama/etc/log4j-correlator.xml
+2019-01-01 18:04:29.746 ##### [53100] - Java virtual machine created - OpenJDK 64-Bit Server VM 1.8.0_212-b04.
+2019-01-01 18:04:30.446 INFO  [53100:java] - Logging started
+2019-01-01 18:04:30.519 INFO  [53100:init] - 
+2019-01-01 18:04:30.519 INFO  [53100:init] - ================================================================================
+2019-01-01 18:04:30.519 INFO  [53100:init] - Java logging begins at: 30-Jul-2019 18:04:29; root log level is: INFO
+2019-01-01 18:04:30.519 INFO  [53100:init] - Apama Platform Version: 10.5.0.0.0 (UNKNOWN_VERSION@0)
+2019-01-01 18:04:30.519 INFO  [53100:init] - ================================================================================
+2019-01-01 18:04:30.519 INFO  [53100:init] - 
+2019-01-01 18:04:30.540 INFO  [53100:init] - Java maximum heap size = 683MB
+2019-01-01 18:04:30.596 CRIT  [53100] - JMon framework ready
+2019-01-01 18:04:30.596 ##### [53100] - Input value - persistence              = disabled
+2019-01-01 18:04:30.728 INFO  [53100] - Will log queue size every 5.000000 seconds
+2019-01-01 18:04:30.728 INFO  [44388] - Starting scheduler with 12 threads (determined from hardware)
+2019-01-01 18:04:30.728 INFO  [44388] - Server socket opened listening on 0.0.0.0:15903
+2019-01-01 18:04:30.728 ##### [44388] - Component ID: Apama Designer Correlator for ReceiverTest(ReceiverTest:defaultCorrelator) (correlator/6758462305225462368/6758462305225462368)
+2019-01-01 18:04:30.728 ##### [44388] - Correlator, version 10.5.0.0.348044, running

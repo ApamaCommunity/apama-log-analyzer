@@ -413,6 +413,8 @@ class LogAnalyzer(object):
 		
 		finalLineWithTimestamp = None
 		
+		skipto = int(self.currentpathbytes*self.args.skip/100) if self.args.skip else None
+		
 		with io.open(self.currentpath, encoding='utf-8', errors='replace') as f:
 			self.__currentfilehandle = f
 			charcount = 0
@@ -439,14 +441,28 @@ class LogAnalyzer(object):
 				
 				try:
 					logline = LogLine(line, lineno)
-					if startTime is None and logline.level is not None: 
+					# skip once we've got past the startup stanza - first status line is a good way to detect when that's happened
+					if skipto and logline.message.startswith(('Correlator Status: ', 'Status: sm')):
+						log.info(f'Skipping first {skipto:,} bytes of file (found status at line {lineno} but no startup stanza)')
+						f.seek(skipto)
+						skipto = None
+						lineno = 100000000-1 # set this to a sentinel value to alert people these are numbers relative to start of skip not absolute
+						continue
+					if startTime is None and logline.level is not None and not skipto: 
 						startTime = logline.getDateTime()
 						file['startTime'] = startTime
 					
 					if self.handleLine(file=file, line=logline, previousLine=previousLine) != LogAnalyzer.DONT_UPDATE_PREVIOUS_LINE:
 						previousLine = logline
 					if logline.level is not None: finalLineWithTimestamp = logline
-
+					
+					if skipto and file['startupStanzas'][0] and not file['inStartupStanza']:
+						log.info(f'Skipping first {skipto:,} bytes of file (now startup stanza has been read)')
+						f.seek(skipto)
+						skipto = None
+						lineno = 100000000-1 # set this to a sentinel value to alert people these are numbers relative to start of skip not absolute
+						continue
+					
 				except Exception as e:
 					log.exception(f'Failed to handle {os.path.basename(self.currentpath)} line {self.currentlineno}: {line} - ')
 					raise
@@ -1654,6 +1670,9 @@ class LogAnalyzerTool(object):
 		self.argparser.add_argument('--output', '-o', metavar='DIR',  # later might also support zip output
 			help='The directory to which output files will be written. Existing files are overwritten if it already exists.')
 
+		self.argparser.add_argument('--skip', metavar='N%', type=str, 
+			help='Skips the first N%% of the file (in bytes) to ignore startup noise and focus on the period of interest which is usually near the end; note that the startup stanza is still read from the beginning of the file if present.')
+
 		self.argparser.add_argument('--json', action='store_true',
 			help='Advanced/debugging option to additionally write output in JSON format suitable for processing by scripts.')
 
@@ -1665,6 +1684,8 @@ class LogAnalyzerTool(object):
 		
 	def main(self, args):
 		args = self.argparser.parse_args(args)
+		if args.skip: 
+			args.skip=float(args.skip.strip('% '))
 		loglevel = getattr(logging, args.loglevel.upper())
 		logging.basicConfig(format=u'%(relativeCreated)05d %(levelname)-5s - %(message)s' if loglevel == logging.DEBUG 
 			else u'%(levelname)-5s - %(message)s', 
