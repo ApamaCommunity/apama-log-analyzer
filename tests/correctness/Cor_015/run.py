@@ -21,5 +21,5 @@ class PySysTest(AnalyzerBaseTest):
 		
 		self.assertDiff(rconn, 'receiver_connections.correlator.csv', replace=[
 			# ignore metadata contents, that's not what we're testing here
-			'# metadata: .*', '# metadata: XXX',
+			('# metadata: .*', '# metadata: XXX'),
 			])
