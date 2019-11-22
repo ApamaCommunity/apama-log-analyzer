@@ -983,7 +983,7 @@ class LogAnalyzer(object):
 					f.write(f'WARNING: Some messages are NOT included in this file due to the XmaxUniqueWarnOrErrorLines limit of {self.args.XmaxUniqueWarnOrErrorLines}\n\n')
 					log.warning(f'Some messages are NOT included in the {kind} file due to the XmaxUniqueWarnOrErrorLines limit of {self.args.XmaxUniqueWarnOrErrorLines})')
 
-				f.write(f"Summary of {kind}, sorted by normalized message, with number of occurrences of that message indicated by 'xN': \n\n")
+				f.write(f"Summary of {kind}, sorted by normalized message, with number of occurrences of that message indicated by '<OCCURRENCES>x': \n\n")
 				
 				def writeSampleLine(prefix, line):
 					f.write(f'{prefix}{line.line}\n')
