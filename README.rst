@@ -66,7 +66,7 @@ When you open a CSV file in Excel, to automatically resize all columns so that t
 
 Keeping headers visible
 ~~~~~~~~~~~~~~~~~~~~~~~
-In recent versions of Excel, selecting cell B2 and then View > Split is useful for ensuring the datetime column and header row are always visible as you scroll. 
+In recent versions of Excel, selecting cell B2 and then **View > Split** is useful for ensuring the datetime column and header row are always visible as you scroll. 
 
 Trendlines
 ~~~~~~~~~~
