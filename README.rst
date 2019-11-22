@@ -10,31 +10,31 @@ The log analyzer is a simple but powerful Python 3 script for analyzing Apama co
 
 Features:
 
-- ``overview.txt``: A textual summary of the time range covered by each log file, some key details from the correlator's startup lines (e.g. host:port, timezone), and a summary of statistics such as memory usage, swapping, and error/warn counts.  This helps you decide which of the logs to look at in more detail, as well as for noticing important differences between the logs (e.g. different timezones or available memory/CPUs). It's also a good way of confirming your log actually contains the time period where the problem occurred!
+- ``overview.txt``: A **textual summary** of the time range covered by each log file, some key details from the correlator's startup lines (e.g. host:port, timezone), and a summary of statistics such as memory usage, swapping, and error/warn counts.  This helps you decide which of the logs to look at in more detail, as well as for noticing important differences between the logs (e.g. different timezones or available memory/CPUs). It's also a good way of confirming your log actually contains the time period where the problem occurred!
 
-- ``status.XXX.csv``: Extracts all periodic statistics from "Correlator Status:" lines, exporting them to an *Excel-friendly CSV file*. Columns are named in a user-friendly way, and some derived stats such as event rate are calculated. The header line contains additional metadata such as machine info, host:port and timezone. 
+- ``status.XXX.csv``: Extracts all periodic statistics from "Correlator Status:" lines, exporting them to an **Excel-friendly CSV file**. Columns are named in a user-friendly way, and some derived stats such as event rate are calculated. The header line contains additional metadata such as machine info, host:port and timezone. 
 
-- ``summary_status.XXX.csv``: Generates a small *summary* CSV file containing a snapshot of values from the start/middle/end of each log, min/mean/max aggregate values, and deltas between them. This is a good first port of call, to check which columns might be worth graphing from the main status CSV to chase down a memory leak or unresponsive application. 
+- ``summary_status.XXX.csv``: Generates a small **summary CSV** file containing a snapshot of values from the start/middle/end of each log, min/mean/max aggregate values, and deltas between them. This is a good first port of call, to check which columns might be worth graphing from the main status CSV to chase down a memory leak or unresponsive application. 
 
 - Calculates derived statistics including:
-	
-	- *rx/tx/rt rate /sec*, which are useful for determining typical receive/send rates and any anomalous periods of high/low/zero rates
-	- *log lines /sec*, which is useful for detecting excessive logging
-	- *warn and error lines /sec*, which is useful for identifying periods where bad things happened (error includes both ERROR and FATAL levels)
-	- *memory usage deltas* (both Java and total), which are useful for identifying application or plug-in memory leaks
-	- *is swapping*, which is 1 if any swapping in or out is occurring or 0 if not; the mean of this is useful for identifying how much of the time was spent swapping
+  
+  * **rx/tx/rt rate /sec**, which are useful for determining typical receive/send rates and any anomalous periods of high/low/zero rates
+  * **log lines /sec**, which is useful for detecting excessive logging
+  * **warn and error lines /sec**, which is useful for identifying periods where bad things happened (error includes both ERROR and FATAL levels)
+  * **memory usage deltas** (both Java and total), which are useful for identifying application or plug-in memory leaks
+  * **is swapping**, which is 1 if any swapping in or out is occurring or 0 if not; the mean of this is useful for identifying how much of the time was spent swapping
 
-- ``logged_errors.txt``/``logged_warnings.txt``: Summarizes WARN and ERROR/FATAL messages across multiple log files, de-duplicating (by removing numeric bits from the message) and displaying the time range where each error/warning occurred in each log file. This makes it easy to skim past unimportant errors/warnings and spot the ones that really matter, and to correlate them with the times during which the problem occurred. 
+- ``logged_errors.txt``/``logged_warnings.txt``: Summarizes **WARN and ERROR/FATAL messages** across multiple log files, de-duplicating (by removing numeric bits from the message) and displaying the time range where each error/warning occurred in each log file. This makes it easy to skim past unimportant errors/warnings and spot the ones that really matter, and to correlate them with the times during which the problem occurred. 
 
-- ``receiver_connections.XXX.csv``: Extract log messages about connections, disconnections and slowness in receivers.
+- ``receiver_connections.XXX.csv``: Extract log messages about **connections**, disconnections and slowness in receivers.
 
 - ``startup_stanza.XXX.log``: A copy of the first few lines of the log file that contain critical startup information such as host/port/name/configuration. If the log file does not contain startup information (perhaps it only contains recent log messages) this file will be missing. As a missing startup stanza impairs some functionality of this tool, try to obtain the missing startup information if at all possible. 
 
-- *JSON* output mode. Most of the above can also be written in JSON format if desired, for post-processing by other scripts. Alternatively, the apamax.log_analyzer.LogAnalyzer (or LogAnalyzerTool) Python class can be imported and subclassed or used from your own Python scripts. 
+- **JSON** output mode. Most of the above can also be written in JSON format if desired, for post-processing by other scripts. Alternatively, the ``apamax.log_analyzer.LogAnalyzer`` (or ``LogAnalyzerTool``) Python class can be imported and subclassed or used from your own Python scripts. 
 
-- Supported Apama releases: *Apama 4.3 through to latest* (10.5+). Also works with correlator logging from `Apama-ctrl`, downloaded from *Cumulocity*. 
+- Supported Apama releases: **Apama 4.3 through to latest** (10.5+). Also works with correlator logging from `Apama-ctrl`, downloaded from **Cumulocity**. 
 
-- Licensed under the *Apache License 2.0*. 
+- Licensed under the **Apache License 2.0**. 
 
 Coming soon:
 
@@ -50,13 +50,13 @@ To run the script, simply execute the script with Python 3::
 
 On Linux, make sure ``python3`` is on `PATH`. On Windows, ensure you have a ``.py`` file association for (or explicitly run it with) ``py.exe`` or ``python.exe`` from a Python 3 installation. Apama releases from 10.3.0 onwards contain Python 3, so an Apama command prompt/apama_env shell will have the correct ``python.exe``/``python3`` on ``PATH``. If you don't have Apama 10.3.0 available, you can download Python 3.6+ yourself. No other Python packages are required. 
 
-Start by reviewing the ``overview.txt`` (which is also displayed on stdout when you've run the tool), then identify which logs and columns you'd like to graph (`status_summary.XXX.csv` may help with this), and then open the relevant `status.XXX.csv` file in a spreadsheet such as Excel. The `logged_errors.txt` and `logged_warnings.txt` files are also worth reviewing carefully. 
+Start by reviewing the ``overview.txt`` (which is also displayed on stdout when you've run the tool), then identify which logs and columns you'd like to graph (``status_summary.XXX.csv`` may help with this), and then open the relevant ``status.XXX.csv`` file in a spreadsheet such as Excel. The ``logged_errors.txt`` and ``logged_warnings.txt`` files are also worth reviewing carefully. 
 
 For information about the meaning of the status lines which may be helpful when analyzing the csv files, see the Resources section below. 
 
 Cumulocity
 ----------
-If you're using Apama inside Cumulocity, to download the log use the App Switcher icon to go to ``Administration``, then ``Applications`` > ``Subscribed applications`` > ``Apama-ctrl-XXX``. Assuming Apama-ctrl is running, you'll see a ``Logs`` tab. You should try to get the full log - to do that click the `|<<` button to find out the date of the first entry then click ``Download``, and select the time range from the start date to the day after today. 
+If you're using Apama inside Cumulocity, to download the log use the App Switcher icon to go to **Administration**, then **Applications > Subscribed applications > Apama-ctrl-XXX**. Assuming Apama-ctrl is running, you'll see a **Logs** tab. You should try to get the full log - to do that click the ``|<<`` button to find out the date of the first entry then click **Download**, and select the time range from the start date to the day after today. 
 
 Excel/CSV
 ---------
@@ -76,15 +76,15 @@ Importing CSVs in a non-English locale (e.g. Germany)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Unfortunately the CSV file format (and Excel in particular) has fairly poor support for use in locales such as German that have different decimal, thousand and date formats to the US/UK format generated by this tool. It is therefore necessary to explicitly tell Excel how to interpret the numeric CSV columns. In Excel 365, the steps are:
 
-  - Open Excel (it should be displaying an empty spreadsheet; don't open the CSV file yet)
-  - On the ``Data`` tab click ``From Text/CSV`` and select the ``.csv`` file to be imported
-  - Ensure the ``Delimiter`` is set to ``Comma``, then click ``Edit``
-  - On the ``Home`` tab of the Power Query Editor dialog, click the ``Use First Row as Headers`` button
-  - Select all columns that contain numbers. To do this click the heading for ``epoch secs``, scroll right until you see ``# metadata:`` then hold down ``SHIFT`` and click the column before ``# metadata:``
-  - (Optional: if you plan to use any values containing non-numeric data (e.g. slowest consumer or context name) then deselect those columns by holding down ``CTRL`` while clicking them; otherwise non-numeric values will show up as _Error_ or blank)
-  - Right-click the selected column headings, and choose ``Change Type > Using Locale...``
-  - Set the Data Type to ``Decimal Number`` and Locale to ``English (Australia)`` (or United States; any English locale should be fine), then click ``OK
-  - On the ``Home`` tab click ``Close & Load``
+  #. Open Excel (it should be displaying an empty spreadsheet; don't open the CSV file yet).
+  #. On the **Data** tab click **From Text/CSV** and select the CSV file to be imported.
+  #. Ensure the **Delimiter** is set to **Comma**, then click **Edit**.
+  #. On the **Home** tab of the Power Query Editor dialog, click the **Use First Row as Headers** button.
+  #. Select all columns that contain numbers. To do this click the heading for ``epoch secs``, scroll right until you see ``# metadata:`` then hold down **SHIFT** and click the column before ``# metadata:``.
+  #. (Optional: if you plan to use any values containing non-numeric data (e.g. slowest consumer or context name) then deselect those columns by holding down **CTRL** while clicking them; otherwise non-numeric values will show up as _Error_ or blank).
+  #. Right-click the selected column headings, and choose **Change Type > Using Locale...**.
+  #. Set the Data Type to **Decimal Number** and Locale to **English (Australia)** (or United States; any English locale should be fine), then click **OK**.
+  #. On the **Home** tab click **Close & Load**.
 
 Resources
 =========

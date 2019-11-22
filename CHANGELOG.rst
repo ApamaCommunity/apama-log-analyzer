@@ -1,6 +1,7 @@
 3.2
 ---
 - Add ``receiver_connections.XXX.csv`` which summarizes connections, disconnections and slow receivers.
+- Add ``README.rst`` instructions for opening CSV files in non-English locales such as German. Unfortunately it's quite an involved process. 
 
 3.1
 ---
