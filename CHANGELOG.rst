@@ -1,5 +1,6 @@
 3.2
 ---
+- Add ``overview.html`` containing interactive zoomable charts to give a quick overview of what's in each file, and an HTML version of ``overview.txt`` that's easy to paste into an email if further help is needed.
 - Add ``receiver_connections.XXX.csv`` which summarizes connections, disconnections and slow receivers.
 - Improve heuristics for grouping related warn/error messages to include filtering of stringified events, and of text at least 80 characters through the string that's following a colon.
 - Add ``README.rst`` instructions for opening CSV files in non-English locales such as German. Unfortunately it's quite an involved process. 
