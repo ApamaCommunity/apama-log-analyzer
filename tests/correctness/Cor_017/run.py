@@ -68,7 +68,7 @@ class PySysTest(AnalyzerBaseTest):
 								pass # random walk
 
 						if k in {'iq', 'icq', 'rq', 'runq', 'oq'}: # queues are usually empty, so reset to zero most of the time, especially if previously empty
-							if (d[k] == 0 and rnd.random()<0.95) or (rnd.random() > 0.95):
+							if (d[k] == 0 and rnd.random()<0.95) or (rnd.random() > 0.99):
 								v = 0
 
 						# floor and ceiling for v

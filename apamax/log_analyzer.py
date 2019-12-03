@@ -381,7 +381,16 @@ class ChartDataWriter(BaseWriter):
 			[(key, 1*1024.0*1024.0 if key.endswith(' MB') else 1) for key in options['labels']], 
 			options.get('logscale')
 			) for chartname, options in self.manager.CHARTS.items()]
-		
+
+	@staticmethod
+	def formatItem(value, scalingfactor):
+		if value is None: return 'null'
+		# assume it's a number; try to find a concise representation to keep the HTML small
+		value = value*scalingfactor
+		if value == 0: return '0'
+		if value > 100: return f'{value:.0f}'
+		return str(value)
+	
 	def writeStatus(self, status=None, line=None, **extra):
 		files = self.__files
 		if self.prependComma: 
@@ -396,15 +405,16 @@ class ChartDataWriter(BaseWriter):
 		# don't bother with milliseconds, not useful
 		prefix += f'[new Date({dt.year},{dt.month},{dt.day},{dt.hour},{dt.minute},{dt.second}),'
 		
+		formatItem = ChartDataWriter.formatItem
+		
 		# could invoke json to convert these values to valid JSON but seems like overkill
 		# don't think non-numeric values are possible, so not handling for now
 		for chartname, keys_and_scaling_values, logscale in self.chartKeys:
-			values = [status.get(key, 'null')*scaling for (key, scaling) in keys_and_scaling_values]
-			
+			# assume these are all numbers
 			# for avoid confusing chart library, can't allow any zero values
 			#if logscale: values = [v if v=='null' or v>0 else 0.0001 for v in values]
 			
-			files[chartname].write(prefix+','.join(str(v) for v in values)+']')
+			files[chartname].write(prefix+','.join(formatItem(status.get(key, None), scaling) for (key, scaling) in keys_and_scaling_values)+']')
 				
 	def closeFile(self):
 		for f in getattr(self, '__files',{}).values():
