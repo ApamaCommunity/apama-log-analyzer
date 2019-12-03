@@ -375,7 +375,12 @@ class ChartDataWriter(BaseWriter):
 			for c in self.manager.CHARTS
 		}
 		self.prependComma = False
-		self.chartKeys = [(chartname, options['labels']) for chartname, options in self.manager.CHARTS.items()]
+		self.chartKeys = [(
+			chartname, 
+			# key, scaling values (to scale MB values back to up to bytes for correct display in chart
+			[(key, 1*1024.0*1024.0 if key.endswith(' MB') else 1) for key in options['labels']], 
+			options.get('logscale')
+			) for chartname, options in self.manager.CHARTS.items()]
 		
 	def writeStatus(self, status=None, line=None, **extra):
 		files = self.__files
@@ -393,8 +398,13 @@ class ChartDataWriter(BaseWriter):
 		
 		# could invoke json to convert these values to valid JSON but seems like overkill
 		# don't think non-numeric values are possible, so not handling for now
-		for chartname, keys in self.chartKeys:
-			files[chartname].write(prefix+','.join(str(status.get(key, 'null')) for key in keys)+']')
+		for chartname, keys_and_scaling_values, logscale in self.chartKeys:
+			values = [status.get(key, 'null')*scaling for (key, scaling) in keys_and_scaling_values]
+			
+			# for avoid confusing chart library, can't allow any zero values
+			#if logscale: values = [v if v=='null' or v>0 else 0.0001 for v in values]
+			
+			files[chartname].write(prefix+','.join(str(v) for v in values)+']')
 				
 	def closeFile(self):
 		for f in getattr(self, '__files',{}).values():
@@ -1651,31 +1661,37 @@ class LogAnalyzer(object):
 			'labels':['rx /sec', 'tx /sec'],
 			'colors':['red', 'teal'], # red for received/input side; teal for transmitted/output side
 			'labelsKMB':True, # for big numbers this works better than exponential notation
+			#'showRangeSelector': True,
 		}, 
-		'queues':{'title':'Queues', 'ylabel':'Queued items', 'y2label':'Connected consumers', 
-			'labels':['iq=queued input', 'icq=queued input public', 'oq=queued output', 'rq=queued route', 'runq=queued ctxs', 'nc=ext+int consumers'],
-			'colors':['red', 'orange', 'teal', 'purple', 'brown', 'blue'],
-			'series': {'nc=ext+int consumers':{'axis':'y2'}},
+		'queues':{'title':'Correlator queues', 'ylabel':'Queue length', 
+			'labels':['iq=queued input', 'icq=queued input public', 'oq=queued output', 'rq=queued route', 'runq=queued ctxs', ],
+			'colors':['red', 'orange', 'teal', 'purple', 'brown'],
 			'labelsKMB':True,
 		},
-		'health':{'title':'Swapping (memory pressure); logged warnings/errors', 'ylabel':'Messages logged/sec', 'y2label':'Pages swapped /sec',
-			'labels':['errors', 'warns', 'si=swap pages read /sec', 'so=swap pages written /sec'],
-			'colors':['red', 'orange', 'blue', 'purple'],
-			'series':{'si=swap pages read /sec':{'axis':'y2'}, 'so=swap pages written /sec':{'axis':'y2'}},
-			'includeZero':True,
+		'health':{'title':'Health (logged warnings/errors; number of consumers; is swapping)', 'ylabel':'Errors/warns logged (since last status), Consumers', 'y2label':'Is swapping (true=1)',
+			'labels':['errors', 'warns', 'nc=ext+int consumers', 'is swapping'],
+			'series': {'is swapping':{'axis':'y2'}},
+			'colors':['red', 'orange', 'blue', 'black'],
 		}, 
 		'memory':{'title':'Correlator process memory usage', 
 			'labels':['pm=resident MB', 'jvm=Java MB'],
 			'colors':['red', 'blue'],
 			'labelsKMG2':True, # base2 since this is memory stuff
 		},
-		'memoryusers':{'title':'EPL items', 'ylabel':'Listeners, Monitor instances', 'y2label':'Contexts',
+		'memoryusers':{'title':'EPL items', 'ylabel':'Number', #'y2label':'Contexts',
 			'labels':['ls=listeners', 'sm=monitor instances', 'nctx=contexts'],
 			'colors':['red', 'blue', 'brown'],
 			'labelsKMB':True,
-			'series':{'nctx=contexts':{'axis':'y2'}},
+			#'series':{'nctx=contexts':{'axis':'y2'}},
 		},
 	}
+	""" # really hard to make the logscale look good due to zero values
+	'swapping':{'title':'Swapping (memory pressure)', 'ylabel':'Pages swapped /sec',
+		'labels':['si=swap pages read /sec', 'so=swap pages written /sec'],
+		'colors':['blue', 'purple'],
+		'logscale':True,
+	}, 
+	"""
 
 	def writeOverviewHTMLForAllFiles(self, overviewText, **extra):
 		title = os.path.basename(self.args.output)
@@ -1706,7 +1722,10 @@ class LogAnalyzer(object):
 
 					id = f"{c}_{file['name']}" #ID and NAME tokens must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods (".").
 					options = dict(info)
-					options['labels'] = ['time']+options['labels']
+					
+					# remove units from label since 
+					options['labels'] = ['time']+[label.split(' MB')[0] for label in options['labels']]
+					
 					# common defaults go here
 					for k in defaultoptions: options.setdefault(k, defaultoptions[k])
 					options['xlabel'] = 'Local time '+(file['startupStanzas'][0].get('utcOffset',None) or defaulttz)
@@ -1748,6 +1767,9 @@ class LogAnalyzer(object):
 body { font-family: tahoma; }
 span.overview { }
 
+	.dygraph-legend {
+		left:80px !important;
+	}
 	</style>
 """
 	HTML_START = """<!DOCTYPE html>
