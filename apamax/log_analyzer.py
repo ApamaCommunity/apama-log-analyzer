@@ -1689,7 +1689,7 @@ class LogAnalyzer(object):
 			'colors':['red', 'orange', 'teal', 'purple', 'brown'],
 			'labelsKMB':True,
 		},
-		'health':{'title':'Health (logged warnings/errors; number of consumers; is swapping)', 'ylabel':'Errors/warns logged (since last status), Consumers', 'y2label':'Is swapping (true=1)',
+		'health':{'title':'Logging/consumers/swapping', 'ylabel':'Errors/warns logged (since last status), Consumers', 'y2label':'Is swapping (true=1)',
 			'labels':['errors', 'warns', 'nc=ext+int consumers', 'is swapping'],
 			'series': {'is swapping':{'axis':'y2'}},
 			'colors':['red', 'orange', 'blue', 'black'],
@@ -1741,18 +1741,36 @@ class LogAnalyzer(object):
 				))
 			
 			out.write(f"""<h2>Overview</h2><span class="overview"><pre>{overviewText}</pre></span>\n""")
-			out.write(f"""<h2>Charts</h2>
-			<p>These graphs are interactive! To zoom in, just make a vertical or horizontal selection; to reset the zoom so everything is shown double-click the graph; to pan, hold SHIFT while dragging.</p>
-""")
+			out.write(f"""<h2>Charts</h2>""")
+
+			# Table of contents - display ordered by file not chart since that's probably what we want to hide/show
+			out.write('<ul class="charts_toc">\n')
+			
+			def getid(c, file): return f"{c}_{file['name']}" #ID and NAME tokens must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods (".").
+
+			for file in self.files:
+				#out.write(f"<li><label><input name='Checkbox1' type='checkbox' checked>{file['index']} {file['name']}</label>\n")
+				out.write(f"<li><label>{file['index']} {file['name']}</label>\n")
+				out.write(f'<ul class="charts_toc">\n')
+				out.write(f"<li><code>{file['startupStanzas'][0].get('instance','<no startup stanza>')}</code></li>")
+				out.write(f"<li>{self.formatDateTimeRange(file['startTime'], file['endTime'], skipPrefix=True)}</li>\n")
+				for c, info in self.CHARTS.items():
+					out.write(f"<li><input id='selected_{getid(c,file)}' type='checkbox' checked onclick=\"togglechart('{getid(c,file)}')\"><label><a href='#chart_{getid(c,file)}'>{info['title']}</a></label></li>\n")
+				out.write(f'</ul>\n')
+				
+			out.write('</ul>\n')
+
+			out.write('<p>These graphs are interactive! To zoom in, just make a vertical or horizontal selection; to reset the zoom so everything is shown double-click the graph; to pan, hold SHIFT while dragging.</p>')	
+
 			for c, info in self.CHARTS.items():
 				for file in self.files:
+					id = getid(c, file)
 					tmpfile = toLongPathSafe(self.outputdir+f"/tmp/{c}_{file['name']}.json")
 					if not os.path.exists(tmpfile): continue
 
-					id = f"{c}_{file['name']}" #ID and NAME tokens must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods (".").
 					options = dict(info)
 					
-					# remove units from label since 
+					# remove units from label since axis contains units
 					options['labels'] = ['time']+[label.split(' MB')[0] for label in options['labels']]
 					
 					# common defaults go here
@@ -1767,8 +1785,13 @@ class LogAnalyzer(object):
 					if len(instancetitle)>40: instancetitle = instancetitle.split('[')[0] # just host:port if long
 
 					out.write(f"""
-	<h4 id="chart_{id}">{title}: <a href="#chart_{id}">{file['index']} {file['name']}</a> {'- ' if instancetitle else''}<code>{instancetitle}</code></h4>
+	<div id="chartholder_{id}">
+	<h4 id="chart_{id}">{title}: 
+		<a href="#selected_{id}">{file['index']} {file['name']}</a>{' - ' if instancetitle else''}<code>{instancetitle}</code>
+		<a href="javascript:togglechart('{id}');">(hide)</a>
+	</h4>
 	<div class="chartdiv chart_{c}" id="chartdiv_{id}" style="width:90%;"></div>
+	</div>
 	<script type="text/javascript">
 		var g = new Dygraph(document.getElementById("chartdiv_{id}"), [""")
 					with io.open(tmpfile, 'r', encoding='utf-8') as datafile:
@@ -1804,6 +1827,9 @@ span.overview { }
 	.dygraph-legend {
 		left:80px !important;
 	}
+	.charts_toc {
+		list-style-type:none;
+	}
 	</style>
 """
 	HTML_START = """<!DOCTYPE html>
@@ -1834,6 +1860,18 @@ span.overview { }
 			zoom: true,
 			range: false,
 		});
+
+		function togglechart(id) 
+		{
+			if (document.getElementById("chartholder_"+id).style.display === "none") {
+				document.getElementById("chartholder_"+id).style.display = "block";
+				document.getElementById("selected_"+id).checked = true;
+			} else {
+				document.getElementById("chartholder_"+id).style.display = "none";
+				document.getElementById("selected_"+id).checked = false;
+			}
+		}
+
 	</script>
 	</body></html>"""
 
