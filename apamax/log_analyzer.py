@@ -1037,7 +1037,7 @@ class LogAnalyzer(object):
 				
 				# first show a summary
 				for file in self.files:
-					f.write(f"{file[f'{kind}Count']} {kind} in {file['name']}\n")
+					f.write(f"{file[f'{kind}Count']:,} {kind} in {file['name']}\n")
 				f.write("\n")
 
 				if self.args.XmaxUniqueWarnOrErrorLines>0 and len(tracker)==self.args.XmaxUniqueWarnOrErrorLines:
@@ -1060,7 +1060,7 @@ class LogAnalyzer(object):
 					byfiles = tracker[normmsg]
 					totalcount = sum(byfile['count'] for byfile in byfiles.values())
 
-					prefix = f"--- {totalcount}x: "
+					prefix = f"--- {totalcount:,}x: "
 					firstmessage = False
 					
 					if totalcount == 1:
@@ -1077,7 +1077,7 @@ class LogAnalyzer(object):
 							if byfile['count'] == 1:
 								f.write(f"      1x at   {self.formatDateTime(byfile['first'].getDateTime())} in {self.logFileToLogName(logfile)}\n")
 							else:
-								f.write(f"      {byfile['count']}x {self.formatDateTimeRange(byfile['first'].getDateTime(), byfile['last'].getDateTime())} in {self.logFileToLogName(logfile)}\n")
+								f.write(f"      {byfile['count']:,}x {self.formatDateTimeRange(byfile['first'].getDateTime(), byfile['last'].getDateTime())} in {self.logFileToLogName(logfile)}\n")
 
 						for logfile, byfile in byfiles.items():
 							f.write(f"      Examples from {self.logFileToLogName(logfile)}:\n")							
