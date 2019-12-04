@@ -1634,13 +1634,16 @@ class LogAnalyzer(object):
 					ov['sendreceiverates'] = f"Received event rate mean = {file['status-mean']['rx /sec']:,.1f} /sec (max = {file['status-max']['rx /sec']:,.1f} /sec)"+\
 						f", sent mean = {file['status-mean']['tx /sec']:,.1f} /sec (max = {file['status-max']['tx /sec']:,.1f} /sec)"
 					usableMemoryMB = file['startupStanzas'][0].get('usableMemoryMB')
-					if usableMemoryMB and 'pm=resident MB' in file['status-mean']:
+					if 'pm=resident MB' in file['status-mean']:
 						ov['memoryusage'] = f"Correlator resident memory mean = {file['status-mean']['pm=resident MB']/1024.0:,.3f} GB, "+\
 							f"final = {file['status-100pc']['pm=resident MB']/1024.0:,.3f} GB, "+\
 							f"JVM mean = {(file['status-mean'].get('jvm=Java MB') or 0.0)/1024.0:,.3f} GB"
-						ov['memoryusagemax'] = f"Correlator resident memory max  = {file['status-max']['pm=resident MB']/1024.0:,.3f} GB "+\
-							f"(={100.0*file['status-max']['pm=resident MB']/usableMemoryMB:.0f}% of {usableMemoryMB/1024.0:,.1f} GB usable), "+\
-							f"at {file['status-max']['pm=resident MB.line'].getDateTimeString()} (line {file['status-max']['pm=resident MB.line'].lineno})"
+						
+						ov['memoryusagemax'] = f"Correlator resident memory max  = {file['status-max']['pm=resident MB']/1024.0:,.3f} GB "
+						if usableMemoryMB:
+							ov['memoryusagemax'] += f"(={100.0*file['status-max']['pm=resident MB']/usableMemoryMB:.0f}% of {usableMemoryMB/1024.0:,.1f} GB usable), "
+						ov['memoryusagemax'] += f"at {file['status-max']['pm=resident MB.line'].getDateTimeString()} (line {file['status-max']['pm=resident MB.line'].lineno})"
+						
 					if 'is swapping' in file['status-sum']:
 						ov['swapping'] = f"Swapping occurrences = "
 						if file['status-sum']['is swapping'] == 0:
