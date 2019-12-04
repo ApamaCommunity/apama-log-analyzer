@@ -1506,7 +1506,6 @@ class LogAnalyzer(object):
 		instance = f"{stanza.get('host','?')}:{stanza.get('port','?')}"
 		if stanza.get('componentName','correlator') not in {'correlator', 'defaultCorrelator'}: # ignore default name as doesn't add any information
 			instance += f"[{stanza['componentName']}]"
-		
 		stanza['instance'] = instance
 
 	def writeStartupStanzaSummaryForCurrentFile(self, file, **extra):
@@ -1557,7 +1556,7 @@ class LogAnalyzer(object):
 	def writeOverviewForAllFiles(self, **extra):
 		# re-sort based on what we know now
 		
-		firstfile = sorted(self.files, key=lambda f: f['startTime'] or datetime.datetime.min)[0]
+		firstfile = sorted(self.files, key=lambda f: f['startTime'] or datetime.datetime.max)[0]
 		
 		self.files.sort(key=lambda f: [
 			# put all files for a given instance together first (since relative start time of each correlator isn't 
@@ -1572,9 +1571,13 @@ class LogAnalyzer(object):
 			])
 		previousOverview = {}
 		
+		# assign a human-friendly index for each file since sometimes the actual log names are hard for humans to differentiate quickly
+		for i in range(len(self.files)):
+			self.files[i]['index'] = f'#{i+1:02}'
+		
 		with io.open(os.path.join(self.outputdir, 'overview.txt'), 'w', encoding='utf-8') as out:
 			for file in self.files:
-				out.write(f"- {os.path.basename(file['path'])}\n")
+				out.write(f"- {file['index']} {os.path.basename(file['path'])}\n")
 				if not file['startTime']:
 					out.write('  Not a valid Apama log file\n\n')
 					continue
@@ -1754,12 +1757,17 @@ class LogAnalyzer(object):
 					
 					# common defaults go here
 					for k in defaultoptions: options.setdefault(k, defaultoptions[k])
-					options['xlabel'] = 'Local time '+(file['startupStanzas'][0].get('utcOffset',None) or defaulttz)
+					options['xlabel'] = self.formatDateTimeRange(file['startTime'], file['endTime'], skipPrefix=True)
+					options['xlabel'] += ' - Local time '+(file['startupStanzas'][0].get('utcOffset',None) or defaulttz)
 					
 					title = options.pop('title')
+					# TODO: should do XML escaping
+					
+					instancetitle = file['startupStanzas'][0].get('instance','')
+					if len(instancetitle)>40: instancetitle = instancetitle.split('[')[0] # just host:port if long
 
 					out.write(f"""
-	<h4 id="chart_{id}">{title}: <a href="#chart_{id}">{file['name']}</a></h4>
+	<h4 id="chart_{id}">{title}: <a href="#chart_{id}">{file['index']} {file['name']}</a> {'- ' if instancetitle else''}<code>{instancetitle}</code></h4>
 	<div class="chartdiv chart_{c}" id="chartdev_{id}" style="width:90%;"></div>
 	<script type="text/javascript">
 		var g = new Dygraph(document.getElementById("chartdev_{id}"), [""")
