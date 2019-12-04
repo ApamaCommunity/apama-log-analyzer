@@ -1768,9 +1768,9 @@ class LogAnalyzer(object):
 
 					out.write(f"""
 	<h4 id="chart_{id}">{title}: <a href="#chart_{id}">{file['index']} {file['name']}</a> {'- ' if instancetitle else''}<code>{instancetitle}</code></h4>
-	<div class="chartdiv chart_{c}" id="chartdev_{id}" style="width:90%;"></div>
+	<div class="chartdiv chart_{c}" id="chartdiv_{id}" style="width:90%;"></div>
 	<script type="text/javascript">
-		var g = new Dygraph(document.getElementById("chartdev_{id}"), [""")
+		var g = new Dygraph(document.getElementById("chartdiv_{id}"), [""")
 					with io.open(tmpfile, 'r', encoding='utf-8') as datafile:
 						shutil.copyfileobj(datafile, out)
 					os.remove(tmpfile)
