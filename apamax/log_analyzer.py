@@ -403,7 +403,7 @@ class ChartDataWriter(BaseWriter):
 		
 		dt = line.getDateTime()
 		# don't bother with milliseconds, not useful
-		prefix += f'[new Date({dt.year},{dt.month},{dt.day},{dt.hour},{dt.minute},{dt.second}),'
+		prefix += f'[new Date({dt.year},{dt.month-1},{dt.day},{dt.hour},{dt.minute},{dt.second}),'
 		
 		formatItem = ChartDataWriter.formatItem
 		
@@ -1713,6 +1713,14 @@ class LogAnalyzer(object):
 			'legend': 'always',
 			'labelsSeparateLines':True,
 		}
+
+		# zoom to show everything
+		times = [f.get('startTime') for f in self.files]+[f.get('endTime') for f in self.files]
+		times = sorted([t.timestamp() for t in times if t])
+		if len(times) >= 2:
+			defaultoptions['dateWindow'] = [
+				int(1000*min(times)), int(1000*max(times))
+			]
 		
 		with io.open(os.path.join(self.outputdir, 'overview.html'), 'w', encoding='utf-8') as out:
 			out.write(self.HTML_START.format(
