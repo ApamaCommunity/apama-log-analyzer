@@ -16,6 +16,7 @@ class PySysTest(AnalyzerBaseTest):
 			self.input+'/correlator-10.5.1.0-linux-everything.log', 
 			
 			self.input+'/correlator-with-restarts.log',
+			self.input+'/correlator-without-startup.log',
 			'--json'
 		])
 

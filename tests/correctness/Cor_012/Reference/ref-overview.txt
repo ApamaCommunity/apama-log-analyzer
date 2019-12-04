@@ -26,6 +26,12 @@
   Notable:        non-standard log level: DEBUG
 
 
+- correlator-without-startup.log
+  Wed 2019-04-10 10:57:37 to 10:59:37 (=0:02:00)
+
+  No correlator startup stanza present in this file!
+
+
 - correlator-4.3.2.0-win.log
   Tue 2019-09-17 16:49:05 to 16:49:34 (=0:00:29)
 
