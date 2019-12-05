@@ -1,0 +1,3 @@
+2019-04-10 10:57:37.769 INFO  [22872] - Correlator Status: sm=1 nctx=2 ls=3 rq=4 iq=5 oq=6 icq=7 lcn="my context" lcq=8 lct=9.9 rx=10 tx=11 rt=12 nc=13 vm=30000 pm=40000 runq=14 si=15.5 so=16.6 srn="srn value" srq=17 jvm=18000
+2019-04-10 10:58:37.769 INFO  [22872] - Correlator Status: sm=1 nctx=2 ls=3 rq=4 iq=5 oq=6 icq=7 lcn="my context" lcq=8 lct=9.9 rx=10 tx=11 rt=12 nc=13 vm=30000 pm=40000 runq=14 si=15.5 so=16.6 srn="srn value" srq=17 jvm=18000
+2019-04-10 10:59:37.769 INFO  [22872] - Correlator Status: sm=1 nctx=2 ls=3 rq=4 iq=5 oq=6 icq=7 lcn="my context" lcq=8 lct=9.9 rx=10 tx=11 rt=12 nc=13 vm=30000 pm=40000 runq=14 si=15.5 so=16.6 srn="srn value" srq=17 jvm=18000
