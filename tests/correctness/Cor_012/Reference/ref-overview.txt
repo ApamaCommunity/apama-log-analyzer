@@ -1,4 +1,4 @@
-- correlator-with-restarts.log
+- #01 correlator-with-restarts.log
   Mon 2019-10-14 22:26:59 to 22:27:14 (=0:00:14)
 
   Instance:       myhost2:15903
@@ -15,7 +15,7 @@
 
   Process id:     66760 restart #3 at Mon 2019-10-14 22:27:11 (line 125)
 
-- correlator-10.3.1.0-win.log
+- #02 correlator-10.3.1.0-win.log
   Tue 2019-04-09 13:57:22 to 13:57:37 (=0:00:15)
 
   Instance:       myhost:15903
@@ -26,13 +26,13 @@
   Notable:        non-standard log level: DEBUG
 
 
-- correlator-without-startup.log
+- #03 correlator-without-startup.log
   Wed 2019-04-10 10:57:37 to 10:59:37 (=0:02:00)
 
   No correlator startup stanza present in this file!
 
 
-- correlator-4.3.2.0-win.log
+- #04 correlator-4.3.2.0-win.log
   Tue 2019-09-17 16:49:05 to 16:49:34 (=0:00:29)
 
   Instance:       myhost:20719
@@ -43,7 +43,7 @@
   Notable:        licenseMayBeMissing!, replayLog
 
 
-- correlator-10.5.1.0-linux-everything.log
+- #05 correlator-10.5.1.0-linux-everything.log
   Fri 2019-10-04 19:02:53 to 19:03:04 (=0:00:10)
 
   Instance:       troll:6705[my correlator]
@@ -58,7 +58,7 @@
   Clean shutdown: Requested at Fri 2019-10-04 19:03:03 (reason: Shutdown requested by test framework)
 
 
-- x-copy-of-correlator-10.5.1.0-linux-everything.log
+- #06 x-copy-of-correlator-10.5.1.0-linux-everything.log
   Fri 2019-10-04 19:02:53 to 19:03:04 (=0:00:10)
 
 
