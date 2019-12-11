@@ -644,13 +644,17 @@ class LogAnalyzer(object):
 				d['waitingForOnAppInit'] = False
 		"""
 		i = m.index(':')+2
-		while i < len(m):
+		mlen = len(m)
+		while i < mlen:
 			# cope with space-delimited values and/or strings
 			key = ''
-			while i < len(m) and m[i]!='=':
+			while i < mlen and m[i]!='=':
 				key+= m[i]
 				i += 1
-			assert i < len(m), repr(m)
+			if i == mlen:
+				# this can happen if (mysteriously) a line break character is missing at end of status line (seen in 10.3.3); better to limp on rather than throwing
+				log.warning(f'Ignoring invalid status log line {line.lineno}: {m}')
+				return
 			assert m[i] == '=', (m, repr(m[i]))
 			i+=1
 			if m[i]=='"':
@@ -659,7 +663,7 @@ class LogAnalyzer(object):
 			else:
 				endchar = ' '
 			val = ''
-			while i < len(m) and m[i] != endchar:
+			while i < mlen and m[i] != endchar:
 				if endchar != '"' or m[i] != ',': # if not a string, suppress thousands character
 					val += m[i]
 				i+=1
@@ -673,7 +677,7 @@ class LogAnalyzer(object):
 				except Exception:
 					pass
 			d[key] = val
-			while i < len(m) and m[i] in [' ', '"']: i+=1
+			while i < mlen and m[i] in {' ', '"'}: i+=1
 		if not d: return
 		
 		#log.debug('Extracted status line %s: %s', d)
