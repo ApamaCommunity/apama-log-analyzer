@@ -80,5 +80,5 @@
 2019-01-01 10:04:30.728 INFO  [53100] - Will log queue size every 5.000000 seconds
 2019-01-01 10:04:30.728 INFO  [44388] - Starting scheduler with 12 threads (determined from hardware)
 2019-01-01 10:04:30.728 INFO  [44388] - Server socket opened listening on 0.0.0.0:15903
-2019-01-01 10:04:30.728 ##### [44388] - Component ID: Apama Designer Correlator for ReceiverTest(ReceiverTest:defaultCorrelator) (correlator/6758462305225462368/6758462305225462368)
+2019-01-01 10:04:30.728 ##### [44388] - Component ID: Apama Designer Correlator for ReceiverTest(ReceiverTest:defaultCorrelator<1>) (correlator/6758462305225462368/6758462305225462368)
 2019-01-01 10:04:30.728 ##### [44388] - Correlator, version 10.5.0.0.348044, running

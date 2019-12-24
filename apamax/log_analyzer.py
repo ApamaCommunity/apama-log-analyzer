@@ -30,6 +30,7 @@ import glob
 import math
 import shutil
 import locale
+import xml.sax.saxutils
 from typing import List, Dict # Python 3 type hints
 
 log = logging.getLogger('loganalyzer')
@@ -1721,6 +1722,13 @@ class LogAnalyzer(object):
 	def writeOverviewHTMLForAllFiles(self, overviewText, **extra):
 		title = os.path.basename(self.args.output)
 		
+		def escapetext(text):
+			if not isinstance(text, str): text = str(text)
+			return xml.sax.saxutils.escape(text).encode('ascii', 'xmlcharrefreplace').decode('ascii')
+		def escape(text): # attributes, including quoting
+			if not isinstance(text, str): text = str(text)
+			return xml.sax.saxutils.quoteattr(text).encode('ascii', 'xmlcharrefreplace').decode('ascii')
+		
 		defaulttz = next((f['startupStanzas'][0]['utcOffset']+' (timezone is from another log file, assumed same)'
 			for f in self.files if f['startupStanzas'][0].get('utcOffset')), '(unknown timezone - missing startup log file!)')
 		
@@ -1739,12 +1747,12 @@ class LogAnalyzer(object):
 		
 		with io.open(os.path.join(self.outputdir, 'overview.html'), 'w', encoding='utf-8') as out:
 			out.write(self.HTML_START.format(
-				head=self.HTML_HEAD.replace('@title@', title),
+				head=self.HTML_HEAD.replace('@title@', escapetext(title)),
 				title=title,
 				version=__version__,
 				))
 			
-			out.write(f"""<h2>Overview</h2><span class="overview"><pre>{overviewText}</pre></span>\n""")
+			out.write(f"""<h2>Overview</h2><span class="overview"><pre>{escapetext(overviewText)}</pre></span>\n""")
 			out.write(f"""<h2>Charts</h2>""")
 
 			# Table of contents - display ordered by file not chart since that's probably what we want to hide/show
@@ -1754,22 +1762,22 @@ class LogAnalyzer(object):
 
 			for file in self.files:
 				#out.write(f"<li><label><input name='Checkbox1' type='checkbox' checked>{file['index']} {file['name']}</label>\n")
-				out.write(f"<li class='chartfile'>{file['index']} {file['name']}\n")
+				out.write(f"<li class='chartfile'>{file['index']} {escapetext(file['name'])}\n")
 				out.write(f" <a href='javascript:{json.dumps([getid(c,file) for c in self.CHARTS.keys()])}.forEach(c=>togglechart(c, show=false));'>(hide all)</a>")
 				out.write(f" <a href='javascript:{json.dumps([getid(c,file) for c in self.CHARTS.keys()])}.forEach(c=>togglechart(c, show=true));'>(show all)</a>")
 				out.write(f" <a href='javascript:{json.dumps([getid(c,file) for c in self.CHARTS.keys()])}.forEach(c=>togglechart(c, show=true));\
 					{json.dumps([getid(c, f) for c in self.CHARTS.keys() for f in self.files if f !=file])}.forEach(c=>togglechart(c, show=false));'>(only)</a>")
 				
 				out.write(f'<ul class="charts_toc">\n')
-				out.write(f"<li class='nobullet'><code>{file['startupStanzas'][0].get('instance','<no startup stanza>')}</code></li>")
+				out.write(f"<li class='nobullet'><code>{escapetext(file['startupStanzas'][0].get('instance','<no startup stanza>'))}</code></li>")
 				out.write(f"<li class='nobullet'>{self.formatDateTimeRange(file['startTime'], file['endTime'], skipPrefix=True)}</li>\n")
 				for c, info in self.CHARTS.items():
-					out.write(f"<li class='nobullet'><input id='selected_{getid(c,file)}' type='checkbox' checked onclick=\"togglechart('{getid(c,file)}')\"><label><a href='#chart_{getid(c,file)}'>{info['title']}</a></label></li>\n")
+					out.write(f"<li class='nobullet'><input id='selected_{getid(c,file)}' type='checkbox' checked onclick=\"togglechart('{getid(c,file)}')\"><label><a href='#chart_{getid(c,file)}'>{escapetext(info['title'])}</a></label></li>\n")
 				out.write(f'</ul>\n')
 				
 			out.write('</ul>\n')
 
-			out.write('<p>These graphs are interactive! To zoom in, just make a vertical or horizontal selection; to reset the zoom so everything is shown double-click the graph; to pan, hold SHIFT while dragging.</p>')	
+			out.write('<p>These graphs are interactive! To zoom in, just make a vertical or horizontal selection; to reset the zoom to show the full range of each graph, double-click; to pan, hold SHIFT while dragging.</p>')	
 
 			for c, info in self.CHARTS.items():
 				for file in self.files:
@@ -1788,15 +1796,14 @@ class LogAnalyzer(object):
 					options['xlabel'] += ' - Local time '+(file['startupStanzas'][0].get('utcOffset',None) or defaulttz)
 					
 					title = options.pop('title')
-					# TODO: should do XML escaping
 					
 					instancetitle = file['startupStanzas'][0].get('instance','')
 					if len(instancetitle)>40: instancetitle = instancetitle.split('[')[0] # just host:port if long
 
 					out.write(f"""
 	<div id="chartholder_{id}">
-	<h4 id="chart_{id}">{title}: 
-		<a href="#selected_{id}">{file['index']} {file['name']}</a>{' - ' if instancetitle else''}<code>{instancetitle}</code>
+	<h4 id="chart_{id}">{escapetext(title)}: 
+		<a href="#selected_{id}">{file['index']} {escapetext(file['name'])}</a>{' - ' if instancetitle else''}<code>{escapetext(instancetitle)}</code>
 		<a href="javascript:togglechart('{id}');">(hide)</a>
 	</h4>
 	<div class="chartdiv chart_{c}" id="chartdiv_{id}" style="width:90%;"></div>

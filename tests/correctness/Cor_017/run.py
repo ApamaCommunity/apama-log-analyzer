@@ -106,4 +106,8 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertGrep('loganalyzer_output/overview.html', expr=r'new Date\([^)]+\),.*null', contains=False)
 		self.assertGrep('loganalyzer_output/overview.html', expr=r'new Date\([^)]+\),.*,,', contains=False)
 		
+		# no unescaped values
+		self.assertGrep('loganalyzer_output/overview.html', expr=r'defaultCorrelator&lt;1&gt;')
+		self.assertGrep('loganalyzer_output/overview.html', expr=r'defaultCorrelator<1>', contains=False)
+		
 		self.addOutcome(INSPECT, 'Manually inspect loganalyzer_output/overview.html in a web browser')
