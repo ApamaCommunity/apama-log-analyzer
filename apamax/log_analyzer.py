@@ -1754,7 +1754,12 @@ class LogAnalyzer(object):
 
 			for file in self.files:
 				#out.write(f"<li><label><input name='Checkbox1' type='checkbox' checked>{file['index']} {file['name']}</label>\n")
-				out.write(f"<li class='chartfile'><label>{file['index']} {file['name']}</label>\n")
+				out.write(f"<li class='chartfile'>{file['index']} {file['name']}\n")
+				out.write(f" <a href='javascript:{json.dumps([getid(c,file) for c in self.CHARTS.keys()])}.forEach(c=>togglechart(c, show=false));'>(hide all)</a>")
+				out.write(f" <a href='javascript:{json.dumps([getid(c,file) for c in self.CHARTS.keys()])}.forEach(c=>togglechart(c, show=true));'>(show all)</a>")
+				out.write(f" <a href='javascript:{json.dumps([getid(c,file) for c in self.CHARTS.keys()])}.forEach(c=>togglechart(c, show=true));\
+					{json.dumps([getid(c, f) for c in self.CHARTS.keys() for f in self.files if f !=file])}.forEach(c=>togglechart(c, show=false));'>(only)</a>")
+				
 				out.write(f'<ul class="charts_toc">\n')
 				out.write(f"<li class='nobullet'><code>{file['startupStanzas'][0].get('instance','<no startup stanza>')}</code></li>")
 				out.write(f"<li class='nobullet'>{self.formatDateTimeRange(file['startTime'], file['endTime'], skipPrefix=True)}</li>\n")
@@ -1828,6 +1833,10 @@ class LogAnalyzer(object):
 body { font-family: tahoma; }
 span.overview { }
 
+	a { /* avoid Chrome making underlined parentheses look weird */
+		text-decoration-skip-ink: none;
+	}
+
 	.dygraph-legend {
 		left:80px !important;
 	}
@@ -1865,9 +1874,9 @@ span.overview { }
 			range: false,
 		});
 
-		function togglechart(id) 
+		function togglechart(id, show=null) // null means toggle 
 		{
-			if (document.getElementById("chartholder_"+id).style.display === "none") {
+			if (show===true || (show===null && document.getElementById("chartholder_"+id).style.display === "none")) {
 				document.getElementById("chartholder_"+id).style.display = "block";
 				document.getElementById("selected_"+id).checked = true;
 			} else {
