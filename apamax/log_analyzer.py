@@ -1754,12 +1754,12 @@ class LogAnalyzer(object):
 
 			for file in self.files:
 				#out.write(f"<li><label><input name='Checkbox1' type='checkbox' checked>{file['index']} {file['name']}</label>\n")
-				out.write(f"<li><label>{file['index']} {file['name']}</label>\n")
+				out.write(f"<li class='chartfile'><label>{file['index']} {file['name']}</label>\n")
 				out.write(f'<ul class="charts_toc">\n')
-				out.write(f"<li><code>{file['startupStanzas'][0].get('instance','<no startup stanza>')}</code></li>")
-				out.write(f"<li>{self.formatDateTimeRange(file['startTime'], file['endTime'], skipPrefix=True)}</li>\n")
+				out.write(f"<li class='nobullet'><code>{file['startupStanzas'][0].get('instance','<no startup stanza>')}</code></li>")
+				out.write(f"<li class='nobullet'>{self.formatDateTimeRange(file['startTime'], file['endTime'], skipPrefix=True)}</li>\n")
 				for c, info in self.CHARTS.items():
-					out.write(f"<li><input id='selected_{getid(c,file)}' type='checkbox' checked onclick=\"togglechart('{getid(c,file)}')\"><label><a href='#chart_{getid(c,file)}'>{info['title']}</a></label></li>\n")
+					out.write(f"<li class='nobullet'><input id='selected_{getid(c,file)}' type='checkbox' checked onclick=\"togglechart('{getid(c,file)}')\"><label><a href='#chart_{getid(c,file)}'>{info['title']}</a></label></li>\n")
 				out.write(f'</ul>\n')
 				
 			out.write('</ul>\n')
@@ -1831,7 +1831,7 @@ span.overview { }
 	.dygraph-legend {
 		left:80px !important;
 	}
-	.charts_toc {
+	.charts_toc > li.nobullet {
 		list-style-type:none;
 	}
 	</style>
