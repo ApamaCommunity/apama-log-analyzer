@@ -110,4 +110,7 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertGrep('loganalyzer_output/overview.html', expr=r'defaultCorrelator&lt;1&gt;')
 		self.assertGrep('loganalyzer_output/overview.html', expr=r'defaultCorrelator<1>', contains=False)
 		
+		# includes actual apama version in the section on what to do when filing a support case
+		self.assertGrep('loganalyzer_output/overview.html', expr=r'<li><span class="key">Apama version: </span>10.5.0.0.123456</li>')
+		
 		self.addOutcome(INSPECT, 'Manually inspect loganalyzer_output/overview.html in a web browser')
