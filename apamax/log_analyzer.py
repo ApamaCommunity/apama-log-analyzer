@@ -1783,7 +1783,7 @@ class LogAnalyzer(object):
 				
 			out.write('</ul>\n')
 
-			out.write('<p>These graphs are interactive! To zoom in, just make a vertical or horizontal selection; to reset the zoom to show the full range of each graph, double-click; to pan, hold SHIFT while dragging.</p>')	
+			out.write('<p>These graphs are interactive! <ul><li>To zoom in, just make a vertical or horizontal selection</li><li>To reset the zoom to show the full range of each graph, double-click</li><li>To pan, hold SHIFT while dragging.</li></ul></p>')	
 
 			for c, info in self.CHARTS.items():
 				for file in self.files:
