@@ -1748,7 +1748,8 @@ class LogAnalyzer(object):
 		
 		with io.open(os.path.join(self.outputdir, 'overview.html'), 'w', encoding='utf-8') as out:
 			htmlstart = self.HTML_START.format(
-				head=self.HTML_HEAD.replace('@title@', escapetext(title)),
+				head=self.HTML_HEAD.replace('@title@', escapetext(title)).replace('@custom_css@', 
+					'../my_log_analyzer.css' if os.path.exists(self.outputdir+'/../my_log_analyzer.css') else ''),
 				title=title,
 				version=__version__,
 				)
@@ -1836,7 +1837,7 @@ class LogAnalyzer(object):
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.css" />
 	
 	<!-- Provide a way to supply a user-defined css override that is applied to all logs generated under the current directory -->
-	<link rel="stylesheet" href="../my_log_analyzer.css" />
+	<link rel="stylesheet" href="@custom_css@" />
 
 	<script type="text/javascript">
 		var charts = [];
