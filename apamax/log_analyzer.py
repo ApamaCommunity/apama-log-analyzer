@@ -1842,6 +1842,8 @@ class LogAnalyzer(object):
 	<script type="text/javascript">
 		var charts = [];
 		
+		var days_abbr = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+		
 		function legendFormatter(data) {
 			var dygraph = data.dygraph;
 			var html = "";
@@ -1881,7 +1883,14 @@ class LogAnalyzer(object):
 			});
 			// Display x value at the end, after all the series (to avoid making them jump up/down when there's no selection)
 			if (showvalues) {
-				html += this.getLabels()[0] + ': '+data.xHTML;
+				//console.log("Got: "+JSON.stringify(data));
+				var thisdate = new Date(data.x);
+				var isostring = thisdate.toISOString();
+				html += days_abbr[thisdate.getDay()]+" "+isostring.slice(0, 10)+" "+isostring.slice(11, 11+8);
+				var xlabel = dygraph.getOption("xlabel");
+				if (xlabel.indexOf("UTC")>=0) { // add timezone if we have it in the x axis label
+					html += " "+xlabel.slice(xlabel.indexOf("UTC"), xlabel.indexOf("UTC")+9);
+				}
 			}
 
 			return html;
