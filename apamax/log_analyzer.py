@@ -1735,6 +1735,7 @@ class LogAnalyzer(object):
 		defaultoptions = {
 			'legend': 'always',
 			'labelsSeparateLines':True,
+			'highlightSeriesOpts': { 'strokeWidth': 2 },
 		}
 
 		# zoom to show everything
@@ -1819,9 +1820,8 @@ class LogAnalyzer(object):
 					with io.open(tmpfile, 'r', encoding='utf-8') as datafile:
 						shutil.copyfileobj(datafile, out)
 					os.remove(tmpfile)
-					out.write('],\n'+json.dumps(options)+'\n);\n')
+					out.write('],\n'+json.dumps(options)[:-1]+',"legendFormatter":legendFormatter}'+'\n);\n')
 					out.write('\ncharts.push(g); </script>\n')
-					# TODO: try g.adjustRoll(3); 
 
 			out.write(self.HTML_END)
 		if os.path.exists(os.path.join(self.outputdir, 'tmp')):
@@ -1840,6 +1840,52 @@ class LogAnalyzer(object):
 
 	<script type="text/javascript">
 		var charts = [];
+		
+		function legendFormatter(data) {
+			var dygraph = data.dygraph;
+			var html = "";
+			var showvalues = data.x != null; // false if there's no selected value currently
+			
+			// Need a way to lookup the JavaScript dygraph object later from the onclick listener 
+			// (using just a javascript string), so assign a unique id to the div and add a data attribute to it
+			// (would be great if dygraphs did this automatically)
+			if (!dygraph.graphDiv.id) {
+				var i = 1;
+				while (document.getElementById("__dygraph"+i)) 
+					i++;
+				dygraph.graphDiv.id = "__dygraph"+i;
+			}
+			if (!dygraph.graphDiv.dygraph) { dygraph.graphDiv.dygraph = data.dygraph; }
+			
+			var seriesIndex = 0;
+			data.series.forEach(function(series) 
+			{
+				html += "<label><input type='checkbox' onclick=\\"document.getElementById('"+dygraph.graphDiv.id+"').dygraph.setVisibility("+seriesIndex+", ";
+				if (series.isVisible) { 
+					html += "false);\\" checked>";
+				} else {
+					html += "true);\\" >"; 
+				}
+				
+				var labeledData = series.labelHTML;
+				
+				// workaround for the bug where Dygraph.prototype.setColors_ un-sets color for any series where visibility=false; 
+				// this workaround gives correct color if configured using options{colors:[...]} and falls back to transparent if not
+				series.dashHTML = series.dashHTML.replace("color: undefined;", "color: "+(dygraph.getOption('colors')[seriesIndex] || "rgba(255,255,255,0.0)")+";");
+				
+				if (showvalues && series != undefined && series.y != undefined) { labeledData += ': ' + series.yHTML; }
+				if (series.isHighlighted) { labeledData = '<b>' + labeledData + '</b>'; }
+				html += series.dashHTML + " " + labeledData + "</label><br>\\n";
+				seriesIndex += 1;
+			});
+			// Display x value at the end, after all the series (to avoid making them jump up/down when there's no selection)
+			if (showvalues) {
+				html += this.getLabels()[0] + ': '+data.xHTML;
+			}
+
+			return html;
+		}
+
 	</script>
 
 	<style>
