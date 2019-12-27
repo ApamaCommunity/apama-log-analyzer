@@ -101,6 +101,13 @@ Extra items in status line but not here will be added.
 Use | chars to break up sections of related columns
 """
 
+def escapetext(text):
+	"""HTML/XML escaping for text. """
+	if not isinstance(text, str): text = str(text)
+	return xml.sax.saxutils.escape(text).encode('ascii', 'xmlcharrefreplace').decode('ascii')
+def escapeattr(text): # attributes, including quoting
+	if not isinstance(text, str): text = str(text)
+	return xml.sax.saxutils.quoteattr(text).encode('ascii', 'xmlcharrefreplace').decode('ascii')
 
 class UserError(Exception):
 	""" Indicates an exception that should be display to the user without a stack trace. """
@@ -1579,110 +1586,125 @@ class LogAnalyzer(object):
 		for i in range(len(self.files)):
 			self.files[i]['index'] = f'#{i+1:02}'
 		
+		self.overviewHTML = ''
+		
 		with io.open(os.path.join(self.outputdir, 'overview.txt'), 'w', encoding='utf-8') as out:
+			# produce this in both txt and HTML format
+			def write(html):
+				self.overviewHTML += html
+				# strip out HTML tags and un-escape named entities
+				if html.startswith('<li>'): html = '- '+html # textual equivalent
+				out.write(xml.sax.saxutils.unescape(re.sub('<[^>]+>', '', html)))
+			def writeln(html):
+				write(html.replace('\n','<br>\n')+'<br>\n')
+			def v(val, cls='overview-value', fmt=None):
+				if fmt: val = ('{:'+fmt+'}').format(val)
+				return f'<span class="{cls}">{escapetext(val)}</span>'
+
+			write('<ul>')
 			for file in self.files:
-				out.write(f"- {file['index']} {os.path.basename(file['path'])}\n")
+				writeln(f"<li>{file['index']} {v(os.path.basename(file['path']))}")
 				if not file['startTime']:
-					out.write('  Not a valid Apama log file\n\n')
+					writeln('  Not a valid Apama log file\n</li>')
 					continue
-				out.write(f"  {self.formatDateTimeRange(file['startTime'], file['endTime'], skipPrefix=True)}\n\n")
+				writeln(f"  {v(self.formatDateTimeRange(file['startTime'], file['endTime'], skipPrefix=True), cls='overview-timerange')}\n")
 				ss = file['startupStanzas'][0]
 				if not ss:
 					if 'apamaCtrlVersion' in file:
-						out.write('  apama-ctrl: '+file['apamaCtrlVersion']+'\n')
-					out.write('  No correlator startup stanza present in this file!\n\n')
+						writeln(f"  apama-ctrl: {v(file['apamaCtrlVersion'])}")
+					writeln('  No correlator startup stanza present in this file!\n')
 				else:
 					for stanzaNum in range(len(file['startupStanzas'])):
 						ov = collections.OrderedDict() # overview sorted dict# if key ends with : then it will be prefixed
-						ov['Instance:'] = f"{ss.get('instance')}" #, pid {ss.get('pid') or '?'}"
+						ov['Instance:'] = f"{v(ss.get('instance'), cls='overview-instance')}" #, pid {ss.get('pid') or '?'}"
 						ss = file['startupStanzas'][stanzaNum]
 						
-						ov['Process id:'] = f"{ss.get('pid') or '?'}"
-						if stanzaNum > 0: ov['Process id:']+= f" restart #{stanzaNum+1} at {ss.get('startTime')} (line {ss['startLineNumber']})"
+						ov['Process id:'] = f"{v(ss.get('pid') or '?',cls='overview-pid')}"
+						if stanzaNum > 0: ov['Process id:']+= " "+v(f"restart #{stanzaNum+1}")+f" at {v(ss.get('startTime'))} (line {ss['startLineNumber']})"
 
-						ov['Apama version:'] = f"{ss.get('apamaVersion', '?')}{', apama-ctrl: '+file['apamaCtrlVersion'] if file.get('apamaCtrlVersion') else ''}; running on {ss.get('OS')}"
-						ov['Log timezone:'] = f"{ss.get('utcOffset') or '?'}"+(f" ({ss.get('timezoneName')})" if ss.get('timezoneName') else '')
+						ov['Apama version:'] = f"{v(ss.get('apamaVersion', '?'))}{', apama-ctrl: '+v(file['apamaCtrlVersion']) if file.get('apamaCtrlVersion') else ''}; running on {v(ss.get('OS'))}"
+						ov['Log timezone:'] = f"{v(ss.get('utcOffset') or '?')}"+(f" ({v(ss.get('timezoneName'))})" if ss.get('timezoneName') else '')
 						if ss.get('licenseCustomerName'):
-							ov['Customer:'] = f"{ss.get('licenseCustomerName')} (license expires {ss.get('licenseExpirationDate', '?')})"
+							ov['Customer:'] = f"{v(ss.get('licenseCustomerName'))} (license expires {v(ss.get('licenseExpirationDate', '?'))})"
 
-						ov['Hardware:'] = f"{ss.get('cpuSummary')}"
+						ov['Hardware:'] = f"{v(ss.get('cpuSummary'))}"
 						if ss.get('physicalMemoryMB'):
-							ov['Memory:'] = f"{ss.get('physicalMemoryMB')/1024.0:0.1f} GB physical memory"
+							ov['Memory:'] = v(f"{ss.get('physicalMemoryMB')/1024.0:0.1f} GB")+" physical memory"
 							if ss.get('usableMemoryMB')!=ss.get('physicalMemoryMB'):
-								ov['Memory:'] = f"{ss.get('usableMemoryMB')/1024.0:0.1f} GB usable, "+ov['Memory:']
+								ov['Memory:'] = v(f"{ss.get('usableMemoryMB')/1024.0:0.1f} GB")+" usable, "+ov['Memory:']
 							if ss.get('jvmMemoryHeapMaxMB'):
-								ov['Memory:'] = ov['Memory:']+f" ({ss['jvmMemoryHeapMaxMB']/1024.0:0.1f} GB Java max heap)"
+								ov['Memory:'] = ov['Memory:']+" ("+v(f"{ss['jvmMemoryHeapMaxMB']/1024.0:0.1f} GB")+" Java max heap)"
 
-						ov['Connectivity:'] = ', '.join(ss.get('connectivity', ['?']) or ['-'])
-						ov['Notable:'] = ', '.join(ss.get('notableFeatures', ['?']) or ['-'])
+						ov['Connectivity:'] = v(', '.join(ss.get('connectivity', ['?']) or ['-']))
+						ov['Notable:'] = v(', '.join(ss.get('notableFeatures', ['?']) or ['-']))
 						
 						# put shutdown info last
-						if 'shutdownTime' in ss: ov['Clean shutdown:'] = f"Requested at {ss['shutdownTime']} (reason: {ss['shutdownReason']})"
+						if 'shutdownTime' in ss: ov['Clean shutdown:'] = f"Requested at {v(ss['shutdownTime'])} (reason: {ss['shutdownReason']})"
 
 						# print overview of each log, but only delta from previous, since most of the time everything's the same
 						anythingwritten = False
 						for k in ov:
 							if previousOverview.get(k)!=ov[k]:
 								anythingwritten = True
-								out.write('  ')
-								if k.endswith(':'): out.write(f"{k:15} ")
-								out.write(ov[k])
-								out.write('\n')
+								write('  ')
+								if k.endswith(':'): write(f"{k:15} ")
+								write(ov[k])
+								writeln('')
 						
 						previousOverview = ov
 
-						if anythingwritten: out.write('\n')
+						if anythingwritten: writeln('')
 				# end if if startupstanza
 				
 				# overview statistics - just a few to give a quick at-a-glance idea; more detailed analysis should go elsewhere
 				if 'status-mean' in file:
 					ov = {}
-					ov['errorswarns'] = f"Logged errors = {file['errorsCount']:,}, warnings = {file['warningsCount']:,}"
-					ov['sendreceiverates'] = f"Received event rate mean = {file['status-mean']['rx /sec']:,.1f} /sec (max = {file['status-max']['rx /sec']:,.1f} /sec)"+\
-						f", sent mean = {file['status-mean']['tx /sec']:,.1f} /sec (max = {file['status-max']['tx /sec']:,.1f} /sec)"
+					ov['errorswarns'] = f"Logged errors = {v(file['errorsCount'],fmt=',')}, warnings = {v(file['warningsCount'], fmt=',')}"
+					ov['sendreceiverates'] = f"Received event rate mean = {v(file['status-mean']['rx /sec'],fmt=',.1f')} /sec (max = {v(file['status-max']['rx /sec'],fmt=',.1f')} /sec)"+\
+						f", sent mean = {v(file['status-mean']['tx /sec'],fmt=',.1f')} /sec (max = {v(file['status-max']['tx /sec'],fmt=',.1f')} /sec)"
 					usableMemoryMB = file['startupStanzas'][0].get('usableMemoryMB')
 					if 'pm=resident MB' in file['status-mean']:
-						ov['memoryusage'] = f"Correlator resident memory mean = {file['status-mean']['pm=resident MB']/1024.0:,.3f} GB, "+\
-							f"final = {file['status-100pc']['pm=resident MB']/1024.0:,.3f} GB, "+\
-							f"JVM mean = {(file['status-mean'].get('jvm=Java MB') or 0.0)/1024.0:,.3f} GB"
+						ov['memoryusage'] = "Correlator resident memory mean = "+v(f"{file['status-mean']['pm=resident MB']/1024.0:,.3f} GB")+", "+\
+							"final = "+v(f"{file['status-100pc']['pm=resident MB']/1024.0:,.3f} GB")+", "+\
+							"JVM mean = "+v(f"{(file['status-mean'].get('jvm=Java MB') or 0.0)/1024.0:,.3f} GB")
 						
-						ov['memoryusagemax'] = f"Correlator resident memory max  = {file['status-max']['pm=resident MB']/1024.0:,.3f} GB "
+						ov['memoryusagemax'] = "Correlator resident memory max  = "+v(f"{file['status-max']['pm=resident MB']/1024.0:,.3f} GB")+" "
 						if usableMemoryMB:
-							ov['memoryusagemax'] += f"(={100.0*file['status-max']['pm=resident MB']/usableMemoryMB:.0f}% of {usableMemoryMB/1024.0:,.1f} GB usable), "
-						ov['memoryusagemax'] += f"at {file['status-max']['pm=resident MB.line'].getDateTimeString()} (line {file['status-max']['pm=resident MB.line'].lineno})"
+							ov['memoryusagemax'] += "(="+v(f"{100.0*file['status-max']['pm=resident MB']/usableMemoryMB:.0f}%")+\
+								" of "+v(f"{usableMemoryMB/1024.0:,.1f} GB")+" usable), "
+						ov['memoryusagemax'] += f"at {v(file['status-max']['pm=resident MB.line'].getDateTimeString())} (line {file['status-max']['pm=resident MB.line'].lineno})"
 						
 					if 'is swapping' in file['status-sum']:
 						ov['swapping'] = f"Swapping occurrences = "
 						if file['status-sum']['is swapping'] == 0:
 							ov['swapping'] += 'none'
 						else:
-							ov['swapping'] += f"{100.0*file['status-mean']['is swapping']:.2f}% of log file"
+							ov['swapping'] += v(f"{100.0*file['status-mean']['is swapping']:.2f}%", cls='overview-swapping')+" of log file"
 							ov['swapping'] += f", {self.formatDateTimeRange(file['swappingStartLine'].getDateTime(), file['swappingEndLine'].getDateTime() if 'swappingEndLine' in file else 'end')}, beginning at line {file['swappingStartLine'].lineno}"
 					
 					if 'iq=queued input' in file['status-max'] and 'oq=queued output' in file['status-max']:
-						ov['queued'] = f"Queued input max = {file['status-max']['iq=queued input']:,}"
+						ov['queued'] = f"Queued input max = {v(file['status-max']['iq=queued input'],fmt=',')}"
 						if file['status-max']['iq=queued input']>0:
-							ov['queued'] += f" at {file['status-max']['iq=queued input.line'].getDateTimeString()} (line {file['status-max']['iq=queued input.line'].lineno})"
-						ov['queued'] += f", queued output max = {file['status-max']['oq=queued output']:,}"
+							ov['queued'] += f" at {v(file['status-max']['iq=queued input.line'].getDateTimeString())} (line {file['status-max']['iq=queued input.line'].lineno})"
+						ov['queued'] += f", queued output max = {v(file['status-max']['oq=queued output'],fmt=',')}"
 					
 					slowevents = [evt for evt in file['connectionMessages'] if (
 						evt.get('connections delta')==-1 and 'slow' in evt['message'])
 						or evt.get('slow periods')]
-					ov['slowreceivers'] = f"Slow receiver disconnections = {len([evt for evt in slowevents if evt.get('connections delta')==-1 and 'slow' in evt['message']])}"
-					ov['slowreceivers'] += f", slow warning periods = {len([evt for evt in slowevents if evt.get('connections delta')==0 and evt.get('slow periods')])}"
+					ov['slowreceivers'] = f"Slow receiver disconnections = {v(len([evt for evt in slowevents if evt.get('connections delta')==-1 and 'slow' in evt['message']]))}"
+					ov['slowreceivers'] += f", slow warning periods = {v(len([evt for evt in slowevents if evt.get('connections delta')==0 and evt.get('slow periods')]))}"
 					if slowevents:
 						# the "to" is useful for the slow periods but isn't completely accurate for the disconnections since we don't know for sure how many receivers should be connected, but better than nothing, probably
 						ov['slowreceivers'] += ', '+self.formatDateTimeRange(min(e['local datetime object'] for e in slowevents), 
 							max(e['local datetime object'] for e in slowevents))
 						ov['slowreceivers'] += '; host(s): '+', '.join(sorted(list(set(e['connectionInfo']['host'] for e in slowevents if e.get('connectionInfo',{}).get('host')))))
-										
+					
 					for k in ov:
-							out.write('  ')
-							out.write(ov[k])
-							out.write('\n')
-					out.write('\n')
+							write('  ')
+							writeln(ov[k])
+					writeln('</li>')
 
-			out.write(f'Generated by Apama log analyzer v{__version__}. \nFor more information see https://github.com/ApamaCommunity/apama-log-analyzer\n')
+			writeln(f'</ul>Generated by Apama log analyzer v{__version__}. \nFor more information see https://github.com/ApamaCommunity/apama-log-analyzer')
 
 
 		with io.open(os.path.join(self.outputdir, 'overview.txt'), 'r', encoding='utf-8') as out:
@@ -1690,7 +1712,7 @@ class LogAnalyzer(object):
 		
 		log.info('Overview: \n%s%s', overviewText, '' if len(self.files)==1 else 
 			'NB: Values are shown only when they differ from the preceding listed log file\n')
-		self.writeOverviewHTMLForAllFiles(overviewText, **extra)
+		self.writeOverviewHTMLForAllFiles(self.overviewHTML, **extra)
 
 	CHARTS = { # values are (mostly) for dygraph config
 		'rates':{'title':'Send/receive rate', 'ylabel':'Events /sec', 
@@ -1729,15 +1751,8 @@ class LogAnalyzer(object):
 	}, 
 	"""
 
-	def writeOverviewHTMLForAllFiles(self, overviewText, **extra):
+	def writeOverviewHTMLForAllFiles(self, overviewHTML, **extra):
 		title = os.path.basename(self.args.output)
-		
-		def escapetext(text):
-			if not isinstance(text, str): text = str(text)
-			return xml.sax.saxutils.escape(text).encode('ascii', 'xmlcharrefreplace').decode('ascii')
-		def escape(text): # attributes, including quoting
-			if not isinstance(text, str): text = str(text)
-			return xml.sax.saxutils.quoteattr(text).encode('ascii', 'xmlcharrefreplace').decode('ascii')
 		
 		defaulttz = next((f['startupStanzas'][0]['utcOffset']+' (timezone is from another log file, assumed same)'
 			for f in self.files if f['startupStanzas'][0].get('utcOffset')), '(unknown timezone - missing startup log file!)')
@@ -1770,7 +1785,9 @@ class LogAnalyzer(object):
 
 			out.write(htmlstart)
 			
-			out.write(f"""<h2>Overview</h2><span class="overview"><pre>{escapetext(overviewText)}</pre></span>\n""")
+			out.write(f"""<h3>Overview</h3><span class="overview">{overviewHTML}</span>\n""")
+			out.write('<p class="copytofrom">----- (copy up to here) -----</p>')
+
 			out.write(f"""<h2>Charts</h2>""")
 
 			# Table of contents - display ordered by file not chart since that's probably what we want to hide/show
@@ -1787,8 +1804,8 @@ class LogAnalyzer(object):
 					{json.dumps([getid(c, f) for c in self.CHARTS.keys() for f in self.files if f !=file])}.forEach(c=>togglechart(c, show=false));'>(only)</a>")
 				
 				out.write(f'<ul class="charts_toc">\n')
-				out.write(f"<li class='nobullet'><code>{escapetext(file['startupStanzas'][0].get('instance','<no startup stanza>'))}</code></li>")
-				out.write(f"<li class='nobullet'>{self.formatDateTimeRange(file['startTime'], file['endTime'], skipPrefix=True)}</li>\n")
+				out.write(f"<li class='nobullet'><span class='overview-instance'>{escapetext(file['startupStanzas'][0].get('instance','<no startup stanza>'))}</span></li>")
+				out.write(f"<li class='nobullet'><span class='overview-timerange'>{self.formatDateTimeRange(file['startTime'], file['endTime'], skipPrefix=True)}</span></li>\n")
 				for c, info in self.CHARTS.items():
 					out.write(f"<li class='nobullet'><input id='selected_{getid(c,file)}' type='checkbox' checked onclick=\"togglechart('{getid(c,file)}')\"><label><a href='#chart_{getid(c,file)}'>{escapetext(info['title'])}</a></label></li>\n")
 				out.write(f'</ul>\n')
@@ -1924,7 +1941,18 @@ span.overview { }
 	}
 	
 	.ifyouneedhelp .key {
-			font-weight:bold;
+		font-weight:bold;
+	}
+	
+	.overview-value, .overview-timerange, .overview-instance {
+		font-weight: bold;
+	}
+	.overview-instance {
+	  /*font-family: monospace;*/
+	}
+	
+	.copytofrom {
+		font-style: italic;
 	}
 	</style>
 """
@@ -1938,14 +1966,16 @@ span.overview { }
 <p>Generated by Log Analyzer {version}. For more information and latest version <a href='https://github.com/ApamaCommunity/apama-log-analyzer'>see here</a></p>
 
 <h2>If you need help</h2>
-<p>If you need to help analyzing a log file, here's the essential information you need to include: <ol class="ifyouneedhelp">
+<p>If you need to help analyzing a log file, here's the essential information you need to include: </p>
+<p class="copytofrom">----- (copy from here) -----</p>
+<ol class="ifyouneedhelp">
 <li><span class="key">Apama version: </span>(TODO: 5-digit Apama version here)</li>
 <li><span class="key">Date/time(s) when problem occurred: </span>(TODO: START to END; include date, time, and TIMEZONE)</li>
 <li><span class="key">Nature of the problem: </span>(TODO: e.g. reduced performance, out of memory, correlator terminated unexpectedly, logic error in EPL monitor, confusing log message, etc)</li>
 <li><span class="key">Reproducibility: </span>(TODO: How many times has the problem occurred and how frequently? Can it be reproduced in a test environment?)</li>
 <li><span class="key">Application experts: </span>(TODO: What contacts/departments within Software AG and/or customer knows the codebase of the EPL application?)</li>
 <li><span class="key">Correlator logs: </span>(TODO: Links to original correlator log files covering the time when the problem occurred, and also containing the period when it was started; this contains vital information)</li>
-<li><span class="key">Log analyzer overview output: </span>(TODO: paste in a copy of the overview text below)</li>
+<li><span class="key">Log analyzer overview output: </span>(TODO: paste in a copy of the overview below)</li>
 </ol></p>
 """
 
