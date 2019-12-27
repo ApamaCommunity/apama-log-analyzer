@@ -4,3 +4,4 @@
   Correlator resident memory max  = 29.087 GB (=91% of 31.8 GB usable), at Tue 2019-04-09 13:57:50 (line 95)
   Swapping occurrences = none
   Queued input max = 19,000 at Tue 2019-04-09 13:57:40 (line 92), queued output max = 9,000
+  Slow receiver disconnections = 0, slow warning periods = 0

@@ -148,6 +148,8 @@
 2019-11-12 17:09:20.116 WARN  [139627924645632] - Receiver engine_receiveSLOW (component ID 6758468452563427684/6758749927540138340 [0x7efd74000a00]) is slow (have approx. 10240 kb of messages outstanding). Next event to be sent is MyEvent of approx. 14 bytes on channel 'mychannel'
 2019-11-12 17:09:23.360 INFO  [139627924645632] - Receiver engine_receiveSLOW (component ID 6758468452563427684/6758749927540138340 [0x7efd74000a00]) is no longer slow
 2019-11-12 17:30:20.116 WARN  [139627924645632] - Receiver engine_receiveSLOW (component ID 6758468452563427684/6758749927540138340 [0x7efd74000a00]) is slow (have approx. 10240 kb of messages outstanding). Next event to be sent is MyEvent2 of approx. 100 bytes on channel 'mychannel2'
+2019-11-12 17:30:24.360 INFO  [139627924645632] - Receiver engine_receiveSLOW (component ID 6758468452563427684/6758749927540138340 [0x7efd74000a00]) is no longer slow
+2019-11-12 17:31:20.116 WARN  [139627924645632] - Receiver engine_receiveSLOW (component ID 6758468452563427684/6758749927540138340 [0x7efd74000a00]) is slow (have approx. 10240 kb of messages outstanding). Next event to be sent is MyEvent2 of approx. 100 bytes on channel 'mychannel2'
 2019-11-12 17:34:06.757 INFO  [139643307144960] - Receiver engine_receiveSLOW (0x7efd74000a00) (component ID 6758468452563427684/6758749927540138340) disconnected uncleanly: The receiver has been disconnected as it is too slow (10240 kb of messages unacknowledged)
 
 # unclean and slow - by time

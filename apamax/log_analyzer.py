@@ -1236,7 +1236,6 @@ class LogAnalyzer(object):
 		
 		# Extensions: could track channels, record #channels for each one, maybe list them
 		
-		# TODO: add something to overview summary about number of slow warnings and number of slow disconnections and list first few
 		# TODO: could display the duration better
 
 		writers = [CSVStatusWriter(self)]
@@ -1665,7 +1664,18 @@ class LogAnalyzer(object):
 						if file['status-max']['iq=queued input']>0:
 							ov['queued'] += f" at {file['status-max']['iq=queued input.line'].getDateTimeString()} (line {file['status-max']['iq=queued input.line'].lineno})"
 						ov['queued'] += f", queued output max = {file['status-max']['oq=queued output']:,}"
-						
+					
+					slowevents = [evt for evt in file['connectionMessages'] if (
+						evt.get('connections delta')==-1 and 'slow' in evt['message'])
+						or evt.get('slow periods')]
+					ov['slowreceivers'] = f"Slow receiver disconnections = {len([evt for evt in slowevents if evt.get('connections delta')==-1 and 'slow' in evt['message']])}"
+					ov['slowreceivers'] += f", slow warning periods = {len([evt for evt in slowevents if evt.get('connections delta')==0 and evt.get('slow periods')])}"
+					if slowevents:
+						# the "to" is useful for the slow periods but isn't completely accurate for the disconnections since we don't know for sure how many receivers should be connected, but better than nothing, probably
+						ov['slowreceivers'] += ', '+self.formatDateTimeRange(min(e['local datetime object'] for e in slowevents), 
+							max(e['local datetime object'] for e in slowevents))
+						ov['slowreceivers'] += '; host(s): '+', '.join(sorted(list(set(e['connectionInfo']['host'] for e in slowevents if e.get('connectionInfo',{}).get('host')))))
+										
 					for k in ov:
 							out.write('  ')
 							out.write(ov[k])
