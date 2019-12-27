@@ -104,7 +104,7 @@ NB: this is a hacked-up log file that includes both no-license and an actual lic
 2019-10-04 19:02:53.262 INFO  [140008308907904] -   -DAPAMA_LOG_LEVEL=INFO
 2019-10-04 19:02:53.262 INFO  [140008308907904] -   -Xrs
 2019-10-04 19:02:53.262 INFO  [140008308907904] -   -XX:+HeapDumpOnOutOfMemoryError
-2019-10-04 19:02:53.262 INFO  [140008308907904] -   -DAPAMA_CORRELATOR_NAME=my correlator
+2019-10-04 19:02:53.262 INFO  [140008308907904] -   -DAPAMA_CORRELATOR_NAME=my <funky> correlator
 2019-10-04 19:02:53.262 INFO  [140008308907904] -   -Dlog4j.configurationFile=file:////dev/shm/bsp/10.5.1.x/apama-src/output-amd64-rhel7-release/SoftwareAG/Apama/etc/log4j-correlator.xml
 2019-10-04 19:02:53.382 ##### [140008308907904] - Java virtual machine created - OpenJDK 64-Bit Server VM 1.8.0_222-b10.
 2019-10-04 19:02:53.722 INFO  [140008308907904:java] - Logging started
@@ -140,7 +140,7 @@ file:/dev/shm/bsp/10.5.1.x/apama-src/output-amd64-rhel7-release/SoftwareAG/Apama
 2019-10-04 19:02:53.863 INFO  [140008308907904] - Recovery: Committing any changed state to disk
 2019-10-04 19:02:53.905 INFO  [140008308907904] - Server socket opened listening on 0.0.0.0:6705
 2019-10-04 19:02:53.905 INFO  [140008308907904] - Recovery: Completed
-2019-10-04 19:02:53.905 ##### [140008308907904] - Component ID: my correlator (correlator/6744009933894590820/6744009933894590820)
+2019-10-04 19:02:53.905 ##### [140008308907904] - Component ID: my <funky> correlator (correlator/6744009933894590820/6744009933894590820)
 2019-10-04 19:02:53.905 ##### [140008308907904] - Correlator, version 10.5.1.0.0, running
 2019-10-04 19:02:58.860 INFO  [140005703669504] - Correlator Status: sm=0 nctx=1 ls=0 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=0 vm=6946464 pm=120700 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=106
 2019-10-04 19:02:58.860 INFO  [140005703669504] - Persistence Status: numSnapshots=25 lastSnapshotTime=1570212178 snapshotWaitTimeEwmaMillis=0.04 commitTimeEwmaMillis=12.80 lastSnapshotRowsChangedEwma=203

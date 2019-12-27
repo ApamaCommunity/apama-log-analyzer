@@ -46,7 +46,7 @@
 - #05 correlator-10.5.1.0-linux-everything.log
   Fri 2019-10-04 19:02:53 to 19:03:04 (=0:00:10)
 
-  Instance:       troll:6705[my correlator]
+  Instance:       troll:6705[my <funky> correlator]
   Process id:     46974
   Apama version:  10.5.1.0.0; running on CentOS Linux 7 (Core)
   Log timezone:   UTC+01:45 (My Timezone)
