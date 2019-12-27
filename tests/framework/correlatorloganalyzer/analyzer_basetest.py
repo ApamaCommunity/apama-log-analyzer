@@ -32,7 +32,9 @@ class AnalyzerBaseTest(BaseTest):
 		finally:
 			if output and os.path.exists(os.path.join(self.output, output)):
 				self.log.info('   Generated output files: %s', sorted(os.listdir(os.path.join(self.output, output))))
-			if logstderr: self.logFileContents(stdouterr+'.err', tail=True)
+			if logstderr: 
+				self.logFileContents(stdouterr+'.err', tail=True, maxLines=0)
+				self.logFileContents(stdouterr+'.out', tail=True, maxLines=0)
 
 	def checkForAnalyzerErrors(self, stdouterr='loganalyzer'):
 		self.assertGrep(stdouterr+'.err', expr='(ERROR |Traceback).*', contains=False)

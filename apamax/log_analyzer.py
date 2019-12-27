@@ -2180,7 +2180,11 @@ io.open = io_open_patched
 
 if __name__ == "__main__":
 	try:
-		sys.exit(LogAnalyzerTool().main(sys.argv[1:]))
+		result = LogAnalyzerTool().main(sys.argv[1:])
+		if result != 0: log.info('Returning non-zero result: %s', result)
+		sys.exit(result)
+		
 	except UserError as ex:
 		sys.stderr.write(f'ERROR - {ex}\n')
 		sys.exit(100)
+	log.error('after sys.exit - shouldnt get here')
