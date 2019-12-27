@@ -76,7 +76,7 @@
         "distmemstore config": "/dmsconfigdir",
         "java transport config": "/jmsconfigdir",
         "persistenceUpgrade": "Upgrading persistent database",
-        "componentName": "my correlator",
+        "componentName": "my <funky> correlator",
         "physicalID": "6744009933894590820",
         "jvmMemoryHeapMaxMB": 736.0,
         "cpuSummary": "VM with 48-core Xeon E5-2690 v3 @ 2.60GHz (cgroups unlimited CPUs; 1024/1024 shares)",
@@ -102,9 +102,9 @@
             "optimizationsDisabled",
             "JVM"
         ],
-        "analyzerVersion": "3.0.dev/2019-10-03",
+        "analyzerVersion": "3.1.dev/2019-12-26",
         "usableMemoryMB": 1024.0,
-        "instance": "troll:6705[my correlator]",
+        "instance": "troll:6705[my <funky> correlator]",
         "shutdownReason": "Shutdown requested by test framework",
         "shutdownTime": "Fri 2019-10-04 19:03:03"
     }
