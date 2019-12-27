@@ -30,7 +30,7 @@ cache: pip
 
 install:
   - export PY=python$TRAVIS_PYTHON_VERSION
-  - $PY -m pip install coverage codecov
+  - $PY -m pip install coverage=4.5.4 codecov
   - $PY -m pip install pysys==1.5.0
 
 # for running tests and building documentation:
