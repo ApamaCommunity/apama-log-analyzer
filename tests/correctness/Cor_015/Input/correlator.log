@@ -152,7 +152,7 @@
 
 # unclean and slow - by time
 
-2019-11-12 17:39:03.555 INFO  [139989807511296] - Receiver SLOW (01 by time) (0x7f51cc000a00) (component ID 6758476111613469028/6758757586590179684) connected from 127.0.0.1:41306
+2019-11-12 17:39:03.555 INFO  [139989807511296] - Receiver SLOW (01 by time) (0x7f51cc000a00) (component ID 6758476111613469028/6758757586590179684) connected from 192.10.9.8:41306
 2019-11-12 17:39:03.555 INFO  [139989807511296] - Receiver SLOW (01 by time) (0x7f51cc000a00) initially subscribed to <no channels>
 2019-11-12 17:39:03.555 INFO  [139989807511296] - Blocking receiver SLOW (01 by time) (0x7f51cc000a00) will be disconnected after 10.000000 seconds or 10240 kb if slow (even though receiver did
 not request disconnection, due to command line parameter -x or --qdisconnect)
