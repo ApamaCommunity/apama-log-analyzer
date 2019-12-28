@@ -1619,7 +1619,7 @@ class LogAnalyzer(object):
 						ov['Instance:'] = f"{v(ss.get('instance'), cls='overview-instance')}" #, pid {ss.get('pid') or '?'}"
 						ss = file['startupStanzas'][stanzaNum]
 						
-						ov['Process id:'] = f"{v(ss.get('pid') or '?',cls='overview-pid')}"
+						ov['Process id:'] = f"{v(ss.get('pid') or '?',cls='overview-pid overview-value')}"
 						if stanzaNum > 0: ov['Process id:']+= " "+v(f"restart #{stanzaNum+1}")+f" at {v(ss.get('startTime'))} (line {ss['startLineNumber']})"
 
 						ov['Apama version:'] = f"{v(ss.get('apamaVersion', '?'))}{', apama-ctrl: '+v(file['apamaCtrlVersion']) if file.get('apamaCtrlVersion') else ''}; running on {v(ss.get('OS'))}"
@@ -1639,7 +1639,7 @@ class LogAnalyzer(object):
 						ov['Notable:'] = v(', '.join(ss.get('notableFeatures', ['?']) or ['-']))
 						
 						# put shutdown info last
-						if 'shutdownTime' in ss: ov['Clean shutdown:'] = f"Requested at {v(ss['shutdownTime'])} (reason: {ss['shutdownReason']})"
+						if 'shutdownTime' in ss: ov['Clean shutdown:'] = f"Requested at {v(ss['shutdownTime'])} (reason: {v(ss['shutdownReason'])})"
 
 						# print overview of each log, but only delta from previous, since most of the time everything's the same
 						anythingwritten = False
