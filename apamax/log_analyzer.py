@@ -1739,6 +1739,8 @@ class LogAnalyzer(object):
 			'colors':['red', 'orange', 'blue', 'black'],
 		}, 
 		'memory':{'heading':'Correlator process memory usage', 
+			'note':lambda file: f"NB: Total usable memory for the correlator process (physical memory, minus cgroups/licensing limits) is: <span class='overview-value'>{file['startupStanzas'][0]['usableMemoryMB']/1024.0:0.1f} GB</span>" 
+				if file['startupStanzas'][0].get('usableMemoryMB') else None,
 			'labels':['pm=resident MB', 'jvm=Java MB'],
 			'colors':['red', 'blue'],
 			'labelsKMG2':True, # base2 since this is memory stuff
@@ -1829,6 +1831,8 @@ class LogAnalyzer(object):
 
 					options = dict(info)
 					
+					note = options.pop('note')(file) if callable(options.get('note')) else None
+					
 					# remove units from label since axis contains units
 					options['labels'] = ['time']+[label.split(' MB')[0] for label in options['labels']]
 					
@@ -1848,6 +1852,7 @@ class LogAnalyzer(object):
 		<a href="#selected_{id}">{file['index']} {escapetext(file['name'])}</a>{' - ' if instancetitle else''}<code>{escapetext(instancetitle)}</code>
 		<a href="javascript:togglechart('{id}');">(hide)</a>
 	</h4>
+	{"<p>"+note+"</p>" if note else ""}
 	<div class="chartdiv chart_{c}" id="chartdiv_{id}" style="width:90%;"></div>
 	</div>
 	<script type="text/javascript">
