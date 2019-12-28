@@ -24,5 +24,5 @@ class PySysTest(AnalyzerBaseTest):
 			('# metadata: .*', '# metadata: XXX'),
 			])
 			
-		self.assertGrep('loganalyzer_output/overview.txt', expr='Slow receiver disconnections = 2, slow warning periods = 3, from Tue 2019-11-12 17:09:20 to 17:40:00 (=0:30:39); host(s): 127.0.0.1, 192.10.9.8', literal=True)
+		self.assertGrep('loganalyzer_output/overview.txt', expr='Slow receiver disconnections = 2, slow warning periods = 3, from Tue 2019-11-12 17:09:20 to 17:40:00 (=0:30:39); host(s): 127.0.0.1, 192.10.9.8 (see receiver_connections.correlator.csv)', literal=True)
 		

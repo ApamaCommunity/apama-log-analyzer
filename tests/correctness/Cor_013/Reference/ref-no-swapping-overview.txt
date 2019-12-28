@@ -1,4 +1,4 @@
-  Logged errors = 3, warnings = 2
+  Logged errors = 3, warnings = 2 (see logged_errors.txt, logged_warnings.txt)
   Received event rate mean = 150.2 /sec (max = 251.0 /sec), sent mean = 1,500.0 /sec (max = 2,050.0 /sec)
   Correlator resident memory mean = 27.418 GB, final = 26.226 GB, JVM mean = 0.042 GB
   Correlator resident memory max  = 29.087 GB (=91% of 31.8 GB usable), at Tue 2019-04-09 13:57:50 (line 95)
