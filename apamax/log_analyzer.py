@@ -853,7 +853,9 @@ class LogAnalyzer(object):
 		for avgk in avgkeys:
 			win = windows[avgk]
 			win.append(d[avgk])
-			while win and secsSinceLast>0 and (len(win) > avgSecsPerWindow/secsSinceLast):
+			# expire old items (heuristically based on most recent secsSinceLast); special-case to avoid having less than 2 items in window 
+			# for case where status lines are coming less than frequently once per avgSecsPerWindow
+			while win and secsSinceLast>0 and (len(win) > avgSecsPerWindow/secsSinceLast) and len(win)>=2:
 				win.popleft()
 			d[avgk+' 1min avg'] = sum(win)/len(win) if len(win) > 0 else 0.0
 
