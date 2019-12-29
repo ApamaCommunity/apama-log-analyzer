@@ -1923,7 +1923,7 @@ class LogAnalyzer(object):
 			data.series.forEach(function(series) 
 			{
 				html += "<label><input type='checkbox' onclick=\\"document.getElementById('"+dygraph.graphDiv.id+"').dygraph.setVisibility("+seriesIndex+", ";
-				if (series.isVisible) { 
+				if (dygraph.visibility()[seriesIndex]) { 
 					html += "false);\\" checked>";
 				} else {
 					html += "true);\\" >"; 
