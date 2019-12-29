@@ -2,6 +2,8 @@ import io
 import datetime
 import json
 import math
+import calendar
+import time
 from pysys.constants import *
 from correlatorloganalyzer.analyzer_basetest import AnalyzerBaseTest
 
@@ -21,10 +23,15 @@ class PySysTest(AnalyzerBaseTest):
 		'mynewstatus':10,
 	}
 	def execute(self):
-		for totallines in 1, 2, 8, 20:
+		for totallines in 1, 2, 8, 20, 120:
+			starttime = calendar.timegm(time.strptime(f'2019-04-08 13:00:00', '%Y-%m-%d %H:%M:%S'))
+
 			with io.open(self.output+f'/generated-log-{totallines:02}.log', 'w', encoding='utf-8') as f:
 				for l in range(totallines):
-					f.write(f'2019-04-08 13:00:{l:02}.111 INFO  [22872] - Correlator Status: ')
+				
+					timestamp = time.strftime('%Y-%m-%d %H:%M:%S.111', time.gmtime(starttime + (l*1.0)))
+
+					f.write(f'{timestamp} INFO  [22872] - Correlator Status: ')
 					for k in self.initialvalues:
 						val = self.initialvalues[k]
 						if l > 0 and not isinstance(val, str):
@@ -40,6 +47,7 @@ class PySysTest(AnalyzerBaseTest):
 		# and that they don't interfere with each other
 		self.logAnalyzer(['--json'], logfiles=[
 			self.output+'/generated-log-20.log',
+			self.output+'/generated-log-120.log',
 			self.output+'/generated-log-08.log',
 			self.output+'/generated-log-02.log',
 			self.output+'/generated-log-01.log',
@@ -123,3 +131,21 @@ class PySysTest(AnalyzerBaseTest):
 			if findstat('mean')[k] > findstat('max')[k]:
 				self.addOutcome(FAILED, f"mean ({findstat('mean')[k]}) > max ({findstat('max')[k]}) for '{k}'")
 			
+		# check moving averages
+		with io.open(self.output+'/loganalyzer_output/status.generated-log-120.json') as f:
+			s = json.load(f)['status']
+			self.assertEval('{avg_rx_zero} == 0', avg_rx_zero=s[0]["rx /sec 1min avg"])
+			self.assertEval('{avg_rx_one} == {value_one}/2.0', avg_rx_one=s[1]["rx /sec 1min avg"], value_one=s[1]["rx /sec"])
+			
+			# check a window large enough to include expiry
+			self.assertEval('{avg_rx_10} == sum({values})/10.0', avg_rx_10=s[10-1]["rx /sec 1min avg"], values=[s[i]["rx /sec"] for i in range(10)])
+			avgSecsPerWindow = 60 # in this test we output status lines every second
+			itemsPerWindow = avgSecsPerWindow*1
+			values = [s[i]["rx /sec"] for i in range(70-itemsPerWindow,70)]
+			assert len(values)==itemsPerWindow
+			self.assertEval('{avg_rx_30} == sum({values})/len({values})', avg_rx_30=s[70-1]["rx /sec 1min avg"], values=values, lenvalues=len(values), avgSecsPerWindow=avgSecsPerWindow)
+
+			# sanity check for the others
+			self.assertEval('{avg_tx_one} == {value_one}/2.0', avg_tx_one=s[1]["tx /sec 1min avg"], value_one=s[1]["tx /sec"])
+
+			self.assertEval('{avg_rt_one} == {value_one}/2.0', avg_rt_one=s[1]["rt /sec 1min avg"], value_one=s[1]["rt /sec"])

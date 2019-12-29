@@ -53,9 +53,13 @@ COLUMN_DISPLAY_NAMES = collections.OrderedDict([
 	('nc','nc=ext+int consumers'),
 	
 	# rx/tx
-	('=rx /sec','rx /sec'),
-	('=tx /sec','tx /sec'),
-	('=rt /sec','rt /sec'),
+	('=rx /sec',None),
+	('=tx /sec',None),
+	('=rt /sec',None),
+
+	('=rx /sec 1min avg',None),
+	('=tx /sec 1min avg',None),
+	('=rt /sec 1min avg',None),
 
 	('rx','rx=received'),
 	('tx','tx=sent'),
@@ -94,7 +98,7 @@ COLUMN_DISPLAY_NAMES = collections.OrderedDict([
 ])
 """Contains an entry for each key whose name will be changed, and defines the default column order. 
 Units are included where possible (which may differ from the logged units)
-If value is None, column will be ignored. Is key started with ":", it's a generated field. 
+If value is None, column will be ignored. If key starts with "=", it's a generated field. 
 Items listed here but not in the status line will be ignored; 
 Extra items in status line but not here will be added.
 
@@ -781,6 +785,7 @@ class LogAnalyzer(object):
 		# treat warns/errors before the first status line as if they were after, else they won't be seen in the first value
 		status['warns'] = 0 if previousStatus is None else file['warningsCount']
 		status['errors'] = 0 if previousStatus is None else file['errorsCount']
+		
 		for k in display:
 			if k.startswith('='): # computed values
 				if k == '=is swapping':
@@ -822,6 +827,7 @@ class LogAnalyzer(object):
 						continue
 				elif k == '=vm delta MB':
 					val = (status['vm']-previousStatus['vm'])/1024.0
+				elif k.endswith(' avg'): continue # handled below
 				elif k == '=jvm delta MB':
 					try:
 						val = (status['jvm']-previousStatus['jvm'])/1024.0
@@ -833,7 +839,23 @@ class LogAnalyzer(object):
 				val = status.get(k, None)
 				if display[k] in ['pm=resident MB', 'vm=virtual MB'] and val is not None:
 					val = val/1024.0 # kb to MB
+
 			d[display[k]] = val
+
+		# moving averages
+		avgSecsPerWindow = 60 # approx 12 points if once per 5 secs = 1 minute
+		avgkeys = ['rx /sec', 'tx /sec', 'rt /sec']
+		try:
+			windows = file['status-windows']
+		except KeyError:
+			windows = {k: collections.deque() for k in avgkeys}
+			file['status-windows'] = windows
+		for avgk in avgkeys:
+			win = windows[avgk]
+			win.append(d[avgk])
+			while win and secsSinceLast>0 and (len(win) > avgSecsPerWindow/secsSinceLast):
+				win.popleft()
+			d[avgk+' 1min avg'] = sum(win)/len(win) if len(win) > 0 else 0.0
 
 		self.handleAnnotatedStatusDict(file=file, line=line, status=d)
 		self.previousRawStatus = status # both raw and annotated values

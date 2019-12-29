@@ -11,6 +11,9 @@ nc=ext+int consumers : 16
 rx /sec : 25.78
 tx /sec : 279.43
 rt /sec : "2,998"
+rx /sec 1min avg : 12.89
+tx /sec 1min avg : 139.72
+rt /sec 1min avg : "1,499"
 rx=received : 130
 tx=sent : "1,400"
 rt=routed : "15,000"

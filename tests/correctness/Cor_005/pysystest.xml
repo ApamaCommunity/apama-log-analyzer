@@ -2,7 +2,7 @@
 <pysystest type="auto" state="runnable">
     
   <description> 
-    <title>Status lines - summarization</title>    
+    <title>Status lines - summarization and moving averages</title>    
     <purpose><![CDATA[
     Check correlator log status lines can be summarized to a file. 
 ]]>
