@@ -2075,6 +2075,8 @@ class LogAnalyzerTool(object):
 			help='One or more correlator log files to be analyzed; directories and glob-style expressions such as *.log are permitted. Archives such as .zip/.tar.gz/.xz will be automatically extracted.')
 		self.argparser.add_argument('--output', '-o', metavar='DIR',  # later might also support zip output
 			help='The directory to which output files will be written. Existing files are overwritten if it already exists.')
+		self.argparser.add_argument('--autoOpen', action='store_true',
+			help='Automatically open overview.html in a web browser on completion. Can also be enabled with the environment variable APAMA_ANALYZER_AUTO_OPEN=true')
 
 		self.argparser.add_argument('--skip', metavar='N%', type=str, 
 			help='Skips the first N%% of the file (in bytes) to ignore startup noise and focus on the period of interest which is usually near the end; note that the startup stanza is still read from the beginning of the file if present.')
@@ -2126,8 +2128,9 @@ class LogAnalyzerTool(object):
 				args.output = toLongPathSafe('%s_%02d'%(outputname, i))
 				i += 1
 		args.output = toLongPathSafe(args.output)
+		args.outputUserFriendly = args.output[4:] if args.output.startswith('\\\\?\\') else args.output
 
-		log.info('Output directory is: %s', os.path.abspath(args.output))
+		log.info('Output directory is: %s', args.outputUserFriendly)
 		assert args.output != toLongPathSafe(os.path.dirname(globbedpaths[-1])), 'Please put output into a different directory to the input log files'
 		if not os.path.exists(args.output): os.makedirs(args.output)
 		
@@ -2193,9 +2196,14 @@ class LogAnalyzerTool(object):
 
 		duration = time.time()-duration
 		log.info('Completed analysis in %s', (('%d seconds'%duration) if duration < 120 else ('%0.1f minutes' % (duration/60))))
+		if args.autoOpen or os.getenv('APAMA_ANALYZER_AUTO_OPEN')=='true':
+			log.info(f'Automatically opening {os.path.normpath(args.outputUserFriendly+"/overview.html")}')
+			os.system(os.path.normpath(args.outputUserFriendly+"/overview.html"))
+		else:
+			log.info(f'Output is in {args.outputUserFriendly} (overview.html is a good starting place)')
 
 		log.info('')
-		log.info('If you need to request help analyzing a log file be sure to tell us: the 5-digit Apama version, the time period when the bad behaviour was observed, any ERROR/WARN messages, who is the author/expert of the EPL application code, and if possible attach the full original correlator log files (including the very first log file - which contains all the header information - and the log file during which the bad behaviour occurred). ')
+		log.info('If you need to request help analyzing a log file be sure to tell us: the 5-digit Apama version, the time period when the bad behaviour was observed, any ERROR/WARN messages, and attach the full original correlator log files (including the very first log file - which contains all the header information - and also the log files during the times when the bad behaviour occurred). ')
 		
 		return 0
 
