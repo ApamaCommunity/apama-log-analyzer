@@ -1730,7 +1730,7 @@ class LogAnalyzer(object):
 							ov['swapping'] += 'none'
 						else:
 							ov['swapping'] += v(f"{100.0*file['status-mean']['is swapping']:.2f}%", cls='overview-swapping')+" of log file"
-							ov['swapping'] += f", {v(self.formatDateTimeRange(file['swappingStartLine'].getDateTime(), file['swappingEndLine'].getDateTime() if 'swappingEndLine' in file else 'end'))}, beginning at line {file['swappingStartLine'].lineno}"+lowKeyChartLink('health')
+							ov['swapping'] += f", {v(self.formatDateTimeRange(file['swappingStartLine'].getDateTime(), file['swappingEndLine'].getDateTime() if 'swappingEndLine' in file else 'end'))}, beginning at line {file['swappingStartLine'].lineno}"+lowKeyChartLink('memory')
 					
 					if 'iq=queued input' in file['status-max'] and 'oq=queued output' in file['status-max']:
 						ov['queued'] = f"Queued input max = {v(file['status-max']['iq=queued input'],fmt=',')}"
@@ -1773,17 +1773,20 @@ class LogAnalyzer(object):
 			'colors':['red', 'pink', 'teal', 'turquoise'], # red for received/input side; teal for transmitted/output side
 			'labelsKMB':True, # for big numbers this works better than exponential notation
 		}, 
-		'queues':{'heading':'Correlator queues', 'ylabel':'Queue length', 
-			'labels':['iq=queued input', 'icq=queued input public', 'oq=queued output', 'rq=queued route', 'runq=queued ctxs', ],
-			'colors':['red', 'orange', 'teal', 'purple', 'brown'],
+		'queues':{'heading':'Correlator queues and consumers', 
+			'ylabel':'Queue length', 
+			'y2label':'Number of connected consumers',
+			'labels':['iq=queued input', 'icq=queued input public', 'oq=queued output', 'rq=queued route', 'runq=queued ctxs', 'nc=ext+int consumers'],
+			'colors':['red', 'orange', 'teal', 'purple', 'brown', 'green'],
+			'series': {'nc=ext+int consumers':{'axis':'y2'}},
 			'labelsKMB':True,
 		},
-		'health':{'heading':'Logging and consumers', 
+		'logging':{'heading':'Logging', 
 			'ylabel':'Lines logged /sec', 
-			'y2label':'Number of consumers',
-			'labels':['errors /sec', 'warns /sec', 'log lines /sec', 'nc=ext+int consumers'],
-			'series': {'nc=ext+int consumers':{'axis':'y2'}},
-			'colors':['red', 'orange', 'blue', 'teal'],
+			'y2label':'Interval between status lines (secs)',
+			'series': {'interval secs':{'axis':'y2'}},
+			'labels':['errors /sec', 'warns /sec', 'log lines /sec', 'interval secs'],
+			'colors':['red', 'orange', 'blue', 'green'],
 		}, 
 		'memory':{'heading':'Correlator process memory usage', 
 			'note':lambda file: f"NB: Total usable memory for the correlator process (physical memory, minus cgroups/licensing limits) is: <span class='overview-value'>{file['startupStanzas'][0]['usableMemoryMB']/1024.0:0.1f} GB</span>" 
