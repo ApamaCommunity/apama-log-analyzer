@@ -6,45 +6,55 @@
 
 About the Apama Correlator Log Analyzer
 =======================================
-The log analyzer is a simple but powerful Python 3 script for analyzing Apama correlator log files and extracting useful diagnostic information. 
+The log analyzer is a simple but powerful Python 3 script for analyzing a set of Apama correlator log files and extracting useful diagnostic information. 
 
 Features:
 
-- ``overview.txt``: A **textual summary** of the time range covered by each log file, some key details from the correlator's startup lines (e.g. host:port, timezone), and a summary of statistics such as memory usage, swapping, and error/warn counts.  This helps you decide which of the logs to look at in more detail, as well as for noticing important differences between the logs (e.g. different timezones or available memory/CPUs). It's also a good way of confirming your log actually contains the time period where the problem occurred!
+- The starting point after analyzing a log is to look at ``overview.html``, an HTML overview containing interactive 
+  charts for the main statistics such as event rate and memory usage, as well as a textual summary (also in ``overview.txt``) of each 
+  log file and details such as host:port, timezone, etc from the correlator's startup lines. This page also has links to 
+  files such as ``logged_errors/warnings.txt`` that you'll also want to look at. The analyzer calculates and plots 
+  some statistics derived from the values in the ``Correlator Status:`` lines such as:
 
-- ``status.XXX.csv``: Extracts all periodic statistics from "Correlator Status:" lines, exporting them to an **Excel-friendly CSV file**. Columns are named in a user-friendly way, and some derived stats such as event rate are calculated. The header line contains additional metadata such as machine info, host:port and timezone. 
-
-- ``summary_status.XXX.csv``: Generates a small **summary CSV** file containing a snapshot of values from the start/middle/end of each log, min/mean/max aggregate values, and deltas between them. This is a good first port of call, to check which columns might be worth graphing from the main status CSV to chase down a memory leak or unresponsive application. 
-
-- Calculates derived statistics including:
-  
-  * **rx/tx/rt rate /sec**, which are useful for determining typical receive/send rates and any anomalous periods of high/low/zero rates
+  * **rx/tx rate /sec**, which are useful for determining typical receive/send rates and any anomalous periods of high/low/zero rates
   * **log lines /sec**, which is useful for detecting excessive logging
   * **warn and error lines /sec**, which is useful for identifying periods where bad things happened (error includes both ERROR and FATAL levels)
-  * **memory usage deltas** (both Java and total), which are useful for identifying application or plug-in memory leaks
-  * **is swapping**, which is 1 if any swapping in or out is occurring or 0 if not; the mean of this is useful for identifying how much of the time was spent swapping
+  * **is swapping**, which is 1 if any swapping in or out is occurring or 0 if not; swapping is the most common cause of performance problems and disconnections
 
-- ``logged_errors.txt``/``logged_warnings.txt``: Summarizes **WARN and ERROR/FATAL messages** across multiple log files, de-duplicating (by removing numeric bits from the message) and displaying the time range where each error/warning occurred in each log file. This makes it easy to skim past unimportant errors/warnings and spot the ones that really matter, and to correlate them with the times during which the problem occurred. 
+  If you have several log files, pass them all to the log analyzer at the same time, as that 
+  makes it easier to notice important differences between the logs (e.g. different timezones 
+  or available memory/CPUs). It's also a good way of confirming which log files actually 
+  contain the time period where the problem occurred!
 
-- ``receiver_connections.XXX.csv``: Extract log messages about connections, disconnections and slowness in **receivers**.
+- ``logged_errors.txt``/``logged_warnings.txt``: Summarizes **WARN and ERROR/FATAL messages** across multiple log files, de-duplicating (by removing numeric bits from the message) and displaying the time range where each error/warning occurred in each log file. 
 
-- ``startup_stanza.XXX.log``: A copy of the first few lines of the log file that contain critical startup information such as host/port/name/configuration. If the log file does not contain startup information (perhaps it only contains recent log messages) this file will be missing. As a missing startup stanza impairs some functionality of this tool, try to obtain the missing startup information if at all possible. 
+  This makes it easy to skim past unimportant errors/warnings and spot the ones that really matter, and to correlate them with the times during which the problem occurred. 
 
-- **JSON** output mode. Most of the above can also be written in JSON format if desired, for post-processing by other scripts. Alternatively, the ``apamax.log_analyzer.LogAnalyzer`` (or ``LogAnalyzerTool``) Python class can be imported and subclassed or used from your own Python scripts. 
+- ``receiver_connections.XXX.csv``: Extract log messages about connections, disconnections and slowness in **receivers**. 
+
+  This can be very useful for debugging slow receiver disconnections. 
 
 - Supported Apama releases: **Apama 4.3 through to latest** (10.5+). Also works with correlator logging from `Apama-ctrl`, downloaded from **Cumulocity**. 
 
 - Licensed under the **Apache License 2.0**. 
 
-Coming soon:
 
-- A first official release.
+There are also some additional files which may be useful for more advanced cases:
+
+- ``status.XXX.csv``: Extracts all periodic statistics from "Correlator Status:" lines, exporting them to an **Excel-friendly CSV file**. Columns are named in a user-friendly way, and some derived stats such as event rate are calculated. The header line contains additional metadata such as machine info, host:port and timezone. 
+
+- ``summary_status.XXX.csv``: Generates a small **summary CSV** file containing a snapshot of values from the start/middle/end of each log, min/mean/max aggregate values, and deltas between them. This is a good first port of call, to check which columns might be worth graphing from the main status CSV to chase down a memory leak or unresponsive application. 
+
+- ``startup_stanza.XXX.log``: A copy of the first few lines of the log file that contain critical startup information such as host/port/name/configuration. If the log file does not contain startup information (perhaps it only contains recent log messages) this file will be missing. As a missing startup stanza impairs some functionality of this tool, try to obtain the missing startup information if at all possible. 
+
+- **JSON** output mode. Most of the above can also be written in JSON format if desired, for post-processing by other scripts. Alternatively, the ``apamax.log_analyzer.LogAnalyzer`` (or ``LogAnalyzerTool``) Python class can be imported and subclassed or used from your own Python scripts. 
+
 
 Usage
 =====
 Download the latest stable version of the script from https://github.com/ApamaCommunity/apama-log-analyzer/releases
 
-To run the script, simply execute the script with Python 3, specifying all log file(s) and/or archived log files and/or directories to be analyzed::
+To run the script, simply execute the script with Python 3, specifying **all** log file(s) and/or archived log files and/or directories to be analyzed::
 
 	> apamax\log_analyzer.py mycorrelator1.log mycorrelator2.log
 
