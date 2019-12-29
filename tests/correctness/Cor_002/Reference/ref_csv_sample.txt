@@ -31,6 +31,8 @@ so=swap pages written /sec : 21.60
 is swapping : 1
 errors : 0
 warns : 0
+errors /sec : 0.0
+warns /sec : 0.0
 log lines /sec : 0.20
 lcn=slowest ctx : slowest context
 lcq=slowest ctx input queue : 10

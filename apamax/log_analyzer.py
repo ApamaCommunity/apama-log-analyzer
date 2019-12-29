@@ -86,6 +86,8 @@ COLUMN_DISPLAY_NAMES = collections.OrderedDict([
 	# log messages
 	('=errors',None), # since last status
 	('=warns',None),
+	('=errors /sec',None), 
+	('=warns /sec',None),
 	('=log lines /sec',None),
 	
 	# slow contexts and consumers (some of these are strings, so put them at the end)
@@ -809,6 +811,11 @@ class LogAnalyzer(object):
 					val = (file['errorsCount']-previousStatus['errors'])
 				elif k == '=warns':
 					val = (file['warningsCount']-previousStatus['warns'])
+
+				elif k == '=errors /sec':
+					val = (file['errorsCount']-previousStatus['errors'])/secsSinceLast
+				elif k == '=warns /sec':
+					val = (file['warningsCount']-previousStatus['warns'])/secsSinceLast
 
 				elif k == '=log lines /sec':
 					# avoid skewing the stats with data from before the start
@@ -1771,9 +1778,12 @@ class LogAnalyzer(object):
 			'colors':['red', 'orange', 'teal', 'purple', 'brown'],
 			'labelsKMB':True,
 		},
-		'health':{'heading':'Logging/consumers', 'ylabel':'Errors/warns logged (since last status), Consumers', 
-			'labels':['errors', 'warns', 'nc=ext+int consumers'],
-			'colors':['red', 'orange', 'blue'],
+		'health':{'heading':'Logging and consumers', 
+			'ylabel':'Lines logged /sec', 
+			'y2label':'Number of consumers',
+			'labels':['errors /sec', 'warns /sec', 'log lines /sec', 'nc=ext+int consumers'],
+			'series': {'nc=ext+int consumers':{'axis':'y2'}},
+			'colors':['red', 'orange', 'blue', 'teal'],
 		}, 
 		'memory':{'heading':'Correlator process memory usage', 
 			'note':lambda file: f"NB: Total usable memory for the correlator process (physical memory, minus cgroups/licensing limits) is: <span class='overview-value'>{file['startupStanzas'][0]['usableMemoryMB']/1024.0:0.1f} GB</span>" 
