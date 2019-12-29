@@ -102,8 +102,8 @@ class PySysTest(AnalyzerBaseTest):
 		
 		# X axis should include timezone
 		self.assertGrep('loganalyzer_output/overview.html', expr='xlabel.: *".* - Local time UTC[+]03:00"')
-		# no undefined values
-		self.assertGrep('loganalyzer_output/overview.html', expr=r'new Date\([^)]+\),.*null', contains=False)
+		# no undefined values, except at the end (for is swapping)
+		self.assertGrep('loganalyzer_output/overview.html', expr=r'new Date\([^)]+\),.*null', contains=False, ignores=['null]'])
 		self.assertGrep('loganalyzer_output/overview.html', expr=r'new Date\([^)]+\),.*,,', contains=False)
 		
 		# no unescaped values

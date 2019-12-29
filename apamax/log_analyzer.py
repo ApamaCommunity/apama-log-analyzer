@@ -784,7 +784,7 @@ class LogAnalyzer(object):
 			if k.startswith('='): # computed values
 				if k == '=is swapping':
 					try:
-						val = 1 if (status['si']+status['so']>0) else 0
+						val = 1 if (status['si']+status['so']>0) else None
 					except KeyError: # not present in all Apama versions
 						continue
 					if val == 1: 
