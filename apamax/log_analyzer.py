@@ -1760,8 +1760,8 @@ class LogAnalyzer(object):
 
 	CHARTS = { # values are (mostly) for dygraph config
 		'rates':{'heading':'Send/receive rate', 'ylabel':'Events /sec', 
-			'labels':['rx /sec', 'tx /sec'],
-			'colors':['red', 'teal'], # red for received/input side; teal for transmitted/output side
+			'labels':['rx /sec', 'rx /sec 1min avg', 'tx /sec', 'tx /sec 1min avg'],
+			'colors':['red', 'pink', 'teal', 'turquoise'], # red for received/input side; teal for transmitted/output side
 			'labelsKMB':True, # for big numbers this works better than exponential notation
 			#'showRangeSelector': True,
 		}, 
