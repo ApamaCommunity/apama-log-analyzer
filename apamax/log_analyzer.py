@@ -1596,7 +1596,9 @@ class LogAnalyzer(object):
 				self.overviewHTML += html
 				# strip out HTML tags and un-escape named entities
 				if html.startswith('<li>'): html = '- '+html # textual equivalent
-				out.write(xml.sax.saxutils.unescape(re.sub('<[^>]+>', '', html)))
+				txt = xml.sax.saxutils.unescape(re.sub('<[^>]+>', '', html))
+				txt = txt.replace(' ...\n', '\n') # remove <a>... links 
+				out.write(txt)
 			def writeln(html):
 				write(html.replace('\n','<br>\n')+'<br>\n')
 			def v(val, cls='overview-value', fmt=None): # values are escaped then put into a span for formatting
@@ -1660,6 +1662,12 @@ class LogAnalyzer(object):
 				
 				# overview statistics - just a few to give a quick at-a-glance idea; more detailed analysis should go elsewhere
 				if 'status-mean' in file:
+					
+					def lowKeyChartLink(chartid):
+						# generate a fragment link to jump to the chart, but keep it low-key with a short "..." since we want to the focus 
+						# to be on the text here not the blue/underlined links
+						return f" <a href='#chart_{self.getChartId(chartid, file)}'>...</a>"
+					
 					ov = {}
 					ov['errorswarns'] = f"Logged errors = {v(file['errorsCount'],fmt=',')}, warnings = {v(file['warningsCount'], fmt=',')}"
 					
@@ -1667,7 +1675,9 @@ class LogAnalyzer(object):
 						ov['errorswarns'] += " (see "+', '.join([f"<a href='{linkedfile}'>{linkedfile}</a>" for linkedfile in ['logged_errors.txt', 'logged_warnings.txt'] if os.path.exists(self.outputdir+'/'+linkedfile)])+")"
 						
 					ov['sendreceiverates'] = f"Received event rate mean = {v(file['status-mean']['rx /sec'],fmt=',.1f')} /sec (max = {v(file['status-max']['rx /sec'],fmt=',.1f')} /sec)"+\
-						f", sent mean = {v(file['status-mean']['tx /sec'],fmt=',.1f')} /sec (max = {v(file['status-max']['tx /sec'],fmt=',.1f')} /sec)"
+						f", sent mean = {v(file['status-mean']['tx /sec'],fmt=',.1f')} /sec (max = {v(file['status-max']['tx /sec'],fmt=',.1f')} /sec)"+\
+						lowKeyChartLink('rates')
+						
 					usableMemoryMB = file['startupStanzas'][0].get('usableMemoryMB')
 					if 'pm=resident MB' in file['status-mean']:
 						ov['memoryusage'] = "Correlator resident memory mean = "+v(f"{file['status-mean']['pm=resident MB']/1024.0:,.3f} GB")+", "+\
@@ -1678,7 +1688,7 @@ class LogAnalyzer(object):
 						if usableMemoryMB:
 							ov['memoryusagemax'] += "(="+v(f"{100.0*file['status-max']['pm=resident MB']/usableMemoryMB:.0f}%")+\
 								" of "+v(f"{usableMemoryMB/1024.0:,.1f} GB")+" usable), "
-						ov['memoryusagemax'] += f"at {v(file['status-max']['pm=resident MB.line'].getDateTimeString())} (line {file['status-max']['pm=resident MB.line'].lineno})"
+						ov['memoryusagemax'] += f"at {v(file['status-max']['pm=resident MB.line'].getDateTimeString())} (line {file['status-max']['pm=resident MB.line'].lineno})"+lowKeyChartLink('memory')
 						
 					if 'is swapping' in file['status-sum']:
 						ov['swapping'] = f"Swapping occurrences = "
@@ -1686,13 +1696,13 @@ class LogAnalyzer(object):
 							ov['swapping'] += 'none'
 						else:
 							ov['swapping'] += v(f"{100.0*file['status-mean']['is swapping']:.2f}%", cls='overview-swapping')+" of log file"
-							ov['swapping'] += f", {v(self.formatDateTimeRange(file['swappingStartLine'].getDateTime(), file['swappingEndLine'].getDateTime() if 'swappingEndLine' in file else 'end'))}, beginning at line {file['swappingStartLine'].lineno}"
+							ov['swapping'] += f", {v(self.formatDateTimeRange(file['swappingStartLine'].getDateTime(), file['swappingEndLine'].getDateTime() if 'swappingEndLine' in file else 'end'))}, beginning at line {file['swappingStartLine'].lineno}"+lowKeyChartLink('health')
 					
 					if 'iq=queued input' in file['status-max'] and 'oq=queued output' in file['status-max']:
 						ov['queued'] = f"Queued input max = {v(file['status-max']['iq=queued input'],fmt=',')}"
 						if file['status-max']['iq=queued input']>0:
 							ov['queued'] += f" at {v(file['status-max']['iq=queued input.line'].getDateTimeString())} (line {file['status-max']['iq=queued input.line'].lineno})"
-						ov['queued'] += f", queued output max = {v(file['status-max']['oq=queued output'],fmt=',')}"
+						ov['queued'] += f", queued output max = {v(file['status-max']['oq=queued output'],fmt=',')}"+lowKeyChartLink('queues')
 					
 					slowevents = [evt for evt in file['connectionMessages'] if (
 						evt.get('connections delta')==-1 and 'slow' in evt['message'])
@@ -1762,6 +1772,10 @@ class LogAnalyzer(object):
 	}, 
 	"""
 
+	def getChartId(self, chartkey, file): 
+		assert chartkey in self.CHARTS, chartkey
+		return re.sub('[^a-zA-Z0-9_:.-]', '_', f"{chartkey}_{file['name']}") #HTML ID/NAME tokens must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods (".").
+
 	def writeOverviewHTMLForAllFiles(self, overviewHTML, **extra):
 		title = os.path.basename(self.args.output)
 		
@@ -1804,8 +1818,8 @@ class LogAnalyzer(object):
 			# Table of contents - display ordered by file not chart since that's probably what we want to hide/show
 			out.write('<ul class="charts_toc">\n')
 			
-			def getid(c, file): return re.sub('[^a-zA-Z0-9_:.-]', '_', f"{c}_{file['name']}") #ID and NAME tokens must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods (".").
-
+			getid = self.getChartId
+			
 			for file in self.files:
 				#out.write(f"<li><label><input name='Checkbox1' type='checkbox' checked>{file['index']} {file['name']}</label>\n")
 				out.write(f"<li class='chartfile'>{file['index']} {escapetext(file['name'])}\n")
