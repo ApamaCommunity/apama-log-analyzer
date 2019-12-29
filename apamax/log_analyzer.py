@@ -391,7 +391,8 @@ class ChartDataWriter(BaseWriter):
 			) for chartname, options in self.manager.CHARTS.items()]
 
 	@staticmethod
-	def formatItem(value, scalingfactor):
+	def formatItem(key, value, scalingfactor):
+		if key == 'is swapping' and value == 0: value = None
 		if value is None: return 'null'
 		# assume it's a number; try to find a concise representation to keep the HTML small
 		value = value*scalingfactor
@@ -422,7 +423,7 @@ class ChartDataWriter(BaseWriter):
 			# for avoid confusing chart library, can't allow any zero values
 			#if logscale: values = [v if v=='null' or v>0 else 0.0001 for v in values]
 			
-			files[chartname].write(prefix+','.join(formatItem(status.get(key, None), scaling) for (key, scaling) in keys_and_scaling_values)+']')
+			files[chartname].write(prefix+','.join(formatItem(key, status.get(key, None), scaling) for (key, scaling) in keys_and_scaling_values)+']')
 				
 	def closeFile(self):
 		for f in getattr(self, '__files',{}).values():
@@ -784,7 +785,7 @@ class LogAnalyzer(object):
 			if k.startswith('='): # computed values
 				if k == '=is swapping':
 					try:
-						val = 1 if (status['si']+status['so']>0) else None
+						val = 1 if (status['si']+status['so']>0) else 0
 					except KeyError: # not present in all Apama versions
 						continue
 					if val == 1: 
