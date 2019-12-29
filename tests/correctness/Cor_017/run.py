@@ -1,4 +1,4 @@
-import time, io, calendar, random
+import time, io, calendar, random, os
 from pysys.constants import *
 from correlatorloganalyzer.analyzer_basetest import AnalyzerBaseTest
 
@@ -88,8 +88,8 @@ class PySysTest(AnalyzerBaseTest):
 						f.write(f'{timestamp}.222 ERROR [22872] - Simulated error message {l+1}\n')
 					f.write(f"{timestamp}.888 INFO  [22872] - Correlator Status: sm={d['sm']:.0f} nctx={d['nctx']:.0f} ls={d['ls']:.0f} rq={d['rq']:.0f} iq={d['iq']:.0f} oq={d['oq']:.0f} icq={d['icq']:.0f} lcn=\"<none>\" lcq=0 lct=0.0 rx={rx:.0f} tx={tx:.0f} rt=0 nc={d['nc']:.0f} vm=22580 pm={d['pm']:.0f} runq={d['runq']:.0f} si={d['si']:0.1f} so={d['so']:0.1f} srn=\"<none>\" srq=0 jvm={d['jvm']:.0f}\n")
 
-		# example of one with a long name
-		log3 = 'logfile3.2019-01-01_02.04.011_hostname.dnsname.com_mycorrelator_logfile.log'
+		# example of one with a long name, and which has some non-ID characters
+		log3 = 'logfile3.2019-01-01_02.04.011_hostname.dnsname.com_my@$correlator_logfile.log'
 		os.rename(self.output+'/logfile3.log', self.output+'/'+log3)
 		self.logAnalyzer([], logfiles=[
 			self.output+'/logfile1.log',
@@ -110,7 +110,10 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertGrep('loganalyzer_output/overview.html', expr=r'defaultCorrelator&lt;1&gt;')
 		self.assertGrep('loganalyzer_output/overview.html', expr=r'defaultCorrelator<1>', contains=False)
 		
+		# escaping of @$ characters in chart ids
+		self.assertGrep('loganalyzer_output/overview.html', expr=r'chart_[a-z]*_logfile3.2019-01-01_02.04.011_hostname.dnsname.com_my__correlator_logfile')
+		
 		# includes actual apama version in the section on what to do when filing a support case
 		self.assertGrep('loganalyzer_output/overview.html', expr=r'<li><span class="key">Apama version: </span>10.5.0.0.123456</li>')
 		
-		self.addOutcome(INSPECT, 'Manually inspect loganalyzer_output/overview.html in a web browser')
+		self.addOutcome(INSPECT, f'Manually inspect {os.path.normpath(self.output[len(os.getcwd())+1:]+"/loganalyzer_output/overview.html")} in a web browser')

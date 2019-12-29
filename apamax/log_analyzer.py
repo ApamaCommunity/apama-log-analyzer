@@ -1802,7 +1802,7 @@ class LogAnalyzer(object):
 			# Table of contents - display ordered by file not chart since that's probably what we want to hide/show
 			out.write('<ul class="charts_toc">\n')
 			
-			def getid(c, file): return f"{c}_{file['name']}" #ID and NAME tokens must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods (".").
+			def getid(c, file): return re.sub('[^a-zA-Z0-9_:.-]', '_', f"{c}_{file['name']}") #ID and NAME tokens must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods (".").
 
 			for file in self.files:
 				#out.write(f"<li><label><input name='Checkbox1' type='checkbox' checked>{file['index']} {file['name']}</label>\n")
