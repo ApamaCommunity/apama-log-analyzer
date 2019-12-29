@@ -491,6 +491,8 @@ class LogAnalyzer(object):
 		
 		skipto = int(self.currentpathbytes*self.args.skip/100) if self.args.skip else None
 		
+		lastprogressupdate = time.time()
+		
 		with io.open(self.currentpath, encoding='utf-8', errors='replace') as f:
 			self.__currentfilehandle = f
 			charcount = 0
@@ -501,13 +503,16 @@ class LogAnalyzer(object):
 				lineno += 1
 				charcount += len(line)
 				
-				if self.currentpathbytes < 10*1000 or lineno % 10 == 0: # don't do it too often for large files
+				if self.currentpathbytes < 10*1000 or lineno % 1000 == 0: # don't do it too often for large files
 					# can't use tell() on a text file (without inefficiency), so assume 1 byte per char (usually true for ascii) as a rough heuristic
 					percent = 100.0*charcount / (self.currentpathbytes or -1) # (-1 is to avoid div by zero when we're testing against a fake)
 					for threshold in [25, 50, 75]:
 						if percent >= threshold and lastpercent < threshold:
 							self.handleFilePercentComplete(file=file, percent=threshold)
 							lastpercent = threshold
+					if time.time()-lastprogressupdate > 5:
+						log.info(f'   {percent:0.1f}% through this file')
+						lastprogressupdate = time.time()
 				
 				self.currentlineno = lineno
 				
@@ -2258,7 +2263,7 @@ class LogAnalyzerTool(object):
 		log.info('Completed analysis in %s', (('%d seconds'%duration) if duration < 120 else ('%0.1f minutes' % (duration/60))))
 		if args.autoOpen or os.getenv('APAMA_ANALYZER_AUTO_OPEN')=='true':
 			log.info(f'Automatically opening {os.path.normpath(args.outputUserFriendly+"/overview.html")}')
-			os.system(os.path.normpath(args.outputUserFriendly+"/overview.html"))
+			os.system('"'+os.path.normpath(args.outputUserFriendly+"/overview.html")+'"')
 		else:
 			log.info(f'Output is in {args.outputUserFriendly} (overview.html is a good starting place)')
 
