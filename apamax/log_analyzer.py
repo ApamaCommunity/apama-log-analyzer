@@ -580,7 +580,7 @@ class LogAnalyzer(object):
 		file['status-min'] = file['status-max'] = file['status-sum'] = \
 			file['status-0pc'] = file['status-25pc'] = file['status-50pc'] = file['status-75pc'] = file['status-100pc'] = None
 		self.previousAnnotatedStatus = None # annotated status
-		self.totalStatusLinesInFile = 0
+		file['totalStatusLinesInFile'] = 0
 		
 		file['startupStanzas'] = [{}]
 		file['inStartupStanza'] = False
@@ -866,7 +866,7 @@ class LogAnalyzer(object):
 				if isinstance(status[k], float): 
 					file['status-floatKeys'].add(k)
 		self.previousAnnotatedStatus = status
-		self.totalStatusLinesInFile += 1
+		file['totalStatusLinesInFile'] += 1
 		for k, v in status.items():
 			if v is None or isinstance(v, str): continue
 			if v < file['status-min'][k]: file['status-min'][k] = v
@@ -896,8 +896,10 @@ class LogAnalyzer(object):
 	def writeStatusSummaryForCurrentFile(self, file):
 		""" Called when the current log file is finished to write out status summary csv/json. 
 		"""
-		if self.totalStatusLinesInFile < 2 or (not self.previousAnnotatedStatus) or (not file.get('status-100pc')):
-			log.warning('%d status line(s) found in %s; not enough to analyze', self.totalStatusLinesInFile, self.currentname)
+		totalStatusLinesInFile = file['totalStatusLinesInFile']
+		file['showCharts'] = totalStatusLinesInFile > 10 # no point cluttering the output for tiny files
+		if totalStatusLinesInFile < 2 or (not self.previousAnnotatedStatus) or (not file.get('status-100pc')):
+			log.warning('%d status line(s) found in %s; not enough to analyze', totalStatusLinesInFile, self.currentname)
 			return
 
 		def numberOrEmpty(v):
@@ -912,7 +914,7 @@ class LogAnalyzer(object):
 			# to get improved precision we convert floats to ints, scaling up  - turn them back here
 			if k in file['status-floatKeys']: v = v/1000000.0
 
-			v = v / float(self.totalStatusLinesInFile) # force a floating point division
+			v = v / float(totalStatusLinesInFile) # force a floating point division
 			if v==0: v = 0 # keep it concise for zero values
 			
 			
@@ -1807,6 +1809,9 @@ class LogAnalyzer(object):
 			for file in self.files:
 				#out.write(f"<li><label><input name='Checkbox1' type='checkbox' checked>{file['index']} {file['name']}</label>\n")
 				out.write(f"<li class='chartfile'>{file['index']} {escapetext(file['name'])}\n")
+				if not file['showCharts']:
+					out.write('<p>Not enough status lines in file to generate charts for this file; skipping.</p></ul>\n')
+					continue
 				out.write(f" <a href='javascript:{json.dumps([getid(c,file) for c in self.CHARTS.keys()])}.forEach(c=>togglechart(c, show=false));'>(hide all)</a>")
 				out.write(f" <a href='javascript:{json.dumps([getid(c,file) for c in self.CHARTS.keys()])}.forEach(c=>togglechart(c, show=true));'>(show all)</a>")
 				out.write(f" <a href='javascript:{json.dumps([getid(c,file) for c in self.CHARTS.keys()])}.forEach(c=>togglechart(c, show=true));\
@@ -1825,6 +1830,7 @@ class LogAnalyzer(object):
 
 			for c, info in self.CHARTS.items():
 				for file in self.files:
+					if not file['showCharts']: continue
 					id = getid(c, file)
 					tmpfile = toLongPathSafe(self.outputdir+f"/tmp/{c}_{file['name']}.json")
 					if not os.path.exists(tmpfile): continue
@@ -1865,7 +1871,7 @@ class LogAnalyzer(object):
 
 			out.write(self.HTML_END)
 		if os.path.exists(os.path.join(self.outputdir, 'tmp')):
-			os.rmdir(os.path.join(self.outputdir, 'tmp'))
+			shutil.rmtree(os.path.join(self.outputdir, 'tmp'))
 
 	HTML_HEAD = """
 	<meta charset="utf-8">
