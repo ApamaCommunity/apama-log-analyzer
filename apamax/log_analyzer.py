@@ -1716,7 +1716,7 @@ class LogAnalyzer(object):
 						ov['slowreceivers'] += '; host(s): '+', '.join(sorted(list(set(e['connectionInfo']['host'] for e in slowevents if e.get('connectionInfo',{}).get('host')))))
 					linkedfile = f"receiver_connections.{file['name']}.csv"
 					if os.path.exists(self.outputdir+'/'+linkedfile):
-						ov['slowreceivers'] += f" (see <a href='{linkedfile}' title='open {linkedfile} for more information'>{linkedfile}</a>)"
+						ov['slowreceivers'] += f" (see <a href='{linkedfile}' title='open {linkedfile} for more information; if using Chrome you may need to manually rename the downloaded file to .csv due to a browser bug'>{linkedfile}</a>)"
 					
 					for k in ov:
 							write('  ')
@@ -1824,7 +1824,7 @@ class LogAnalyzer(object):
 				#out.write(f"<li><label><input name='Checkbox1' type='checkbox' checked>{file['index']} {file['name']}</label>\n")
 				out.write(f"<li class='chartfile'>{file['index']} {escapetext(file['name'])}\n")
 				if not file['showCharts']:
-					out.write('<p>Not enough status lines in file to generate charts for this file; skipping.</p></ul>\n')
+					out.write('<p>Not enough status lines in file to generate charts for this file; skipping.</p></li>\n')
 					continue
 				out.write(f" <a href='javascript:{json.dumps([getid(c,file) for c in self.CHARTS.keys()])}.forEach(c=>togglechart(c, show=false));'>(hide all)</a>")
 				out.write(f" <a href='javascript:{json.dumps([getid(c,file) for c in self.CHARTS.keys()])}.forEach(c=>togglechart(c, show=true));'>(show all)</a>")
