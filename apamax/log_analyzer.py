@@ -19,7 +19,7 @@ These tools are provided as-is and without warranty or support. They do not cons
 
 """
 
-__date__ = '2019-12-29'
+__date__ = '2020-01-02'
 __version__ = '3.3.dev/'+__date__
 __author__ = "Apama community"
 __license__ = "Apache 2.0"
@@ -934,7 +934,7 @@ class LogAnalyzer(object):
 		""" Called when the current log file is finished to write out status summary csv/json. 
 		"""
 		totalStatusLinesInFile = file['totalStatusLinesInFile']
-		file['showCharts'] = totalStatusLinesInFile > 10 # no point cluttering the output for tiny files
+		file['showCharts'] = True #totalStatusLinesInFile > 10 # no point cluttering the output for tiny files
 		if totalStatusLinesInFile < 2 or (not self.previousAnnotatedStatus) or (not file.get('status-100pc')):
 			log.warning('%d status line(s) found in %s; not enough to analyze', totalStatusLinesInFile, self.currentname)
 			return
@@ -1794,8 +1794,13 @@ class LogAnalyzer(object):
 			'colors':['red', 'orange', 'blue', 'green'],
 		}, 
 		'memory':{'heading':'Correlator process memory usage', 
-			'note':lambda file: f"NB: Total usable memory for the correlator process (physical memory, minus cgroups/licensing limits) is: <span class='overview-value'>{file['startupStanzas'][0]['usableMemoryMB']/1024.0:0.1f} GB</span>" 
-				if file['startupStanzas'][0].get('usableMemoryMB') else None,
+			'note':lambda file: f"NB: Swapping occurrences = "+(
+				'?' if file.get('status-mean',{}).get('is swapping',None) is None else
+				{0.0: 'none',
+				}.get(file['status-mean']['is swapping'], # default value
+				f"{100.0*file['status-mean']['is swapping']:.2f}% (see black dots/lines on chart)")
+				+(f"; max usable memory for the correlator process (physical memory minus cgroups/licensing limits) is: <span class='overview-value'>{file['startupStanzas'][0]['usableMemoryMB']/1024.0:0.1f} GB</span>" 
+				if file['startupStanzas'][0].get('usableMemoryMB') else '')),
 			'y2label':'Is swapping (true=1)',
 			'series': {'is swapping':{'axis':'y2'}},
 			'labels':['pm=resident MB', 'jvm=Java MB', 'is swapping'],
