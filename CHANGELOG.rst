@@ -1,3 +1,7 @@
+3.3
+---
+- Minor tweaks to the "if you need help" and text surrounding the memory chart. 
+
 3.2
 ---
 - Add ``overview.html`` containing interactive zoomable charts to give a quick overview of what's in each file, and an HTML version of ``overview.txt`` that's easy to paste into an email if further help is needed.
