@@ -1655,7 +1655,7 @@ class LogAnalyzer(object):
 				if not ss:
 					if 'apamaCtrlVersion' in file:
 						writeln(f"  apama-ctrl: {v(file['apamaCtrlVersion'])}")
-					writeln('  No correlator startup stanza present in this file!\n')
+					writeln('  '+v('No correlator startup stanza present in this file!', cls='overview-warning')+'\n')
 				else:
 					for stanzaNum in range(len(file['startupStanzas'])):
 						ov = collections.OrderedDict() # overview sorted dict# if key ends with : then it will be prefixed
@@ -2030,6 +2030,9 @@ span.overview { }
 		font-weight: bold;
 	}
 	.overview-swapping {
+		color:orange;
+	}
+	.overview-warning {
 		color:orange;
 	}
 	.overview-instance {
