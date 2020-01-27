@@ -2126,7 +2126,10 @@ span.overview { }
 		correlator instance, which can be used as the basis for output filenames. 
 		"""
 		assert filename
-		return os.path.basename(filename).replace('.output.log','').replace('.log','')
+		x = os.path.basename(filename)
+		for r in ['.output.log', '.log', '.logs']:
+			if x.endswith(r): x = x[:-len(r)]
+		return x
 	
 
 class LogAnalyzerTool(object):
