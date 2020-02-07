@@ -1,6 +1,7 @@
 3.4
 ---
 - Remove .zip (or similar) extension from auto-generated output directory name when unpacking an archive, to avoid confusion. 
+- Avoid negative event rate values when a correlator restart occurs within a log file. 
 
 3.3
 ---

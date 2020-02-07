@@ -46,6 +46,13 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertGrep(outputdir+'/startup_stanza.correlator-10.5.1.0-linux-everything.log', 
 			expr='Shutting down correlator', contains=False) # #### level message not part of startup
 
+		# check for negative rates after restarts
+		with io.open(self.output+'/loganalyzer_output/status.correlator-with-restarts.json') as f:
+			s = json.load(f)['status']
+			for statusline in s:
+				for k in ['interval secs', 'rx /sec', 'tx /sec', 'log lines /sec']:
+					self.assertEval('{val} >= 0', val=statusline[k], key=k)
+
 		# strip out the stats since we test them elsewhere
 		self.copy(outputdir+'/overview.txt', 'overview-without-stats.txt', mappers=[
 			lambda line: None if ' = ' in line else line])

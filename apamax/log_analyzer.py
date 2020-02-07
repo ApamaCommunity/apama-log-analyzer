@@ -19,7 +19,7 @@ These tools are provided as-is and without warranty or support. They do not cons
 
 """
 
-__date__ = '2020-01-02'
+__date__ = '2020-02-07'
 __version__ = '3.4.dev/'+__date__
 __author__ = "Apama community"
 __license__ = "Apache 2.0"
@@ -788,6 +788,9 @@ class LogAnalyzer(object):
 				secsSinceLast = -1 # hopefully won't happen
 		else:
 			secsSinceLast = seconds-previousStatus['epoch secs']
+			# reset everything when there's a restart, else we'll end up with a blip of negative event rates and other stats may be wrong too due to incorrect secsSinceLast
+			if previousStatus['restarts'] != len(file['startupStanzas']): 
+				previousStatus = None # to avoid getting negative values
 
 		# treat warns/errors before the first status line as if they were after, else they won't be seen in the first value
 		status['warns'] = 0 if previousStatus is None else file['warningsCount']
@@ -872,6 +875,7 @@ class LogAnalyzer(object):
 			d[avgk+' 1min avg'] = sum(win)/len(win) if len(win) > 0 else 0.0
 
 		self.handleAnnotatedStatusDict(file=file, line=line, status=d)
+		status['restarts'] = len(file['startupStanzas'])
 		self.previousRawStatus = status # both raw and annotated values
 
 	def handleAnnotatedStatusDict(self, file, line, status, **extra):

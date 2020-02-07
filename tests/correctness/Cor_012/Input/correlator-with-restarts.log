@@ -59,6 +59,8 @@
 2019-10-14 22:26:59.077 ##### [54304] - Component ID: correlator (correlator/6747773380021456896/6747773380021456896)
 2019-10-14 22:26:59.077 ##### [54304] - Correlator, version 10.5.1.0.0, running
 2019-10-14 22:26:59.900 ##### [54304] - Shutting down correlator in response to client (127.0.0.1:50307) request: I want you to shut down
+2019-10-14 22:26:59.900 INFO  [22872] - Correlator Status: sm=1 nctx=2 ls=3 rq=4 iq=5 oq=6 icq=7 lcn="my context" lcq=8 lct=9.9 rx=1000 tx=11 rt=12 nc=13 vm=30000 pm=40000 runq=14 si=15.5 so=16.6 srn="srn value" srq=17 jvm=18000
+2019-10-14 22:27:03.100 INFO  [22872] - Correlator Status: sm=1 nctx=2 ls=3 rq=4 iq=5 oq=6 icq=7 lcn="my context" lcq=8 lct=9.9 rx=2000 tx=11 rt=12 nc=13 vm=30000 pm=40000 runq=14 si=15.5 so=16.6 srn="srn value" srq=17 jvm=18000
 2019-10-14 22:27:03.005 INFO  [54304] - Correlator shutdown is complete
 2019-10-14 22:27:06.035 ##### [52636] - Correlator, version 10.5.1.0.0 (build UNKNOWN_VERSION@0 on amd64-win using Software AG suite version 10.5), started.
 2019-10-14 22:27:06.036 ##### [52636] - Running on host 'myhost2' as user 'BSP'.
@@ -120,6 +122,7 @@
 2019-10-14 22:27:06.071 INFO  [52636] - Server socket opened listening on 0.0.0.0:15903
 2019-10-14 22:27:06.071 ##### [52636] - Component ID: correlator (correlator/6747773409749110784/6747773409749110784)
 2019-10-14 22:27:06.071 ##### [52636] - Correlator, version 10.5.1.0.0, running
+2019-10-14 22:27:06.071 INFO  [22872] - Correlator Status: sm=1 nctx=1 ls=3 rq=4 iq=5 oq=6 icq=7 lcn="my context" lcq=8 lct=9.9 rx=50 tx=2 rt=12 nc=13 vm=40000 pm=50000 runq=14 si=15.5 so=16.6 srn="srn value" srq=17 jvm=18000
 2019-10-14 22:27:08.681 CRIT  [42920] - Received a SIGINT (2) signal, shutting down
 2019-10-14 22:27:08.702 INFO  [52636] - Correlator shutdown is complete
 2019-10-14 22:27:11.833 ##### [55912] - Correlator, version 10.5.1.0.0 (build UNKNOWN_VERSION@0 on amd64-win using Software AG suite version 10.5), started.
