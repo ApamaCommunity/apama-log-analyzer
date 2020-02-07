@@ -52,6 +52,10 @@ class PySysTest(AnalyzerBaseTest):
 			for statusline in s:
 				for k in ['interval secs', 'rx /sec', 'tx /sec', 'log lines /sec']:
 					self.assertEval('{val} >= 0', val=statusline[k], key=k)
+					
+		# check for annotations for start and restart on chart
+		self.assertGrep(outputdir+'/overview.html', expr='setAnnotations[(].*new Date[(]2019,9,14,22,26,59[)].*"text": "Correlator process started"')
+		self.assertGrep(outputdir+'/overview.html', expr='setAnnotations[(].*new Date[(]2019,9,14,22,27,6[)].*"text": "Correlator process restart #1"')
 
 		# strip out the stats since we test them elsewhere
 		self.copy(outputdir+'/overview.txt', 'overview-without-stats.txt', mappers=[

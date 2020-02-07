@@ -595,6 +595,7 @@ class LogAnalyzer(object):
 		file['totalStatusLinesInFile'] = 0
 		
 		file['startupStanzas'] = [{}]
+		file['annotations'] = []
 		file['inStartupStanza'] = False
 		
 		file['connectionMessages'] : List = []
@@ -780,6 +781,12 @@ class LogAnalyzer(object):
 		display = self.columns # local var to speed up lookup
 		
 		seconds = status['epoch secs'] # floating point epoch seconds
+		
+		if (not previousStatus) or (previousStatus['restarts'] != len(file['startupStanzas'])): 
+			if file['startupStanzas'][-1].get('startTime'): # this is the only place we can add the annotation given we must associated it with a timestamp that's in the data series
+				file['annotations'].append({'x': line.getDateTime(), 'shortText':'start', 'width':40, 
+					'text': f"Correlator process {'started' if len(file['startupStanzas'])==1 else 'restart #%s'%(len(file['startupStanzas'])-1)}"})
+
 		
 		if previousStatus is None:
 			if file['startTime'] is not None:
@@ -1667,7 +1674,7 @@ class LogAnalyzer(object):
 						ss = file['startupStanzas'][stanzaNum]
 						
 						ov['Process id:'] = f"{v(ss.get('pid') or '?',cls='overview-pid overview-value')}"
-						if stanzaNum > 0: ov['Process id:']+= " "+v(f"restart #{stanzaNum+1}")+f" at {v(ss.get('startTime'))} (line {ss['startLineNumber']})"
+						if stanzaNum > 0: ov['Process id:']+= " "+v(f"restart #{stanzaNum}")+f" at {v(ss.get('startTime'))} (line {ss['startLineNumber']})"
 
 						ov['Apama version:'] = f"{v(ss.get('apamaVersion', '?'))}{', apama-ctrl: '+v(file['apamaCtrlVersion']) if file.get('apamaCtrlVersion') else ''}; running on {v(ss.get('OS'))}"
 						ov['Log timezone:'] = f"{v(ss.get('utcOffset') or '?')}"+(f" ({v(ss.get('timezoneName'))})" if ss.get('timezoneName') else '')
@@ -1935,8 +1942,16 @@ class LogAnalyzer(object):
 						shutil.copyfileobj(datafile, out)
 					os.remove(tmpfile)
 					out.write('],\n'+json.dumps(options)[:-1]+',"legendFormatter":legendFormatter}'+'\n);\n')
-					out.write('\ncharts.push(g); </script>\n')
+					out.write('\ncharts.push(g);\n')
+					if c == 'rates':
+						for a in file['annotations']:
+							dt = a['x']
+							a['x'] = f"new Date({dt.year},{dt.month-1},{dt.day},{dt.hour},{dt.minute},{dt.second}).getTime()"
+							a.update({'series':'rx /sec', 'attachAtBottom':True})
+						out.write('g.setAnnotations('+re.sub('"(new [^"]*)"', "\\1", json.dumps(file['annotations'])+')'))
+					out.write('</script>\n')
 
+					
 			out.write(self.HTML_END)
 		if os.path.exists(os.path.join(self.outputdir, 'tmp')):
 			shutil.rmtree(os.path.join(self.outputdir, 'tmp'))

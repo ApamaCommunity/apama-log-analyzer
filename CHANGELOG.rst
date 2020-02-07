@@ -1,5 +1,6 @@
 3.4
 ---
+- Add "start" annotation to event rate chart, showing each time a correlator process was started or restarted. 
 - Remove .zip (or similar) extension from auto-generated output directory name when unpacking an archive, to avoid confusion. 
 - Avoid negative event rate values when a correlator restart occurs within a log file. 
 
