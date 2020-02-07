@@ -1,3 +1,7 @@
+3.4
+---
+- Remove .zip (or similar) extension from auto-generated output directory name when unpacking an archive, to avoid confusion. 
+
 3.3
 ---
 - Minor tweaks to the "if you need help" and text surrounding the memory chart. 

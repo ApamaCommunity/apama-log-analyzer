@@ -5,7 +5,7 @@
 It extracts and summarizes information from status lines and other log messages.
 
 
-Copyright (c) 2019 Software AG, Darmstadt, Germany and/or its licensors
+Copyright (c) 2019-2020 Software AG, Darmstadt, Germany and/or its licensors
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
 file except in compliance with the License. You may obtain a copy of the License at
@@ -2198,6 +2198,8 @@ class LogAnalyzerTool(object):
 		if not args.output: 
 			# if not explicitly specified, create a new unique dir
 			outputname = 'log_analyzer_%s'%LogAnalyzer.logFileToLogName(globbedpaths[-1]) # base it on the most recent name
+			# make sure we strip off any .zip or similar extension (but not numeric suffixes which could be part of a date/time)
+			outputname = re.sub('[.]..?[a-zA-Z]$', '', outputname)
 			args.output = toLongPathSafe(outputname)
 			i = 2
 			while os.path.exists(args.output) and os.listdir(args.output): # unless it's empty
