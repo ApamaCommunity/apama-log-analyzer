@@ -4,16 +4,17 @@ from correlatorloganalyzer.analyzer_basetest import AnalyzerBaseTest
 
 class PySysTest(AnalyzerBaseTest):
 	statuslines = 1000
+	dateprefix = '2019-06' # pick a time that's during DST to check that the legend formatter uses the right time
 	def execute(self):
-		
-		self.copy(self.input+'/startup.log', 'logfile1.log', mappers=[lambda l: l.replace('2019-06-01 ', '2019-06-05 ')])
-		self.copy(self.input+'/startup.log', 'logfile2.log', mappers=[lambda l: l.replace('2019-06-01 ', '2019-06-06 ')])
+		dateprefix = self.dateprefix
+		self.copy(self.input+'/startup.log', 'logfile1.log', mappers=[lambda l: l.replace('2019-06-01 ', dateprefix+'-05 ')])
+		self.copy(self.input+'/startup.log', 'logfile2.log', mappers=[lambda l: l.replace('2019-06-01 ', dateprefix+'-06 ')])
 
 		for logfile in [1, 2, 3]:
 			logperiod = 60 if logfile==1 else 5 # status lines every minute to get a more interesting time range
 			with io.open(self.output+f'/logfile{logfile}.log', 'a', encoding='utf-8') as f:
 				if logfile != 3: # for #3 let it jut follow on from #2
-					starttime = calendar.timegm(time.strptime(f'2019-06-0{5+logfile-1} 10:06:01', '%Y-%m-%d %H:%M:%S'))
+					starttime = calendar.timegm(time.strptime(f'{dateprefix}-0{5+logfile-1} 10:06:01', '%Y-%m-%d %H:%M:%S'))
 				rx = tx = 0
 				rnd = random.Random(logfile)
 				ceiling = {
@@ -89,7 +90,7 @@ class PySysTest(AnalyzerBaseTest):
 					f.write(f"{timestamp}.888 INFO  [22872] - Correlator Status: sm={d['sm']:.0f} nctx={d['nctx']:.0f} ls={d['ls']:.0f} rq={d['rq']:.0f} iq={d['iq']:.0f} oq={d['oq']:.0f} icq={d['icq']:.0f} lcn=\"<none>\" lcq=0 lct=0.0 rx={rx:.0f} tx={tx:.0f} rt=0 nc={d['nc']:.0f} vm=22580 pm={d['pm']:.0f} runq={d['runq']:.0f} si={d['si']:0.1f} so={d['so']:0.1f} srn=\"<none>\" srq=0 jvm={d['jvm']:.0f}\n")
 
 		# example of one with a long name, and which has some non-ID characters
-		log3 = 'logfile3.2019-06-01_02.04.011_hostname.dnsname.com_my@$correlator_logfile.log'
+		log3 = f'logfile3.{dateprefix}-01_02.04.011_hostname.dnsname.com_my@$correlator_logfile.log'
 		os.rename(self.output+'/logfile3.log', self.output+'/'+log3)
 		self.logAnalyzer([], logfiles=[
 			self.output+'/logfile1.log',
@@ -111,9 +112,9 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertGrep('loganalyzer_output/overview.html', expr=r'defaultCorrelator<1>', contains=False)
 		
 		# escaping of @$ characters in chart ids
-		self.assertGrep('loganalyzer_output/overview.html', expr=r'chart_[a-z]*_logfile3.2019-06-01_02.04.011_hostname.dnsname.com_my__correlator_logfile')
+		self.assertGrep('loganalyzer_output/overview.html', expr=f'chart_[a-z]*_logfile3.{self.dateprefix}-01_02.04.011_hostname.dnsname.com_my__correlator_logfile')
 		
 		# includes actual apama version in the section on what to do when filing a support case
 		self.assertGrep('loganalyzer_output/overview.html', expr=r'<li><span class="key">Apama version: </span>10.5.0.0.123456</li>')
 		
-		self.addOutcome(INSPECT, f'Manually inspect {os.path.normpath(self.output[len(os.getcwd())+1:]+"/loganalyzer_output/overview.html")} in a web browser')
+		self.addOutcome(INSPECT, f'Manually inspect {os.path.normpath(self.output[len(os.getcwd())+1:]+"/loganalyzer_output/overview.html")} in a web browser including correct times for axes and legend')

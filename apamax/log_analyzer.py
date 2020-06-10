@@ -2011,8 +2011,14 @@ class LogAnalyzer(object):
 			});
 			// Display x value at the end, after all the series (to avoid making them jump up/down when there's no selection)
 			if (showvalues) {
-				//console.log("Got: "+JSON.stringify(data));
+				//console.log("Got: "+JSON.stringify(data.x));
 				var thisdate = new Date(data.x);
+				// data.x is a treated as a local timestamp value, and .toISOString (which we use just for formatting consistency)
+				// converts to UTC, so need to add a timezone factor based on the web BROWSER's UTC offset on the specified date
+				thisdate.setTime(thisdate.getTime()
+					-thisdate.getTimezoneOffset()*60*1000
+					);
+				
 				var isostring = thisdate.toISOString();
 				html += days_abbr[thisdate.getDay()]+" "+isostring.slice(0, 10)+" "+isostring.slice(11, 11+8);
 				var xlabel = dygraph.getOption("xlabel");
