@@ -1,5 +1,5 @@
 2019-01-01 18:04:29.591 ##### [53100] - Correlator, version 10.5.0.0.0 (build UNKNOWN_VERSION@0 on amd64-win using Software AG suite version 10.5), started.
-2019-01-01 18:04:29.593 ##### [53100] - Running on host 'SAG-F4LBLQ2.eur.ad.sag' as user 'BSP'.
+2019-01-01 18:04:29.593 ##### [53100] - Running on host 'MY-MACHINE.eur.ad.sag' as user 'BSP'.
 2019-01-01 18:04:29.594 ##### [53100] - Running on platform 'Windows 10 Enterprise'.
 2019-01-01 18:04:29.594 ##### [53100] - Running on CPU 'GenuineIntel family 6 model 14 stepping 10 Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz'.
 2019-01-01 18:04:29.594 ##### [53100] - Running with process Id 50192.

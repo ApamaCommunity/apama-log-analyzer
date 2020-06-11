@@ -1,7 +1,7 @@
 2019-07-30 18:18:18.691 ##### [52728] - Correlator, version 10.5.0.0.0 (build UNKNOWN_VERSION@0 on amd64-win using Software AG suite version 10.5), started.
 2019-07-30 18:18:18.692 ##### [52728] - *** Setting the loglevel to be more restrictive than INFO is discouraged.  ***
 2019-07-30 18:18:18.692 ##### [52728] - *** The lack of information may make any issues encountered unsupportable. ***
-2019-07-30 18:18:18.694 ##### [52728] - Running on host 'SAG-F4LBLQ2.eur.ad.sag' as user 'BSP'.
+2019-07-30 18:18:18.694 ##### [52728] - Running on host 'MY-MACHINE.eur.ad.sag' as user 'BSP'.
 2019-07-30 18:18:18.694 ##### [52728] - Running on platform 'Windows 10 Enterprise'.
 2019-07-30 18:18:18.694 ##### [52728] - Running on CPU 'GenuineIntel family 6 model 14 stepping 10 Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz'.
 2019-07-30 18:18:18.694 ##### [52728] - Running with process Id 82000.
