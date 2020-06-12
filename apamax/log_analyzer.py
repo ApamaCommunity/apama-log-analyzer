@@ -315,13 +315,13 @@ class CSVStatusWriter(BaseWriter):
 		"""
 		try:
 			if item is None: return missingItemValue
-			if columnDisplayName == 'local datetime':
+			if columnDisplayName.endswith('local datetime'):
 				return item[:item.find('.')] # strip off seconds as excel misformats it if present
 			if item in [True,False]: return str(item).upper()
 			if isinstance(item, float) and item.is_integer and abs(item)>=1000.0:
 				item = int(item) # don't show decimal points for large floats like 7000.0, for consistency with smaller values like 7 when shown in excel (weird excel rules)
 			if isinstance(item, int):
-				if columnDisplayName=='epoch secs':
+				if columnDisplayName.endswith('epoch secs'):
 					return f'{item}'
 				return f'{item:,}'
 			if isinstance(item, float):
@@ -586,6 +586,7 @@ class LogAnalyzer(object):
 		# for handleRawStatusDict
 		self.columns = None # ordered dict of key:annotated_displayname
 		self.previousRawStatus = None # the previous raw status
+		self.userStatus = {}
 		file['errorsCount'] = file['warningsCount'] = 0
 		
 		# for handleAnnotatedStatusDict summarization
@@ -608,8 +609,13 @@ class LogAnalyzer(object):
 		if m.startswith(('Correlator Status: ', 'Status: sm')): # "Status: " is for very old versions e.g. 4.3
 			self.handleRawStatusLine(file=file, line=line)
 			return
-			
 		level = line.level
+
+		for userStatusPrefix, userStatus in self.args.userStatusLines.items():
+			if m.startswith(userStatusPrefix):
+				self.handleRawStatusLine(file=file, line=line, userStatus=userStatus)
+				break
+			
 		if level == 'W':
 			if m.startswith('Receiver '):
 				self.handleConnectionMessage(file, line)
@@ -646,7 +652,10 @@ class LogAnalyzer(object):
 			)):
 				self.handleConnectionMessage(file, line)
 	
-	def handleRawStatusLine(self, file, line, **extra):
+	def handleRawStatusLine(self, file, line, userStatus=None, **extra):
+		"""
+		Handles a raw status line which may be a correlator status line or a user-defined one
+		"""
 		m = line.message
 		d = collections.OrderedDict()
 		d['datetime'] = line.getDetails()['datetimestring']
@@ -655,15 +664,7 @@ class LogAnalyzer(object):
 		d['epoch secs'] = line.getDateTime().replace(tzinfo=datetime.timezone.utc).timestamp()
 
 		d['line num'] = line.lineno
-		
-		"""if kind==EVENT_JMS_STATUS_DICT:
-		
-			if m.endswith('<waiting for onApplicationInitialized>'):
-				d['waitingForOnAppInit'] = True
-				m = m[:m.index('<waiting for onApplicationInitialized')-1]
-			else:
-				d['waitingForOnAppInit'] = False
-		"""
+				
 		i = m.index(':')+2
 		mlen = len(m)
 		while i < mlen:
@@ -673,9 +674,9 @@ class LogAnalyzer(object):
 				key+= m[i]
 				i += 1
 			if i == mlen:
-				# this can happen if (mysteriously) a line break character is missing at end of status line (seen in 10.3.3); better to limp on rather than throwing
-				log.warning(f'Ignoring invalid status log line {line.lineno}: {m}')
-				return
+				# this can happen if (mysteriously) a line break character is missing at end of status line (seen in 10.3.3); better to limp on rather than throwing; but ignore the <...> message we include at the end of JMS status lines
+				(log.debug if (key.startswith('<') and key.endswith('>')) else log.warning)(f'Ignoring the rest of status log line {line.lineno}; expected "=" but found end of line: "{key}"')
+				break # don't ignore the bits we already parsed out successfully
 			assert m[i] == '=', (m, repr(m[i]))
 			i+=1
 			if m[i]=='"':
@@ -688,7 +689,6 @@ class LogAnalyzer(object):
 				if endchar != '"' or m[i] != ',': # if not a string, suppress thousands character
 					val += m[i]
 				i+=1
-			#if kind == EVENT_JMS_STATUS_DICT: key = 'jms.'+key
 			if endchar != '"':
 				try:
 					if '.' in val:
@@ -702,45 +702,18 @@ class LogAnalyzer(object):
 		if not d: return
 		
 		#log.debug('Extracted status line %s: %s', d)
-		self.handleRawStatusDict(file=file, line=line, status=d)
-		
-		"""
-		also requires this in file started:
-		# for handleRawStatusLine
-		self.__jmsenabled = None
-		self.__previous = None # rawstatusdict
-
-		
-		if self.__jmsenabled is None:
-			if self.__previous is None:
-				 # don't know yet if JMS is enabled
-				 self.__previous = d
-				 return
-			if kind is EVENT_CORRELATOR_STATUS_DICT:
-				self.__jmsenabled = False # two consecutive non-JMS statuses means its not enabled
-				self.handleRawStatusDict(status=self.__previous, line=line)
-				self.__previous = None
-			else:
-				self.__jmsenabled = True
-		
-		if self.__jmsenabled is False:
-			self.manager.publish(EVENT_COMBINED_STATUS_DICT, status=d, line=line)
+		if userStatus is not None:
+			# must do namespacing here since there could be multiple user-defined statuses and we don't want them to clash
+			prefix = userStatus['keyPrefix']
+			for k, alias in userStatus['key:alias'].items():
+				if k in d:
+					self.userStatus[prefix+(alias or k)] = d[k]
 		else:
-			if kind is EVENT_JMS_STATUS_DICT:
-				combined = collections.OrderedDict(d)
-				combined.update(self.__previous)
-				self.handleRawStatusDict(status=combined, line=line)
-				self.__previous = None
-			else:
-				assert self.__previous is None, self.__previous
-				self.__previous = d # will publish it once we get the JMS line immediately following
-		# nb: this algorithm means a file containing only one correlator status line would be ignored, but don't care about that case really
-		"""
-	
+			self.handleRawStatusDict(file=file, line=line, status=d)	
 		
 	def handleRawStatusDict(self, file, line, status=None, **extra):
 		"""
-		Accepts a raw status dictionary and converts it to an annotated status 
+		Accepts a raw correlator status dictionary and converts it to an annotated status 
 		dict (unordered) whose keys match the columns returned by 
 		decideColumns, adding in calculated values. 
 		
@@ -768,6 +741,13 @@ class LogAnalyzer(object):
 					if k in allkeys:
 						columns[k] = k
 				
+				# now add on any user-defined status keys; always add these regardless of whether they're yet set, 
+				# since they may come from EPL code that hasn't been injected yet and we can't change the columns later
+				for user in self.args.userStatusLines.values():
+					for k, alias in user['key:alias'].items(): # aliasing for user-defined status lines happens in handleRawStatusLine
+						k = user['keyPrefix']+(alias or k)
+						columns[k] = k
+
 				return columns
 
 			self.columns = decideColumns(status)
@@ -859,6 +839,7 @@ class LogAnalyzer(object):
 					assert False, 'Unknown generated key: %s'%k
 			else:
 				val = status.get(k, None)
+				if val is None: val = self.userStatus.get(k, None)
 				if display[k] in ['pm=resident MB', 'vm=virtual MB'] and val is not None:
 					val = val/1024.0 # kb to MB
 
@@ -917,7 +898,15 @@ class LogAnalyzer(object):
 		file['totalStatusLinesInFile'] += 1
 		for k, v in status.items():
 			if v is None or isinstance(v, str): continue
-			if v < file['status-min'][k]: file['status-min'][k] = v
+			try:
+				if v < file['status-min'][k]: file['status-min'][k] = v
+			except Exception: # this happens for user-defined statuses which weren't initialized right at the start
+				if file['status-min'][k] is None:
+					file['status-min'][k] = v
+					file['status-max'][k] = v
+					file['status-sum'][k] = 0
+				else: raise
+
 			if v > file['status-max'][k]: 
 				file['status-max'][k] = v
 				file['status-max'][k+'.line'] = line # also useful to have datetime/linenum for the maximum ones
@@ -1008,7 +997,8 @@ class LogAnalyzer(object):
 					delta = collections.OrderedDict()
 					delta['statistic'] = f'... delta: {display} - {prev["statistic"]}'
 					for k in status:
-						if isinstance(status[k], str) or k in ['seconds', 'line num', 'interval secs'] or k.endswith('.line'):
+						if (isinstance(status[k], str) or k in ['seconds', 'line num', 'interval secs'] or k.endswith('.line')
+								or status[k] is None or prev[k] is None or isinstance(prev[k], str)):
 							delta[k] = ''
 						else:
 							try:
@@ -2002,7 +1992,7 @@ class LogAnalyzer(object):
 				
 				// workaround for the bug where Dygraph.prototype.setColors_ un-sets color for any series where visibility=false; 
 				// this workaround gives correct color if configured using options{colors:[...]} and falls back to transparent if not
-				series.dashHTML = series.dashHTML.replace("color: undefined;", "color: "+(dygraph.getOption('colors')[seriesIndex] || "rgba(255,255,255,0.0)")+";");
+				series.dashHTML = series.dashHTML.replace("color: undefined;", "color: "+(dygraph.getColors()[seriesIndex] || "rgba(255,255,255,0.0)")+";");
 				
 				if (showvalues && series != undefined && series.y != undefined) { labeledData += ': ' + series.yHTML; }
 				if (series.isHighlighted) { labeledData = '<b>' + labeledData + '</b>'; }
@@ -2185,6 +2175,9 @@ class LogAnalyzerTool(object):
 		self.argparser.add_argument('--json', action='store_true',
 			help='Advanced/debugging option to additionally write output in JSON format suitable for processing by scripts.')
 
+		self.argparser.add_argument('--config', metavar="FILE.json", type=str,
+			help='Configure the analyzer for advanced functionality such as custom/user-supplied log line extraction.')
+
 		self.argparser.add_argument('--XmaxUniqueWarnOrErrorLines', metavar='INT', default=1000, type=int,
 			help='Advanced option to put an upper limit on the number of unique warn/error log lines that will be held in memory. Specify 0 to disable warn/error line tracking.')
 		self.argparser.add_argument('--XmaxSampleWarnOrErrorLines', metavar='INT', default=5, type=int,
@@ -2217,6 +2210,30 @@ class LogAnalyzerTool(object):
 				
 		globbedpaths = [toLongPathSafe(p) for p in globbedpaths]	
 		globbedpaths.sort() # best we can do until when start reading them - hopefully puts the latest one at the end
+		
+		if args.config:
+			with open(args.config, 'rb') as f:
+				jsonbytes = f.read()
+				# permit # and // comments in the JSON file for added usability
+				jsonbytes = re.sub(b'^[\t ]*(#|//).*', b'', jsonbytes, flags=re.MULTILINE)
+				for k, v in json.loads(jsonbytes).items():
+					if k == 'userStatusLines':
+						args.userStatusLines = v
+						# sanity check it
+						columns = {k or COLUMN_DISPLAY_NAMES[k] for k in COLUMN_DISPLAY_NAMES}
+						for userStatusPrefix, userStatus in v.items():
+							if not userStatusPrefix.endswith(':'): raise UserError('userStatus prefixes should end with a ":"')
+							for k, alias in userStatus['key:alias'].items():
+								alias = userStatus['keyPrefix']+(alias or k)
+								if alias in columns: raise UserError(f"User status line '{userStatusPrefix}' contains display name '{alias}' which is already in use; consider using keyPrefix to ensure this status line doesn't conflict with display names from others")
+								columns.add(alias)
+					elif k == 'userCharts':
+						userCharts = v # allow overriding existing charts if desired
+					else:
+						raise UserError('Unknown key in config file: '%key)
+		else:
+			args.userStatusLines = {}
+			userCharts = {}
 		
 		if not globbedpaths: raise UserError('No log files specified')
 		
@@ -2295,6 +2312,8 @@ class LogAnalyzerTool(object):
 			logpaths.add(p)
 		
 		manager = self.analyzerFactory(args)
+		manager.CHARTS.update(userCharts) # allow overriding existing charts if desired
+
 		manager.processFiles(sorted(list(logpaths)))
 
 		duration = time.time()-duration

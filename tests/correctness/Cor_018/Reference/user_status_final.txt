@@ -1,0 +1,28 @@
+jms.s=senders=1
+jms.r=receivers=2
+jms.rx /sec=0
+jms.tx /sec=1
+jms.receive window=197
+jms.redelivered=0
+jms.rMaxDeliverySecs=0.0
+jms.rDupsDet=1
+jms.rDupIds=3
+jms.connErr=0
+jms.jvmMB=77
+jms.r.q1.rx /sec=0
+jms.r.q1.receive window=97
+jms.r.q1.redelivered=0
+jms.r.q1.rMaxDeliverySecs=0.0
+jms.r.q1.rDupsDet=1
+jms.r.q1.rDupIds=None
+jms.r.q1.msgErrors=1
+jms.r.q1.jvmMB=None
+jms.r.q1.datetime='2020-06-12 16:06:11.534'
+jms.r.q1.epoch secs=1591977971.534
+jms.r.q1.line num=181
+p.numSnapshots=42
+p.lastSnapshotTime=624772
+p.snapshotWaitTimeEwmaMillis=0.03
+p.commitTimeEwmaMillis=194.34
+p.lastSnapshotRowsChangedEwma=93
+jms.non-existent user value=None

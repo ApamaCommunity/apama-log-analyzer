@@ -66,6 +66,95 @@ For information about the meaning of the status lines which may be helpful when 
 
 Note that the ``overview.html`` page uses the http://dygraphs.com JavaScript library to display the charts, and these are downloaded from the internet when the page is opened, so you will need an internet connection to open the ``overview.html`` page correctly (though you don't need one to run the analyzer, so ). 
 
+User status lines
+-----------------
+In addition to the standard "Correlator status:" lines, the tool can perform similar extraction for any user-defined 
+status lines. For example this could be used for the correlator's persistence or JMS status lines, or for your own 
+lines logged regularly at INFO level by your own EPL to show some application KPIs. 
+
+To do this create a .json configuration file containing a "userStatusLines" dicionary and pass it to the tool using 
+``--config``. For example::
+
+	{
+		"userStatusLines":{
+		// This detects INFO level lines beginning with "JMS Status:"
+		"JMS Status:": {
+			// This prefix is added to the start of each alias to avoid clashes with other status KPIs
+			"keyPrefix":"jms.",
+			"key:alias":{
+				"s":"s=senders",
+				"r":"r=receivers",
+				"rRate":"rx /sec",
+				"sRate":"tx /sec",
+				"rWindow":"receive window",
+				"rRedel":"redelivered",
+				"rMaxDeliverySecs":"",
+				"rDupsDet":"",
+				"rDupIds":"", 
+				"connErr":"",
+				"jvmMB":""
+			}},
+
+		"Persistence Status:": {
+			"keyPrefix":"p.",
+			"key:alias":{
+				"numSnapshots":"",
+				"lastSnapshotTime":"",
+				"snapshotWaitTimeEwmaMillis":"",
+				"commitTimeEwmaMillis":"",
+				"lastSnapshotRowsChangedEwma":""
+			}}
+		}
+	}
+
+
+Any user-defined status lines should be of the same form as the Correlator status lines, logged at INFO level similar 
+to::
+
+	Some prefix: key1=value1 key2=value2 key3="value 3"
+
+Technical detail: the frequency and timing of other status lines may not match when the main "Correlator status:" lines 
+are logged. The analyzer just uses the main status lines for the timing, adding the most recently seen user status 
+values and recording them in a single row with timing and line information from the main status lines. 
+
+User-defined charts
+-------------------
+In addition to the standard charts, you can add charts with an mix of user-defined and standard status values. 
+This is achieved using the JSON configuration file described above with a "userCharts" entry. For example::
+
+	{
+		"userStatusLines":{
+		// ... 
+		}, 
+		
+		"userCharts": {
+
+			// Each chart is described by "uniqueid": { "heading": "title", "labels": [keys], other options... }
+			"jms_rates":{
+				"heading":"JMS rates", 
+				"labels":["jms.rx /sec", "jms.tx /sec"],
+				"colors":["red", "pink", "orange"], 
+				"ylabel":"Events/sec", 
+
+				// For big numbers this often looks better than exponential notation
+				"labelsKMB":true
+			},
+		
+			// Colors are decided automatically by default, but can be overridden
+			// This example shows how to put some series onto a y axis
+			"persistence":{
+				"heading":"Correlator persistence", 
+				"labels":["p.numSnapshots", "p.snapshotWaitTimeEwmaMillis", "p.commitTimeEwmaMillis"],
+				"colors":["red", "green", "blue"], 
+
+				"ylabel":"Time (ms)", 
+				"y2label":"Number of snapshots",
+				"series": {"p.numSnapshots":{"axis":"y2"}}
+			}
+		}
+
+	}
+
 Cumulocity
 ----------
 If you're using Apama inside Cumulocity, to download the log use the App Switcher icon to go to **Administration**, then **Applications > Subscribed applications > Apama-ctrl-XXX**. Assuming Apama-ctrl is running, you'll see a **Logs** tab. You should try to get the full log - to do that click the ``|<<`` button to find out the date of the first entry then click **Download**, and select the time range from the start date to the day after today. 

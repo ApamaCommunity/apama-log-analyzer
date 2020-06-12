@@ -1,0 +1,94 @@
+{"userStatusLines":{
+	"JMS Status:": {
+		"keyPrefix":"jms.",
+		"key:alias":{
+			"s":"s=senders",
+			"r":"r=receivers",
+			"rRate":"rx /sec",
+			"sRate":"tx /sec",
+			"rWindow":"receive window",
+			"rRedel":"redelivered",
+			"rMaxDeliverySecs":"",
+			"rDupsDet":"",
+			"rDupIds":"", 
+			"connErr":"",
+			"jvmMB":""
+		}},
+	# comment line
+	// another comment line
+	"      JMSReceiver myConnection-receiver-apama-queue-01:": {
+		"keyPrefix":"jms.r.q1.",
+		"key:alias":{
+			"rRate":"rx /sec",
+			"rWindow":"receive window",
+			"rRedel":"redelivered",
+			"rMaxDeliverySecs":"",
+			"rDupsDet":"",
+			"rDupIds":"", 
+			"msgErrors":"",
+			"jvmMB":"",
+			
+			# special values
+			"datetime":"",
+			"epoch secs":"",
+			"line num":""
+
+		}},
+		
+	"Persistence Status:": {
+		"keyPrefix":"p.",
+		"key:alias":{
+			"numSnapshots":"",
+			"lastSnapshotTime":"",
+			"snapshotWaitTimeEwmaMillis":"",
+			"commitTimeEwmaMillis":"",
+			"lastSnapshotRowsChangedEwma":""
+		}},
+	
+	"Missing Status:": {
+		"keyPrefix":"jms.",
+		"key:alias":{
+			"non-existent":"non-existent user value"
+		}}
+
+
+	}, 
+	
+	"userCharts": {
+
+		// Each chart is described by "uniqueid": { "heading": "title", "labels": [keys], other options... }
+		"jms_rates":{
+			"heading":"JMS rates", 
+			"labels":["jms.rx /sec", "jms.tx /sec"],
+			"colors":["red", "pink", "orange"], 
+			"ylabel":"Events/sec", 
+
+			// For big numbers this often looks better than exponential notation
+			"labelsKMB":true
+		},
+	
+		// Colors are decided automatically by default, but can be overridden
+		// This example shows how to put some series onto a y axis
+		"persistence":{
+			"heading":"Correlator persistence", 
+			"labels":["p.numSnapshots", "p.snapshotWaitTimeEwmaMillis", "p.commitTimeEwmaMillis"],
+			"colors":["red", "green", "blue"], 
+
+			"ylabel":"Time (ms)", 
+			"y2label":"Number of snapshots",
+			"series": {"p.numSnapshots":{"axis":"y2"}}
+		},
+
+
+		// Example of overriding an existing chart
+		"rates":{
+			"heading":"Send/receive rate", "ylabel":"Events /sec", 
+			"labels":["rx /sec", "jms.rx /sec"],
+			"colors":["red", "orange"], 
+			
+			// For big numbers this often looks better than exponential notation
+			"labelsKMB":true
+		}
+	}
+
+}

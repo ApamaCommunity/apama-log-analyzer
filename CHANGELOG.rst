@@ -1,5 +1,6 @@
 3.5
 ---
+- Added the ability to extract data from user-defined periodic status lines and to add user-defined charts, with the new configuration settings ``userStatusLines`` and ``userCharts``.
 - Fix incorrect time in chart legend when date is during Daylight Savings Time (relative to the locale the web browser is running in). Now the chart legend is corrected to be consistent with the time shown in the x axis. 
 
 3.4
