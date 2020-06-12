@@ -1,3 +1,7 @@
+3.6 (in development)
+---
+...
+
 3.5
 ---
 - Added the ability to extract data from user-defined periodic status lines and to add user-defined charts, with the new configuration settings ``userStatusLines`` and ``userCharts``.
