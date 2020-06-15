@@ -1,3 +1,7 @@
+3.7.dev
+-------
+- TODO
+
 3.6
 ---
 - Fixed a couple of bugs in the userStatusLines, and added support for ignoring ``[monitorid]`` when doing the prefix matching. 
