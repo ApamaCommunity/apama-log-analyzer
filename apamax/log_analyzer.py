@@ -403,7 +403,10 @@ class ChartDataWriter(BaseWriter):
 		# assume it's a number; try to find a concise representation to keep the HTML small
 		value = value*scalingfactor
 		if value == 0: return '0'
-		if value > 100: return f'{value:.0f}'
+		try:
+			if value > 100: return f'{value:.0f}'
+		except TypeError:
+			pass # occasionally the value will be a user-defined string in which case ">" operator won't work
 		return str(value)
 	
 	def writeStatus(self, status=None, line=None, **extra):
