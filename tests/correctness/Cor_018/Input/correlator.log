@@ -174,6 +174,7 @@
 2020-06-12 16:06:08.600 CRIT  [14100] - test.Test [2] Some sample EPL output
 2020-06-12 16:06:09.599 CRIT  [33128] - test.Test [2] Some sample EPL output
 2020-06-12 16:06:10.600 CRIT  [33128] - test.Test [2] Some sample EPL output
+2020-06-12 16:06:16.500 INFO  [140103309588224] - com.mycompany.MyMonitor [1] MyApplication Status: kpi1=100 kpi2=50% kpi3="a string" jeall=1390 jemap=1708 jeret=360 jeefficiency=81% sys=3136 use=1971 max=3122 tot=0 cur=3024 efficiency=65%
 2020-06-12 16:06:11.533 INFO  [47556] - Correlator Status: sm=2 nctx=1 ls=5 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=11 tx=6 rt=0 nc=1 vm=615468 pm=267224 runq=0 si=14.4 so=0.0 srn="<none>" srq=0 jvm=76
 2020-06-12 16:06:11.533 INFO  [47556:Status] - JMS Status: s=1 tx=6 sRate=1 sOutst=0 r=2 rx=4 rRate=0 rWindow=197 rRedel=0 rMaxDeliverySecs=0.0 rDupsDet=1 rDupIds=3 connErr=0 jvmMB=77
 2020-06-12 16:06:11.534 INFO  [47556:Status] -     JMSConnection myConnection: s=1 r=2 connErr=0 sessionsCreated=3
@@ -186,6 +187,7 @@
 2020-06-12 16:06:13.600 CRIT  [14100] - test.Test [2] Some sample EPL output
 2020-06-12 16:06:14.600 CRIT  [14100] - test.Test [2] Some sample EPL output
 2020-06-12 16:06:15.599 CRIT  [14100] - test.Test [2] Some sample EPL output
+2020-06-12 16:06:16.500 INFO  [140103309588224] - com.mycompany.MyMonitor [5] MyApplication Status: kpi1=1585 kpi2=80.2% kpi3="abc def" jeall=1390 jemap=1708 jeret=360 jeefficiency=81% sys=3136 use=1971 max=3122 tot=0 cur=3024 efficiency=65%
 2020-06-12 16:06:16.533 INFO  [47556] - Correlator Status: sm=2 nctx=1 ls=5 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=11 tx=6 rt=0 nc=1 vm=615620 pm=267444 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=107
 2020-06-12 16:06:16.534 INFO  [47556:Status] - JMS Status: s=1 tx=6 sRate=0 sOutst=0 r=2 rx=4 rRate=0 rWindow=197 rRedel=0 rMaxDeliverySecs=0.0 rDupsDet=1 rDupIds=3 connErr=0 jvmMB=108
 2020-06-12 16:06:16.534 INFO  [47556:Status] -     JMSConnection myConnection: s=1 r=2 connErr=0 sessionsCreated=3

@@ -1,4 +1,13 @@
 {"userStatusLines":{
+
+	"com.mycompany.MyMonitor [1] MyApplication Status:": {
+		"keyPrefix":"myApp.",
+		"key:alias":{
+			"kpi1":"",
+			"kpi2":"kpi2AliasWithUnits",
+			"kpi3":""
+		}},
+
 	"JMS Status:": {
 		"keyPrefix":"jms.",
 		"key:alias":{

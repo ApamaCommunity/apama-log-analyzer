@@ -77,9 +77,22 @@ To do this create a .json configuration file containing a "userStatusLines" dici
 
 	{
 		"userStatusLines":{
+		
+		// This is for a typical application-defined status line. Note that any text inside [...] brackets (
+		// typically the monitor instance id) is ignored. 
+		"com.mycompany.MyMonitor [1] MyApplication Status:": {
+			// This prefix is added to the start of each alias to avoid clashes with other status KPIs
+			"keyPrefix":"myApp.",
+			
+			// Specifying user-friendly aliases for each key is optional. Always include any units (e.g. MB) in the key or alias
+			"key:alias":{
+				"kpi1":"",
+				"kpi2":"kpi2AliasWithUnits",
+				"kpi3":""
+			}},
+		
 		// This detects INFO level lines beginning with "JMS Status:"
 		"JMS Status:": {
-			// This prefix is added to the start of each alias to avoid clashes with other status KPIs
 			"keyPrefix":"jms.",
 			"key:alias":{
 				"s":"s=senders",
@@ -107,15 +120,14 @@ To do this create a .json configuration file containing a "userStatusLines" dici
 		}
 	}
 
-
 Any user-defined status lines should be of the same form as the Correlator status lines, logged at INFO level, 
 for example::
 
 	on all wait(5.0) {
-		log "MyApplication status:"
+		log "MyApplication Status:"
 			+" kpi1="+kpi1.toString()
 			+" kpi2="+kpi2.toString()
-			+" string_kpi=\""+kpi3+"\"" at INFO;
+			+" kpi3=\""+kpi3+"\"" at INFO;
 	}
 
 Technical detail: the frequency and timing of other status lines may not match when the main "Correlator status:" lines 

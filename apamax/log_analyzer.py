@@ -611,8 +611,10 @@ class LogAnalyzer(object):
 			return
 		level = line.level
 
-		for userStatusPrefix, userStatus in self.args.userStatusLines.items():
+		for (userStatusPrefix, userStatusPrefixAfterBracket), userStatus in self.args.userStatusLines.items():
 			if m.startswith(userStatusPrefix):
+				if userStatusPrefixAfterBracket is not None: # special handling of [n] values
+					if userStatusPrefixAfterBracket not in m: continue
 				self.handleRawStatusLine(file=file, line=line, userStatus=userStatus)
 				break
 			
@@ -691,6 +693,7 @@ class LogAnalyzer(object):
 				i+=1
 			if endchar != '"':
 				try:
+					if val.endswith('%') and val[:-1].replace('.','').isdigit(): val = val[:-1] # for user-defined % values which would otherwise not be graphable
 					if '.' in val:
 						val = float(val)
 					else:
@@ -2210,7 +2213,8 @@ class LogAnalyzerTool(object):
 				
 		globbedpaths = [toLongPathSafe(p) for p in globbedpaths]	
 		globbedpaths.sort() # best we can do until when start reading them - hopefully puts the latest one at the end
-		
+
+		userCharts = {}
 		if args.config:
 			with open(args.config, 'rb') as f:
 				jsonbytes = f.read()
@@ -2223,17 +2227,25 @@ class LogAnalyzerTool(object):
 						columns = {k or COLUMN_DISPLAY_NAMES[k] for k in COLUMN_DISPLAY_NAMES}
 						for userStatusPrefix, userStatus in v.items():
 							if not userStatusPrefix.endswith(':'): raise UserError('userStatus prefixes should end with a ":"')
+							
 							for k, alias in userStatus['key:alias'].items():
 								alias = userStatus['keyPrefix']+(alias or k)
 								if alias in columns: raise UserError(f"User status line '{userStatusPrefix}' contains display name '{alias}' which is already in use; consider using keyPrefix to ensure this status line doesn't conflict with display names from others")
 								columns.add(alias)
+						
+						# need a hack to cope with [n] placeholders for monitor instance id
+						args.userStatusLines = {
+							(k[:k.index('[')+1] if ('[' in k and ']' in k) else k, # simple and hence efficient prefix match
+							k[k.index(']'):] if ('[' in k and ']' in k) else None,
+							):v for k, v in args.userStatusLines.items()
+						}
+						
 					elif k == 'userCharts':
 						userCharts = v # allow overriding existing charts if desired
 					else:
 						raise UserError('Unknown key in config file: '%key)
 		else:
 			args.userStatusLines = {}
-			userCharts = {}
 		
 		if not globbedpaths: raise UserError('No log files specified')
 		

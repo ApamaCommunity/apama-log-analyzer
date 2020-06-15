@@ -1,6 +1,6 @@
 3.6 (in development)
 ---
-...
+- Fixed a couple of bugs in the userStatusLines, and added support for ignoring ``[monitorid]`` when doing the prefix matching. 
 
 3.5
 ---
