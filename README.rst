@@ -112,7 +112,10 @@ Any user-defined status lines should be of the same form as the Correlator statu
 for example::
 
 	on all wait(5.0) {
-		log "MyApplication status: kpi1="+kpi1.toString()+" kpi2="+kpi2.toString()+" string_kpi=\""+kpi3+"\"" at INFO;
+		log "MyApplication status:"
+			+" kpi1="+kpi1.toString()
+			+" kpi2="+kpi2.toString()
+			+" string_kpi=\""+kpi3+"\"" at INFO;
 	}
 
 Technical detail: the frequency and timing of other status lines may not match when the main "Correlator status:" lines 
