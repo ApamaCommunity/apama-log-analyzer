@@ -108,10 +108,12 @@ To do this create a .json configuration file containing a "userStatusLines" dici
 	}
 
 
-Any user-defined status lines should be of the same form as the Correlator status lines, logged at INFO level similar 
-to::
+Any user-defined status lines should be of the same form as the Correlator status lines, logged at INFO level, 
+for example::
 
-	Some prefix: key1=value1 key2=value2 key3="value 3"
+	on all wait(5.0) {
+		log "MyApplication status: kpi1="+kpi1.toString()+" kpi2="+kpi2.toString()+" string_kpi=\""+kpi3+"\"" at INFO;
+	}
 
 Technical detail: the frequency and timing of other status lines may not match when the main "Correlator status:" lines 
 are logged. The analyzer just uses the main status lines for the timing, adding the most recently seen user status 
