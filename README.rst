@@ -64,7 +64,7 @@ Start by reviewing the ``overview.txt`` (which is also displayed on stdout when 
 
 For information about the meaning of the status lines which may be helpful when analyzing the csv files, see the Resources section below. 
 
-Note that the ``overview.html`` page uses the http://dygraphs.com JavaScript library to display the charts, and these are downloaded from the internet when the page is opened, so you will need an internet connection to open the ``overview.html`` page correctly (though you don't need one to run the analyzer, so ). 
+Note that the ``overview.html`` page uses the http://dygraphs.com JavaScript library to display the charts, and these are downloaded from the internet when the page is opened, so you will need an internet connection to open the ``overview.html`` page correctly (though you don't need one to run the analyzer). 
 
 User status lines
 -----------------
