@@ -1,6 +1,6 @@
 3.7.dev
 -------
-- TODO
+- It is not longer required for the prefix in userStatusLines to end with a ":". 
 
 3.6
 ---

@@ -182,6 +182,9 @@
 2020-06-12 16:06:11.534 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-queue-01: rx=4 rRate=0 rWindow=97 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=1 rDupsDet=1 perSourceDupIds=3 timeExpiryDupIds=0
 2020-06-12 16:06:11.534 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-topic-01: rx=0 rRate=0 rWindow=100 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=0 rDupsDet=0 perSourceDupIds=0 timeExpiryDupIds=0
 2020-06-12 16:06:11.534 INFO  [47556] - Persistence Status: numSnapshots=42 lastSnapshotTime=624772 snapshotWaitTimeEwmaMillis=0.03 commitTimeEwmaMillis=194.34 lastSnapshotRowsChangedEwma=93
+[apama-ctrl]  2020-06-17 20:15:47.342 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=192.168.146.0 started=5 completed=3
+[apama-ctrl]  2020-06-17 20:15:47.342 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=192.168.138.64 started=2 completed=2
+[apama-ctrl]  2020-06-17 20:15:47.342 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=192.168.99.0 started=17 completed=17
 2020-06-12 16:06:11.600 CRIT  [33128] - test.Test [2] Some sample EPL output
 2020-06-12 16:06:12.601 CRIT  [33128] - test.Test [2] Some sample EPL output
 2020-06-12 16:06:13.600 CRIT  [14100] - test.Test [2] Some sample EPL output

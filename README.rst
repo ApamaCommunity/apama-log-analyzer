@@ -78,8 +78,9 @@ To do this create a .json configuration file containing a "userStatusLines" dici
 	{
 		"userStatusLines":{
 		
-		// This is for a typical application-defined status line. Note that any text inside [...] brackets (
-		// typically the monitor instance id) is ignored. 
+		// This is for a typical application-defined status line. Note that any number (or text) inside [...] brackets (
+		// typically the monitor instance id) is ignored. This is matched against the "message" part of the log line, 
+		// which follows the first " - " in the line (except for [apama-ctrl] messages which have an extra <apama-ctrl> prefix)
 		"com.mycompany.MyMonitor [1] MyApplication Status:": {
 			// This prefix is added to the start of each alias to avoid clashes with other status KPIs
 			"keyPrefix":"myApp.",

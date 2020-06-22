@@ -2229,8 +2229,6 @@ class LogAnalyzerTool(object):
 						# sanity check it
 						columns = {k or COLUMN_DISPLAY_NAMES[k] for k in COLUMN_DISPLAY_NAMES}
 						for userStatusPrefix, userStatus in v.items():
-							if not userStatusPrefix.endswith(':'): raise UserError('userStatus prefixes should end with a ":"')
-							
 							for k, alias in userStatus['key:alias'].items():
 								alias = userStatus['keyPrefix']+(alias or k)
 								if alias in columns: raise UserError(f"User status line '{userStatusPrefix}' contains display name '{alias}' which is already in use; consider using keyPrefix to ensure this status line doesn't conflict with display names from others")
