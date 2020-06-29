@@ -1847,10 +1847,14 @@ class LogAnalyzer(object):
 
 		# zoom to show everything
 		times = [f.get('startTime') for f in self.files]+[f.get('endTime') for f in self.files]
-		times = sorted([t.timestamp() for t in times if t])
+		times = sorted([t for t in times if t])
 		if len(times) >= 2:
+			times = [min(times), max(times)]
 			defaultoptions['dateWindow'] = [
-				int(1000*min(times)), int(1000*max(times))
+				f"new Date({dt.year},{dt.month-1},{dt.day},{dt.hour},{dt.minute},{dt.second})"
+				#1000*dt.timestamp()
+				for dt in times
+				#int(1000*min(times)), int(1000*max(times))
 			]
 		
 		with io.open(os.path.join(self.outputdir, 'overview.html'), 'w', encoding='utf-8') as out:
@@ -1937,7 +1941,8 @@ class LogAnalyzer(object):
 					with io.open(tmpfile, 'r', encoding='utf-8') as datafile:
 						shutil.copyfileobj(datafile, out)
 					os.remove(tmpfile)
-					out.write('],\n'+json.dumps(options)[:-1]+',"legendFormatter":legendFormatter}'+'\n);\n')
+					# this regex converts a JavaScript string containing new Date(...) to a proper JavaScript object
+					out.write('],\n'+re.sub('"(new [^"]*)"', "\\1", json.dumps(options)[:-1])+',"legendFormatter":legendFormatter}'+'\n);\n')
 					out.write('\ncharts.push(g);\n')
 					if c == 'rates':
 						for a in file['annotations']:

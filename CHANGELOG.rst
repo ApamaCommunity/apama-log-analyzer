@@ -1,6 +1,7 @@
 3.7.dev
 -------
 - It is not longer required for the prefix in userStatusLines to end with a ":". 
+- Fixed a bug which could cause the wrong time range to be selected for the x axis if the analyzer was run in a different timezone from the timezone where the HTML is viewed. 
 
 3.6
 ---
