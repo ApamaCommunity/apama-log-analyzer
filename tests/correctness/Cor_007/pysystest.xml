@@ -2,9 +2,10 @@
 <pysystest type="auto" state="runnable">
     
   <description> 
-    <title>General - apama-ctrl log files from cumulocity</title>
+    <title>General - apama-ctrl log files from cumulocity, and from docker output</title>
     <purpose><![CDATA[
     Check for correct extraction of status lines with files from apama-ctrl. 
+    Also (separately) that we can read logs with docker output prefixes. 
 ]]>
     </purpose>
   </description>

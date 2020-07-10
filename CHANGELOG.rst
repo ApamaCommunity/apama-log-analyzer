@@ -1,6 +1,6 @@
 3.8 (in development)
 --------------------
-- TODO
+- Added support for analysing logs containing the "id    | " prefixes added when running a correlator inside docker. 
 
 3.7
 ---

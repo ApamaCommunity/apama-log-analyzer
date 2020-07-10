@@ -8,6 +8,7 @@ class PySysTest(AnalyzerBaseTest):
 			self.input+'/apama-ctrl-10.5.0.0.log', 
 			self.input+'/apama-small-10.3.1.0.log', 
 			self.input+'/apama-ctrl-10.5.0.2.log', 
+			self.input+'/apama-docker.log', 
 			'--json', 
 		])
 
@@ -20,15 +21,15 @@ class PySysTest(AnalyzerBaseTest):
 		with io.open(outputdir+f'/status.apama-ctrl-{logversion}.json') as f:
 			data = json.load(f) # check it's a valid json document
 		last = data['status'][-1]
-		self.assertEval("{value}.startswith('2019-09-16 ')", value=last['local datetime'], valueName=f'last datetime for {logversion}')
-		self.assertEval("{value} == 12345", value=last['sm=monitor instances'], valueName=f'last sm value for {logversion} log')
+		self.assertThat("value.startswith('2019-09-16 ')", value=last['local datetime'], valueName=f'last datetime for {logversion}')
+		self.assertThat("value == expected", expected=12345, value=last['sm=monitor instances'], valueName=f'last sm value for {logversion} log')
 
 		logversion = '10.3.1.0'
 		with io.open(outputdir+f'/status.apama-small-{logversion}.json') as f:
 			data = json.load(f) # check it's a valid json document
 		last = data['status'][-1]
-		self.assertEval("{value}.startswith('2019-09-24 ')", value=last['local datetime'], valueName=f'last datetime for {logversion}')
-		self.assertEval("{value} == 12345", value=last['sm=monitor instances'], valueName=f'last sm value for {logversion} log')
+		self.assertThat("value.startswith('2019-09-24 ')", value=last['local datetime'], valueName=f'last datetime for {logversion}')
+		self.assertThat("value == expected", expected=12345, value=last['sm=monitor instances'], valueName=f'last sm value for {logversion} log')
 
 		self.assertGrep(outputdir+'/logged_warnings.txt', expr=r'767 .*2019-09-16 10:27:41.499 WARN  \[Thread-8\] com.apama.in_c8y.AlarmUtil.raise - MAJOR APAMA_CTRL_ERROR_63951550 CalculatePowerValues')
 		# 2x occurrences of this message
@@ -39,6 +40,13 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertGrep(outputdir+'/overview.txt', expr='Apama version: +10.5.0.1.[0-9]+, apama-ctrl: 10.5.0.2_[0-9]+; ')
 
 		self.assertGrep(outputdir+'/status.apama-ctrl-10.5.0.0.csv', expr='apamaCtrlVersion=,10.5.0.1_359159M')
+
+
+		with io.open(outputdir+f'/status.apama-docker.json') as f:
+			data = json.load(f)
+		last = data['status'][-1]
+		self.assertThat("value.startswith(expected)", expected='2019-04-09 ', value__eval="data['status'][-1]['local datetime']", log='docker')
+		self.assertThat("value == expected", expected=12345, value__eval="data['status'][-1]['sm=monitor instances']", log='docker')
 
 		
 		self.logFileContents(outputdir+'/overview.txt', maxLines=0)
