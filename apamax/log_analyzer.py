@@ -503,7 +503,6 @@ class LogAnalyzer(object):
 			previousLine = None
 			startTime = None
 			stripPrefix = None
-			firstNonEmptyLine = True
 			for line in f:
 				lineno += 1
 				charcount += len(line)
@@ -525,10 +524,10 @@ class LogAnalyzer(object):
 				
 				if len(line)==0: continue # blank lines aren't useful
 				
-				if firstNonEmptyLine is True:
-					firstNonEmptyLine = False # strip off docker names
+				if lineno <= 4: # for performance, only bother to check the first few lines
 					m = re.match('([A-Za-z][A-Za-z0-9_.-]+ +[|] )[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]', line)
 					if m: stripPrefix = m.group(1)
+				# strip off docker names
 				if stripPrefix is not None and line.startswith(stripPrefix): 
 					line = line[len(stripPrefix):]
 				

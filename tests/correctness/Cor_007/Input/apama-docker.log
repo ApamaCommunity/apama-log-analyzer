@@ -1,3 +1,4 @@
+Attaching to apama
 apama       | 2019-04-09 13:57:22.675 ##### [32376] - Correlator, version 10.3.1.0.348044 (build rel/10.3.1.x@348044 on amd64-win using Software AG suite version 10.3), started.
 apama       | 2019-04-09 13:57:22.676 ##### [32376] - Running on host 'myhost' as user 'BSP'.
 apama       | 2019-04-09 13:57:22.676 ##### [32376] - Running on platform 'Windows 10 Enterprise'.
