@@ -1,3 +1,7 @@
+3.8 (in development)
+--------------------
+- TODO
+
 3.7
 ---
 - It is not longer required for the prefix in userStatusLines to end with a ":". 
