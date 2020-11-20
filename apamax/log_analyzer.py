@@ -1623,14 +1623,16 @@ class LogAnalyzer(object):
 	def writeOverviewForAllFiles(self, **extra):
 		# re-sort based on what we know now
 		
-		firstfile = sorted(self.files, key=lambda f: f['startTime'] or datetime.datetime.max)[0]
+		# use this to establish if we have more than one instance present
+		instances = set(f['startupStanzas'][0].get('instance', '?') for f in self.files)
+		instances.discard('?')
 		
 		self.files.sort(key=lambda f: [
 			# put all files for a given instance together first (since relative start time of each correlator isn't 
 			# stable across restart), then sorted by start time
 			# (but if we don't know the instance for a file, inherit from the earliest one, otherwise we end up putting 
 			# files WITH a startup stanza at the end, which is the opposite of what's most desirable)
-			f['startupStanzas'][0].get('instance') or firstfile['startupStanzas'][0].get('instance','?'),
+			None if len(instances)< 2 else f['startupStanzas'][0].get('instance','?'),
 			f['startTime'] or datetime.datetime.min,
 			# fall back on filename if not available
 			f['name'],

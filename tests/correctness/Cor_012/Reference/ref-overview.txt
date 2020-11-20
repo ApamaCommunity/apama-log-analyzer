@@ -1,4 +1,10 @@
-- #01 correlator-with-restarts.log
+- #01 correlator-without-startup.log
+  Wed 2019-04-10 10:57:37 to 10:59:37 (=0:02:00)
+
+  No correlator startup stanza present in this file!
+
+
+- #02 correlator-with-restarts.log
   Mon 2019-10-14 22:26:59 to 22:27:14 (=0:00:14)
 
   Instance:       myhost2:15903
@@ -16,7 +22,7 @@
   Process id:     66760 restart #2 at Mon 2019-10-14 22:27:11 (line 128)
 
 
-- #02 correlator-10.3.1.0-win.log
+- #03 correlator-10.3.1.0-win.log
   Tue 2019-04-09 13:57:22 to 13:57:37 (=0:00:15)
 
   Instance:       myhost:15903
@@ -25,12 +31,6 @@
   Customer:       Software AG internal (license expires 2019/04/22)
   Memory:         31.8 GB physical memory
   Notable:        non-standard log level: DEBUG
-
-
-- #03 correlator-without-startup.log
-  Wed 2019-04-10 10:57:37 to 10:59:37 (=0:02:00)
-
-  No correlator startup stanza present in this file!
 
 
 - #04 correlator-4.3.2.0-win.log

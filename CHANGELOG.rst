@@ -1,6 +1,7 @@
 3.8 (in development)
 --------------------
 - Added support for analysing logs containing the "id    | " prefixes added when running a correlator inside docker. 
+- Improved sort order of log files to only include time unless we know there are multiple different instances. 
 
 3.7
 ---
