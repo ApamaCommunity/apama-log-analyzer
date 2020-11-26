@@ -1,0 +1,149 @@
+# Sample workflow that installs Apama Community Edition and uses it to run PySys tests for your application
+
+# Python 3 and Java JDK 8 are shipped with Apama (and added to PATH by this workflow) so there is no need to install them separately. 
+
+# Using this workflow implies that you have agreed to the terms of the Software AG license agreement - see http://www.apamacommunity.com/terms-conditions/
+
+# This workflow can be used without a commercial license of Apama. If you do have a commercial Apama license you hereby 
+# agree not to commit the license file to any repository or location that can be accessed outside your organization. 
+
+name: PySys
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    env:
+      # Keep this updated with the latest version from http://www.apamacommunity.com/downloads/
+      SETUP_APAMA_VERSION: 10.5.3.2
+
+    strategy:
+      # Disable fail fast since it's useful to see test results for all platforms even if some failed
+      fail-fast: false
+      
+      matrix:
+          # The 4-digit version to download from http://www.apamacommunity.com/downloads/
+        apama-version: "10.5.3.2"
+      
+        include:
+          - run-id: amd64_linux
+            os: ubuntu-latest
+            upload-docs: true
+            
+          - run-id: amd64_win
+            os: windows-latest
+            
+    runs-on: ${{matrix.os}}
+    
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cached Apama installation
+        # always-upload is a fork of actions/cache allows cache to be saved even if some later steps (e.g. testing) fail
+        uses: pat-s/always-upload-cache@v2.1.3
+
+        id: cache-apama-installer
+        with:
+            path: ~/cached-apama-installation.tar
+            # To use a clean cache, update the number at the end of this key
+            key: apama-${{ runner.os }}-${{ matrix.apama-version }}-cache1
+
+      - uses: ApamaCommunity/github-action-setup-apama@v1.0.0
+        with:
+          apama-version: ${{ matrix.apama-version }}
+
+      # TODO: remove these actions unless compiling custom C++/Java plugins is required 
+      # (especially on Windows, as it's quite time-consuming to install the SDK)
+      - name: Install Windows 8.1 SDK (C++)
+        if: runner.os == 'Windows DISABLED'
+        shell: powershell
+        run: |
+          Invoke-WebRequest -Method Get -Uri https://go.microsoft.com/fwlink/p/?LinkId=323507 -OutFile sdksetup.exe -UseBasicParsing
+          Get-Date
+          Start-Process -Wait sdksetup.exe -ArgumentList "/q", "/norestart", "/features", "OptionId.WindowsDesktopSoftwareDevelopmentKit", "OptionId.NetFxSoftwareDevelopmentKit"
+      - name: Setup Visual Studio
+        if: runner.os == 'Windows DISABLED'
+        uses: microsoft/setup-msbuild@v1.0.2
+        with:
+          vs-version: '[14,17]'
+      - name: Build C++ plugins (Windows)
+        shell: cmd
+        if: runner.os == 'Windows DISABLED'
+        run: |
+          pushd %APAMA_HOME%\samples\correlator_plugin\cpp
+          msbuild /p:platform=x64 correlator_plugin_cpp_api.sln
+
+          mkdir %GITHUB_WORKSPACE%\src\lib
+          echo Copying into Apama project dir:
+          copy Release\*.dll %GITHUB_WORKSPACE%\src\lib
+          copy Release\*.pdb %GITHUB_WORKSPACE%\src\lib
+      - name: Build C++ plugins (Linux)
+        shell: bash
+        if: runner.os != Windows
+        run: |
+          cd $APAMA_HOME/samples/correlator_plugin/cpp
+          make
+
+          ls *.so
+          mkdir --parents $GITHUB_WORKSPACE/src/lib
+          cp lib*.so $GITHUB_WORKSPACE/src/lib/
+
+      - name: Build Java plugins
+        shell: bash
+        run: |
+          cd $APAMA_HOME/samples/correlator_plugin/java
+          ant
+          mkdir --parents $GITHUB_WORKSPACE/src/lib
+          cp *.jar $GITHUB_WORKSPACE/src/lib/
+
+      - name: Create Apama deployment directory
+        shell: bash
+        run: |
+          engine_deploy --outputDeployDir __deploydir $APAMA_HOME/samples/epl
+          ls __deploydir
+
+      - name: PySys tests
+        working-directory: tests
+        shell: bash
+        id: pysys
+        run: |
+          $APAMA_PYSYS run --threads=auto --record --purge --printLogs=ALL -Xeplcoverage -XcodeCoverage --mode=ALL --outdir=`pwd`/__pysys_output/${{matrix.run-id}} 
+
+      # If any tests fail, PySys will return an error code, so we need "if: always()" so the following steps will run
+      # Since we expect failures only from the cookbook sample, that's the one we upload artifacts for (using id=pysys)
+      # The follow lines are a copy from the sample pysys workflow
+
+      - name: Upload archive artifacts for any test failures
+        uses: actions/upload-artifact@v2
+        if: failure()
+
+        with:
+          name: pysys_output_${{matrix.run-id}}
+          path: test/__pysys_output/${{matrix.run-id}}
+
+      - name: Upload EPL code coverage report
+        uses: actions/upload-artifact@v2
+        if: success()
+
+        with:
+          name: pysys_epl_coverage_${{matrix.run-id}}
+          path: test/__pysys_output/${{matrix.run-id}}/eplcoverage
+
+      - name: Build ApamaDoc
+        shell: bash
+        if: always()
+        run: |
+          mkdir --parents __build/apamadoc
+          apamadoc __build/apamadoc $APAMA_HOME/samples/epl/simple
+     
+      - name: Upload ApamaDoc to gh-pages
+        if: matrix.upload-docs
+        uses: JamesIves/github-pages-deploy-action@3.6.2
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: __build/apamadoc
