@@ -1165,8 +1165,11 @@ class LogAnalyzer(object):
 	####################################################################################################################
 	# Sender/receiver connection events
 
+
 	CONNECTION_MESSAGE_IDS_REGEX = re.compile('^[(]component ID (?P<remotePhysicalId>[0-9]+)/(?P<remoteLogicalId>[0-9]+)[)] (?P<message>.+)$')
-	
+
+	CONNECTION_MESSAGE_IDS_REGEX2 = re.compile('^<client (?P<remotePhysicalId>[0-9]+), connection (?P<remoteLogicalId>[0-9]+), address (?P<host>[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+):(?P<remotePort>[0-9]+)> (?P<message>.+)$')
+
 	CONNECTION_MESSAGE_ADDR_REGEX = re.compile('^(?P<message>.+) from (?P<host>[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+):(?P<remotePort>[0-9]+) *$')
 
 	CONNECTION_LINE_REGEX = re.compile(
