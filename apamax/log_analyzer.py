@@ -658,7 +658,7 @@ class LogAnalyzer(object):
 			# also grab info lines within a startup stanza, and (for the benefit of apama-ctrl) the very first line of the file regardless
 			self.handleStartupLine(file=file, line=line)
 		elif level == 'I' and m.startswith((
-			'Receiver ',
+			'Receiver ', 'External receiver' #New log format
 			# don't really need these messages, they don't contain extra info we can't get from the other ones
 			#'The receiver ',
 			#'Blocking receiver ',
@@ -1168,8 +1168,6 @@ class LogAnalyzer(object):
 
 	CONNECTION_MESSAGE_IDS_REGEX = re.compile('^[(]component ID (?P<remotePhysicalId>[0-9]+)/(?P<remoteLogicalId>[0-9]+)[)] (?P<message>.+)$')
 
-	CONNECTION_MESSAGE_IDS_REGEX2 = re.compile('^<client (?P<remotePhysicalId>[0-9]+), connection (?P<remoteLogicalId>[0-9]+), address (?P<host>[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+):(?P<remotePort>[0-9]+)> (?P<message>.+)$')
-
 	CONNECTION_MESSAGE_ADDR_REGEX = re.compile('^(?P<message>.+) from (?P<host>[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+):(?P<remotePort>[0-9]+) *$')
 
 	CONNECTION_LINE_REGEX = re.compile(
@@ -1183,7 +1181,16 @@ class LogAnalyzer(object):
 			"(component ID (?P<remotePhysicalId>[0-9]+)/(?P<remoteLogicalId>[0-9]+) \[)?"+\
 			"(?P<objectAddr>(0x|00)[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]+)\]?[)] (?P<message>.+)"
 		)
-		
+
+	CONNECTION_MESSAGE_IDS_REGEX2 = re.compile('^<client (?P<remotePhysicalId>[0-9]+), connection (?P<remoteLogicalId>[0-9]+), address (?P<host>[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+):(?P<remotePort>[0-9]+)> (?P<message>.+)$')
+
+	CONNECTION_LINE_REGEX2 = re.compile(
+		# This regex is for sender/receiver connection lines;
+		# the (?P<name>xxxx) syntax identifies named groups in the regular expression
+		# messages we separately use CONNECTION_MESSAGE_IDS_REGEX to get those
+		r"^(?P<prefix>External receiver|External sender) (?P<processName>) <client (?P<remotePhysicalId>[0-9]+), connection (?P<remoteLogicalId>[0-9]+), address (?P<host>[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+):(?P<remotePort>[0-9]+)> (?P<message>.+)"
+	)
+
 	def handleConnectionMessage(self, file, line, **extra):
 		match = LogAnalyzer.CONNECTION_LINE_REGEX.match(line.message)
 		if match is None: return
