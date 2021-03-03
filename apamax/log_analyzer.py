@@ -1409,6 +1409,8 @@ class LogAnalyzer(object):
 		#	message, evt['message detail'] = message.split('(', 1)
 		#	evt['message detail']='('+evt['message detail']
 		evt['message'] = match.group('prefix') + ' ' + status + ' ' + message
+		if status.startswith('connected') and not message.startswith('from '):
+			return # this is not a connected message
 		file['connectionMessages'].append(evt)
 		return
 
