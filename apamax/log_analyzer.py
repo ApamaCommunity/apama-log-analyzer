@@ -1314,6 +1314,7 @@ class LogAnalyzer(object):
 			'local datetime': line.getDetails()['datetimestring'],
 			'local datetime object': line.getDateTime(),
 			'line num': line.lineno,
+			'connection ref': '0000000000000000', #new format does not have the object number
 			'remote process name': match.group('remoteProcessName'),
 		}
 
@@ -1341,6 +1342,7 @@ class LogAnalyzer(object):
 					evt['connection(logical)Id'] = connectionInfo['connection(logical)Id']
 			else:
 				connectionInfo = newconnectioninfo
+
 		# keep the most recent connection add updated regardless, since we might need it to handle a message that doesn't have this
 		file['connectionIds']['connectionAddr_' + evt['connection ref']] = connectionInfo
 		evt['connectionInfo'] = connectionInfo
