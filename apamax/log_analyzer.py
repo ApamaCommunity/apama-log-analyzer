@@ -1379,18 +1379,14 @@ class LogAnalyzer(object):
 			connectionInfo[
 				'host# > client# > connection#'] = f"h{hostnum:02} > cli{processnum:03} > conn{connectionnum:03}"
 
-		message = match.group('prefix') + ' ' + message
-		# if ':' in message:
-		#	message, evt['message detail'] = message.split(': ', 1)
-		# elif '(' in message:
-		#	message, evt['message detail'] = message.split('(', 1)
-		#	evt['message detail']='('+evt['message detail']
-		evt['message'] = message
+		status = match.group('status')
+		message = match.group('message')
+
 		connectionInfo['last'] = evt['local datetime object']
 
-		if message.startswith('Receiver connected'):
+		if status.startswith('connected') and message.startswith('from '):
 			evt['connections delta'] = +1
-		elif message.startswith('Receiver disconnected'):
+		elif message.startswith('disconnected'):
 			evt['connections delta'] = -1
 			# TODO: format this delta more nicely https://stackoverflow.com/questions/538666/format-timedelta-to-string
 			evt['duration secs'] = int((connectionInfo['last'] - connectionInfo['first']).total_seconds())
@@ -1399,12 +1395,18 @@ class LogAnalyzer(object):
 		else:
 			evt['connections delta'] = 0
 
-		if message.startswith('Receiver is slow'):
+		if message.startswith('is slow'):
 			connectionInfo['__slow periods'] += 1
 			evt['slow periods'] = connectionInfo['__slow periods']
 
 		if 'com.apama.scenario' in message: connectionInfo['scenario service'] = True
 
+		# if ':' in message:
+		#	message, evt['message detail'] = message.split(': ', 1)
+		# elif '(' in message:
+		#	message, evt['message detail'] = message.split('(', 1)
+		#	evt['message detail']='('+evt['message detail']
+		evt['message'] = match.group('prefix') + ' ' + status + ' ' + message
 		file['connectionMessages'].append(evt)
 		return
 
