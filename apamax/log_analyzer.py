@@ -630,7 +630,7 @@ class LogAnalyzer(object):
 				break
 			
 		if level == 'W':
-			if m.startswith('Receiver '):
+			if ( m.startswith('Receiver ') or m.startswith('External receiver')):
 				self.handleConnectionMessage(file, line)
 			
 			self.handleWarnOrError(file=file, isError=False, line=line)
@@ -1182,28 +1182,32 @@ class LogAnalyzer(object):
 			"(?P<objectAddr>(0x|00)[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]+)\]?[)] (?P<message>.+)"
 		)
 
-	CONNECTION_MESSAGE_IDS_REGEX2 = re.compile('^<client (?P<remotePhysicalId>[0-9]+), connection (?P<remoteLogicalId>[0-9]+), address (?P<host>[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+):(?P<remotePort>[0-9]+)> (?P<message>.+)$')
-
 	CONNECTION_LINE_REGEX2 = re.compile(
 		# This regex is for sender/receiver connection lines;
 		# the (?P<name>xxxx) syntax identifies named groups in the regular expression
-		# messages we separately use CONNECTION_MESSAGE_IDS_REGEX to get those
-		r"^(?P<prefix>External receiver|External sender) (?P<processName>) <client (?P<remotePhysicalId>[0-9]+), connection (?P<remoteLogicalId>[0-9]+), address (?P<host>[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+):(?P<remotePort>[0-9]+)> (?P<message>.+)"
+		# messages will contain all connected and disconnected lines in newLogFormat
+		r"^(?P<prefix>External sender|External receiver) \"(?P<remoteProcessName>.+)\" " + \
+			"<client (?P<remotePhysicalId>[0-9]+), connection (?P<remoteLogicalId>[0-9]+), " + \
+			"address (?P<host>[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+):(?P<remotePort>[0-9]+)> " + \
+			"(?P<status>connected|disconnected cleanly|disconnected uncleanly): (?P<message>.+)"
 	)
 
 	def handleConnectionMessage(self, file, line, **extra):
 		match = LogAnalyzer.CONNECTION_LINE_REGEX.match(line.message)
-		if match is None: return
-		
+		match2 = LogAnalyzer.CONNECTION_LINE_REGEX2.match(line.message)
+
+		if match is None and match2 is None: return
+		if match2 is None:
+			self.handleConnectionMessage2(file, line)
+			return
+
 		# nb: logicalId is a GUID for each connection; each connection can have zero or one receiver and zero or one sender
-		
 		evt = {
 			'local datetime':line.getDetails()['datetimestring'],
 			'local datetime object':line.getDateTime(),
 			'line num':line.lineno,
 			'connection ref':match.group('objectAddr'),
 			'remote process name':match.group('remoteProcessName'),
-			
 		}
 		
 		message = match.group('message')
@@ -1301,6 +1305,108 @@ class LogAnalyzer(object):
 
 		file['connectionMessages'].append(evt)
 
+	def handleConnectionMessage2(self, file, line, **extra):
+
+		match = LogAnalyzer.CONNECTION_LINE_REGEX2.match(line.message)
+
+		# nb: logicalId is a GUID for each connection; each connection can have zero or one receiver and zero or one sender
+		evt = {
+			'local datetime': line.getDetails()['datetimestring'],
+			'local datetime object': line.getDateTime(),
+			'line num': line.lineno,
+			'remote process name': match.group('remoteProcessName'),
+		}
+
+		message = match.group('message')
+		if match.group('remotePhysicalId'):
+			evt['client(physical)Id'] = match.group('remotePhysicalId')
+			evt['connection(logical)Id'] = match.group('remoteLogicalId')
+			message = match.group('message')
+
+		# the logical id is the safest thing to key this off, in new Log format no ObjectID is available
+		newconnectioninfo = {'first': line.getDateTime(), '__slow periods': 0}
+		if 'connection(logical)Id' in evt:
+			key = 'connection(logical)Id_' + evt['connection(logical)Id']
+			if key in file['connectionIds']:
+				connectionInfo = file['connectionIds'][key]
+			else:
+				file['connectionIds'][key] = connectionInfo = newconnectioninfo
+		else:
+			key = 'connectionAddr_' + evt['connection ref']
+			if key in file['connectionIds']:
+				connectionInfo = file['connectionIds'][key]
+				# if we have the proper ids, add them here
+				if 'client(physical)Id' in connectionInfo:
+					evt['client(physical)Id'] = connectionInfo['client(physical)Id']
+					evt['connection(logical)Id'] = connectionInfo['connection(logical)Id']
+			else:
+				connectionInfo = newconnectioninfo
+		# keep the most recent connection add updated regardless, since we might need it to handle a message that doesn't have this
+		file['connectionIds']['connectionAddr_' + evt['connection ref']] = connectionInfo
+		evt['connectionInfo'] = connectionInfo
+
+		if 'connection(logical)Id' in evt:
+			connectionInfo['connection(logical)Id'] = evt['connection(logical)Id']
+			connectionInfo['client(physical)Id'] = evt['client(physical)Id']
+
+		#in newFormatLog host and port are in all messages
+		connectionInfo['remotePort'] = match.group('remotePort')
+		connectionInfo['host'] = match.group('host')
+		message = match.group('message')
+
+		if 'host# > client# > connection#' not in connectionInfo and connectionInfo.get('host') and connectionInfo.get(
+				'connection(logical)Id'):
+			key = connectionInfo['host']
+			hostnum = file['connectionIds'].get(key)
+			if hostnum is None:
+				hostnum = file['connectionIds'].get('hostnum', 0) + 1
+				file['connectionIds'][key] = file['connectionIds']['hostnum'] = hostnum
+
+			key = 'P' + connectionInfo['client(physical)Id']
+			processnum = file['connectionIds'].get(key)
+			if processnum is None:
+				processnum = file['connectionIds'].get(connectionInfo['host'] + '.processnum', 0) + 1
+				file['connectionIds'][key] = file['connectionIds'][connectionInfo['host'] + '.processnum'] = processnum
+
+			key = 'L' + connectionInfo['connection(logical)Id']
+			connectionnum = file['connectionIds'].get(key)
+			if connectionnum is None:
+				connectionnum = file['connectionIds'].get(connectionInfo['client(physical)Id'] + '.connectionnum',
+														  0) + 1
+				file['connectionIds'][key] = file['connectionIds'][
+					connectionInfo['client(physical)Id'] + '.connectionnum'] = connectionnum
+
+			connectionInfo[
+				'host# > client# > connection#'] = f"h{hostnum:02} > cli{processnum:03} > conn{connectionnum:03}"
+
+		message = match.group('prefix') + ' ' + message
+		# if ':' in message:
+		#	message, evt['message detail'] = message.split(': ', 1)
+		# elif '(' in message:
+		#	message, evt['message detail'] = message.split('(', 1)
+		#	evt['message detail']='('+evt['message detail']
+		evt['message'] = message
+		connectionInfo['last'] = evt['local datetime object']
+
+		if message.startswith('Receiver connected'):
+			evt['connections delta'] = +1
+		elif message.startswith('Receiver disconnected'):
+			evt['connections delta'] = -1
+			# TODO: format this delta more nicely https://stackoverflow.com/questions/538666/format-timedelta-to-string
+			evt['duration secs'] = int((connectionInfo['last'] - connectionInfo['first']).total_seconds())
+			if connectionInfo['__slow periods']:  # final value is useful when disconnecting
+				evt['slow periods'] = connectionInfo['__slow periods']
+		else:
+			evt['connections delta'] = 0
+
+		if message.startswith('Receiver is slow'):
+			connectionInfo['__slow periods'] += 1
+			evt['slow periods'] = connectionInfo['__slow periods']
+
+		if 'com.apama.scenario' in message: connectionInfo['scenario service'] = True
+
+		file['connectionMessages'].append(evt)
+		return
 
 	def writeConnectionMessagesForCurrentFile(self, file):
 		""" Called when the current log file is finished to write out csv/json of connection events. 
