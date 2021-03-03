@@ -1197,7 +1197,7 @@ class LogAnalyzer(object):
 		match2 = LogAnalyzer.CONNECTION_LINE_REGEX2.match(line.message)
 
 		if match is None and match2 is None: return
-		if match2 is None:
+		if match2 is not None:
 			self.handleConnectionMessage2(file, line)
 			return
 
