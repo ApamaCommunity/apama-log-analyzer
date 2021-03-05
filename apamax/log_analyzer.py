@@ -630,7 +630,7 @@ class LogAnalyzer(object):
 				break
 			
 		if level == 'W':
-			if ( m.startswith('Receiver ') or m.startswith('External receiver')):
+			if m.startswith(('Receiver ', 'External receiver')):
 				self.handleConnectionMessage(file, line)
 			
 			self.handleWarnOrError(file=file, isError=False, line=line)
