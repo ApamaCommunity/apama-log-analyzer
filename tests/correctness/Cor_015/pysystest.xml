@@ -2,7 +2,7 @@
 <pysystest type="auto" state="runnable">
     
   <description> 
-    <title>Connection messages</title>    
+    <title>Connection messages in pre-10.11 format</title>    
     <purpose><![CDATA[Extraction and summarization of connect/disconnect/slow messages. 
     ]]>
     </purpose>

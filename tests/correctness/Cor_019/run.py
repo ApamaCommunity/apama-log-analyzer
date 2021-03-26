@@ -24,4 +24,4 @@ class PySysTest(AnalyzerBaseTest):
 			('# metadata: .*', '# metadata: XXX'),
 			])
 			
-		self.assertGrep('loganalyzer_output/overview.txt', expr='Slow receiver disconnections = 0, slow warning periods = 3', literal=True)
+		self.assertGrep('loganalyzer_output/overview.txt', expr='Slow receiver disconnections = 1, slow warning periods = 3', literal=True)
