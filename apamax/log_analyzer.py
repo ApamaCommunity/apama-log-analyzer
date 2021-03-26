@@ -1171,7 +1171,7 @@ class LogAnalyzer(object):
 
 	CONNECTION_MESSAGE_ADDR_REGEX = re.compile('^(?P<message>.+) from (?P<host>[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+):(?P<remotePort>[0-9]+) *$')
 
-	CONNECTION_LINE_REGEX = re.compile(
+	CONNECTION_LINE_REGEX_PRE10_7 = re.compile(
 		# This regex is for sender/receiver connection lines prior to Apama 10.7(.1);
 		# the (?P<name>xxxx) syntax identifies named groups in the regular expression
 	
@@ -1183,7 +1183,7 @@ class LogAnalyzer(object):
 			"(?P<objectAddr>(0x|00)[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]+)\]?[)] (?P<message>.+)"
 		)
 
-	CONNECTION_LINE_REGEX2 = re.compile(
+	CONNECTION_LINE_REGEX_POST10_7 = re.compile(
 		# This regex is for sender/receiver connection lines from Apama 10.7.1 onwards
 		# the (?P<name>xxxx) syntax identifies named groups in the regular expression
 		# messages will contain all connected and disconnected lines in newLogFormat
@@ -1194,8 +1194,8 @@ class LogAnalyzer(object):
 	)
 
 	def handleConnectionMessage(self, file, line, **extra):
-		post10_7 = LogAnalyzer.CONNECTION_LINE_REGEX2.match(line.message)
-		match = post10_7 or LogAnalyzer.CONNECTION_LINE_REGEX.match(line.message)
+		post10_7 = LogAnalyzer.CONNECTION_LINE_REGEX_POST10_7.match(line.message)
+		match = post10_7 or LogAnalyzer.CONNECTION_LINE_REGEX_PRE10_7.match(line.message)
 		
 		if match is None: return
 
@@ -1295,7 +1295,7 @@ class LogAnalyzer(object):
 		# pre 10.7 messages start with "Receiver", post 10.7 don't so strip it before doing comparisons
 		if post10_7:
 			evtType = match.group('evtType') or message
-			message = match.group('prefix')+' %s %s'%(evtType, message)
+			message = evtType+((': %s'%message) if message else '')
 		else:
 			message = match.group('prefix')+' '+message
 			# to emulate 10.7+ behaviour, strip off the "Receiver " prefix
@@ -1306,9 +1306,6 @@ class LogAnalyzer(object):
 
 		if 'com.apama.scenario' in message: connectionInfo['scenario service'] = True
 			
-		#if evtType.startswith('connected') and not message.startswith('connected from '):
-		#	assert False, [evtType, message, line, post10_7] # TODO; what is this?
-		
 		if evtType.startswith('connected') and not 'Blocking receiver configured ' in message:
 			# nb: the above check is to avoid matching lines like "connected: Blocking receiver configured to be blocked ..." as connections; that was a mistake in 10.7.1.0
 			evt['connections delta'] = +1
@@ -1327,7 +1324,7 @@ class LogAnalyzer(object):
 			elif evtType.startswith(('is no longer slow',)):
 				pass
 			else:
-				return # ignore other messages such as "Blocking receiver configured to be blocked"
+				return # other messages such as "Blocking receiver configured to be blocked" should not be appended to connectionMessages
 
 		file['connectionMessages'].append(evt)
 
