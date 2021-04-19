@@ -1,0 +1,125 @@
+2021-02-09 22:05:34.032 ##### [17912] - Correlator, version 10.7.1.0.0 (build UNKNOWN_VERSION@0 on amd64-win using Software AG suite version 10.7), started.
+2021-02-09 22:05:34.035 ##### [17912] - Running on host 'SAG-8T27TT2' as user 'YTA'.
+2021-02-09 22:05:34.036 ##### [17912] - Running on platform 'Windows 10 Enterprise'.
+2021-02-09 22:05:34.036 ##### [17912] - Running on CPU 'GenuineIntel family 6 model 14 stepping 10 Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz'.
+2021-02-09 22:05:34.036 ##### [17912] - Running with process Id 8916.
+2021-02-09 22:05:34.036 ##### [17912] - Running with 32560.68MB of available memory.
+2021-02-09 22:05:34.038 ##### [17912] - There are 12 CPU(s)
+2021-02-09 22:05:34.038 ##### [17912] - Correlator command line: c:\dev\PAM\rel\10.7.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator -l c:\dev\PAM\rel\10.7.1.x\apama-test\tools\output-amd64-win-release\apwork\license/ApamaServerLicense.xml -p 36062 -f correlator.log
+2021-02-09 22:05:34.038 ##### [17912] - Current Working Directory: C:\dev\PAM\rel\10.7.1.x\apama-test\system\correlator\corba\testcases\correctness\Corr_Corba_cor_1365\Output\amd64-win
+2021-02-09 22:05:34.038 ##### [17912] - PATH: c:\dev\PAM\rel\10.7.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin;c:\dev\PAM\rel\10.7.1.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\adapters\bin;c:\dev\PAM\rel\10.7.1.x\apama-test\tools\output-amd64-win-release\native-adapters;c:\dev\PAM\rel\10.7.1.x\apama-lib4\branched\win\amd64\10.7.0.x\saginstallation\jvm\jvm\jre\bin\server;c:\dev\PAM\rel\10.7.1.x\apama-lib4\branched\win\amd64\10.7.0.x\saginstallation\jvm\jvm\jre\bin;c:\dev\PAM\rel\10.7.1.x\apama-lib4\branched\win\amd64\10.7.0.x\saginstallation\jvm\jvm\jre;c:\dev\PAM\rel\10.7.1.x\apama-lib4\branched\win\amd64\10.7.0.x\saginstallation\common\security\openssl\bin;c:\dev\PAM\rel\10.7.1.x\apama-lib4\branched\win\amd64\10.7.0.x\saginstallation\jvm\jvm\jre\bin;C:\windows;C:\windows\system32;C:\windows\System32\Wbem
+2021-02-09 22:05:34.038 ##### [17912] - Current UTC time: 2021-02-09 16:35:34, local timezone: India Standard Time (DST Disabled)
+2021-02-09 22:05:34.038 ##### [17912] - Input value - port                     = 36062
+2021-02-09 22:05:34.038 ##### [17912] - Input value - output queue batch size  = 100
+2021-02-09 22:05:34.038 ##### [17912] - Input value - output queue mode        = blocking
+2021-02-09 22:05:34.039 ##### [17912] - Input value - environment variable     = APAMA_HOME=c:/dev/PAM/rel/10.7.1.x/apama-src/output-amd64-win-release/SoftwareAG/Apama
+2021-02-09 22:05:34.039 ##### [17912] - Input value - environment variable     = LANG=en_US.UTF-8
+2021-02-09 22:05:34.039 ##### [17912] - Using memory allocator                 = TBB scalable allocator
+2021-02-09 22:05:34.039 ##### [17912] - License File: c:\dev\PAM\rel\10.7.1.x\apama-test\tools\output-amd64-win-release\apwork\license\ApamaServerLicense.xml
+2021-02-09 22:05:34.045 ##### [17912] - ================= Software AG License Data =================
+2021-02-09 22:05:34.045 ##### [17912] - Sales Information
+2021-02-09 22:05:34.045 ##### [17912] -      Serial Number      : 0000028449
+2021-02-09 22:05:34.045 ##### [17912] -      Customer ID        : 1
+2021-02-09 22:05:34.045 ##### [17912] -      Customer Name      : Software AG internal
+2021-02-09 22:05:34.045 ##### [17912] - Product Information
+2021-02-09 22:05:34.045 ##### [17912] -      Product Name       : Apama Server
+2021-02-09 22:05:34.045 ##### [17912] -      Product Code       : PAMCO
+2021-02-09 22:05:34.045 ##### [17912] -      Operating System   : Linux
+2021-02-09 22:05:34.045 ##### [17912] -      Product Version    : 10.0
+2021-02-09 22:05:34.045 ##### [17912] -      Product Usage      : 
+2021-02-09 22:05:34.045 ##### [17912] -      Expiration Date    : 2021/05/28
+2021-02-09 22:05:34.045 ##### [17912] - License Information
+2021-02-09 22:05:34.045 ##### [17912] -      License Type       : 
+2021-02-09 22:05:34.045 ##### [17912] -      Price Unit         : ST
+2021-02-09 22:05:34.045 ##### [17912] -      Price Quantity     : 1
+2021-02-09 22:05:34.045 ##### [17912] -      Extended Rights    : 
+2021-02-09 22:05:34.045 ##### [17912] -      License Version    : 1.2
+2021-02-09 22:05:34.045 ##### [17912] - Physical Hardware
+2021-02-09 22:05:34.045 ##### [17912] -      Model              : Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz
+2021-02-09 22:05:34.045 ##### [17912] -      Sockets            : 1
+2021-02-09 22:05:34.045 ##### [17912] -      Physical cores     : 6
+2021-02-09 22:05:34.045 ##### [17912] -      Logical cores      : 12
+2021-02-09 22:05:34.045 ##### [17912] -      Performance Bucket : CoreD
+2021-02-09 22:05:34.045 ##### [17912] -      Virtualization     : yes
+2021-02-09 22:05:34.045 ##### [17912] - ==================== End License Data ======================
+2021-02-09 22:05:34.045 ##### [17912] - 
+2021-02-09 22:05:34.047 ##### [17912] - Input value - pidfile                  = 
+2021-02-09 22:05:34.047 ##### [17912] - Input value - per receiver queue size  = 10 s
+2021-02-09 22:05:34.047 ##### [17912] - Input value - per receiver queue size  = 10240 kb
+2021-02-09 22:05:34.047 ##### [17912] - Input value - input queue size         = 20000
+2021-02-09 22:05:34.047 ##### [17912] - External clocking                      = disabled
+2021-02-09 22:05:34.047 ##### [17912] - Input value - logfile                  = correlator.log
+2021-02-09 22:05:34.047 ##### [17912] - Input value - loglevel                 = INFO
+2021-02-09 22:05:34.047 ##### [17912] - Input value - inputLog                 = ** Warning input log not enabled **
+2021-02-09 22:05:34.047 ##### [17912] - Compiler optimizations                 = enabled - the debugger cannot be used; specify command line option "-g" to use it.
+2021-02-09 22:05:34.047 ##### [17912] - Using EPL runtime                      = interpreted
+2021-02-09 22:05:34.048 ##### [17912] - Python support                         = automatic
+2021-02-09 22:05:34.051 ##### [17912] - Java support                           = disabled
+2021-02-09 22:05:34.051 ##### [17912] - Input value - persistence              = disabled
+2021-02-09 22:05:34.057 INFO  [17912] - Will log queue size every 5.000000 seconds
+2021-02-09 22:05:34.058 INFO  [17912] - Starting scheduler with 12 threads (determined from hardware)
+2021-02-09 22:05:34.060 INFO  [17912] - Server socket opened listening on 0.0.0.0:36062
+2021-02-09 22:05:34.060 ##### [17912] - Component ID: correlator (correlator/6927303506207703352/6927303506207703352)
+2021-02-09 22:05:34.060 ##### [17912] - Correlator, version 10.7.1.0.0, running
+2021-02-09 22:05:38.476 INFO  [19196] - External sender "Default Process Name" <client 9774496575078137856, connection 9774496733992058880, address 127.0.0.1:63439> connected: from 127.0.0.1:63439
+2021-02-09 22:05:38.490 INFO  [19196] - External receiver "Default Process Name" <client 9774496575078137856, connection 9774496733992058880, address 127.0.0.1:63439> connected: from 127.0.0.1:63439
+2021-02-09 22:05:38.490 INFO  [19196] - External receiver "Default Process Name" <client 9774496575078137856, connection 9774496733992058880, address 127.0.0.1:63439> connected: Blocking receiver configured to be blocked after 10.000000 seconds or 10240 kb if slow
+2021-02-09 22:05:38.492 INFO  [24028] - External receiver "Default Process Name" <client 9774496575078137856, connection 9774496733992058880, address 127.0.0.1:63439> unsubscribed: from all channels
+2021-02-09 22:05:38.494 INFO  [24028] - External receiver "Default Process Name" <client 9774496575078137856, connection 9774496733992058880, address 127.0.0.1:63439> added subscriptions: to [A]
+2021-02-09 22:05:39.065 INFO  [16704] - Correlator Status: sm=0 nctx=1 ls=0 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=1 vm=38548 pm=32388 runq=0 si=6.3 so=0.0 srn="<none>" srq=0 jvm=0
+2021-02-09 22:05:43.332 INFO  [19196] - External sender "Default Process Name" <client 9774517358425669632, connection 9774517525929525248, address 127.0.0.1:63451> connected: from 127.0.0.1:63451
+2021-02-09 22:05:43.346 INFO  [19196] - External receiver "Default Process Name" <client 9774517358425669632, connection 9774517525929525248, address 127.0.0.1:63451> connected: from 127.0.0.1:63451
+2021-02-09 22:05:43.346 INFO  [19196] - External receiver "Default Process Name" <client 9774517358425669632, connection 9774517525929525248, address 127.0.0.1:63451> connected: Blocking receiver configured to be blocked after 10.000000 seconds or 10240 kb if slow
+2021-02-09 22:05:43.348 INFO  [24028] - External receiver "Default Process Name" <client 9774517358425669632, connection 9774517525929525248, address 127.0.0.1:63451> unsubscribed: from all channels
+2021-02-09 22:05:43.350 INFO  [24028] - External receiver "Default Process Name" <client 9774517358425669632, connection 9774517525929525248, address 127.0.0.1:63451> added subscriptions: to [A]
+2021-02-09 22:05:44.065 INFO  [16704] - Correlator Status: sm=0 nctx=1 ls=0 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=2 vm=42960 pm=32924 runq=0 si=5.2 so=0.0 srn="<none>" srq=0 jvm=0
+2021-02-09 22:05:49.064 INFO  [16704] - Correlator Status: sm=0 nctx=1 ls=0 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=2 vm=42960 pm=33080 runq=0 si=199.3 so=0.0 srn="<none>" srq=0 jvm=0
+2021-02-09 22:05:49.349 INFO  [19196] - External sender "Default Process Name" <client 9774543140292460544, connection 9774543307796316160, address 127.0.0.1:50910> connected: from 127.0.0.1:50910
+2021-02-09 22:05:49.363 INFO  [19196] - External receiver "Default Process Name" <client 9774543140292460544, connection 9774543307796316160, address 127.0.0.1:50910> connected: from 127.0.0.1:50910
+2021-02-09 22:05:49.363 INFO  [19196] - External receiver "Default Process Name" <client 9774543140292460544, connection 9774543307796316160, address 127.0.0.1:50910> connected: Blocking receiver configured to be blocked after 10.000000 seconds or 10240 kb if slow
+2021-02-09 22:05:49.364 INFO  [24028] - External receiver "Default Process Name" <client 9774543140292460544, connection 9774543307796316160, address 127.0.0.1:50910> unsubscribed: from all channels
+2021-02-09 22:05:49.367 INFO  [24028] - External receiver "Default Process Name" <client 9774543140292460544, connection 9774543307796316160, address 127.0.0.1:50910> added subscriptions: to [A]
+2021-02-09 22:05:54.059 INFO  [16704] - Correlator Status: sm=0 nctx=1 ls=0 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=3 vm=47264 pm=33808 runq=0 si=23.4 so=0.0 srn="<none>" srq=0 jvm=0
+2021-02-09 22:05:55.009 INFO  [19196] - External sender "Default Process Name" <client 9774567243832688640, connection 9774567621789941760, address 127.0.0.1:53714> connected: from 127.0.0.1:53714
+2021-02-09 22:05:55.023 INFO  [19196] - External receiver "Default Process Name" <client 9774567243832688640, connection 9774567621789941760, address 127.0.0.1:53714> connected: from 127.0.0.1:53714
+2021-02-09 22:05:55.023 INFO  [19196] - External receiver "Default Process Name" <client 9774567243832688640, connection 9774567621789941760, address 127.0.0.1:53714> connected: Blocking receiver configured to be disconnected after 10.000000 seconds or 10240 kb if slow
+2021-02-09 22:05:55.025 INFO  [24028] - External receiver "Default Process Name" <client 9774567243832688640, connection 9774567621789941760, address 127.0.0.1:53714> unsubscribed: from all channels
+2021-02-09 22:05:55.027 INFO  [24028] - External receiver "Default Process Name" <client 9774567243832688640, connection 9774567621789941760, address 127.0.0.1:53714> added subscriptions: to [A]
+2021-02-09 22:05:55.832 INFO  [16244] - Request <flushAllQueues > received Source:127.0.0.1
+2021-02-09 22:05:56.057 INFO  [19196] - External sender "engine_inject (YTA)" <client 6927303596239487288, connection 6927585075511165240, address 127.0.0.1:54378> connected: from 127.0.0.1:54378
+2021-02-09 22:05:56.068 INFO  [24064] - Added monitor o
+2021-02-09 22:05:56.068 INFO  [24064] - Added type Output
+2021-02-09 22:05:56.068 INFO  [24064] - Injected MonitorScript from file C:/dev/PAM/rel/10.7.1.x/apama-test/system/correlator/corba/testcases/correctness/Corr_Corba_cor_1365/Input/output.mon (55ba50935130dd6f499ffa6b3d6596f4), size 1024 bytes, compile time 0.00 seconds
+2021-02-09 22:05:56.070 INFO  [24028] - External sender "engine_inject (YTA)" <client 6927303596239487288, connection 6927585075511165240, address 127.0.0.1:54378> disconnected cleanly: Other party requested disconnection
+2021-02-09 22:05:59.072 INFO  [16704] - Correlator Status: sm=1 nctx=1 ls=1 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=1920 rt=0 nc=4 vm=99028 pm=64356 runq=0 si=1.4 so=0.0 srn="<none>" srq=0 jvm=0
+2021-02-09 22:06:04.069 INFO  [16704] - Correlator Status: sm=1 nctx=1 ls=1 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=5120 rt=0 nc=4 vm=99104 pm=65072 runq=0 si=1.0 so=0.0 srn="<none>" srq=0 jvm=0
+2021-02-09 22:06:06.295 WARN  [7172] - Receiver Default Process Name (component ID 9774517358425669632/9774517525929525248 [0000025214006B50]) is slow (no acknowledgment for a message within 10 seconds). Next event to be sent is Output of approx. 8 bytes on channel 'A'
+2021-02-09 22:06:06.295 WARN  [16584] - Receiver Default Process Name (component ID 9774543140292460544/9774543307796316160 [0000025214008070]) is slow (no acknowledgment for a message within 10 seconds). Next event to be sent is Output of approx. 8 bytes on channel 'A'
+2021-02-09 22:06:06.295 INFO  [25388] - The receiver Default Process Name will be disconnected as it is too slow (no acknowledgement for a message within 10 seconds)
+2021-02-09 22:06:06.295 WARN  [17656] - Receiver Default Process Name (component ID 9774496575078137856/9774496733992058880 [0000025214046700]) is slow (no acknowledgment for a message within 10 seconds). Next event to be sent is Output of approx. 8 bytes on channel 'A'
+2021-02-09 22:06:06.295 INFO  [22216] - AsynchronousDisconnectorThread.run() - attempting to disconnect receiver id 9774567243832688640:9774567621789941760: The receiver has been disconnected as it is too slow (no acknowledgement for a message within 10 seconds) (not clean)
+2021-02-09 22:06:06.295 WARN  [22216] - External receiver "Default Process Name" <client 9774567243832688640, connection 9774567621789941760, address 127.0.0.1:53714> disconnected uncleanly: The receiver has been disconnected as it is too slow (no acknowledgement for a message within 10 seconds); final channel subscriptions: [A]
+2021-02-09 22:06:06.505 INFO  [24064] - Management request to disconnect receiver with ID 9774496575078137856:9774496733992058880, reason=Go Away receiver
+2021-02-09 22:06:06.506 INFO  [24064] - External receiver "Default Process Name" <client 9774496575078137856, connection 9774496733992058880, address 127.0.0.1:63439> disconnected cleanly: Go Away receiver; final channel subscriptions: [A]
+2021-02-09 22:06:09.057 INFO  [16704] - Correlator Status: sm=1 nctx=1 ls=1 rq=0 iq=0 oq=896 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=6528 rt=0 nc=2 vm=113944 pm=73740 runq=0 si=0.0 so=0.0 srn="Default Process Name" srq=432 jvm=0
+2021-02-09 22:06:14.058 INFO  [16704] - Correlator Status: sm=1 nctx=1 ls=1 rq=0 iq=0 oq=2496 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=6528 rt=0 nc=2 vm=113944 pm=73772 runq=0 si=0.4 so=0.0 srn="Default Process Name" srq=1232 jvm=0
+2021-02-09 22:06:19.063 INFO  [16704] - Correlator Status: sm=1 nctx=1 ls=1 rq=0 iq=0 oq=4096 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=6528 rt=0 nc=2 vm=114000 pm=73808 runq=0 si=0.2 so=0.0 srn="Default Process Name" srq=2032 jvm=0
+2021-02-09 22:06:24.064 INFO  [16704] - Correlator Status: sm=1 nctx=1 ls=1 rq=0 iq=0 oq=5696 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=6528 rt=0 nc=2 vm=114000 pm=73824 runq=0 si=0.4 so=2.0 srn="Default Process Name" srq=2832 jvm=0
+2021-02-09 22:06:29.066 INFO  [16704] - Correlator Status: sm=1 nctx=1 ls=1 rq=0 iq=0 oq=7296 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=6528 rt=0 nc=2 vm=114056 pm=73868 runq=0 si=3.0 so=0.0 srn="Default Process Name" srq=3632 jvm=0
+2021-02-09 22:06:34.062 INFO  [16704] - Correlator Status: sm=1 nctx=1 ls=1 rq=0 iq=0 oq=8896 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=6528 rt=0 nc=2 vm=114024 pm=73856 runq=0 si=0.0 so=0.0 srn="Default Process Name" srq=4432 jvm=0
+2021-02-09 22:06:36.244 INFO  [24028] - External receiver "Default Process Name" <client 9774543140292460544, connection 9774543307796316160, address 127.0.0.1:50910> removed subscriptions: to [A]
+2021-02-09 22:06:36.245 INFO  [25480] - External receiver "Default Process Name" <client 9774543140292460544, connection 9774543307796316160, address 127.0.0.1:50910> disconnected cleanly: Other party requested disconnection; final channel subscriptions: []
+2021-02-09 22:06:36.251 INFO  [8900] - External sender "Default Process Name" <client 9774543140292460544, connection 9774543307796316160, address 127.0.0.1:50910> disconnected cleanly: Other party requested disconnection
+2021-02-09 22:06:36.546 WARN  [24960] - External sender "Default Process Name" <client 9774517358425669632, connection 9774517525929525248, address 127.0.0.1:63451> disconnected uncleanly: Connection closed
+2021-02-09 22:06:36.546 WARN  [24960] - External receiver "Default Process Name" <client 9774517358425669632, connection 9774517525929525248, address 127.0.0.1:63451> disconnected uncleanly: Connection closed; final channel subscriptions: [A]
+2021-02-09 22:06:39.064 INFO  [16704] - Correlator Status: sm=1 nctx=1 ls=1 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=6528 rt=0 nc=0 vm=105080 pm=73044 runq=0 si=0.2 so=0.0 srn="<none>" srq=0 jvm=0
+2021-02-09 22:06:44.061 INFO  [16704] - Correlator Status: sm=1 nctx=1 ls=1 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=6528 rt=0 nc=0 vm=105080 pm=73044 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=0
+2021-02-09 22:06:49.061 INFO  [16704] - Correlator Status: sm=1 nctx=1 ls=1 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=6528 rt=0 nc=0 vm=105080 pm=73116 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=0
+2021-02-09 22:06:54.062 INFO  [16704] - Correlator Status: sm=1 nctx=1 ls=1 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=6528 rt=0 nc=0 vm=105080 pm=73116 runq=0 si=0.6 so=0.0 srn="<none>" srq=0 jvm=0
+2021-02-09 22:06:59.059 INFO  [16704] - Correlator Status: sm=1 nctx=1 ls=1 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=6528 rt=0 nc=0 vm=105080 pm=73116 runq=0 si=1.4 so=0.0 srn="<none>" srq=0 jvm=0
+2021-02-09 22:07:04.059 INFO  [16704] - Correlator Status: sm=1 nctx=1 ls=1 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=6528 rt=0 nc=0 vm=105080 pm=73116 runq=0 si=4.8 so=0.0 srn="<none>" srq=0 jvm=0
+2021-02-09 22:07:09.059 INFO  [16704] - Correlator Status: sm=1 nctx=1 ls=1 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=6528 rt=0 nc=0 vm=105080 pm=73116 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=0
+2021-02-09 22:07:13.564 ##### [4344] - Shutting down correlator in response to client (127.0.0.1:55919) request: Shutdown requested by test framework due to shutdownAllComponents call
+2021-02-09 22:07:13.598 INFO  [17912] - MessageReceiverImpl.Shutdown() - Disconnecting remote sender 9774496575078137856:9774496733992058880
+2021-02-09 22:07:13.600 INFO  [17912] - MessageReceiverImpl.Shutdown() - Disconnecting remote sender 9774567243832688640:9774567621789941760
+2021-02-09 22:07:13.603 INFO  [17912] - Correlator shutdown is complete

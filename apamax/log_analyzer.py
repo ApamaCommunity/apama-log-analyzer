@@ -630,7 +630,7 @@ class LogAnalyzer(object):
 				break
 			
 		if level == 'W':
-			if m.startswith('Receiver '):
+			if m.startswith(('Receiver ', 'External receiver')):
 				self.handleConnectionMessage(file, line)
 			
 			self.handleWarnOrError(file=file, isError=False, line=line)
@@ -658,8 +658,9 @@ class LogAnalyzer(object):
 			# also grab info lines within a startup stanza, and (for the benefit of apama-ctrl) the very first line of the file regardless
 			self.handleStartupLine(file=file, line=line)
 		elif level == 'I' and m.startswith((
-			'Receiver ',
-			# don't really need these messages, they don't contain extra info we can't get from the other ones
+			'Receiver ', 'External receiver' # these variants for for pre and post Apama 10.11 
+			
+			# don't really need these messages, they don't contain extra info we can't get from the other ones:
 			#'The receiver ',
 			#'Blocking receiver ',
 			)):
@@ -1165,12 +1166,13 @@ class LogAnalyzer(object):
 	####################################################################################################################
 	# Sender/receiver connection events
 
+
 	CONNECTION_MESSAGE_IDS_REGEX = re.compile('^[(]component ID (?P<remotePhysicalId>[0-9]+)/(?P<remoteLogicalId>[0-9]+)[)] (?P<message>.+)$')
-	
+
 	CONNECTION_MESSAGE_ADDR_REGEX = re.compile('^(?P<message>.+) from (?P<host>[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+):(?P<remotePort>[0-9]+) *$')
 
-	CONNECTION_LINE_REGEX = re.compile(
-		# This regex is for sender/receiver connection lines;
+	CONNECTION_LINE_REGEX_PRE10_7 = re.compile(
+		# This regex is for sender/receiver connection lines prior to Apama 10.7(.1);
 		# the (?P<name>xxxx) syntax identifies named groups in the regular expression
 	
 		# hack: hope/assume that pointer addresses are always prefixed with 00 on linux 
@@ -1180,34 +1182,50 @@ class LogAnalyzer(object):
 			"(component ID (?P<remotePhysicalId>[0-9]+)/(?P<remoteLogicalId>[0-9]+) \[)?"+\
 			"(?P<objectAddr>(0x|00)[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]+)\]?[)] (?P<message>.+)"
 		)
-		
+
+	CONNECTION_LINE_REGEX_POST10_7 = re.compile(
+		# This regex is for sender/receiver connection lines from Apama 10.7.1 onwards
+		# the (?P<name>xxxx) syntax identifies named groups in the regular expression
+		# messages will contain all connected and disconnected lines in newLogFormat
+		r"^(?P<prefix>External sender|External receiver) \"(?P<remoteProcessName>.+)\" " + \
+			"<client (?P<remotePhysicalId>[0-9]+), connection (?P<remoteLogicalId>[0-9]+), " + \
+			"address (?P<host>[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+):(?P<remotePort>[0-9]+)> " + \
+			"(?P<evtType>connected|disconnected cleanly|disconnected uncleanly|[^:]+): (?P<message>.+)"
+	)
+
 	def handleConnectionMessage(self, file, line, **extra):
-		match = LogAnalyzer.CONNECTION_LINE_REGEX.match(line.message)
+		post10_7 = LogAnalyzer.CONNECTION_LINE_REGEX_POST10_7.match(line.message)
+		match = post10_7 or LogAnalyzer.CONNECTION_LINE_REGEX_PRE10_7.match(line.message)
+		
 		if match is None: return
-		
+
 		# nb: logicalId is a GUID for each connection; each connection can have zero or one receiver and zero or one sender
-		
 		evt = {
 			'local datetime':line.getDetails()['datetimestring'],
 			'local datetime object':line.getDateTime(),
 			'line num':line.lineno,
-			'connection ref':match.group('objectAddr'),
-			'remote process name':match.group('remoteProcessName'),
 			
+			# This field is used to correlate messages from the same connection in pre-10.7 logs where there wasn't always a remoteLogicalId
+			# so we had to rely on the objectAddr (point address) and looking up of connection info from other log lines
+			'connection ref': match.group('remoteLogicalId') if post10_7 else match.group('objectAddr'), 
+			
+			'remote process name':match.group('remoteProcessName'),
 		}
 		
 		message = match.group('message')
 		if match.group('remotePhysicalId'):
 			evt['client(physical)Id'] = match.group('remotePhysicalId')
 			evt['connection(logical)Id'] = match.group('remoteLogicalId')		
-		else:
+		else: # for pre 10.7 this is not always available
 			detailmatch = LogAnalyzer.CONNECTION_MESSAGE_IDS_REGEX.match(message)
 			if detailmatch is not None:
 				evt['client(physical)Id'] = detailmatch.group('remotePhysicalId')
 				evt['connection(logical)Id'] = detailmatch.group('remoteLogicalId')
-				message = detailmatch.group('message')
+				message = detailmatch.group('message') 
 
-		# the logical id is the safest thing to key this off, but fall back to objectAddr if needed (though those can repeat, so be careful!)
+		# From 10.7 we always know the connection (logical) id, and other details like host/remotePort etc as they're in every message. 
+		# For earlier versions we use the logical id to look up connectionInfo that may not be available in the message 
+		# itself based on other messages, and fall back to lookup using the objectAddr if needed (though those can repeat, so be careful!)
 		# NB: with this algorithm there's a small race where if we first see a message with objectAddr and no logical id 
 		# we could fail it match it up later with the correct connection (since really we're using logical id for keying these), 
 		# but that's a relatively unlikely case and doesn't matter too much since it's only the subscription messages that don't have the logical id
@@ -1218,7 +1236,8 @@ class LogAnalyzer(object):
 				connectionInfo = file['connectionIds'][key]
 			else:
 				file['connectionIds'][key] = connectionInfo = newconnectioninfo 
-		else:
+		else: # for some of the pre-10.7 messages
+			assert not post10_7
 			key = 'connectionAddr_'+evt['connection ref']
 			if key in file['connectionIds']:
 				connectionInfo = file['connectionIds'][key]
@@ -1228,7 +1247,7 @@ class LogAnalyzer(object):
 					evt['connection(logical)Id'] = connectionInfo['connection(logical)Id']
 			else:
 				connectionInfo = newconnectioninfo 
-		# keep the most recent connection add updated regardless, since we might need it to handle a message that doesn't have this
+		# keep the most recent connection updated regardless, since we might need it to handle a (pre-10.7) message that doesn't have this
 		file['connectionIds']['connectionAddr_'+evt['connection ref']] = connectionInfo
 		evt['connectionInfo'] = connectionInfo
 		
@@ -1236,11 +1255,15 @@ class LogAnalyzer(object):
 			connectionInfo['connection(logical)Id'] = evt['connection(logical)Id']
 			connectionInfo['client(physical)Id'] = evt['client(physical)Id']
 
-		detailmatch = LogAnalyzer.CONNECTION_MESSAGE_ADDR_REGEX.match(message)
-		if detailmatch is not None:
-			connectionInfo['remotePort'] = detailmatch.group('remotePort')
-			connectionInfo['host'] = detailmatch.group('host')
-			message = detailmatch.group('message')
+		if post10_7: 
+			connectionInfo['remotePort'] = match.group('remotePort')
+			connectionInfo['host'] = match.group('host')
+		else:
+			detailmatch = LogAnalyzer.CONNECTION_MESSAGE_ADDR_REGEX.match(message)
+			if detailmatch is not None:
+				connectionInfo['remotePort'] = detailmatch.group('remotePort')
+				connectionInfo['host'] = detailmatch.group('host')
+				message = detailmatch.group('message') # "connected from 127.0.0.1:1234" -> "connected"
 
 		if 'host# > client# > connection#' not in connectionInfo and connectionInfo.get('host') and connectionInfo.get('connection(logical)Id'):
 			key = connectionInfo['host']
@@ -1263,18 +1286,30 @@ class LogAnalyzer(object):
 
 			connectionInfo['host# > client# > connection#'] = f"h{hostnum:02} > cli{processnum:03} > conn{connectionnum:03}"
 			
-		message = match.group('prefix')+' '+message
 		#if ':' in message:
 		#	message, evt['message detail'] = message.split(': ', 1)
 		#elif '(' in message:
 		#	message, evt['message detail'] = message.split('(', 1)
 		#	evt['message detail']='('+evt['message detail']
+
+		# pre 10.7 messages start with "Receiver", post 10.7 don't so strip it before doing comparisons
+		if post10_7:
+			evtType = match.group('evtType') or message
+			message = evtType+((': %s'%message) if message else '')
+		else:
+			message = match.group('prefix')+' '+message
+			# to emulate 10.7+ behaviour, strip off the "Receiver " prefix
+			evtType = message[message.find(' ')+1:]
+
 		evt['message'] = message
 		connectionInfo['last'] = evt['local datetime object']
 
-		if message.startswith('Receiver connected'):
+		if 'com.apama.scenario' in message: connectionInfo['scenario service'] = True
+			
+		if evtType.startswith('connected') and not 'Blocking receiver configured ' in message:
+			# nb: the above check is to avoid matching lines like "connected: Blocking receiver configured to be blocked ..." as connections; that was a mistake in 10.7.1.0
 			evt['connections delta'] = +1
-		elif message.startswith('Receiver disconnected'):
+		elif evtType.startswith('disconnected'):
 			evt['connections delta'] = -1
 			# TODO: format this delta more nicely https://stackoverflow.com/questions/538666/format-timedelta-to-string
 			evt['duration secs'] = int((connectionInfo['last']-connectionInfo['first']).total_seconds())
@@ -1283,14 +1318,15 @@ class LogAnalyzer(object):
 		else:
 			evt['connections delta'] = 0
 		
-		if message.startswith('Receiver is slow'):
-			connectionInfo['__slow periods'] += 1
-			evt['slow periods'] = connectionInfo['__slow periods']
-		
-		if 'com.apama.scenario' in message: connectionInfo['scenario service'] = True
+			if evtType.startswith('is slow'):
+				connectionInfo['__slow periods'] += 1
+				evt['slow periods'] = connectionInfo['__slow periods']
+			elif evtType.startswith(('is no longer slow',)):
+				pass
+			else:
+				return # other messages such as "Blocking receiver configured to be blocked" should not be appended to connectionMessages
 
 		file['connectionMessages'].append(evt)
-
 
 	def writeConnectionMessagesForCurrentFile(self, file):
 		""" Called when the current log file is finished to write out csv/json of connection events. 
@@ -1334,6 +1370,8 @@ class LogAnalyzer(object):
 					'Receiver initially subscribed to ',
 					'Receiver unsubscribed from ',
 					'Receiver added subscriptions to ',
+					'External receiver added subscriptions',
+					'External receiver unsubscribed',
 				)) and not isinstance(w, JSONStatusWriter): continue
 				
 				assert 'connections delta' in evt, evt
