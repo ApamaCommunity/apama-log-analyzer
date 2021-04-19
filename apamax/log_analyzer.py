@@ -1370,6 +1370,8 @@ class LogAnalyzer(object):
 					'Receiver initially subscribed to ',
 					'Receiver unsubscribed from ',
 					'Receiver added subscriptions to ',
+					'External receiver added subscriptions',
+					'External receiver unsubscribed',
 				)) and not isinstance(w, JSONStatusWriter): continue
 				
 				assert 'connections delta' in evt, evt
