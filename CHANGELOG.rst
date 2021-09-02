@@ -2,6 +2,7 @@
 --------------------
 - Added support for analysing logs containing the "id    | " prefixes added when running a correlator inside docker. 
 - Improved sort order of log files to only include time unless we know there are multiple different instances. 
+- Fixed error when si/so have NaN values which can happen occasionally. 
 
 3.7
 ---

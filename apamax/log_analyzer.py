@@ -5,7 +5,7 @@
 It extracts and summarizes information from status lines and other log messages.
 
 
-Copyright (c) 2019-2020 Software AG, Darmstadt, Germany and/or its licensors
+Copyright (c) 2019-2021 Software AG, Darmstadt, Germany and/or its licensors
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
 file except in compliance with the License. You may obtain a copy of the License at
@@ -804,6 +804,8 @@ class LogAnalyzer(object):
 					try:
 						val = 1 if (status['si']+status['so']>0) else 0
 					except KeyError: # not present in all Apama versions
+						continue
+					except TypeError: # si/so can sometimes take values such as "-nan(ind)", in which case just ignore
 						continue
 					if val == 1: 
 						file.setdefault('swappingStartLine', line)
