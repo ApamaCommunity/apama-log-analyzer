@@ -34,7 +34,7 @@ Features:
 
   This can be very useful for debugging slow receiver disconnections. 
 
-- Supported Apama releases: **Apama 4.3 through to latest** (10.5+). Also works with correlator logging from `Apama-ctrl`, downloaded from **Cumulocity**. 
+- Supported Apama releases: **Apama 4.3 through to latest** (10.11+). Also works with correlator logging from `Apama-ctrl`, downloaded from **Cumulocity**. 
 
 - Licensed under the **Apache License 2.0**. 
 
