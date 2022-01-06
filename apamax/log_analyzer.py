@@ -1830,9 +1830,12 @@ class LogAnalyzer(object):
 		self.writeOverviewHTMLForAllFiles(self.overviewHTML, **extra)
 
 	CHARTS = { # values are (mostly) for dygraph config
-		'rates':{'heading':'Send/receive rate', 'ylabel':'Events /sec', 
+		'rates':{'heading':'Send/receive rate',
+			'ylabel':'Received events /sec',
+			'y2label':'Sent events /sec',
 			'labels':['rx /sec', 'rx /sec 1min avg', 'tx /sec', 'tx /sec 1min avg'],
 			'colors':['red', 'pink', 'teal', 'turquoise'], # red for received/input side; teal for transmitted/output side
+			'series': {'tx /sec':{'axis':'y2'}, 'tx /sec 1min avg':{'axis':'y2'}},
 			'labelsKMB':True, # for big numbers this works better than exponential notation
 		}, 
 		'queues':{'heading':'Correlator queues and consumers', 
