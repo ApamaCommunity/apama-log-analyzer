@@ -1,5 +1,5 @@
-.. image:: https://travis-ci.com/ApamaCommunity/apama-log-analyzer.svg?branch=master
-	:target: https://travis-ci.com/ApamaCommunity/apama-log-analyzer
+.. image:: ../../workflows/Tests/badge.svg
+	:target: ../../actions
 
 .. image:: https://codecov.io/gh/ApamaCommunity/apama-log-analyzer/branch/master/graph/badge.svg
 	:target: https://codecov.io/gh/ApamaCommunity/apama-log-analyzer
@@ -210,11 +210,11 @@ Resources
 
 From the Apama documentation:
 
-  - `List of Correlator Status Statistics <http://www.apamacommunity.com/documents/10.5.0.2/apama_10.5.0.2_webhelp/apama-webhelp/index.html#page/apama-webhelp%2Fre-DepAndManApaApp_list_of_correlator_status_statistics.html>`_ - for understanding the meaning of the statistics available
+  - `List of Correlator Status Statistics <https://www.apamacommunity.com/documents/10.11.1.1/apama_10.11.1.1_webhelp/apama-webhelp/#page/apama-onlinehelp%2Fre-DepAndManApaApp_list_of_correlator_status_statistics.html>`_ - for understanding the meaning of the statistics available
 
-  - `Inspecting correlator state <http://www.apamacommunity.com/documents/10.5.0.2/apama_10.5.0.2_webhelp/apama-webhelp/index.html#page/apama-webhelp%2Fre-DepAndManApaApp_inspecting_correlator_state.html%23>`_ - for using the engine_inspect tool to get detailed information on the number of monitor instances, listeners, etc, which can help to identify application memory leaks
+  - `Inspecting correlator state <https://www.apamacommunity.com/documents/10.11.1.1/apama_10.11.1.1_webhelp/apama-webhelp/#page/apama-onlinehelp%2Fre-DepAndManApaApp_inspecting_correlator_state.html>`_ - for using the engine_inspect tool to get detailed information on the number of monitor instances, listeners, etc, which can help to identify application memory leaks
 
-  - `Shutting down and managing components <http://www.apamacommunity.com/documents/10.5.0.2/apama_10.5.0.2_webhelp/apama-webhelp/index.html#page/apama-webhelp/re-DepAndManApaApp_shutting_down_and_managing_components.html>`_ and its child topics - contain information on using `dorequest` to get detailed memory/CPU profiles, a string representation of the correlator queues, and various enhanced logging options
+  - `Shutting down and managing components <https://www.apamacommunity.com/documents/10.11.1.1/apama_10.11.1.1_webhelp/apama-webhelp/#page/apama-onlinehelp%2Fre-DepAndManApaApp_shutting_down_and_managing_components.html>`_ and its child topics - contain information on using `dorequest` to get detailed memory/CPU profiles, a string representation of the correlator queues, and various enhanced logging options
 
 
 
