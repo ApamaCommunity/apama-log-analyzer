@@ -1,40 +1,43 @@
-<?xml version="1.0" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8"?>
 <pysysproject>
 	<requires-pysys>2.0</requires-pysys>
 	<requires-python>3.6</requires-python>
 	
-	<property root="testRootDir"/>
-	<property environment="env"/>
-	<property osfamily="osfamily"/>
-
 	<!-- User-defined properties -->
 	<property name="verboseWaitForSignal" value="true"/>
-	<property name="logAnalyzerScript" value="${testRootDir}/../apamax/log_analyzer.py"/>
-
-	<!-- Standard default settings. See sample project file and API docs for more details. -->
-	<property name="defaultAbortOnError" value="true"/>	
-	<property name="defaultIgnoreExitStatus" value="false"/>
-	<property name="defaultEnvironsTempDir" value="self.output"/>
-	<property name="defaultAssertDiffStripWhitespace" value="false"/>
-	<property name="redirectPrintToLogger" value="false"/>
-	<property name="supportMultipleModesPerRun" value="true"/>
-
-  	<property name="pythonCoverageDir" value="coverage-python-@OUTDIR@"/>
-	<collect-test-output pattern=".coverage*" outputDir="${pythonCoverageDir}" outputPattern="@FILENAME@_@TESTID@_@UNIQUE@"/>
+	
+	<property name="appHome" value="${env.PYSYS_APP_HOME}" default="${testRootDir}/.." pathMustExist="true"/>
+	<property name="logAnalyzerScript" value="${appHome}/apamax/log_analyzer.py"/>
 
 	<!-- Custom test framework extensions, if needed -->
-	<path value="framework" relative="true" />
+	<pythonpath value="framework"/>
 
 	<performance-reporter classname="correlatorloganalyzer.customperfreporter.CustomPerfReporter"
 		summaryfile="${testRootDir}/performance/performance_output/@OUTDIR@/perf_@HOSTNAME@_${startTime}.csv"
 	/>
 
 	<writers>
-		<writer classname="TravisCIWriter" module="pysys.writer.ci"></writer>
+		<writer classname="pysys.writer.testoutput.TestOutputArchiveWriter">
+			<property name="destDir" value="__pysys_output_archives/"/>
+			<property name="maxTotalSizeMB" value="1024.0"/>
 
-		<writer classname="JUnitXMLResultsWriter" module="pysys.writer">
-			<property name="outputDir" value="${testRootDir}/pysys-junit-report"/>
+			<!-- Don't include any non-failure outcomes as REQUIRES INSPECTION generates a very large output which 
+				 could use our GitHub Actions quota quickly -->
+			<property name="includeNonFailureOutcomes" value=""/>
 		</writer>
+		
+		<writer classname="pysys.writer.outcomes.JUnitXMLResultsWriter">
+			<property name="outputDir" value="__pysys_junit_xml"/>
+		</writer>
+		
+		<!-- Code coverage for .py files -->
+		<writer classname="pysys.writer.coverage.PythonCoverageWriter">
+			<property name="destDir" value="__coverage_python.${outDirName}"/>
+			<property name="pythonCoverageArgs" value=""/>
+		</writer>
+		
+		<writer classname="pysys.writer.ci.GitHubActionsCIWriter"></writer>
+		<writer classname="pysys.writer.ci.TravisCIWriter"></writer>
 		
 		<writer classname="ConsoleSummaryResultsWriter" module="pysys.writer">
 			<property name="showOutputDir" value="true"/>
@@ -50,13 +53,12 @@
 		<default-file-encoding pattern="*.yaml" encoding="utf-8"/>
 	</default-file-encodings>	
 	
-	<formatters>
-		<formatter classname="ColorLogFormatter" module="pysys.utils.logutils" 
-			name="stdout" messagefmt="%(asctime)s %(levelname)-5s %(message)s" datefmt="%H:%M:%S">
-		</formatter>
-
-		<formatter classname="BaseLogFormatter" module="pysys.utils.logutils" 
-			name="runlog" messagefmt="%(asctime)s %(levelname)-5s %(message)s" datefmt=""/>
-	</formatters>
+	<pysysdirconfig>
+	
+	</pysysdirconfig>
+	
+	<!-- Add project-specific text to be appended to the "pysys run -h". -->
+	<project-help>
+	</project-help>
 	
 </pysysproject>
