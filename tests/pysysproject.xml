@@ -20,6 +20,10 @@
 		<writer classname="pysys.writer.testoutput.TestOutputArchiveWriter">
 			<property name="destDir" value="__pysys_output_archives/"/>
 			<property name="maxTotalSizeMB" value="1024.0"/>
+
+			<!-- Don't include any non-failure outcomes as REQUIRES INSPECTION generates a very large output which 
+				 could use our GitHub Actions quota quickly -->
+			<property name="includeNonFailureOutcomes" value=""/>
 		</writer>
 		
 		<writer classname="pysys.writer.outcomes.JUnitXMLResultsWriter">
