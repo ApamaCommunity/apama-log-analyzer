@@ -33,3 +33,5 @@ class PySysTest(AnalyzerBaseTest):
 		line = 2
 		self.assertEval("{value} == 0", value=s[line]['warns'], valueName=f'warns for {log}.log line {line}')
 		self.assertEval("{value} == 1", value=s[line]['errors'], valueName=f'errors for {log}.log line {line}')
+
+		self.assertThatGrep('loganalyzer_output/logged_errors.txt', '      3x (.*)', expected='from Tue 2019-07-30 18:04:32 to 18:04:32 (=0:00:00) in correlator-warns-and-errors')
