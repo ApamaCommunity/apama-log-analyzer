@@ -1,0 +1,33 @@
+2019-10-04 19:02:53.247 ##### [140008308907904] - Correlator, version 10.5.1.0.0 (build UNKNOWN_VERSION@0 on amd64-rhel7 using Software AG suite version 10.5), started.
+2019-10-04 19:02:53.248 ##### [140008308907904] - Running on host 'troll.apama.com' as user 'bsp'.
+2019-10-04 19:02:53.248 ##### [140008308907904] - Running on platform '"CentOS Linux 7 (Core)"'.
+2019-10-04 19:02:53.248 ##### [140008308907904] - Running on CPU 'vendor GenuineIntel family 6 model 63 stepping 2: Intel(R) Xeon(R) CPU E5-2690 v3 @ 2.60GHz'.
+2019-10-04 19:02:53.248 ##### [140008308907904] - Running with process Id 46974.
+2019-10-04 19:02:53.248 ##### [140008308907904] - Running with 257673.14MB of available memory.
+2019-10-04 19:02:53.248 ##### [140008308907904] - Operating system process limits:
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Limit                     Soft Limit           Hard Limit           Units     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max cpu time              unlimited            unlimited            seconds   
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max file size             10737418240          unlimited            bytes     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max data size             unlimited            unlimited            bytes     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max stack size            8388608              unlimited            bytes     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max core file size        unlimited            unlimited            bytes     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max resident set          unlimited            unlimited            bytes     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max processes             20000                1030567              processes 
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max open files            5000                 5000                 files     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max locked memory         65536                65536                bytes     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max address space         540379742208         unlimited            bytes     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max file locks            unlimited            unlimited            locks     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max pending signals       1030567              1030567              signals   
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max msgqueue size         819200               819200               bytes     
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max nice priority         0                    0                    
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max realtime priority     0                    0                    
+2019-10-04 19:02:53.248 ##### [140008308907904] -   Max realtime timeout      unlimited            unlimited            us        
+2019-10-04 19:02:53.248 ##### [140008308907904] -   RLIMIT_CORE = 1000
+2019-10-04 19:02:53.248 ##### [140008308907904] -   RLIMIT_AS   = 540379742208
+2019-10-04 19:02:53.248 ##### [140008308907904] - There are 48 CPU(s)
+2019-10-04 19:02:53.249 INFO  [140008308907904] - cgroups - available CPU(s)                = unlimited
+2019-10-04 19:02:53.249 INFO  [140008308907904] - cgroups - CPU shares                      = unavailable
+2019-10-04 19:02:53.249 INFO  [140008308907904] - cgroups - maximum memory                  = unavailable
+2019-10-04 19:02:53.249 INFO  [140008308907904] - cgroups - memory swap limit               = unavailable
+2019-10-04 19:02:53.249 INFO  [140008308907904] - cgroups - memory swappiness               = unavailable
+2019-10-04 19:02:53.249 ##### [140008308907904] - Correlator command line: /dev/shm/bsp/10.5.1.x/apama-src/output-amd64-rhel7-release/SoftwareAG/Apama/bin/correlator -l /dev/shm/bsp/10.5.1.x/apama-test/tools/output-amd64-rhel7-release/apwork/license/ApamaServerLicense.xml -p 6705 --javaopt -Djava.class.path=/dev/shm/bsp/10.5.1.x/apama-test/etc -j -P

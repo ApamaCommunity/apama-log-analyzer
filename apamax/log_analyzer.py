@@ -1584,7 +1584,10 @@ class LogAnalyzer(object):
 			features.append('licenseMayBeMissing!')
 
 		if stanza.get('cgroups - maximum memory') not in {None, 'unlimited', 'unknown'}:
-			stanza['cgroups - maximum memory MB'] = float(stanza['cgroups - maximum memory'].replace(' bytes','').replace(',',''))/1024.0/1024.0
+			try:
+				stanza['cgroups - maximum memory MB'] = float(stanza['cgroups - maximum memory'].replace(' bytes','').replace(',',''))/1024.0/1024.0
+			except ValueError:
+				pass # might be "unavailable"
 			
 		allocator = stanza.get('using memory allocator',None)
 		if allocator not in {None, "TBB scalable allocator"}:

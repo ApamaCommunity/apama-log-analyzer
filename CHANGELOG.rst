@@ -7,7 +7,8 @@ Enhancements:
 
 Bug fixes:
 - Fixed error when si/so have NaN values which can happen occasionally. 
-- Fixed parse failures when lines contain "," in the timestamp which can happen with some Java logging libraries. 
+- Fixed parse failure when lines contain "," in the timestamp which can happen with some Java logging libraries. 
+- Fixed parse failure when cgroups is set to "unavailable". 
 
 3.7
 ---
