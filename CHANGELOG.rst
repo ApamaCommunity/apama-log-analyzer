@@ -1,8 +1,13 @@
 3.8 (in development)
 --------------------
+Enhancements:
 - Added support for analysing logs containing the "id    | " prefixes added when running a correlator inside docker. 
-- Improved sort order of log files to only include time unless we know there are multiple different instances. 
+- Improved sort order of log files to only include time when we know there are multiple different instances. 
+- Moved sent events/tx to a secondary axis so that the event rate chart lines up with other charts with two axes. 
+
+Bug fixes:
 - Fixed error when si/so have NaN values which can happen occasionally. 
+- Fixed parse failures when lines contain "," in the timestamp which can happen with some Java logging libraries. 
 
 3.7
 ---

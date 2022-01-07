@@ -74,5 +74,5 @@
 2019-04-09 13:57:22.774 ##### [32376] - Component ID: correlator (correlator/6677878040143647328/6677878040143647328)
 2019-04-09 13:57:22.774 ##### [32376] - Correlator, version 10.3.1.0.348044, running
 2019-04-09 13:57:27.770 INFO  [22872] - Correlator Status: sm=3 nctx=4 ls=50000 rq=6 iq=7 oq=8 icq=9 lcn="slowest consumer" lcq=10 lct=12.34 rx=13 tx=14 rt=15 nc=16 vm=17111222 pm=18111 runq=19 si=20.61 so=21.6 srn="slowest consumer" srq=22 jvm=231111
-2019-04-09 13:57:32.770 INFO  [22872] - Correlator Status: sm=0 nctx=1 ls=10 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=0 vm=22580 pm=25312 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=0
+2019-04-09 13:57:32,770 INFO  [22872] - Correlator Status: sm=0 nctx=1 ls=10 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=0 vm=22580 pm=25312 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=0
 2019-04-09 13:57:37.769 INFO  [22872] - Correlator Status: sm=0 nctx=1 ls=0 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=0 vm=22580 pm=25312 runq=0 si=0.4 so=0.0 srn="<none>" srq=0 jvm=0

@@ -5,7 +5,7 @@
 It extracts and summarizes information from status lines and other log messages.
 
 
-Copyright (c) 2019-2021 Software AG, Darmstadt, Germany and/or its licensors
+Copyright (c) 2019-2022 Software AG, Darmstadt, Germany and/or its licensors
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
 file except in compliance with the License. You may obtain a copy of the License at
@@ -19,7 +19,7 @@ These tools are provided as-is and without warranty or support. They do not cons
 
 """
 
-__date__ = '2020-07-10' 
+__date__ = '2022-01-07' 
 __version__ = '3.8.dev/'+__date__
 __author__ = "Apama community"
 __license__ = "Apache 2.0"
@@ -137,7 +137,7 @@ class LogLine(object):
 	@ivar extraLines: unassigned, or a list of strings which are extra lines logically part of this one (typically for warn/error stacks etc)
 	"""
 	#                          date                                        level     thread       apama-ctrl/std cat  message
-	LINE_REGEX = re.compile(r'(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d[.]\d\d\d) ([A-Z#]+) +\[([^\]]+)\] ([^-]*)-( <[^>]+>)? (.*)')
+	LINE_REGEX = re.compile(r'(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d[.,]\d\d\d) ([A-Z#]+) +\[([^\]]+)\] ([^-]*)-( <[^>]+>)? (.*)')
 	
 	__slots__ = ['line', 'lineno', 'message', 'level', '__details', 'extraLines'] # be memory-efficient
 	def __init__(self, line, lineno):
@@ -218,9 +218,16 @@ class LogLine(object):
 			return det['datetime']
 			
 		try:
-			d = datetime.datetime.strptime(self.getDetails()['datetimestring'], '%Y-%m-%d %H:%M:%S.%f')
+			dts = det['datetimestring']
+			if not dts: 
+				log.debug('Cannot find date time string in line: %s', det['datetimestring'], self.line)
+				return None
+			if dts[19:20] == ',': 
+				dts = dts[:19]+'.'+dts[20:] # for german locales
+			d = datetime.datetime.strptime(dts, '%Y-%m-%d %H:%M:%S.%f')
+			#assert d, line
 		except Exception as ex: # might not be a valid line
-			log.debug('Cannot parse date time from "%s": %s - from line: %s', self.getDetails()['datetimestring'], ex, self.line)
+			log.debug('Cannot parse date time from "%s": %s - from line: %s', det['datetimestring'], ex, self.line)
 			return None
 		det['datetime'] = d
 		return d
@@ -1076,15 +1083,17 @@ class LogAnalyzer(object):
 		
 		tracker = tracker.setdefault(normmsg, {})
 		tracker = tracker.setdefault(self.currentpath, {})
+		#assert line.getDateTime(), line
 		if not tracker:
 			tracker['first'] = tracker['last'] = line
 			tracker['count'] = 1
 			tracker['samples'] = []
 		else:
-			if tracker['first'].getDateTime() > line.getDateTime():
-				tracker['first'] = line
-			if tracker['last'].getDateTime() < line.getDateTime():
-				tracker['last'] = line
+			if line.getDateTime():
+				if tracker['first'].getDateTime() and tracker['first'].getDateTime() > line.getDateTime():
+					tracker['first'] = line
+				if tracker['last'].getDateTime() and tracker['last'].getDateTime() < line.getDateTime():
+					tracker['last'] = line
 			tracker['count'] += 1
 			
 		tracker['samples'].append(line)

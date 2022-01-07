@@ -7,6 +7,8 @@
     Check for correct extraction of main "Correlator Status:" lines, using canned log files. 
     Touch-tests CSV output format and JSON. 
     This is a general test that does not hardcode specific values. 
+    Also checks that lines with a comma delimiter for milliseconds can be read OK (happens with some Java logging 
+    libraries in European locales)
 ]]>
     </purpose>
   </description>
