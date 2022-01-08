@@ -136,7 +136,7 @@ class LogLine(object):
 	
 	@ivar extraLines: unassigned, or a list of strings which are extra lines logically part of this one (typically for warn/error stacks etc)
 	"""
-	#                          date                                        level     thread       apama-ctrl/std cat  message
+	#                          date                                         level     thread       apama-ctrl/std cat  message
 	LINE_REGEX = re.compile(r'(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d[.,]\d\d\d) ([A-Z#]+) +\[([^\]]+)\] ([^-]*)-( <[^>]+>)? (.*)')
 	
 	__slots__ = ['line', 'lineno', 'message', 'level', '__details', 'extraLines'] # be memory-efficient
@@ -629,11 +629,64 @@ class LogAnalyzer(object):
 			return
 		level = line.level
 
-		for (userStatusPrefix, userStatusPrefixAfterBracket), userStatus in self.args.userStatusLines.items():
+		for (userStatusPrefix, userStatusPrefixAfterBracket), userStatusConfig in self.args.userStatusLines.items():
 			if m.startswith(userStatusPrefix):
-				if userStatusPrefixAfterBracket is not None: # special handling of [n] values
+				if userStatusPrefixAfterBracket is not None: # special handling to efficiently ignore prefixes containing [XXX] (e.g. monitor instance numbers)
 					if userStatusPrefixAfterBracket not in m: continue
-				self.handleRawStatusLine(file=file, line=line, userStatus=userStatus)
+				
+				if 'keyRegex' in userStatusConfig: # it's a special one with independent keyed status lines to be treated separately
+				
+					columnPrefix = userStatusConfig['keyPrefix'] # TODO: this is now a very unclear name, so fix it!
+					
+					keyedUserStatusAccumulatedMetadata = self.userStatus.setdefault(userStatusPrefix, {
+						'currentBlockKeys': set(),
+						'prevBlockKeys': set(),
+					})
+					
+					key = re.search(userStatusConfig['keyRegex'], m) # could use a named regex to make this generic
+					assert key, 'Failed to find regex %s in %s'%(userStatusConfig['keyRegex'], line)
+					key = key.group(1)
+
+					# we keep the keysToId mapping global across all files to avoid confusion between different graphs and provide consistent colouring of graph lines
+					if key not in userStatusConfig['keysToId']:
+						id = len(userStatusConfig['keysToId'])+1 # assign a numeric id to each key so we can name the columns before we know what the keys are
+						
+						# TODO: log a warning and handle errors etc if exceeding maxKeysToAllocateColumnsFor
+						
+						userStatusConfig['keysToId'][key] = id
+					else:
+						id = userStatusConfig['keysToId'][key]
+
+					newBlockStarting = ('currentBlockOfLinesStartTimeSecs' not in keyedUserStatusAccumulatedMetadata) or \
+						line.getDateTime().timestamp()-keyedUserStatusAccumulatedMetadata['currentBlockOfLinesStartTimeSecs'] > 2 # if more than 2 seconds, assume it's the start of a new block
+						
+					if newBlockStarting:
+						# TODO !!!!!!!!!!!!!!!!! need to avoid losing "changes" data when correlator status lines interleave or are a different freqency than these, and deal with edge conditions
+					
+						# TODO: ideally we'd also execute this logic at the end of a file
+						keyedUserStatusAccumulatedMetadata['currentBlockOfLinesStartTimeSecs'] = line.getDateTime().timestamp()
+
+						# once we've completed a block, compare it to the previous block and add a change annotation if anything is different
+						changes = ''
+						if keyedUserStatusAccumulatedMetadata['currentBlockKeys']-keyedUserStatusAccumulatedMetadata['prevBlockKeys']: # nb: the timing of the additions will be slightly delayed, by about one row; think it's ok at least for now
+							changes += ' added '+', '.join( f'{str(k[1])}={str(k[0])}' for k in sorted( keyedUserStatusAccumulatedMetadata['currentBlockKeys']-keyedUserStatusAccumulatedMetadata['prevBlockKeys'] ) )
+						if keyedUserStatusAccumulatedMetadata['prevBlockKeys']-keyedUserStatusAccumulatedMetadata['currentBlockKeys']:
+							changes += ' removed '+', '.join( f'{str(k[1])}={str(k[0])}' for k in sorted( keyedUserStatusAccumulatedMetadata['prevBlockKeys']-keyedUserStatusAccumulatedMetadata['currentBlockKeys'] ) )
+						self.userStatus[columnPrefix+'.changes'] = (self.userStatus.get(columnPrefix+'.changes', '')+changes).lstrip() # TODO: shoudn't this be pre-populated?
+						self.userStatus[columnPrefix+'.count'] = len(keyedUserStatusAccumulatedMetadata['prevBlockKeys']) # update the count at the end of each block, since that's the first time we know
+						
+						keyedUserStatusAccumulatedMetadata['prevBlockKeys'] = keyedUserStatusAccumulatedMetadata['currentBlockKeys']
+						keyedUserStatusAccumulatedMetadata['currentBlockKeys'] = set()
+					keyedUserStatusAccumulatedMetadata['currentBlockKeys'].add( (id, key) )
+					
+					# this dict instructs handleRawStatusLine how to populate self.userStatus
+					userStatusConfig = {
+						'keyPrefix':columnPrefix+str(id)+'.',
+						'key:alias':userStatusConfig['key:alias'],
+					}
+				# end of if section for keyed user status fields
+
+				self.handleRawStatusLine(file=file, line=line, userStatusConfig=userStatusConfig)
 				break
 			
 		if level == 'W':
@@ -673,9 +726,13 @@ class LogAnalyzer(object):
 			)):
 				self.handleConnectionMessage(file, line)
 	
-	def handleRawStatusLine(self, file, line, userStatus=None, **extra):
+	def handleRawStatusLine(self, file, line, userStatusConfig=None, **extra):
 		"""
 		Handles a raw status line which may be a correlator status line or a user-defined one
+		
+		:param userStatusConfig: If (according to caller) this is a user status rather than a correlator status, this 
+			is the config dict for the detected user status line. 
+		
 		"""
 		m = line.message
 		d = collections.OrderedDict()
@@ -724,10 +781,10 @@ class LogAnalyzer(object):
 		if not d: return
 		
 		#log.debug('Extracted status line %s: %s', d)
-		if userStatus is not None:
+		if userStatusConfig is not None:
 			# must do namespacing here since there could be multiple user-defined statuses and we don't want them to clash
-			prefix = userStatus['keyPrefix']
-			for k, alias in userStatus['key:alias'].items():
+			prefix = userStatusConfig['keyPrefix']
+			for k, alias in userStatusConfig['key:alias'].items():
 				if k in d:
 					self.userStatus[prefix+(alias or k)] = d[k]
 		else:
@@ -765,10 +822,23 @@ class LogAnalyzer(object):
 				
 				# now add on any user-defined status keys; always add these regardless of whether they're yet set, 
 				# since they may come from EPL code that hasn't been injected yet and we can't change the columns later
-				for user in self.args.userStatusLines.values():
-					for k, alias in user['key:alias'].items(): # aliasing for user-defined status lines happens in handleRawStatusLine
-						k = user['keyPrefix']+(alias or k)
-						columns[k] = k
+				for msgPrefix, userConfig in self.args.userStatusLines.items():
+					# TODO: add logic for skipping '<apama-ctrl>' msgPrefixes only if we're in in apama-ctrl file
+					
+					addColumnPrefix = userConfig['keyPrefix']
+					
+					if 'keyRegex' in userConfig:
+						columns[addColumnPrefix+'.count'] = addColumnPrefix+'.count'
+						columns[addColumnPrefix+'.changes'] = addColumnPrefix+'.changes'
+						
+						columnPrefixes = [addColumnPrefix+str(i+1)+'.' for i in range(userConfig['maxKeysToAllocateColumnsFor'])]
+					else:
+						columnPrefixes = [addColumnPrefix]
+						
+					for colPrefix in columnPrefixes:
+						for k, alias in userConfig['key:alias'].items(): # aliasing for user-defined status lines happens in handleRawStatusLine
+							k = colPrefix+(alias or k)
+							columns[k] = k
 
 				return columns
 
@@ -2310,6 +2380,23 @@ class LogAnalyzerTool(object):
 							k[k.index(']'):] if ('[' in k and ']' in k) else None,
 							):v for k, v in args.userStatusLines.items()
 						}
+						
+						# Add this automatically (but allow overriding by user if desired, e.g. to tweak maxKeysToAllocateColumnsFor)
+						args.userStatusLines.setdefault( ('<apama-ctrl> com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=', None), {
+							'keyRegex': 'addr=(?P<key>[^ ]+) ',
+							'maxKeysToAllocateColumnsFor': 8,
+						
+							'keyPrefix': 'apamactrlIncomingCoreNode',
+							'key:alias': {
+								'started':    'requestsStarted',
+								'completed':  'requestsCompleted', # TODO: add in-progress count
+								'failed':     'requestsFailed',
+							},
+						})
+						
+						for config in args.userStatusLines.values():
+							if 'keyPrefix' in config: # for keyed status items also add the data structure we'll use globally (across all files) to map keys to numeric ids
+								config['keysToId'] = {}
 						
 					elif k == 'userCharts':
 						userCharts = v # allow overriding existing charts if desired
