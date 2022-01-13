@@ -704,7 +704,7 @@ class LogAnalyzer(object):
 				self.handleConnectionMessage(file, line)
 
 	def preProcessUserStatusLine(self, file, line, m, userStatusPrefix, userStatusConfig, **extra):
-			columnPrefix = userStatusConfig['keyPrefix'] # TODO: this is now a very unclear name, so fix it!
+			columnPrefix = userStatusConfig['fieldPrefix']
 			
 			keyedUserStatusAccumulatedMetadata = self.userStatus.setdefault(userStatusPrefix, {
 				'currentBlockKeys': set(),
@@ -754,8 +754,8 @@ class LogAnalyzer(object):
 			
 			# this dict instructs handleRawStatusLine how to populate self.userStatus
 			userStatusConfig = { # TODO: could pre-compute or cache this to avoid having to re-construct for each line
-				'keyPrefix':columnPrefix+str(id)+'.',
-				'key:alias':userStatusConfig['key:alias'],
+				'fieldPrefix':columnPrefix+str(id)+'.',
+				'field:alias':userStatusConfig['field:alias'],
 				'computedRates': userStatusConfig['computedRates'],
 			}
 			return userStatusConfig
@@ -819,20 +819,20 @@ class LogAnalyzer(object):
 			userStatus = self.userStatus
 		
 			# must do namespacing here since there could be multiple user-defined statuses and we don't want them to clash
-			fieldPrefix = userStatusConfig['keyPrefix']
-			for k, alias in userStatusConfig['key:alias'].items():
+			fieldPrefix = userStatusConfig['fieldPrefix']
+			for k, alias in userStatusConfig['field:alias'].items():
 				if k in d:
 					userStatus[fieldPrefix+(alias or k)] = d[k]
 			
 			# optimization: only if config has some computed values (currently rates are the only kind, apart from the Proxy Status)
 			if userStatusConfig['computedRates']:
 				k = '=status["reqStarted"]-status["reqCompleted"]'
-				if k in userStatusConfig['key:alias']: # Cep ProxyStatus special-case (could generalize this with an eval in future if needed)
+				if k in userStatusConfig['field:alias']: # Cep ProxyStatus special-case (could generalize this with an eval in future if needed)
 					try:
 						computed = self.userStatus[fieldPrefix+'reqCompleted']-self.userStatus[fieldPrefix+'reqStarted']
 					except ValueError:
 						computed = None
-					self.userStatus[fieldPrefix+userStatusConfig['key:alias'][k]] = computed
+					self.userStatus[fieldPrefix+userStatusConfig['field:alias'][k]] = computed
 				
 				try:
 					previousStatus = self.previousUserStatus[fieldPrefix] # need to track the last time separately for each type of line (+key) so use separate dict for each
@@ -906,7 +906,7 @@ class LogAnalyzer(object):
 						log.info('Not adding column for this prefix as this does not appear to be an apama-ctrl log file by line no #%d: %s', line.lineno, msgPrefix[0])
 						continue
 					
-					addColumnPrefix = userConfig['keyPrefix']
+					addColumnPrefix = userConfig['fieldPrefix']
 					
 					if 'keyRegex' in userConfig:
 						#columns[addColumnPrefix+'.count'] = addColumnPrefix+'.count'
@@ -917,7 +917,7 @@ class LogAnalyzer(object):
 						columnPrefixes = [addColumnPrefix]
 						
 					for colPrefix in columnPrefixes:
-						for k, alias in userConfig['key:alias'].items(): # aliasing for user-defined status lines happens in handleRawStatusLine
+						for k, alias in userConfig['field:alias'].items(): # aliasing for user-defined status lines happens in handleRawStatusLine
 							k = colPrefix+(alias or k)
 							columns[k] = k
 						for k, alias in userConfig['computedRates'].items(): # aliasing for user-defined status lines happens in handleRawStatusLine
@@ -2460,9 +2460,18 @@ class LogAnalyzerTool(object):
 						# sanity check it
 						columns = {k or COLUMN_DISPLAY_NAMES[k] for k in COLUMN_DISPLAY_NAMES}
 						for userStatusPrefix, userStatus in v.items():
-							for k, alias in userStatus['key:alias'].items():
-								alias = userStatus['keyPrefix']+(alias or k)
-								if alias in columns: raise UserError(f"User status line '{userStatusPrefix}' contains display name '{alias}' which is already in use; consider using keyPrefix to ensure this status line doesn't conflict with display names from others")
+						
+							# backwards compat:
+							if 'keyPrefix' in userStatus:
+								userStatus['fieldPrefix'] = userStatus['keyPrefix']
+								del userStatus['keyPrefix']
+							if 'key:alias' in userStatus:
+								userStatus['field:alias'] = userStatus['key:alias']
+								del userStatus['key:alias']
+							
+							for k, alias in userStatus['field:alias'].items():
+								alias = userStatus['fieldPrefix']+(alias or k)
+								if alias in columns: raise UserError(f"User status line '{userStatusPrefix}' contains display name '{alias}' which is already in use; consider using fieldPrefix to ensure this status line doesn't conflict with display names from others")
 								columns.add(alias)
 						
 						# need a hack to cope with [n] placeholders for monitor instance id
@@ -2483,8 +2492,8 @@ class LogAnalyzerTool(object):
 			'keyRegex': 'addr=(?P<key>[^ ]+) ',
 			'maxKeysToAllocateColumnsFor': 4, # usually enough; file gets restarted with twice this if not
 		
-			'keyPrefix': 'ctrlIncomingNode',
-			'key:alias': {
+			'fieldPrefix': 'ctrlIncomingNode',
+			'field:alias': {
 				'started':    'reqStarted',
 				'completed':  'reqCompleted', 
 				'failed':     'reqFailed',
@@ -2498,12 +2507,12 @@ class LogAnalyzerTool(object):
 		
 		for config in args.userStatusLines.values():
 			config['computedRates'] = { k[1:-5] : v or k[1:]
-				for (k,v) in config['key:alias'].items() if k.startswith('=') and k.endswith(' /sec')
+				for (k,v) in config['field:alias'].items() if k.startswith('=') and k.endswith(' /sec')
 				}
-			config['key:alias'] = { k:v for k,v in config['key:alias'].items()
+			config['field:alias'] = { k:v for k,v in config['field:alias'].items()
 				if k=='=status["reqStarted"]-status["reqCompleted"]' or not k.startswith('=') }
 			
-			if 'keyPrefix' in config: # for keyed status items also add the data structure we'll use globally (across all files) to map keys to numeric ids. Slightly abusing this data structure. ;o)
+			if 'keyRegex' in config: # for keyed status items also add the data structure we'll use globally (across all files) to map keys to numeric ids. Slightly abusing this data structure. ;o)
 				config['keysToId'] = {}
 		args.userStatusLinePrefixes = tuple([prefix for prefix,afterBracket in args.userStatusLines.keys()])  # for optimizing in handleRawStatusLine
 

@@ -4,6 +4,8 @@ Enhancements:
 - Added support for analysing logs containing the "id    | " prefixes added when running a correlator inside docker. 
 - Improved sort order of log files to only include time when we know there are multiple different instances. 
 - Moved sent events/tx to a secondary axis so that the event rate chart lines up with other charts with two axes. 
+- Renamed ``--config`` userStatusLines ``keyPrefix`` to ``fieldPrefix`` and ``key:alias`` to ``field:alias`` for 
+  clarity. 
 
 Bug fixes:
 - Fixed error when si/so have NaN values which can happen occasionally. 

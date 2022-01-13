@@ -3,16 +3,16 @@
 
 
 	"com.mycompany.MyMonitor [nnn] MyApplication Status:": {
-		"keyPrefix":"myApp.",
-		"key:alias":{
+		"fieldPrefix":"myApp.",
+		"field:alias":{
 			"kpi1":"",
 			"kpi2":"kpi2AliasWithUnits",
 			"kpi3":""
 		}},
 		
 	"JMS Status:": {
-		"keyPrefix":"jms.",
-		"key:alias":{
+		"fieldPrefix":"jms.",
+		"field:alias":{
 			"s":"s=senders",
 			"r":"r=receivers",
 			"rRate":"rx /sec",
@@ -28,6 +28,7 @@
 	# comment line
 	// another comment line
 	"      JMSReceiver myConnection-receiver-apama-queue-01:": {
+		// deliberately use old keyXXX names as a test
 		"keyPrefix":"jms.r.q1.",
 		"key:alias":{
 			"rRate":"rx /sec",
@@ -47,8 +48,8 @@
 		}},
 		
 	"Persistence Status:": {
-		"keyPrefix":"p.",
-		"key:alias":{
+		"fieldPrefix":"p.",
+		"field:alias":{
 			"numSnapshots":"",
 			"lastSnapshotTime":"",
 			"snapshotWaitTimeEwmaMillis":"",
@@ -57,8 +58,8 @@
 		}},
 	
 	"Missing Status:": {
-		"keyPrefix":"jms.",
-		"key:alias":{
+		"fieldPrefix":"jms.",
+		"field:alias":{
 			"non-existent":"non-existent user value"
 		}}
 

@@ -83,10 +83,10 @@ To do this create a .json configuration file containing a "userStatusLines" dici
 		// which follows the first " - " in the line (except for [apama-ctrl] messages which have an extra <apama-ctrl> prefix)
 		"com.mycompany.MyMonitor [1] MyApplication Status:": {
 			// This prefix is added to the start of each alias to avoid clashes with other status KPIs
-			"keyPrefix":"myApp.",
+			"fieldPrefix":"myApp.",
 			
-			// Specifying user-friendly aliases for each key is optional. Always include any units (e.g. MB) in the key or alias
-			"key:alias":{
+			// Specifying user-friendly aliases for each is optional. Always include any units (e.g. MB) in the field name or alias
+			"field:alias":{
 				"kpi1":"",
 				"kpi2":"kpi2AliasWithUnits",
 				"kpi3":""
@@ -94,8 +94,8 @@ To do this create a .json configuration file containing a "userStatusLines" dici
 		
 		// This detects INFO level lines beginning with "JMS Status:"
 		"JMS Status:": {
-			"keyPrefix":"jms.",
-			"key:alias":{
+			"fieldPrefix":"jms.",
+			"field:alias":{
 				"s":"s=senders",
 				"r":"r=receivers",
 				"rRate":"rx /sec",
@@ -110,8 +110,8 @@ To do this create a .json configuration file containing a "userStatusLines" dici
 			}},
 
 		"Persistence Status:": {
-			"keyPrefix":"p.",
-			"key:alias":{
+			"fieldPrefix":"p.",
+			"field:alias":{
 				"numSnapshots":"",
 				"lastSnapshotTime":"",
 				"snapshotWaitTimeEwmaMillis":"",
