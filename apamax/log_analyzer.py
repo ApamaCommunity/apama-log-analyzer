@@ -119,6 +119,10 @@ class UserError(Exception):
 	""" Indicates an exception that should be display to the user without a stack trace. """
 	pass
 
+class RestartCurrentFileException(Exception):
+	""" Rewinds and re-processes the current file e.g. due to a configuration change. """
+	pass
+
 ################################################################################
 #
 # Line parsing
@@ -477,7 +481,15 @@ class LogAnalyzer(object):
 		]
 		self.handleAllFilesStarted()
 		for file in self.files:
-			self.processFile(file=file)
+		
+			while True:
+				try:
+					self.processFile(file=file)
+					break
+				except RestartCurrentFileException as ex:
+					log.info('Restarting current file due to: %s\n', ex)
+					continue
+					
 		self.handleAllFilesFinished()
 		self.files = None
 
@@ -562,6 +574,8 @@ class LogAnalyzer(object):
 						lineno = 100000000-1 # set this to a sentinel value to alert people these are numbers relative to start of skip not absolute
 						continue
 					
+				except RestartCurrentFileException as e:
+					raise
 				except Exception as e:
 					log.exception(f'Failed to handle {os.path.basename(self.currentpath)} line {self.currentlineno}: {line} - ')
 					raise
@@ -619,7 +633,6 @@ class LogAnalyzer(object):
 		
 		file['connectionMessages'] : List = []
 		file['connectionIds'] : Dict[str,int] = {}
-		
 
 	DONT_UPDATE_PREVIOUS_LINE = 123
 	def handleLine(self, file, line, previousLine, **extra):
@@ -635,56 +648,8 @@ class LogAnalyzer(object):
 					if userStatusPrefixAfterBracket not in m: continue
 				
 				if 'keyRegex' in userStatusConfig: # it's a special one with independent keyed status lines to be treated separately
-				
-					columnPrefix = userStatusConfig['keyPrefix'] # TODO: this is now a very unclear name, so fix it!
-					
-					keyedUserStatusAccumulatedMetadata = self.userStatus.setdefault(userStatusPrefix, {
-						'currentBlockKeys': set(),
-						'prevBlockKeys': set(),
-					})
-					
-					key = re.search(userStatusConfig['keyRegex'], m) # could use a named regex to make this generic
-					assert key, 'Failed to find regex %s in %s'%(userStatusConfig['keyRegex'], line)
-					key = key.group(1)
-
-					# we keep the keysToId mapping global across all files to avoid confusion between different graphs and provide consistent colouring of graph lines
-					if key not in userStatusConfig['keysToId']:
-						id = len(userStatusConfig['keysToId'])+1 # assign a numeric id to each key so we can name the columns before we know what the keys are
-						
-						# TODO: log a warning and handle errors etc if exceeding maxKeysToAllocateColumnsFor
-						
-						userStatusConfig['keysToId'][key] = id
-					else:
-						id = userStatusConfig['keysToId'][key]
-
-					newBlockStarting = ('currentBlockOfLinesStartTimeSecs' not in keyedUserStatusAccumulatedMetadata) or \
-						line.getDateTime().timestamp()-keyedUserStatusAccumulatedMetadata['currentBlockOfLinesStartTimeSecs'] > 2 # if more than 2 seconds, assume it's the start of a new block
-						
-					if newBlockStarting:
-						# TODO !!!!!!!!!!!!!!!!! need to avoid losing "changes" data when correlator status lines interleave or are a different freqency than these, and deal with edge conditions
-					
-						# TODO: ideally we'd also execute this logic at the end of a file
-						keyedUserStatusAccumulatedMetadata['currentBlockOfLinesStartTimeSecs'] = line.getDateTime().timestamp()
-
-						# once we've completed a block, compare it to the previous block and add a change annotation if anything is different
-						changes = ''
-						if keyedUserStatusAccumulatedMetadata['currentBlockKeys']-keyedUserStatusAccumulatedMetadata['prevBlockKeys']: # nb: the timing of the additions will be slightly delayed, by about one row; think it's ok at least for now
-							changes += ' added '+', '.join( f'{str(k[1])}={str(k[0])}' for k in sorted( keyedUserStatusAccumulatedMetadata['currentBlockKeys']-keyedUserStatusAccumulatedMetadata['prevBlockKeys'] ) )
-						if keyedUserStatusAccumulatedMetadata['prevBlockKeys']-keyedUserStatusAccumulatedMetadata['currentBlockKeys']:
-							changes += ' removed '+', '.join( f'{str(k[1])}={str(k[0])}' for k in sorted( keyedUserStatusAccumulatedMetadata['prevBlockKeys']-keyedUserStatusAccumulatedMetadata['currentBlockKeys'] ) )
-						self.userStatus[columnPrefix+'.changes'] = (self.userStatus.get(columnPrefix+'.changes', '')+changes).lstrip() # TODO: shoudn't this be pre-populated?
-						self.userStatus[columnPrefix+'.count'] = len(keyedUserStatusAccumulatedMetadata['prevBlockKeys']) # update the count at the end of each block, since that's the first time we know
-						
-						keyedUserStatusAccumulatedMetadata['prevBlockKeys'] = keyedUserStatusAccumulatedMetadata['currentBlockKeys']
-						keyedUserStatusAccumulatedMetadata['currentBlockKeys'] = set()
-					keyedUserStatusAccumulatedMetadata['currentBlockKeys'].add( (id, key) )
-					
-					# this dict instructs handleRawStatusLine how to populate self.userStatus
-					userStatusConfig = {
-						'keyPrefix':columnPrefix+str(id)+'.',
-						'key:alias':userStatusConfig['key:alias'],
-					}
-				# end of if section for keyed user status fields
+					userStatusConfig = self.preProcessUserStatusLine(file, line, m, userStatusPrefix=userStatusPrefix, userStatusConfig=userStatusConfig)
+					if userStatusConfig is None: continue
 
 				self.handleRawStatusLine(file=file, line=line, userStatusConfig=userStatusConfig)
 				break
@@ -725,6 +690,63 @@ class LogAnalyzer(object):
 			#'Blocking receiver ',
 			)):
 				self.handleConnectionMessage(file, line)
+
+	def preProcessUserStatusLine(self, file, line, m, userStatusPrefix, userStatusConfig, **extra):
+			columnPrefix = userStatusConfig['keyPrefix'] # TODO: this is now a very unclear name, so fix it!
+			
+			keyedUserStatusAccumulatedMetadata = self.userStatus.setdefault(userStatusPrefix, {
+				'currentBlockKeys': set(),
+				'prevBlockKeys': set(),
+			})
+			
+			key = re.search(userStatusConfig['keyRegex'], m) # could use a named regex to make this generic
+			if not key: # dodgy but may not be fatal
+				log.warning('Failed to find regex %s in %s', (userStatusConfig['keyRegex'], line))
+				return None
+			key = key.group(1)
+
+			# we keep the keysToId mapping global across all files to avoid confusion between different graphs and provide consistent colouring of graph lines
+			if key not in userStatusConfig['keysToId']:
+				id = len(userStatusConfig['keysToId'])+1 # assign a numeric id to each key so we can name the columns before we know what the keys are
+				if id > userStatusConfig['maxKeysToAllocateColumnsFor']:
+					userStatusConfig['maxKeysToAllocateColumnsFor'] *= 2
+					raise RestartCurrentFileException('hit maxKeysToAllocateColumnsFor limit %d for %s, will retry with %d'%(userStatusConfig['maxKeysToAllocateColumnsFor']/2, columnPrefix, userStatusConfig['maxKeysToAllocateColumnsFor']))
+				
+				userStatusConfig['keysToId'][key] = id
+			else:
+				id = userStatusConfig['keysToId'][key]
+
+			newBlockStarting = ('currentBlockOfLinesStartTimeSecs' not in keyedUserStatusAccumulatedMetadata) or \
+				line.getDateTime().timestamp()-keyedUserStatusAccumulatedMetadata['currentBlockOfLinesStartTimeSecs'] > 1.5 # if more than 1.5 seconds, assume it's the start of a new block
+			
+			if newBlockStarting:
+				# Not implemented yet if writing to userStatus .changes: resetting .changes between correlator log lines logged
+				# - need to avoid losing "changes" data when correlator status lines interleave or are a different freqency than these, and deal with edge conditions
+				# - ideally we'd also execute this logic at the end of a file to capture important changes just before a crash
+				keyedUserStatusAccumulatedMetadata['currentBlockOfLinesStartTimeSecs'] = line.getDateTime().timestamp()
+
+				# once we've completed a block, compare it to the previous block and add a change annotation if anything is different
+				changes = ''
+				if keyedUserStatusAccumulatedMetadata['currentBlockKeys']-keyedUserStatusAccumulatedMetadata['prevBlockKeys']: # nb: the timing of the additions will be slightly delayed, by about one row; think it's ok at least for now
+					changes += ' added '+', '.join( f'{str(k[1])}=#{str(k[0])}' for k in sorted( keyedUserStatusAccumulatedMetadata['currentBlockKeys']-keyedUserStatusAccumulatedMetadata['prevBlockKeys'] ) )
+				if keyedUserStatusAccumulatedMetadata['prevBlockKeys']-keyedUserStatusAccumulatedMetadata['currentBlockKeys']:
+					changes += ' removed '+', '.join( f'{str(k[1])}=#{str(k[0])}' for k in sorted( keyedUserStatusAccumulatedMetadata['prevBlockKeys']-keyedUserStatusAccumulatedMetadata['currentBlockKeys'] ) )
+				if changes and keyedUserStatusAccumulatedMetadata['prevBlockKeys']: # except the first line, log these
+					log.info('The set of %s keys changed at %s (line #%d) of %s log: new size=%s; %s', columnPrefix, line.getDateTimeString(), line.lineno, file['name'], len(keyedUserStatusAccumulatedMetadata['currentBlockKeys']), changes.strip())
+				#self.userStatus[columnPrefix+'.changes'] = (self.userStatus.get(columnPrefix+'.changes', '')+changes).lstrip() # TODO: shoudn't this be pre-populated?
+				#self.userStatus[columnPrefix+'.count'] = len(keyedUserStatusAccumulatedMetadata['prevBlockKeys']) # update the count at the end of each block, since that's the first time we know
+				
+				keyedUserStatusAccumulatedMetadata['prevBlockKeys'] = keyedUserStatusAccumulatedMetadata['currentBlockKeys']
+				keyedUserStatusAccumulatedMetadata['currentBlockKeys'] = set()
+			keyedUserStatusAccumulatedMetadata['currentBlockKeys'].add( (id, key) )
+			
+			# this dict instructs handleRawStatusLine how to populate self.userStatus
+			userStatusConfig = { # TODO: could pre-compute or cache this to avoid having to re-construct for each line
+				'keyPrefix':columnPrefix+str(id)+'.',
+				'key:alias':userStatusConfig['key:alias'],
+				'computedRates': userStatusConfig['computedRates'],
+			}
+			return userStatusConfig
 	
 	def handleRawStatusLine(self, file, line, userStatusConfig=None, **extra):
 		"""
@@ -787,7 +809,15 @@ class LogAnalyzer(object):
 			for k, alias in userStatusConfig['key:alias'].items():
 				if k in d:
 					self.userStatus[prefix+(alias or k)] = d[k]
-		else:
+			
+			k = '=status["reqStarted"]-status["reqCompleted"]'
+			if k in userStatusConfig['key:alias']: # Cep ProxyStatus special-case (could generalize this with an eval in future if needed)
+				try:
+					computed = self.userStatus[prefix+'reqCompleted']-self.userStatus[prefix+'reqStarted']
+				except ValueError:
+					computed = None
+				self.userStatus[prefix+userStatusConfig['key:alias'][k]] = computed
+		else: # a normal correlator status line (not user status)
 			self.handleRawStatusDict(file=file, line=line, status=d)	
 		
 	def handleRawStatusDict(self, file, line, status=None, **extra):
@@ -828,8 +858,8 @@ class LogAnalyzer(object):
 					addColumnPrefix = userConfig['keyPrefix']
 					
 					if 'keyRegex' in userConfig:
-						columns[addColumnPrefix+'.count'] = addColumnPrefix+'.count'
-						columns[addColumnPrefix+'.changes'] = addColumnPrefix+'.changes'
+						#columns[addColumnPrefix+'.count'] = addColumnPrefix+'.count'
+						#columns[addColumnPrefix+'.changes'] = addColumnPrefix+'.changes'
 						
 						columnPrefixes = [addColumnPrefix+str(i+1)+'.' for i in range(userConfig['maxKeysToAllocateColumnsFor'])]
 					else:
@@ -837,6 +867,9 @@ class LogAnalyzer(object):
 						
 					for colPrefix in columnPrefixes:
 						for k, alias in userConfig['key:alias'].items(): # aliasing for user-defined status lines happens in handleRawStatusLine
+							k = colPrefix+(alias or k)
+							columns[k] = k
+						for k, alias in userConfig['computedRates'].items(): # aliasing for user-defined status lines happens in handleRawStatusLine
 							k = colPrefix+(alias or k)
 							columns[k] = k
 
@@ -2384,18 +2417,30 @@ class LogAnalyzerTool(object):
 						# Add this automatically (but allow overriding by user if desired, e.g. to tweak maxKeysToAllocateColumnsFor)
 						args.userStatusLines.setdefault( ('<apama-ctrl> com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=', None), {
 							'keyRegex': 'addr=(?P<key>[^ ]+) ',
-							'maxKeysToAllocateColumnsFor': 8,
+							'maxKeysToAllocateColumnsFor': 4, # usually enough; file gets restarted with twice this if not
 						
-							'keyPrefix': 'apamactrlIncomingCoreNode',
+							'keyPrefix': 'ctrlIncomingNode',
 							'key:alias': {
-								'started':    'requestsStarted',
-								'completed':  'requestsCompleted', # TODO: add in-progress count
-								'failed':     'requestsFailed',
-							},
+								'started':    'reqStarted',
+								'completed':  'reqCompleted', 
+								'failed':     'reqFailed',
+								
+								# computed keys
+								'=reqStarted /sec': None,
+								'=reqFailed /sec': None,
+								'=status["reqStarted"]-status["reqCompleted"]': 'reqPending', # in future could allow eval strings as the value here, e.g. =status["reqStarted"]-status["reqCompleted"]
+							}
 						})
 						
+						
 						for config in args.userStatusLines.values():
-							if 'keyPrefix' in config: # for keyed status items also add the data structure we'll use globally (across all files) to map keys to numeric ids
+							config['computedRates'] = { k[1:-5] : v or k[1:]
+								for (k,v) in config['key:alias'].items() if k.startswith('=') and k.endswith(' /sec')
+								}
+							config['key:alias'] = { k:v for k,v in config['key:alias'].items()
+								if k=='=status["reqStarted"]-status["reqCompleted"]' or not k.startswith('=') }
+							
+							if 'keyPrefix' in config: # for keyed status items also add the data structure we'll use globally (across all files) to map keys to numeric ids. Slightly abusing this data structure. ;o)
 								config['keysToId'] = {}
 						
 					elif k == 'userCharts':

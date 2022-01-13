@@ -2,26 +2,12 @@
 
 
 
-	"com.mycompany.MyMonitor [1] MyApplication Status:": {
+	"com.mycompany.MyMonitor [nnn] MyApplication Status:": {
 		"keyPrefix":"myApp.",
 		"key:alias":{
 			"kpi1":"",
 			"kpi2":"kpi2AliasWithUnits",
 			"kpi3":""
-		}},
-
-	// since we munge the message for [apama-ctrl] lines we have a slightly different prefix needed
-	"<apama-ctrl> com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=192.168.138.64 ": {
-		"keyPrefix":"apama-ctrl.192.168.138.64.",
-		"key:alias":{
-			"started":"",
-			"completed":""
-		}},
-	"<apama-ctrl> com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=192.168.146.0 ": {
-		"keyPrefix":"apama-ctrl.192.168.146.0.",
-		"key:alias":{
-			"started":"",
-			"completed":""
 		}},
 		
 	"JMS Status:": {

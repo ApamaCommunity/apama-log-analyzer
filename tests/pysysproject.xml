@@ -54,7 +54,7 @@
 	</default-file-encodings>	
 	
 	<pysysdirconfig>
-	
+		<input-dir>!Input_dir_if_present_else_testDir!</input-dir>
 	</pysysdirconfig>
 	
 	<!-- Add project-specific text to be appended to the "pysys run -h". -->

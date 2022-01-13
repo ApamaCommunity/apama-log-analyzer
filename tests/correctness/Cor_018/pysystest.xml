@@ -2,7 +2,7 @@
 <pysystest type="auto" state="runnable">
     
   <description> 
-    <title>Status lines - user status lines and --config files</title>    
+    <title>Status lines - user status lines, --config files, apama-ctrl Proxy Status</title>    
     <purpose><![CDATA[
 ]]>
     </purpose>

@@ -1,10 +1,6 @@
 myApp.kpi1=1585
 myApp.kpi2AliasWithUnits=80.2
 myApp.kpi3='abc def'
-apama-ctrl.192.168.138.64.started=2
-apama-ctrl.192.168.138.64.completed=2
-apama-ctrl.192.168.146.0.started=5
-apama-ctrl.192.168.146.0.completed=3
 jms.s=senders=1
 jms.r=receivers=2
 jms.rx /sec=0
@@ -26,7 +22,7 @@ jms.r.q1.msgErrors=1
 jms.r.q1.jvmMB=None
 jms.r.q1.datetime='2020-06-12 16:06:11.534'
 jms.r.q1.epoch secs=1591977971.534
-jms.r.q1.line num=182
+jms.r.q1.line num=212
 p.numSnapshots=42
 p.lastSnapshotTime=624772
 p.snapshotWaitTimeEwmaMillis=0.03
