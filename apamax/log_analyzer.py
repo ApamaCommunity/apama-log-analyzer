@@ -619,6 +619,7 @@ class LogAnalyzer(object):
 		self.columns = None # ordered dict of key:annotated_displayname
 		self.previousRawStatus = None # the previous raw status
 		self.userStatus = {}
+		self.previousUserStatus = {}
 		file['errorsCount'] = file['warningsCount'] = 0
 		
 		# for handleAnnotatedStatusDict summarization
@@ -805,25 +806,59 @@ class LogAnalyzer(object):
 		
 		#log.debug('Extracted status line %s: %s', d)
 		if userStatusConfig is not None:
+			userStatus = self.userStatus
+		
 			# must do namespacing here since there could be multiple user-defined statuses and we don't want them to clash
-			prefix = userStatusConfig['keyPrefix']
+			fieldPrefix = userStatusConfig['keyPrefix']
 			for k, alias in userStatusConfig['key:alias'].items():
 				if k in d:
-					self.userStatus[prefix+(alias or k)] = d[k]
+					userStatus[fieldPrefix+(alias or k)] = d[k]
 			
-			k = '=status["reqStarted"]-status["reqCompleted"]'
-			if k in userStatusConfig['key:alias']: # Cep ProxyStatus special-case (could generalize this with an eval in future if needed)
+			# optimization: only if config has some computed values (currently rates are the only kind, apart from the Proxy Status)
+			if userStatusConfig['computedRates']:
+				k = '=status["reqStarted"]-status["reqCompleted"]'
+				if k in userStatusConfig['key:alias']: # Cep ProxyStatus special-case (could generalize this with an eval in future if needed)
+					try:
+						computed = self.userStatus[fieldPrefix+'reqCompleted']-self.userStatus[fieldPrefix+'reqStarted']
+					except ValueError:
+						computed = None
+					self.userStatus[fieldPrefix+userStatusConfig['key:alias'][k]] = computed
+				
 				try:
-					computed = self.userStatus[prefix+'reqCompleted']-self.userStatus[prefix+'reqStarted']
-				except ValueError:
-					computed = None
-				self.userStatus[prefix+userStatusConfig['key:alias'][k]] = computed
+					previousStatus = self.previousUserStatus[fieldPrefix] # need to track the last time separately for each type of line (+key) so use separate dict for each
+				except KeyError:
+					previousStatus = None
+				
+				# initialize it; also reset everything when there's a restart, else we'll end up with a blip of negative event rates and other stats may be wrong too due to incorrect secsSinceLast
+				if previousStatus is None or (previousStatus['restarts'] != len(file['startupStanzas'])): 
+					previousStatus = {
+						'restarts': len(file['startupStanzas']), 
+						'epoch secs': (file['startTime'].replace(tzinfo=datetime.timezone.utc).timestamp()) if file['startTime'] is not None else -1,
+					}
+					self.previousUserStatus[fieldPrefix] = previousStatus
+					
+				now = d['epoch secs']
+				secsSinceLast = now-previousStatus['epoch secs']
+				
+				for field,alias in userStatusConfig['computedRates'].items():
+					prevValue = previousStatus.get(fieldPrefix+field, None)
+					currentValue = userStatus.get(fieldPrefix+field, None)
+					if secsSinceLast and prevValue is not None and currentValue:
+						rate = (currentValue-prevValue) / secsSinceLast
+						#log.info(f'--- {fieldPrefix}{field} = {rate} because {prevValue} -> {currentValue} at {d["datetime"]} back {secsSinceLast} secs')
+					else:
+						rate = None
+					userStatus[fieldPrefix+alias] = rate
+					previousStatus[fieldPrefix+field] = currentValue
+
+				previousStatus['epoch secs'] = now
+			
 		else: # a normal correlator status line (not user status)
 			self.handleRawStatusDict(file=file, line=line, status=d)	
 		
 	def handleRawStatusDict(self, file, line, status=None, **extra):
 		"""
-		Accepts a raw correlator status dictionary and converts it to an annotated status 
+		Accepts a raw (non-annotated) correlator status dictionary and converts it to an annotated status 
 		dict (unordered) whose keys match the columns returned by 
 		decideColumns, adding in calculated values. 
 		
@@ -2450,8 +2485,8 @@ class LogAnalyzerTool(object):
 			
 			if 'keyPrefix' in config: # for keyed status items also add the data structure we'll use globally (across all files) to map keys to numeric ids. Slightly abusing this data structure. ;o)
 				config['keysToId'] = {}
-		args.userStatusLinePrefixes = tuple( [config['keyPrefix'] for config in args.userStatusLines.values() ] ) # for optimizing in handleRawStatusLine
-		
+		args.userStatusLinePrefixes = tuple([prefix for prefix,afterBracket in args.userStatusLines.keys()])  # for optimizing in handleRawStatusLine
+
 		if not globbedpaths: raise UserError('No log files specified')
 		
 		if not args.output: 

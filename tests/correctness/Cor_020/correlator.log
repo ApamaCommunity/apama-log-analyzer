@@ -149,11 +149,6 @@
 2020-06-12 16:06:03.548 INFO  [26712] - Injected MonitorScript from file C:/dev/10.7.0.x/apama-src/output-amd64-win-release/SoftwareAG/Apama/monitors/CorrelatorJMSEvents.mon (21213d4c9a4d4b775697231a7dd6996f), size 51096 bytes, compile time 0.02 seconds
 2020-06-12 16:06:03.550 INFO  [49780] - Sender engine_inject (ABC) (000001E1E5FA7EE0) (component ID 6837477827716885754/6837196352740175098) disconnected cleanly: Other party requested disconnection
 2020-06-12 16:06:06.537 INFO  [47556] - Correlator Status: sm=1 nctx=1 ls=2 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=1 vm=574420 pm=250576 runq=0 si=55.8 so=0.0 srn="<none>" srq=0 jvm=137
-2020-06-12 16:06:06.538 INFO  [47556:Status] - JMS Status: s=1 tx=0 sRate=0 sOutst=0 r=2 rx=0 rRate=0 rWindow=0 rRedel=0 rMaxDeliverySecs=0.0 rDupsDet=0 rDupIds=0 connErr=0 jvmMB=137 <waiting for onApplicationInitialized>
-2020-06-12 16:06:06.538 INFO  [47556:Status] -     JMSConnection myConnection: s=1 r=2 connErr=0 sessionsCreated=1
-2020-06-12 16:06:06.538 INFO  [47556:Status] -       JMSSender   myConnection-default-sender: tx=0 sRate=0 sOutst=0 msgErrors=0
-2020-06-12 16:06:06.538 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-queue-01: rx=0 rRate=0 rWindow=0 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=0 rDupsDet=0 perSourceDupIds=0 timeExpiryDupIds=0
-2020-06-12 16:06:06.539 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-topic-01: rx=0 rRate=0 rWindow=0 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=0 rDupsDet=0 perSourceDupIds=0 timeExpiryDupIds=0
 2020-06-12 16:06:06.539 INFO  [47556] - Persistence Status: numSnapshots=18 lastSnapshotTime=624767 snapshotWaitTimeEwmaMillis=0.03 commitTimeEwmaMillis=636.54 lastSnapshotRowsChangedEwma=301
 2020-06-12 16:06:06.642 INFO  [32904] - Sender engine_inject (ABC) (000001E1E5FA7EE0) (component ID 6837477839180442874/6837196364203732218) connected from 127.0.0.1:52991
 2020-06-12 16:06:06.655 INFO  [48264] - Added monitor test.Test
@@ -174,18 +169,13 @@
 2020-06-12 16:06:08.600 CRIT  [14100] - test.Test [2] Some sample EPL output
 2020-06-12 16:06:09.599 CRIT  [33128] - test.Test [2] Some sample EPL output
 
-[apama-ctrl]  2020-06-12 16:06:09.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=10 completed=12
-[apama-ctrl]  2020-06-12 16:06:09.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.2 started=30 completed=30
-[apama-ctrl]  2020-06-12 16:06:09.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=21 completed=22 failed=0
+[apama-ctrl]  2020-06-12 16:06:10.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=10 completed=12
+[apama-ctrl]  2020-06-12 16:06:10.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.2 started=30 completed=30
+[apama-ctrl]  2020-06-12 16:06:10.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=21 completed=22 failed=0
 
 2020-06-12 16:06:10.600 CRIT  [33128] - test.Test [2] Some sample EPL output
-2020-06-12 16:06:16.500 INFO  [140103309588224] - com.mycompany.MyMonitor [1] MyApplication Status: kpi1=100 kpi2=50% kpi3="a string" jeall=1390 jemap=1708 jeret=360 jeefficiency=81% sys=3136 use=1971 max=3122 tot=0 cur=3024 efficiency=65%
+
 2020-06-12 16:06:11.533 INFO  [47556] - Correlator Status: sm=2 nctx=1 ls=5 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=11 tx=6 rt=0 nc=1 vm=615468 pm=267224 runq=0 si=14.4 so=0.0 srn="<none>" srq=0 jvm=76
-2020-06-12 16:06:11.533 INFO  [47556:Status] - JMS Status: s=1 tx=6 sRate=1 sOutst=0 r=2 rx=4 rRate=0 rWindow=197 rRedel=0 rMaxDeliverySecs=0.0 rDupsDet=1 rDupIds=3 connErr=0 jvmMB=77
-2020-06-12 16:06:11.534 INFO  [47556:Status] -     JMSConnection myConnection: s=1 r=2 connErr=0 sessionsCreated=3
-2020-06-12 16:06:11.534 INFO  [47556:Status] -       JMSSender   myConnection-default-sender: tx=6 sRate=1 sOutst=0 msgErrors=2
-2020-06-12 16:06:11.534 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-queue-01: rx=4 rRate=0 rWindow=97 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=1 rDupsDet=1 perSourceDupIds=3 timeExpiryDupIds=0
-2020-06-12 16:06:11.534 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-topic-01: rx=0 rRate=0 rWindow=100 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=0 rDupsDet=0 perSourceDupIds=0 timeExpiryDupIds=0
 2020-06-12 16:06:11.534 INFO  [47556] - Persistence Status: numSnapshots=42 lastSnapshotTime=624772 snapshotWaitTimeEwmaMillis=0.03 commitTimeEwmaMillis=194.34 lastSnapshotRowsChangedEwma=93
 
 2020-06-12 16:06:11.600 CRIT  [33128] - test.Test [2] Some sample EPL output
@@ -193,44 +183,33 @@
 
 // add and remove 002 in between correlator status lines
 
-[apama-ctrl]  2020-06-12 16:06:13.534 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=10 completed=12
-[apama-ctrl]  2020-06-12 16:06:13.534 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=21 completed=22 failed=0
+[apama-ctrl]  2020-06-12 16:06:13.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=10 completed=12
+[apama-ctrl]  2020-06-12 16:06:13.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=21 completed=22 failed=0
 
-2020-06-12 16:06:13.600 CRIT  [14100] - test.Test [2] Some sample EPL output
+2020-06-12 16:06:13.599 CRIT  [14100] - test.Test [2] Some sample EPL output
 2020-06-12 16:06:14.600 CRIT  [14100] - test.Test [2] Some sample EPL output
 
-[apama-ctrl]  2020-06-12 16:06:15.534 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=10 completed=12
-[apama-ctrl]  2020-06-12 16:06:15.534 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.2 started=30 completed=30
-[apama-ctrl]  2020-06-12 16:06:15.534 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=21 completed=22 failed=0
+[apama-ctrl]  2020-06-12 16:06:15.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=10 completed=12
+[apama-ctrl]  2020-06-12 16:06:15.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.2 started=30 completed=30
+[apama-ctrl]  2020-06-12 16:06:15.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=21 completed=22 failed=0
 
 2020-06-12 16:06:15.599 CRIT  [14100] - test.Test [2] Some sample EPL output
 
-2020-06-12 16:06:11.533 INFO  [47556] - Correlator Status: sm=2 nctx=1 ls=5 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=11 tx=6 rt=0 nc=1 vm=615468 pm=267224 runq=0 si=14.4 so=0.0 srn="<none>" srq=0 jvm=76
-2020-06-12 16:06:11.533 INFO  [47556:Status] - JMS Status: s=1 tx=6 sRate=1 sOutst=0 r=2 rx=4 rRate=0 rWindow=197 rRedel=0 rMaxDeliverySecs=0.0 rDupsDet=1 rDupIds=3 connErr=0 jvmMB=77
-2020-06-12 16:06:11.534 INFO  [47556:Status] -     JMSConnection myConnection: s=1 r=2 connErr=0 sessionsCreated=3
-2020-06-12 16:06:11.534 INFO  [47556:Status] -       JMSSender   myConnection-default-sender: tx=6 sRate=1 sOutst=0 msgErrors=2
-2020-06-12 16:06:11.534 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-queue-01: rx=4 rRate=0 rWindow=97 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=1 rDupsDet=1 perSourceDupIds=3 timeExpiryDupIds=0
-2020-06-12 16:06:11.534 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-topic-01: rx=0 rRate=0 rWindow=100 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=0 rDupsDet=0 perSourceDupIds=0 timeExpiryDupIds=0
-2020-06-12 16:06:11.534 INFO  [47556] - Persistence Status: numSnapshots=42 lastSnapshotTime=624772 snapshotWaitTimeEwmaMillis=0.03 commitTimeEwmaMillis=194.34 lastSnapshotRowsChangedEwma=93
+2020-06-12 16:06:15.534 INFO  [47556] - Correlator Status: sm=2 nctx=1 ls=5 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=11 tx=6 rt=0 nc=1 vm=615468 pm=267224 runq=0 si=14.4 so=0.0 srn="<none>" srq=0 jvm=76
+2020-06-12 16:06:15.534 INFO  [47556] - Persistence Status: numSnapshots=42 lastSnapshotTime=624772 snapshotWaitTimeEwmaMillis=0.03 commitTimeEwmaMillis=194.34 lastSnapshotRowsChangedEwma=93
 
-[apama-ctrl]  2020-06-12 16:06:16.500 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=15 completed=20
-[apama-ctrl]  2020-06-12 16:06:16.500 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=40 completed=45 failed=10
-[apama-ctrl]  2020-06-12 16:06:16.500 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.4 started=5 completed=8
+[apama-ctrl]  2020-06-12 16:06:17.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=15 completed=20
+[apama-ctrl]  2020-06-12 16:06:17.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=40 completed=45 failed=10
+[apama-ctrl]  2020-06-12 16:06:17.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.4 started=5 completed=8
 
-2020-06-12 16:06:16.500 INFO  [140103309588224] - com.mycompany.MyMonitor [5] MyApplication Status: kpi1=1585 kpi2=80.2% kpi3="abc def" jeall=1390 jemap=1708 jeret=360 jeefficiency=81% sys=3136 use=1971 max=3122 tot=0 cur=3024 efficiency=65%
-2020-06-12 16:06:16.533 INFO  [47556] - Correlator Status: sm=2 nctx=1 ls=5 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=11 tx=6 rt=0 nc=1 vm=615620 pm=267444 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=107
-2020-06-12 16:06:16.534 INFO  [47556:Status] - JMS Status: s=1 tx=6 sRate=0 sOutst=0 r=2 rx=4 rRate=0 rWindow=197 rRedel=0 rMaxDeliverySecs=0.0 rDupsDet=1 rDupIds=3 connErr=0 jvmMB=108
-2020-06-12 16:06:16.534 INFO  [47556:Status] -     JMSConnection myConnection: s=1 r=2 connErr=0 sessionsCreated=3
-2020-06-12 16:06:16.534 INFO  [47556:Status] -       JMSSender   myConnection-default-sender: tx=6 sRate=0 sOutst=0 msgErrors=2
-2020-06-12 16:06:16.534 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-queue-01: rx=4 rRate=0 rWindow=97 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=1 rDupsDet=1 perSourceDupIds=3 timeExpiryDupIds=0
-2020-06-12 16:06:16.534 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-topic-01: rx=0 rRate=0 rWindow=100 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=0 rDupsDet=0 perSourceDupIds=0 timeExpiryDupIds=0
-2020-06-12 16:06:16.534 INFO  [47556] - Persistence Status: numSnapshots=65 lastSnapshotTime=624777 snapshotWaitTimeEwmaMillis=0.02 commitTimeEwmaMillis=67.83 lastSnapshotRowsChangedEwma=33
+2020-06-12 16:06:16.599 INFO  [47556] - Correlator Status: sm=2 nctx=1 ls=5 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=11 tx=6 rt=0 nc=1 vm=615620 pm=267444 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=107
+2020-06-12 16:06:16.599 INFO  [47556] - Persistence Status: numSnapshots=65 lastSnapshotTime=624777 snapshotWaitTimeEwmaMillis=0.02 commitTimeEwmaMillis=67.83 lastSnapshotRowsChangedEwma=33
 2020-06-12 16:06:16.600 CRIT  [14100] - test.Test [2] Some sample EPL output
 
-[apama-ctrl]  2020-06-12 16:06:20.600 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=20 completed=25
-[apama-ctrl]  2020-06-12 16:06:20.600 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=40 completed=45 failed=12
-[apama-ctrl]  2020-06-12 16:06:20.600 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.4 started=500 completed=504
-[apama-ctrl]  2020-06-12 16:06:20.600 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.5 started=500 completed=504
+[apama-ctrl]  2020-06-12 16:06:20.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=20 completed=25
+[apama-ctrl]  2020-06-12 16:06:20.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=40 completed=45 failed=12
+[apama-ctrl]  2020-06-12 16:06:20.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.4 started=500 completed=504
+[apama-ctrl]  2020-06-12 16:06:20.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.5 started=500 completed=504
 
 2020-06-12 16:06:16.892 ##### [48264] - Shutting down correlator in response to client (127.0.0.1:52994) request: Shutdown requested by test framework due to shutdownAllComponents call
 2020-06-12 16:06:16.893 INFO  [49516:JCorrelatorTransport] - Shutting down JMS runtime

@@ -34,8 +34,10 @@ class PySysTest(AnalyzerBaseTest):
 		self.write_text('apamactrlProxyStatus.txt', 
 			'\n\n'.join(
 				line['local datetime']+'\n'+
-				'\n'.join(f'{k}={v}' for k,v in line.items() if k.split('.')[0] in 
+				'\n'.join(f'{k}={v if not k.endswith("/sec") else ("None" if v is None else v)}' for k,v in line.items() if k.split('.')[0] in 
 					['ctrlIncomingNode1', 'ctrlIncomingNode2', 'ctrlIncomingNode3', 'ctrlIncomingNode4'] )
-				for line in status[1:] # ignore first correlator status line where we didn't have any apama-ctrl status
+				for line in status
 			))
 		self.logFileContents('apamactrlProxyStatus.txt', maxLines=0)
+		
+		self.assertDiff('apamactrlProxyStatus.txt')
