@@ -1,0 +1,241 @@
+2020-06-12 16:06:00.764 ##### [49516] - Correlator, version 10.7.0.0.0 (build UNKNOWN_VERSION@0 on amd64-win using Software AG suite version 10.7), started.
+2020-06-12 16:06:00.765 ##### [49516] - Running on host 'MYMACHINE' as user 'ABC'.
+2020-06-12 16:06:00.765 ##### [49516] - Running on platform 'Windows 10 Enterprise'.
+2020-06-12 16:06:00.765 ##### [49516] - Running on CPU 'GenuineIntel family 6 model 14 stepping 10 Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz'.
+2020-06-12 16:06:00.765 ##### [49516] - Running with process Id 41744.
+2020-06-12 16:06:00.765 ##### [49516] - Running with 32587.22MB of available memory.
+2020-06-12 16:06:00.766 ##### [49516] - There are 12 CPU(s)
+2020-06-12 16:06:00.766 ##### [49516] - Correlator command line: C:\dev\10.7.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin\correlator -l C:\dev\10.7.0.x\apama-test\tools\output-amd64-win-release\apwork\license/ApamaServerLicense.xml -p 20089 -f correlator.log -v INFO --javaopt -Djava.class.path=C:/dev/10.7.0.x/apama-test/etc -J-Dnirvana.autoCreateResource=false --jmsConfig . -P
+2020-06-12 16:06:00.766 ##### [49516] - Current Working Directory: C:\dev\10.7.0.x\apama-test\system\jms\correlator-jms\correctness\Correlator_JMS_cor_136\Output\amd64-win_UniversalMessaging_Latest
+2020-06-12 16:06:00.766 ##### [49516] - PATH: C:\dev\10.7.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\bin;C:\dev\10.7.0.x\apama-src\output-amd64-win-release\SoftwareAG\Apama\adapters\bin;C:\dev\10.7.0.x\apama-test\tools\output-amd64-win-release\native-adapters;c:\dev\10.7.0.x\apama-lib4\branched\win\amd64\10.7.0.x\saginstallation\jvm\jvm\jre\bin\server;c:\dev\10.7.0.x\apama-lib4\branched\win\amd64\10.7.0.x\saginstallation\jvm\jvm\jre\bin;c:\dev\10.7.0.x\apama-lib4\branched\win\amd64\10.7.0.x\saginstallation\jvm\jvm\jre;c:\dev\10.7.0.x\apama-lib4\branched\win\amd64\10.7.0.x\saginstallation\common\security\openssl\bin;c:\dev\10.7.0.x\apama-lib4\branched\win\amd64\10.7.0.x\saginstallation\jvm\jvm\jre\bin;C:\WINDOWS;C:\WINDOWS\system32;C:\WINDOWS\System32\Wbem
+2020-06-12 16:06:00.766 ##### [49516] - Current UTC time: 2020-06-12 15:06:00, local timezone: GMT Daylight Time
+2020-06-12 16:06:00.766 ##### [49516] - Input value - port                     = 20089
+2020-06-12 16:06:00.766 ##### [49516] - Input value - output queue batch size  = 100
+2020-06-12 16:06:00.766 ##### [49516] - Input value - output queue mode        = blocking
+2020-06-12 16:06:00.766 ##### [49516] - Input value - environment variable     = AP_ASCII_COLOURS=true
+2020-06-12 16:06:00.766 ##### [49516] - Input value - environment variable     = AP_TEST_VERBOSE=true
+2020-06-12 16:06:00.766 ##### [49516] - Input value - environment variable     = APAMA_HOME=C:/dev/10.7.0.x/apama-src/output-amd64-win-release/SoftwareAG/Apama
+2020-06-12 16:06:00.766 ##### [49516] - Using memory allocator                 = TBB scalable allocator
+2020-06-12 16:06:00.767 ##### [49516] - License File: C:\dev\10.7.0.x\apama-test\tools\output-amd64-win-release\apwork\license\ApamaServerLicense.xml
+2020-06-12 16:06:00.802 ##### [49516] - ================= Software AG License Data =================
+2020-06-12 16:06:00.802 ##### [49516] - Sales Information
+2020-06-12 16:06:00.802 ##### [49516] -      Serial Number      : 0000028449
+2020-06-12 16:06:00.802 ##### [49516] -      Customer ID        : 1
+2020-06-12 16:06:00.802 ##### [49516] -      Customer Name      : Software AG internal
+2020-06-12 16:06:00.802 ##### [49516] - Product Information
+2020-06-12 16:06:00.802 ##### [49516] -      Product Name       : Apama Server
+2020-06-12 16:06:00.802 ##### [49516] -      Product Code       : PAMCO
+2020-06-12 16:06:00.802 ##### [49516] -      Operating System   : Linux
+2020-06-12 16:06:00.802 ##### [49516] -      Product Version    : 10.0
+2020-06-12 16:06:00.802 ##### [49516] -      Product Usage      : 
+2020-06-12 16:06:00.802 ##### [49516] -      Expiration Date    : 2020/12/01
+2020-06-12 16:06:00.802 ##### [49516] - License Information
+2020-06-12 16:06:00.802 ##### [49516] -      License Type       : 
+2020-06-12 16:06:00.802 ##### [49516] -      Price Unit         : ST
+2020-06-12 16:06:00.802 ##### [49516] -      Price Quantity     : 1
+2020-06-12 16:06:00.802 ##### [49516] -      Extended Rights    : 
+2020-06-12 16:06:00.802 ##### [49516] -      License Version    : 1.2
+2020-06-12 16:06:00.802 ##### [49516] - Physical Hardware
+2020-06-12 16:06:00.802 ##### [49516] -      Model              : Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz
+2020-06-12 16:06:00.802 ##### [49516] -      Sockets            : 1
+2020-06-12 16:06:00.802 ##### [49516] -      Physical cores     : 6
+2020-06-12 16:06:00.802 ##### [49516] -      Logical cores      : 12
+2020-06-12 16:06:00.802 ##### [49516] -      Performance Bucket : CoreD
+2020-06-12 16:06:00.802 ##### [49516] -      Virtualization     : no
+2020-06-12 16:06:00.802 ##### [49516] - ==================== End License Data ======================
+2020-06-12 16:06:00.802 ##### [49516] - 
+2020-06-12 16:06:00.804 ##### [49516] - Input value - pidfile                  = 
+2020-06-12 16:06:00.804 ##### [49516] - Input value - per receiver queue size  = 10 s
+2020-06-12 16:06:00.804 ##### [49516] - Input value - per receiver queue size  = 10240 kb
+2020-06-12 16:06:00.804 ##### [49516] - Input value - input queue size         = 20000
+2020-06-12 16:06:00.804 ##### [49516] - Input value - Java transport config    = .
+2020-06-12 16:06:00.805 ##### [49516] - Input value - JVM Option               = -Djava.class.path=C:/dev/10.7.0.x/apama-test/etc
+2020-06-12 16:06:00.805 ##### [49516] - Input value - JVM Option               = -Dnirvana.autoCreateResource=false
+2020-06-12 16:06:00.805 ##### [49516] - External clocking                      = disabled
+2020-06-12 16:06:00.805 ##### [49516] - Input value - logfile                  = correlator.log
+2020-06-12 16:06:00.806 ##### [49516] - Input value - loglevel                 = INFO
+2020-06-12 16:06:00.806 ##### [49516] - Input value - inputLog                 = ** Warning input log not enabled **
+2020-06-12 16:06:00.806 ##### [49516] - Compiler optimizations                 = enabled - the debugger cannot be used; specify command line option "-g" to use it.
+2020-06-12 16:06:00.806 ##### [49516] - Using EPL runtime                      = interpreted
+2020-06-12 16:06:00.807 ##### [49516] - Python support                         = automatic
+2020-06-12 16:06:00.810 ##### [49516] - Java support                           = enabled
+2020-06-12 16:06:00.810 INFO  [49516] - Starting JVM with options:
+2020-06-12 16:06:00.810 INFO  [49516] -   -Djava.class.path=C:/dev/10.7.0.x/apama-test/etc;C:/dev/10.7.0.x/apama-src/output-amd64-win-release/SoftwareAG/Apama/lib/ap-correlator-extension-api.jar;C:/dev/10.7.0.x/apama-src/output-amd64-win-release/SoftwareAG/Apama/lib/ap-util.jar
+2020-06-12 16:06:00.810 INFO  [49516] -   -DAPAMA_LOG_LEVEL=INFO
+2020-06-12 16:06:00.810 INFO  [49516] -   -Xrs
+2020-06-12 16:06:00.810 INFO  [49516] -   -XX:+HeapDumpOnOutOfMemoryError
+2020-06-12 16:06:00.810 INFO  [49516] -   -DAPAMA_CORRELATOR_NAME=correlator
+2020-06-12 16:06:00.810 INFO  [49516] -   -Dnirvana.autoCreateResource=false
+2020-06-12 16:06:00.810 INFO  [49516] -   -Dlog4j.configurationFile=file:///C:/dev/10.7.0.x/apama-src/output-amd64-win-release/SoftwareAG/Apama/etc/log4j-correlator.xml
+2020-06-12 16:06:00.879 ##### [49516] - Java virtual machine created - OpenJDK 64-Bit Server VM 1.8.0_242-b20.
+2020-06-12 16:06:01.359 INFO  [49516:java] - Logging started
+2020-06-12 16:06:01.413 INFO  [49516:init] - 
+2020-06-12 16:06:01.413 INFO  [49516:init] - ================================================================================
+2020-06-12 16:06:01.413 INFO  [49516:init] - Java logging begins at: 12-Jun-2020 16:06:01 (timezone Europe/London); root log level is: INFO
+2020-06-12 16:06:01.413 INFO  [49516:init] - Apama Platform Version: 10.7.0.0.0 (UNKNOWN_VERSION@0)
+2020-06-12 16:06:01.413 INFO  [49516:init] - ================================================================================
+2020-06-12 16:06:01.413 INFO  [49516:init] - 
+2020-06-12 16:06:01.426 INFO  [49516:init] - Java maximum heap size = 683MB
+2020-06-12 16:06:01.446 CRIT  [49516] - JMon framework ready
+2020-06-12 16:06:01.446 ##### [49516] - Input value - persistence              = enabled
+2020-06-12 16:06:01.446 ##### [49516] - Input value - snapshot interval        = 200
+2020-06-12 16:06:01.446 ##### [49516] - Input value - adjust snapshot          = true
+2020-06-12 16:06:01.446 ##### [49516] - Input value - store location           = .
+2020-06-12 16:06:01.446 ##### [49516] - Input value - store name               = persistence.db
+2020-06-12 16:06:01.446 ##### [49516] - Input value - clear store on startup   = false
+2020-06-12 16:06:01.533 INFO  [49516] - Will log queue size every 5.000000 seconds
+2020-06-12 16:06:01.579 INFO  [49516] - Java Transport framework ready
+2020-06-12 16:06:01.580 INFO  [49516] - Starting scheduler with 12 threads (determined from hardware)
+2020-06-12 16:06:01.586 INFO  [49516] - Recovery: Committing any changed state to disk
+2020-06-12 16:06:01.634 INFO  [42856:GenericTransportController] - Initializing Correlator-Integrated JMS UNKNOWN_VERSION@0, 1padapters 10.7.0.0.0 (UNKNOWN_VERSION@0) with config file(s): [C:\dev\10.7.0.x\apama-test\system\jms\correlator-jms\correctness\Correlator_JMS_cor_136\Output\amd64-win_UniversalMessaging_Latest\jms-mapping-spring.xml, C:\dev\10.7.0.x\apama-test\system\jms\correlator-jms\correctness\Correlator_JMS_cor_136\Output\amd64-win_UniversalMessaging_Latest\jms-messaging-spring.xml]
+2020-06-12 16:06:02.104 INFO  [42856:GenericTransportController] - Loading JMS classes using classpath with 7 entries:
+	file:/c:/dev/10.7.0.x/apama-lib4/branched/win/amd64/10.7.0.x/saginstallation/UniversalMessaging/../common/lib/ext/log4j/log4j-api.jar
+	file:/c:/dev/10.7.0.x/apama-lib4/branched/win/amd64/10.7.0.x/saginstallation/UniversalMessaging/../common/lib/ext/log4j/log4j-core.jar
+	file:/c:/dev/10.7.0.x/apama-lib4/branched/win/amd64/10.7.0.x/saginstallation/UniversalMessaging/lib/nAdminAPI.jar
+	file:/c:/dev/10.7.0.x/apama-lib4/branched/win/amd64/10.7.0.x/saginstallation/UniversalMessaging/lib/nClient.jar
+	file:/c:/dev/10.7.0.x/apama-lib4/branched/win/amd64/10.7.0.x/saginstallation/UniversalMessaging/lib/nJMS.jar
+	file:/c:/dev/10.7.0.x/apama-lib4/branched/win/amd64/10.7.0.x/saginstallation/UniversalMessaging/lib/slf4j-api.jar
+	file:/c:/dev/10.7.0.x/apama-lib4/branched/win/amd64/10.7.0.x/saginstallation/UniversalMessaging/lib/slf4j-jdk14.jar
+2020-06-12 16:06:02.984 INFO  [42856:GenericTransportController] - Opening reliable receive database: 'C:\dev\10.7.0.x\apama-test\system\jms\correlator-jms\correctness\Correlator_JMS_cor_136\Output\amd64-win_UniversalMessaging_Latest\jms-receive-persistence.db'
+2020-06-12 16:06:03.064 INFO  [42856:GenericTransportController] - Scheduling creation of 2 new static JMS receiver(s)
+2020-06-12 16:06:03.065 INFO  [42856:GenericTransportController] - Scheduling creation of 1 new static JMS sender(s)
+2020-06-12 16:06:03.065 INFO  [18744:JMSConnection:myConnection] - Connecting to the JMS broker
+2020-06-12 16:06:03.066 INFO  [49652:JMSReliableReceiveDatabase] - Completed recovery in 0.0 s, no entries in database
+2020-06-12 16:06:03.072 INFO  [18744:JMSConnection:myConnection] - Initializing JNDI context with environment: 
+	java.naming.factory.initial = 'com.pcbsys.nirvana.nSpace.NirvanaContextFactory'
+	java.naming.provider.url = 'nsp://localhost:7971'
+2020-06-12 16:06:03.093 INFO  [49516] - Server socket opened listening on 0.0.0.0:20089
+2020-06-12 16:06:03.093 INFO  [49516] - Recovery: Completed
+2020-06-12 16:06:03.093 ##### [49516] - Component ID: correlator (correlator/6837477815006309626/6837477815006309626)
+2020-06-12 16:06:03.093 ##### [49516] - Correlator, version 10.7.0.0.0, running
+2020-06-12 16:06:03.394 INFO  [32904] - Sender engine_inject (ABC) (000001E1E5FA99B0) (component ID 6837477828616563962/6837196353639853306) connected from 127.0.0.1:52982
+2020-06-12 16:06:03.414 INFO  [48264] - Added monitor com.apama.statusreport.ParallelStatusSupport
+2020-06-12 16:06:03.415 INFO  [48264] - Added type com.apama.statusreport.UnsubscribeStatusToContext
+2020-06-12 16:06:03.415 INFO  [48264] - Added type com.apama.statusreport.SubscribeStatusToContext
+2020-06-12 16:06:03.415 INFO  [48264] - Added type com.apama.statusreport.StatusError
+2020-06-12 16:06:03.415 INFO  [48264] - Added type com.apama.statusreport.Status
+2020-06-12 16:06:03.415 INFO  [48264] - Added type com.apama.statusreport.UnsubscribeStatus
+2020-06-12 16:06:03.415 INFO  [48264] - Added type com.apama.statusreport.SubscribeStatus
+2020-06-12 16:06:03.415 INFO  [48264] - Injected MonitorScript from file C:/dev/10.7.0.x/apama-src/output-amd64-win-release/SoftwareAG/Apama/monitors/StatusSupport.mon (5c9c1f7760a6afb18e776490f1483bbc), size 12249 bytes, compile time 0.01 seconds
+2020-06-12 16:06:03.416 INFO  [49780] - Sender engine_inject (ABC) (000001E1E5FA99B0) (component ID 6837477828616563962/6837196353639853306) disconnected cleanly: Other party requested disconnection
+2020-06-12 16:06:03.438 INFO  [18744:JMSConnection:myConnection] - JNDI context successfully initialized using 'com.pcbsys.nirvana.nSpace.NirvanaContextFactory'
+2020-06-12 16:06:03.506 INFO  [18744:JMSConnection:myConnection] - Connected to JMS provider 'myConnection': Universal Messaging - 10.7.0 Build 129756 March 16 2020 (UNIVERSALMESSAGING), after 0.4 s
+2020-06-12 16:06:03.509 INFO  [32904] - Sender engine_inject (ABC) (000001E1E5FA7EE0) (component ID 6837477827716885754/6837196352740175098) connected from 127.0.0.1:52985
+2020-06-12 16:06:03.534 INFO  [5984] - Loading EPL plugin JMSPlugin from library JMSPlugin.dll
+2020-06-12 16:06:03.537 INFO  [5984] - <.plugins.JMSPlugin> Plugin library JMSPlugin (C++ API 0x4) loaded OK
+2020-06-12 16:06:03.547 INFO  [50116:JMSSender:myConnection-default-sender] - Successfully created JMS producer for EXACTLY_ONCE sender 'myConnection-default-sender' (with messageSourceId 'MYMACHINE:41744:1591974361:S01', using SESSION_TRANSACTED, maxBatchSize=500, maxBatchIntervalMillis=500) [S01]
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.JMSReceiverFlowControlMarker
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.JMSReceiverStatus
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.JMSSenderStatus
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.JMSConnectionStatus
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.JMS
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.JMSConnection
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.JMSReceiverConfiguration
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.JMSAppControlledReceivingSuspended
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.JMSReceiver
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.JMSReceiverReliability
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.JMSSenderFlushed
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.JMSSenderConfiguration
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.JMSSender
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.JMSMessageDeliveryMode
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.JMSSenderReliability
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.__JMSSenderFlush
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.__ReceiverAcknowledgeAndResume
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.__JMSReceiverFlowControlWindowUpdate
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.__RemoveReceiver
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.__AddReceiver
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.__RemoveSender
+2020-06-12 16:06:03.548 INFO  [26712] - Added type com.apama.correlator.jms.__AddSender
+2020-06-12 16:06:03.548 INFO  [26712] - Injected MonitorScript from file C:/dev/10.7.0.x/apama-src/output-amd64-win-release/SoftwareAG/Apama/monitors/CorrelatorJMSEvents.mon (21213d4c9a4d4b775697231a7dd6996f), size 51096 bytes, compile time 0.02 seconds
+2020-06-12 16:06:03.550 INFO  [49780] - Sender engine_inject (ABC) (000001E1E5FA7EE0) (component ID 6837477827716885754/6837196352740175098) disconnected cleanly: Other party requested disconnection
+2020-06-12 16:06:06.537 INFO  [47556] - Correlator Status: sm=1 nctx=1 ls=2 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=0 tx=0 rt=0 nc=1 vm=574420 pm=250576 runq=0 si=55.8 so=0.0 srn="<none>" srq=0 jvm=137
+2020-06-12 16:06:06.538 INFO  [47556:Status] - JMS Status: s=1 tx=0 sRate=0 sOutst=0 r=2 rx=0 rRate=0 rWindow=0 rRedel=0 rMaxDeliverySecs=0.0 rDupsDet=0 rDupIds=0 connErr=0 jvmMB=137 <waiting for onApplicationInitialized>
+2020-06-12 16:06:06.538 INFO  [47556:Status] -     JMSConnection myConnection: s=1 r=2 connErr=0 sessionsCreated=1
+2020-06-12 16:06:06.538 INFO  [47556:Status] -       JMSSender   myConnection-default-sender: tx=0 sRate=0 sOutst=0 msgErrors=0
+2020-06-12 16:06:06.538 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-queue-01: rx=0 rRate=0 rWindow=0 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=0 rDupsDet=0 perSourceDupIds=0 timeExpiryDupIds=0
+2020-06-12 16:06:06.539 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-topic-01: rx=0 rRate=0 rWindow=0 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=0 rDupsDet=0 perSourceDupIds=0 timeExpiryDupIds=0
+2020-06-12 16:06:06.539 INFO  [47556] - Persistence Status: numSnapshots=18 lastSnapshotTime=624767 snapshotWaitTimeEwmaMillis=0.03 commitTimeEwmaMillis=636.54 lastSnapshotRowsChangedEwma=301
+2020-06-12 16:06:06.642 INFO  [32904] - Sender engine_inject (ABC) (000001E1E5FA7EE0) (component ID 6837477839180442874/6837196364203732218) connected from 127.0.0.1:52991
+2020-06-12 16:06:06.655 INFO  [48264] - Added monitor test.Test
+2020-06-12 16:06:06.655 INFO  [48264] - Added type test.UnsendableMessage
+2020-06-12 16:06:06.655 INFO  [48264] - Added type test.TestMessage
+2020-06-12 16:06:06.655 INFO  [48264] - Injected MonitorScript from file C:/dev/10.7.0.x/apama-test/system/jms/correlator-jms/correctness/Correlator_JMS_cor_136/Output/amd64-win_UniversalMessaging_Latest//test.mon (d61566e249483817073c1a0bc2264f1b), size 1541 bytes, compile time 0.00 seconds
+2020-06-12 16:06:06.655 INFO  [14100:processing] - Application is now initialized so JMS runtime can begin to send events to it
+2020-06-12 16:06:06.656 INFO  [49780] - Sender engine_inject (ABC) (000001E1E5FA7EE0) (component ID 6837477839180442874/6837196364203732218) disconnected cleanly: Other party requested disconnection
+2020-06-12 16:06:06.678 INFO  [3640:JMSReceiver:myConnection-receiver-apama-queue-01] - Successfully created JMS consumer for EXACTLY_ONCE receiver 'myConnection-receiver-apama-queue-01' on JMS Queue<apama-queue-01> (using CLIENT_ACKNOWLEDGE, maxBatchSize=1000, maxBatchIntervalMillis=500, receiverFlowControl=true) [R01]
+2020-06-12 16:06:06.678 INFO  [42400:JMSReceiver:myConnection-receiver-apama-topic-01] - Successfully created JMS consumer for EXACTLY_ONCE receiver 'myConnection-receiver-apama-topic-01' on JMS Topic<apama-topic-01> (using CLIENT_ACKNOWLEDGE, maxBatchSize=1000, maxBatchIntervalMillis=500, receiverFlowControl=true) [R02]
+2020-06-12 16:06:07.092 ERROR [50116:JMSSender:myConnection-default-sender] - Mapping of event to send failed: EventParser.parse() : The EventType "test.UnsendableMessage" is not a known type in this parser.; source apama event = <test.UnsendableMessage(), 2:MYMACHINE:41744:1591974361:S01, MYMACHINE:41744:1591974361:S01>
+2020-06-12 16:06:07.092 ERROR [50116:JMSSender:myConnection-default-sender] - Mapping of event to send failed: EventParser.parse() : The EventType "test.UnsendableMessage" is not a known type in this parser.; source apama event = <test.UnsendableMessage(), 3:MYMACHINE:41744:1591974361:S01, MYMACHINE:41744:1591974361:S01>
+2020-06-12 16:06:07.113 ERROR [3640:JMSReceiver:myConnection-receiver-apama-queue-01] - Mapping of received message failed for Property.MY_UNIQUE_MESSAGE_ID="", Property.MESSAGE_TYPE=TestMessage, Property.MY_MESSAGE_SOURCE_ID=MYMACHINE:41744:1591974361:S01, Property.receive=false, JMSDestination=Queue<apama-queue-01>, JMSMessageID=ID:127.0.0.1:52986:171317655502848:2, JMSRedelivered=false, JMSTimestamp=1591974367086, JMSTimestamp.toString="2020-06-12 16:06:07.086", JMSTimestamp.approxAgeInMillis=26, JMSExpiration=0, JMSExpiration.toString=0, JMSReplyTo=<NullDestination>, JMSCorrelationID=null, JMSDeliveryMode=PERSISTENT, JMSPriority=4, MessageClass=TextMessage, Body="Can't receive"; error is: No matching conditional expressions found: expression '${jms.property['receive'] == 'true'}' returned false
+2020-06-12 16:06:07.503 INFO  [52504:JMSReceiver:D:myConnection:queue:apama-queue-01:Processor] - Adding a duplicate detection expiry window for JMS messages with messageSourceId 'MYMACHINE:41744:1591974361:S01'
+2020-06-12 16:06:07.504 CRIT  [33128] - test.Test [2] Received test message from JMS: test.TestMessage(false,"","","Hello 1")
+2020-06-12 16:06:07.504 CRIT  [33128] - test.Test [2] Received test message from JMS: test.TestMessage(false,"","","Hello 2")
+2020-06-12 16:06:07.600 CRIT  [14100] - test.Test [2] Some sample EPL output
+2020-06-12 16:06:08.600 CRIT  [14100] - test.Test [2] Some sample EPL output
+2020-06-12 16:06:09.599 CRIT  [33128] - test.Test [2] Some sample EPL output
+
+[apama-ctrl]  2020-06-12 16:06:09.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=10 completed=12
+[apama-ctrl]  2020-06-12 16:06:09.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.2 started=30 completed=30
+[apama-ctrl]  2020-06-12 16:06:09.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=21 completed=22 failed=0
+
+2020-06-12 16:06:10.600 CRIT  [33128] - test.Test [2] Some sample EPL output
+2020-06-12 16:06:16.500 INFO  [140103309588224] - com.mycompany.MyMonitor [1] MyApplication Status: kpi1=100 kpi2=50% kpi3="a string" jeall=1390 jemap=1708 jeret=360 jeefficiency=81% sys=3136 use=1971 max=3122 tot=0 cur=3024 efficiency=65%
+2020-06-12 16:06:11.533 INFO  [47556] - Correlator Status: sm=2 nctx=1 ls=5 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=11 tx=6 rt=0 nc=1 vm=615468 pm=267224 runq=0 si=14.4 so=0.0 srn="<none>" srq=0 jvm=76
+2020-06-12 16:06:11.533 INFO  [47556:Status] - JMS Status: s=1 tx=6 sRate=1 sOutst=0 r=2 rx=4 rRate=0 rWindow=197 rRedel=0 rMaxDeliverySecs=0.0 rDupsDet=1 rDupIds=3 connErr=0 jvmMB=77
+2020-06-12 16:06:11.534 INFO  [47556:Status] -     JMSConnection myConnection: s=1 r=2 connErr=0 sessionsCreated=3
+2020-06-12 16:06:11.534 INFO  [47556:Status] -       JMSSender   myConnection-default-sender: tx=6 sRate=1 sOutst=0 msgErrors=2
+2020-06-12 16:06:11.534 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-queue-01: rx=4 rRate=0 rWindow=97 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=1 rDupsDet=1 perSourceDupIds=3 timeExpiryDupIds=0
+2020-06-12 16:06:11.534 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-topic-01: rx=0 rRate=0 rWindow=100 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=0 rDupsDet=0 perSourceDupIds=0 timeExpiryDupIds=0
+2020-06-12 16:06:11.534 INFO  [47556] - Persistence Status: numSnapshots=42 lastSnapshotTime=624772 snapshotWaitTimeEwmaMillis=0.03 commitTimeEwmaMillis=194.34 lastSnapshotRowsChangedEwma=93
+
+2020-06-12 16:06:11.600 CRIT  [33128] - test.Test [2] Some sample EPL output
+2020-06-12 16:06:12.601 CRIT  [33128] - test.Test [2] Some sample EPL output
+
+// add and remove 002 in between correlator status lines
+
+[apama-ctrl]  2020-06-12 16:06:13.534 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=10 completed=12
+[apama-ctrl]  2020-06-12 16:06:13.534 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=21 completed=22 failed=0
+
+2020-06-12 16:06:13.600 CRIT  [14100] - test.Test [2] Some sample EPL output
+2020-06-12 16:06:14.600 CRIT  [14100] - test.Test [2] Some sample EPL output
+
+[apama-ctrl]  2020-06-12 16:06:15.534 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=10 completed=12
+[apama-ctrl]  2020-06-12 16:06:15.534 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.2 started=30 completed=30
+[apama-ctrl]  2020-06-12 16:06:15.534 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=21 completed=22 failed=0
+
+2020-06-12 16:06:15.599 CRIT  [14100] - test.Test [2] Some sample EPL output
+
+2020-06-12 16:06:11.533 INFO  [47556] - Correlator Status: sm=2 nctx=1 ls=5 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=11 tx=6 rt=0 nc=1 vm=615468 pm=267224 runq=0 si=14.4 so=0.0 srn="<none>" srq=0 jvm=76
+2020-06-12 16:06:11.533 INFO  [47556:Status] - JMS Status: s=1 tx=6 sRate=1 sOutst=0 r=2 rx=4 rRate=0 rWindow=197 rRedel=0 rMaxDeliverySecs=0.0 rDupsDet=1 rDupIds=3 connErr=0 jvmMB=77
+2020-06-12 16:06:11.534 INFO  [47556:Status] -     JMSConnection myConnection: s=1 r=2 connErr=0 sessionsCreated=3
+2020-06-12 16:06:11.534 INFO  [47556:Status] -       JMSSender   myConnection-default-sender: tx=6 sRate=1 sOutst=0 msgErrors=2
+2020-06-12 16:06:11.534 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-queue-01: rx=4 rRate=0 rWindow=97 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=1 rDupsDet=1 perSourceDupIds=3 timeExpiryDupIds=0
+2020-06-12 16:06:11.534 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-topic-01: rx=0 rRate=0 rWindow=100 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=0 rDupsDet=0 perSourceDupIds=0 timeExpiryDupIds=0
+2020-06-12 16:06:11.534 INFO  [47556] - Persistence Status: numSnapshots=42 lastSnapshotTime=624772 snapshotWaitTimeEwmaMillis=0.03 commitTimeEwmaMillis=194.34 lastSnapshotRowsChangedEwma=93
+
+[apama-ctrl]  2020-06-12 16:06:16.500 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=15 completed=20
+[apama-ctrl]  2020-06-12 16:06:16.500 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=40 completed=45 failed=10
+[apama-ctrl]  2020-06-12 16:06:16.500 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.4 started=5 completed=8
+
+2020-06-12 16:06:16.500 INFO  [140103309588224] - com.mycompany.MyMonitor [5] MyApplication Status: kpi1=1585 kpi2=80.2% kpi3="abc def" jeall=1390 jemap=1708 jeret=360 jeefficiency=81% sys=3136 use=1971 max=3122 tot=0 cur=3024 efficiency=65%
+2020-06-12 16:06:16.533 INFO  [47556] - Correlator Status: sm=2 nctx=1 ls=5 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=11 tx=6 rt=0 nc=1 vm=615620 pm=267444 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=107
+2020-06-12 16:06:16.534 INFO  [47556:Status] - JMS Status: s=1 tx=6 sRate=0 sOutst=0 r=2 rx=4 rRate=0 rWindow=197 rRedel=0 rMaxDeliverySecs=0.0 rDupsDet=1 rDupIds=3 connErr=0 jvmMB=108
+2020-06-12 16:06:16.534 INFO  [47556:Status] -     JMSConnection myConnection: s=1 r=2 connErr=0 sessionsCreated=3
+2020-06-12 16:06:16.534 INFO  [47556:Status] -       JMSSender   myConnection-default-sender: tx=6 sRate=0 sOutst=0 msgErrors=2
+2020-06-12 16:06:16.534 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-queue-01: rx=4 rRate=0 rWindow=97 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=1 rDupsDet=1 perSourceDupIds=3 timeExpiryDupIds=0
+2020-06-12 16:06:16.534 INFO  [47556:Status] -       JMSReceiver myConnection-receiver-apama-topic-01: rx=0 rRate=0 rWindow=100 rRedel=0 rMaxDeliverySecs=0.0 msgErrors=0 rDupsDet=0 perSourceDupIds=0 timeExpiryDupIds=0
+2020-06-12 16:06:16.534 INFO  [47556] - Persistence Status: numSnapshots=65 lastSnapshotTime=624777 snapshotWaitTimeEwmaMillis=0.02 commitTimeEwmaMillis=67.83 lastSnapshotRowsChangedEwma=33
+2020-06-12 16:06:16.600 CRIT  [14100] - test.Test [2] Some sample EPL output
+
+[apama-ctrl]  2020-06-12 16:06:20.600 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=20 completed=25
+[apama-ctrl]  2020-06-12 16:06:20.600 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=40 completed=45 failed=12
+[apama-ctrl]  2020-06-12 16:06:20.600 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.4 started=500 completed=504
+[apama-ctrl]  2020-06-12 16:06:20.600 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.5 started=500 completed=504
+
+2020-06-12 16:06:16.892 ##### [48264] - Shutting down correlator in response to client (127.0.0.1:52994) request: Shutdown requested by test framework due to shutdownAllComponents call
+2020-06-12 16:06:16.893 INFO  [49516:JCorrelatorTransport] - Shutting down JMS runtime
+2020-06-12 16:06:16.897 INFO  [42400:JMSReceiver:myConnection-receiver-apama-topic-01] - Shutting down received event processor for JMS receiver 'myConnection-receiver-apama-topic-01'
+2020-06-12 16:06:17.176 INFO  [3640:JMSReceiver:myConnection-receiver-apama-queue-01] - Shutting down received event processor for JMS receiver 'myConnection-receiver-apama-queue-01'
+2020-06-12 16:06:17.191 INFO  [49516:JCorrelatorTransport] - JMS runtime has shutdown successfully (0.3 s)
+2020-06-12 16:06:17.205 INFO  [49516] - Correlator shutdown is complete
+2020-06-12 16:06:17.205 INFO  [49516] - Shutting down Java virtual machine

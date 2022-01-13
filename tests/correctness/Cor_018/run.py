@@ -29,11 +29,3 @@ class PySysTest(AnalyzerBaseTest):
 		self.logFileContents('user_status_final.txt', maxLines=0)
 		self.assertDiff('user_status_final.txt')
 		
-		status = pysys.utils.fileutils.loadJSON(self.output+'/loganalyzer_output/status.correlator.json')['status']
-		self.write_text('apamactrlProxyStatus.txt', 
-			'\n\n'.join(
-				line['local datetime']+'\n'+
-				'\n'.join(f'{k}={v}' for k,v in line.items() if k.split('.')[0] in ['ctrlIncomingNode1', 'ctrlIncomingNode2', 'ctrlIncomingNode3', 'ctrlIncomingNode4'] )
-				for line in status[1:] # ignore first correlator status line where we didn't have any apama-ctrl status
-			))
-		self.logFileContents('apamactrlProxyStatus.txt', maxLines=0)
