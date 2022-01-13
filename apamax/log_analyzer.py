@@ -140,10 +140,10 @@ class LogLine(object):
 	
 	@ivar extraLines: unassigned, or a list of strings which are extra lines logically part of this one (typically for warn/error stacks etc)
 	"""
-	#                          date                                         level     thread       apama-ctrl/std cat  message
+	#                          date                                         level     thread        apama-ctrl/std cat  message
 	LINE_REGEX = re.compile(r'(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d[.,]\d\d\d) ([A-Z#]+) +\[([^\]]+)\] ([^-]*)-( <[^>]+>)? (.*)')
 	
-	__slots__ = ['line', 'lineno', 'message', 'level', '__details', 'extraLines'] # be memory-efficient
+	__slots__ = ['line', 'lineno', 'message', 'level', '__details', 'extraLines', 'isApamaCtrl'] # be memory-efficient
 	def __init__(self, line, lineno):
 		self.line = line
 		self.lineno = lineno
@@ -177,6 +177,8 @@ class LogLine(object):
 		else:
 			self.message = line
 			self.level = None
+		
+		self.isApamaCtrl = isapamactrl
 	
 	def getDetails(self):
 		"""
@@ -631,6 +633,7 @@ class LogAnalyzer(object):
 		file['startupStanzas'] = [{}]
 		file['annotations'] = []
 		file['inStartupStanza'] = False
+		if file.get('isApamaCtrl',None) is not True: file['isApamaCtrl'] = None # use value from previous if known
 		
 		file['connectionMessages'] : List = []
 		file['connectionIds'] : Dict[str,int] = {}
@@ -642,6 +645,13 @@ class LogAnalyzer(object):
 			self.handleRawStatusLine(file=file, line=line)
 			return
 		level = line.level
+
+		if line.isApamaCtrl:
+			try:
+				if file['isApamaCtrl'] is False:
+					raise RestartCurrentFileException('file contains apama-ctrl lines which were not detected in first parse attempt')
+			finally:
+				file['isApamaCtrl'] = True
 
 		if m.startswith(self.args.userStatusLinePrefixes):
 			for (userStatusPrefix, userStatusPrefixAfterBracket), userStatusConfig in self.args.userStatusLines.items():
@@ -655,7 +665,7 @@ class LogAnalyzer(object):
 
 					self.handleRawStatusLine(file=file, line=line, userStatusConfig=userStatusConfig)
 					break
-			
+					
 		if level == 'W':
 			if m.startswith(('Receiver ', 'External receiver')):
 				self.handleConnectionMessage(file, line)
@@ -872,6 +882,7 @@ class LogAnalyzer(object):
 				Returns a dict mapping key= to the display name column headings that will be used 
 				for every line in the file, based on a prototype status dictionary. 
 				"""
+				
 				columns = collections.OrderedDict()
 				allkeys = set(status.keys())
 				for k in COLUMN_DISPLAY_NAMES:
@@ -891,6 +902,10 @@ class LogAnalyzer(object):
 				for msgPrefix, userConfig in self.args.userStatusLines.items():
 					# TODO: add logic for skipping '<apama-ctrl>' msgPrefixes only if we're in in apama-ctrl file
 					
+					if msgPrefix[0].startswith('<apama-ctrl> ') and (not file['isApamaCtrl']) and 'true'!=os.getenv('APAMA_LOG_ANALYZER_ASSUME_APAMACTRL',''):
+						log.info('Not adding column for this prefix as this does not appear to be an apama-ctrl log file by line no #%d: %s', line.lineno, msgPrefix[0])
+						continue
+					
 					addColumnPrefix = userConfig['keyPrefix']
 					
 					if 'keyRegex' in userConfig:
@@ -908,6 +923,8 @@ class LogAnalyzer(object):
 						for k, alias in userConfig['computedRates'].items(): # aliasing for user-defined status lines happens in handleRawStatusLine
 							k = colPrefix+(alias or k)
 							columns[k] = k
+
+				if file['isApamaCtrl'] is None: file['isApamaCtrl'] = False
 
 				return columns
 
@@ -1717,6 +1734,9 @@ class LogAnalyzer(object):
 
 		# pick out binary notable features that indicate problems or useful information about how the machine is configured
 		features = []
+		if file['isApamaCtrl']: features.append('apama-ctrl') # only works if [apama-ctrl] lines appear before the end of the startup section
+
+
 		if 'licenceMaxMemoryMB' in stanza:
 			features.append('noLicenseConstrainedMode')
 		elif not stanza.get('licenseFile'):
@@ -1747,7 +1767,7 @@ class LogAnalyzer(object):
 		if not stanza.get('compiler optimizations'): features.append('optimizationsDisabled')
 
 		if 'jvmVersion' in stanza: features.append('JVM')
-		
+
 		stanza['notableFeatures'] = features
 		stanza['analyzerVersion'] = f'{__version__}' # always include the version of the script that generated it
 		
