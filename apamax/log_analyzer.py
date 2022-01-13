@@ -642,17 +642,18 @@ class LogAnalyzer(object):
 			return
 		level = line.level
 
-		for (userStatusPrefix, userStatusPrefixAfterBracket), userStatusConfig in self.args.userStatusLines.items():
-			if m.startswith(userStatusPrefix):
-				if userStatusPrefixAfterBracket is not None: # special handling to efficiently ignore prefixes containing [XXX] (e.g. monitor instance numbers)
-					if userStatusPrefixAfterBracket not in m: continue
-				
-				if 'keyRegex' in userStatusConfig: # it's a special one with independent keyed status lines to be treated separately
-					userStatusConfig = self.preProcessUserStatusLine(file, line, m, userStatusPrefix=userStatusPrefix, userStatusConfig=userStatusConfig)
-					if userStatusConfig is None: continue
+		if m.startswith(self.args.userStatusLinePrefixes):
+			for (userStatusPrefix, userStatusPrefixAfterBracket), userStatusConfig in self.args.userStatusLines.items():
+				if m.startswith(userStatusPrefix):
+					if userStatusPrefixAfterBracket is not None: # special handling to efficiently ignore prefixes containing [XXX] (e.g. monitor instance numbers)
+						if userStatusPrefixAfterBracket not in m: continue
+					
+					if 'keyRegex' in userStatusConfig: # it's a special one with independent keyed status lines to be treated separately
+						userStatusConfig = self.preProcessUserStatusLine(file, line, m, userStatusPrefix=userStatusPrefix, userStatusConfig=userStatusConfig)
+						if userStatusConfig is None: continue
 
-				self.handleRawStatusLine(file=file, line=line, userStatusConfig=userStatusConfig)
-				break
+					self.handleRawStatusLine(file=file, line=line, userStatusConfig=userStatusConfig)
+					break
 			
 		if level == 'W':
 			if m.startswith(('Receiver ', 'External receiver')):
@@ -2391,7 +2392,9 @@ class LogAnalyzerTool(object):
 		globbedpaths.sort() # best we can do until when start reading them - hopefully puts the latest one at the end
 
 		userCharts = {}
-		if args.config:
+		if not args.config:
+			args.userStatusLines = {}
+		else:
 			with open(args.config, 'rb') as f:
 				jsonbytes = f.read()
 				# permit # and // comments in the JSON file for added usability
@@ -2414,41 +2417,40 @@ class LogAnalyzerTool(object):
 							):v for k, v in args.userStatusLines.items()
 						}
 						
-						# Add this automatically (but allow overriding by user if desired, e.g. to tweak maxKeysToAllocateColumnsFor)
-						args.userStatusLines.setdefault( ('<apama-ctrl> com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=', None), {
-							'keyRegex': 'addr=(?P<key>[^ ]+) ',
-							'maxKeysToAllocateColumnsFor': 4, # usually enough; file gets restarted with twice this if not
-						
-							'keyPrefix': 'ctrlIncomingNode',
-							'key:alias': {
-								'started':    'reqStarted',
-								'completed':  'reqCompleted', 
-								'failed':     'reqFailed',
-								
-								# computed keys
-								'=reqStarted /sec': None,
-								'=reqFailed /sec': None,
-								'=status["reqStarted"]-status["reqCompleted"]': 'reqPending', # in future could allow eval strings as the value here, e.g. =status["reqStarted"]-status["reqCompleted"]
-							}
-						})
-						
-						
-						for config in args.userStatusLines.values():
-							config['computedRates'] = { k[1:-5] : v or k[1:]
-								for (k,v) in config['key:alias'].items() if k.startswith('=') and k.endswith(' /sec')
-								}
-							config['key:alias'] = { k:v for k,v in config['key:alias'].items()
-								if k=='=status["reqStarted"]-status["reqCompleted"]' or not k.startswith('=') }
-							
-							if 'keyPrefix' in config: # for keyed status items also add the data structure we'll use globally (across all files) to map keys to numeric ids. Slightly abusing this data structure. ;o)
-								config['keysToId'] = {}
-						
 					elif k == 'userCharts':
 						userCharts = v # allow overriding existing charts if desired
 					else:
 						raise UserError('Unknown key in config file: '%key)
-		else:
-			args.userStatusLines = {}
+		# end: if args.config
+		
+		# Add this automatically (but allow overriding by user if desired, e.g. to tweak maxKeysToAllocateColumnsFor)
+		args.userStatusLines.setdefault( ('<apama-ctrl> com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=', None), {
+			'keyRegex': 'addr=(?P<key>[^ ]+) ',
+			'maxKeysToAllocateColumnsFor': 4, # usually enough; file gets restarted with twice this if not
+		
+			'keyPrefix': 'ctrlIncomingNode',
+			'key:alias': {
+				'started':    'reqStarted',
+				'completed':  'reqCompleted', 
+				'failed':     'reqFailed',
+				
+				# computed keys
+				'=reqStarted /sec': None,
+				'=reqFailed /sec': None,
+				'=status["reqStarted"]-status["reqCompleted"]': 'reqPending', # in future could allow eval strings as the value here, e.g. =status["reqStarted"]-status["reqCompleted"]
+			}
+		})
+		
+		for config in args.userStatusLines.values():
+			config['computedRates'] = { k[1:-5] : v or k[1:]
+				for (k,v) in config['key:alias'].items() if k.startswith('=') and k.endswith(' /sec')
+				}
+			config['key:alias'] = { k:v for k,v in config['key:alias'].items()
+				if k=='=status["reqStarted"]-status["reqCompleted"]' or not k.startswith('=') }
+			
+			if 'keyPrefix' in config: # for keyed status items also add the data structure we'll use globally (across all files) to map keys to numeric ids. Slightly abusing this data structure. ;o)
+				config['keysToId'] = {}
+		args.userStatusLinePrefixes = tuple( [config['keyPrefix'] for config in args.userStatusLines.values() ] ) # for optimizing in handleRawStatusLine
 		
 		if not globbedpaths: raise UserError('No log files specified')
 		
