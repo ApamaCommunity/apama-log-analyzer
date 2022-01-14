@@ -46,3 +46,6 @@ class PySysTest(AnalyzerBaseTest):
 		self.logFileContents('apamactrlProxyStatus.txt', maxLines=0)
 		
 		self.assertDiff('apamactrlProxyStatus.txt')
+
+		# make sure it includes the charts
+		self.assertGrep('loganalyzer_output/overview.html', expr='chart_apamactrlStarted_correlator')

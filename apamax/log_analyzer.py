@@ -2015,7 +2015,7 @@ class LogAnalyzer(object):
 			'NB: Values are shown only when they differ from the preceding listed log file\n')
 		self.writeOverviewHTMLForAllFiles(self.overviewHTML, **extra)
 
-	CHARTS = { # values are (mostly) for dygraph config
+	CHARTS = { # values are (mostly) for dygraph config. Anything starting with underscore "_" is just for the analyzer tool
 		'rates':{'heading':'Send/receive rate',
 			'ylabel':'Received events /sec',
 			'y2label':'Sent events /sec',
@@ -2059,7 +2059,7 @@ class LogAnalyzer(object):
 			'labelsKMB':True,
 			#'series':{'nctx=contexts':{'axis':'y2'}},
 		},
-		'apamactrlStarted':{'heading':'Apama-ctrl core nodes incoming started',
+		'apamactrlStarted':{'heading':'Apama-ctrl core nodes incoming requests started',
 			'ylabel':'Requests /sec',
 			'_fieldPrefix': 'ctrlIncomingNode', # duplicates the labels and series for each of the specified prefix + numeric key
 			'labels':['.reqStarted /sec'],
@@ -2070,10 +2070,10 @@ class LogAnalyzer(object):
 		}, 
 
 		'apamactrlPending':{'heading':'Apama-ctrl core nodes incoming requests pending',
-			'y2label':'Pending requests (started not completed)',
+			'ylabel':'Pending requests (started not yet completed)',
 			'_fieldPrefix': 'ctrlIncomingNode', # duplicates the labels and series for each of the specified prefix + numeric key
 			'labels':['.reqPending'],
-			'series': {'.reqPending':{'axis':'y2'}},
+			'series': {'.reqPending':{'axis':'y'}},
 			'labelsKMB':True, # for big numbers this works better than exponential notation
 			'_requiresApamaCtrl': True, 
 			'drawGapEdgePoints':True,
@@ -2086,7 +2086,7 @@ class LogAnalyzer(object):
 			'labels':['.reqFailed /sec'],
 			'series': {'.reqPending':{'axis':'y2'}},
 			'labelsKMB':True, # for big numbers this works better than exponential notation
-			'_requiresApamaCtrl': True, # TODO: make this work
+			'_requiresApamaCtrl': True, 
 			'drawGapEdgePoints':True,
 		}, 
 
@@ -2157,15 +2157,18 @@ class LogAnalyzer(object):
 				if not file['showCharts']:
 					out.write('<p>Not enough status lines in file to generate charts for this file; skipping.</p></li>\n')
 					continue
-				out.write(f" <a href='javascript:{json.dumps([getid(c,file) for c in self.CHARTS.keys()])}.forEach(c=>togglechart(c, show=false));'>(hide all)</a>")
-				out.write(f" <a href='javascript:{json.dumps([getid(c,file) for c in self.CHARTS.keys()])}.forEach(c=>togglechart(c, show=true));'>(show all)</a>")
-				out.write(f" <a href='javascript:{json.dumps([getid(c,file) for c in self.CHARTS.keys()])}.forEach(c=>togglechart(c, show=true));\
-					{json.dumps([getid(c, f) for c in self.CHARTS.keys() for f in self.files if f !=file])}.forEach(c=>togglechart(c, show=false));'>(only)</a>")
+				
+				chartKeys = [ck for ck in self.CHARTS.keys() if (not self.CHARTS[ck].get('_requiresApamaCtrl')) or file['isApamaCtrl']]
+				out.write(f" <a href='javascript:{json.dumps([getid(c,file) for c in chartKeys])}.forEach(c=>togglechart(c, show=false));'>(hide all)</a>")
+				out.write(f" <a href='javascript:{json.dumps([getid(c,file) for c in chartKeys])}.forEach(c=>togglechart(c, show=true));'>(show all)</a>")
+				out.write(f" <a href='javascript:{json.dumps([getid(c,file) for c in chartKeys])}.forEach(c=>togglechart(c, show=true));\
+					{json.dumps([getid(c, f) for c in chartKeys for f in self.files if f !=file])}.forEach(c=>togglechart(c, show=false));'>(only)</a>")
 				
 				out.write(f'<ul class="charts_toc">\n')
 				out.write(f"<li class='nobullet'><span class='overview-instance'>{escapetext(file['startupStanzas'][0].get('instance','<no startup stanza>'))}</span></li>")
 				out.write(f"<li class='nobullet'><span class='overview-timerange'>{self.formatDateTimeRange(file['startTime'], file['endTime'], skipPrefix=True)}</span></li>\n")
 				for c, info in self.CHARTS.items():
+					if info.get('_requiresApamaCtrl') and not file['isApamaCtrl']: continue
 					out.write(f"<li class='nobullet'><input id='selected_{getid(c,file)}' type='checkbox' checked onclick=\"togglechart('{getid(c,file)}')\"><label><a href='#chart_{getid(c,file)}'>{escapetext(info['heading'])}</a></label></li>\n")
 				out.write(f'</ul>\n')
 				
@@ -2191,7 +2194,7 @@ class LogAnalyzer(object):
 			for c, info in self.CHARTS.items():
 				for file in self.files:
 					if not file['showCharts']: continue
-					if info.get('requiresApamaCtrl') and not file['isApamaCtrl']: 
+					if info.get('_requiresApamaCtrl') and not file['isApamaCtrl']: 
 						continue
 					id = getid(c, file)
 					tmpfile = toLongPathSafe(self.outputdir+f"/tmp/{c}_{file['name']}.json")

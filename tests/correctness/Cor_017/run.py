@@ -117,4 +117,7 @@ class PySysTest(AnalyzerBaseTest):
 		# includes actual apama version in the section on what to do when filing a support case
 		self.assertGrep('loganalyzer_output/overview.html', expr=r'<li><span class="key">Apama version: </span>10.5.0.0.123456</li>')
 		
+		
+		self.assertGrep('loganalyzer_output/overview.html', expr='(apamactrl|Apama-ctl)', contains=False) # should not include charts for apama-ctrl
+		
 		self.addOutcome(INSPECT, f'Manually inspect {os.path.normpath(self.output[len(os.getcwd())+1:]+"/loganalyzer_output/overview.html")} in a web browser including correct times for axes and legend')
