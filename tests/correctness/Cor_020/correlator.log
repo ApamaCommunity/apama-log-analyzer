@@ -171,9 +171,9 @@
 2020-06-12 16:06:08.600 CRIT  [14100] - test.Test [2] Some sample EPL output
 2020-06-12 16:06:09.599 CRIT  [33128] - test.Test [2] Some sample EPL output
 
-[apama-ctrl]  2020-06-12 16:06:10.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=10 completed=12
+[apama-ctrl]  2020-06-12 16:06:10.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=10 completed=8
 [apama-ctrl]  2020-06-12 16:06:10.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.2 started=30 completed=30
-[apama-ctrl]  2020-06-12 16:06:10.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=21 completed=22 failed=0
+[apama-ctrl]  2020-06-12 16:06:10.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=21 completed=20 failed=0
 
 2020-06-12 16:06:10.600 CRIT  [33128] - test.Test [2] Some sample EPL output
 
@@ -185,33 +185,35 @@
 
 // add and remove 002 in between correlator status lines
 
-[apama-ctrl]  2020-06-12 16:06:13.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=10 completed=12
-[apama-ctrl]  2020-06-12 16:06:13.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=21 completed=22 failed=0
+[apama-ctrl]  2020-06-12 16:06:13.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=10 completed=8
+[apama-ctrl]  2020-06-12 16:06:13.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=21 completed=20 failed=5
 
 2020-06-12 16:06:13.599 CRIT  [14100] - test.Test [2] Some sample EPL output
 2020-06-12 16:06:14.600 CRIT  [14100] - test.Test [2] Some sample EPL output
 
-[apama-ctrl]  2020-06-12 16:06:15.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=10 completed=12
+[apama-ctrl]  2020-06-12 16:06:15.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=10 completed=8
 [apama-ctrl]  2020-06-12 16:06:15.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.2 started=30 completed=30
-[apama-ctrl]  2020-06-12 16:06:15.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=21 completed=22 failed=0
+[apama-ctrl]  2020-06-12 16:06:15.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=21 completed=20 failed=5
 
 2020-06-12 16:06:15.599 CRIT  [14100] - test.Test [2] Some sample EPL output
 
 2020-06-12 16:06:15.534 INFO  [47556] - Correlator Status: sm=2 nctx=1 ls=5 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=11 tx=6 rt=0 nc=1 vm=615468 pm=267224 runq=0 si=14.4 so=0.0 srn="<none>" srq=0 jvm=76
 2020-06-12 16:06:15.534 INFO  [47556] - Persistence Status: numSnapshots=42 lastSnapshotTime=624772 snapshotWaitTimeEwmaMillis=0.03 commitTimeEwmaMillis=194.34 lastSnapshotRowsChangedEwma=93
 
-[apama-ctrl]  2020-06-12 16:06:17.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=15 completed=20
-[apama-ctrl]  2020-06-12 16:06:17.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=40 completed=45 failed=10
-[apama-ctrl]  2020-06-12 16:06:17.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.4 started=5 completed=8
+[apama-ctrl]  2020-06-12 16:06:17.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=15 completed=10
+[apama-ctrl]  2020-06-12 16:06:17.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=40 completed=35 failed=10
+[apama-ctrl]  2020-06-12 16:06:17.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.4 started=5 completed=3
 
 2020-06-12 16:06:16.599 INFO  [47556] - Correlator Status: sm=2 nctx=1 ls=5 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=11 tx=6 rt=0 nc=1 vm=615620 pm=267444 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=107
 2020-06-12 16:06:16.599 INFO  [47556] - Persistence Status: numSnapshots=65 lastSnapshotTime=624777 snapshotWaitTimeEwmaMillis=0.02 commitTimeEwmaMillis=67.83 lastSnapshotRowsChangedEwma=33
 2020-06-12 16:06:16.600 CRIT  [14100] - test.Test [2] Some sample EPL output
 
-[apama-ctrl]  2020-06-12 16:06:20.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=20 completed=25
-[apama-ctrl]  2020-06-12 16:06:20.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=40 completed=45 failed=12
-[apama-ctrl]  2020-06-12 16:06:20.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.4 started=500 completed=504
-[apama-ctrl]  2020-06-12 16:06:20.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.5 started=500 completed=504
+[apama-ctrl]  2020-06-12 16:06:20.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.1 started=50 completed=25
+[apama-ctrl]  2020-06-12 16:06:20.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.3 started=100 completed=45 failed=110
+[apama-ctrl]  2020-06-12 16:06:20.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.4 started=150 completed=110
+[apama-ctrl]  2020-06-12 16:06:20.599 INFO  [Thread-5] com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=127.0.0.5 started=160 completed=120
+
+2020-06-12 16:06:20.599 INFO  [47556] - Correlator Status: sm=2 nctx=1 ls=5 rq=0 iq=0 oq=0 icq=0 lcn="<none>" lcq=0 lct=0.0 rx=11 tx=6 rt=0 nc=1 vm=615620 pm=267444 runq=0 si=0.0 so=0.0 srn="<none>" srq=0 jvm=107
 
 2020-06-12 16:06:16.892 ##### [48264] - Shutting down correlator in response to client (127.0.0.1:52994) request: Shutdown requested by test framework due to shutdownAllComponents call
 2020-06-12 16:06:16.893 INFO  [49516:JCorrelatorTransport] - Shutting down JMS runtime
