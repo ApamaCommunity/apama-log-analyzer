@@ -768,12 +768,16 @@ class LogAnalyzer(object):
 			keyedUserStatusAccumulatedMetadata['currentBlockKeys'].add( (id, key) )
 			
 			# this dict instructs handleRawStatusLine how to populate self.userStatus
-			userStatusConfig = { # TODO: could pre-compute or cache this to avoid having to re-construct for each line
+			try:
+				userStatusConfigPerId = userStatusConfig[f'cachedForId.{id}']
+			except KeyError: # first time we hit this id it needs to be created
+				userStatusConfigPerId = { # TODO: could pre-compute or cache this to avoid having to re-construct for each line
 				'fieldPrefix':columnPrefix+str(id)+'.',
 				'field:alias':userStatusConfig['field:alias'],
 				'computedRates': userStatusConfig['computedRates'],
-			}
-			return userStatusConfig
+				}
+				userStatusConfig[f'cachedForId.{id}'] = userStatusConfigPerId
+			return userStatusConfigPerId
 	
 	def handleRawStatusLine(self, file, line, userStatusConfig=None, **extra):
 		"""
@@ -915,8 +919,6 @@ class LogAnalyzer(object):
 				# now add on any user-defined status keys; always add these regardless of whether they're yet set, 
 				# since they may come from EPL code that hasn't been injected yet and we can't change the columns later
 				for msgPrefix, userConfig in self.args.userStatusLines.items():
-					# TODO: add logic for skipping '<apama-ctrl>' msgPrefixes only if we're in in apama-ctrl file
-					
 					if msgPrefix[0].startswith('<apama-ctrl> ') and (not file['isApamaCtrl']) and 'true'!=os.getenv('APAMA_LOG_ANALYZER_ASSUME_APAMACTRL',''):
 						log.info('Not adding column for this prefix as this does not appear to be an apama-ctrl log file by line no #%d: %s', line.lineno, msgPrefix[0])
 						continue

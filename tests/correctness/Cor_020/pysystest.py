@@ -1,4 +1,4 @@
-__pysys_title__   = r""" Status lines - apama-ctrl CepServlet Proxy Status""" 
+__pysys_title__   = r""" Status lines - apama-ctrl CepServlet Proxy Status and HTML chart""" 
 #                        ================================================================================
 
 __pysys_purpose__ = r""" 
