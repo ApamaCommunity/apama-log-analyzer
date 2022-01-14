@@ -6,6 +6,10 @@ Enhancements:
 - Moved sent events/tx to a secondary axis so that the event rate chart lines up with other charts with two axes. 
 - Renamed ``--config`` userStatusLines ``keyPrefix`` to ``fieldPrefix`` and ``key:alias`` to ``field:alias`` for 
   clarity. 
+- Added charting of apama-ctrl "Proxy Status: " lines indicating the number of started/pending/failed incoming requests 
+  from Cumulocity core nodes handled by the apama-ctrl proxy. This charting is enabled automatically when the 
+  associated log lines are detected. Since it is necessary to know at start of parsing how many columns are needed, 
+  a default of 4 is used and the parsing is retried with the number doubled if it is found not to be enough. 
 
 Bug fixes:
 - Fixed error when si/so have NaN values which can happen occasionally. 
