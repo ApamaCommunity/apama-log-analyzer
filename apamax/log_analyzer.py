@@ -2065,34 +2065,24 @@ class LogAnalyzer(object):
 			'ylabel':'Requests /sec',
 			'_fieldPrefix': 'ctrlIncomingNode', # duplicates the labels and series for each of the specified prefix + numeric key
 			'labels':['.reqStarted /sec'],
-			'series': {'.reqPending':{'axis':'y2'}},
 			'labelsKMB':True, # for big numbers this works better than exponential notation
 			'_requiresApamaCtrl': True,
 			'drawGapEdgePoints':True,
 		}, 
 
-		'apamactrlPending':{'heading':'Apama-ctrl core nodes incoming requests pending',
+		'apamactrlPending':{'heading':'Apama-ctrl core nodes incoming requests pending and failed',
 			'ylabel':'Pending requests (started not yet completed)',
+			'y2label':'Pending failed / sec',
 			'_fieldPrefix': 'ctrlIncomingNode', # duplicates the labels and series for each of the specified prefix + numeric key
-			'labels':['.reqPending'],
-			'series': {'.reqPending':{'axis':'y'}},
-			'labelsKMB':True, # for big numbers this works better than exponential notation
-			'_requiresApamaCtrl': True, 
-			'drawGapEdgePoints':True,
-		}, 
-
-		'apamactrlFailed':{'heading':'Apama-ctrl core nodes incoming requests failed',
-			'ylabel':'Requests /sec',
-			'y2label':'Pending requests (started not completed)',
-			'_fieldPrefix': 'ctrlIncomingNode', # duplicates the labels and series for each of the specified prefix + numeric key
-			'labels':['.reqFailed /sec'],
-			'series': {'.reqPending':{'axis':'y2'}},
+			'labels':['.reqPending', '.reqFailed /sec'],
+			'series': {'.reqFailed /sec':{'axis':'y2'}},
 			'labelsKMB':True, # for big numbers this works better than exponential notation
 			'_requiresApamaCtrl': True, 
 			'drawGapEdgePoints':True,
 		}, 
 
 	}
+		
 	""" # really hard to make the logscale look good due to zero values
 	'swapping':{'title':'Swapping (memory pressure)', 'ylabel':'Pages swapped /sec',
 		'labels':['si=swap pages read /sec', 'so=swap pages written /sec'],
@@ -2180,6 +2170,7 @@ class LogAnalyzer(object):
 
 			# pre-process graphs with keyed fields to expand them out
 			for c, options in self.CHARTS.items():
+				
 				if '_fieldPrefix' in options:
 					userStatusConfig = [x for x in self.args.userStatusLines.values() if x.get('fieldPrefix')==options['_fieldPrefix']]
 					if len(userStatusConfig)!=1:
@@ -2191,7 +2182,10 @@ class LogAnalyzer(object):
 					keys = list(keysToId.keys())
 					while len(keys) < userStatusConfig['maxKeysToAllocateColumnsFor']: keys.append('(unused)')
 					options['labels'] = [f'{key} {label.replace(" /sec","").strip(".")}' if key else '' for key in keys for label in options['labels']]
-					options['series'] = {key+series: options['series'][series] for key in keys for series in options['series']}
+					if 'series' in options:
+						options['series'] = {f'{key} {label.replace(" /sec","").strip(".")}': options['series'][label] 
+							for key in keys 
+								for label in options['series']}
 
 			for c, info in self.CHARTS.items():
 				for file in self.files:
