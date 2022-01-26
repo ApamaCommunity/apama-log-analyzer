@@ -10,6 +10,9 @@ Enhancements:
   from Cumulocity core nodes handled by the apama-ctrl proxy. This charting is enabled automatically when the 
   associated log lines are detected. Since it is necessary to know at start of parsing how many columns are needed, 
   a default of 4 is used and the parsing is retried with the number doubled if it is found not to be enough. 
+- Added ``keyRegex`` and ``maxKeysToAllocateColumnsFor`` to userStatusLines which automatically create numbered columns 
+  for a dynamic set of status lines each identified by a unique key, e.g. multiple named JMS receivers. See the 
+  README.rst for an example. 
 
 Bug fixes:
 - Fixed error when si/so have NaN values which can happen occasionally. 

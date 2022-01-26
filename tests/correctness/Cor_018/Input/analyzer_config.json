@@ -3,7 +3,9 @@
 
 
 	"com.mycompany.MyMonitor [nnn] MyApplication Status:": {
+		// The prefix that will be added to all fields
 		"fieldPrefix":"myApp.",
+		// The field= names to extract from the log file, and an optional alias for each one
 		"field:alias":{
 			"kpi1":"",
 			"kpi2":"kpi2AliasWithUnits",
@@ -40,13 +42,41 @@
 			"msgErrors":"",
 			"jvmMB":"",
 			
-			# special values
+			// special values that can be added if needed
 			"datetime":"",
 			"epoch secs":"",
 			"line num":""
 
 		}},
-		
+
+	// JMS per-receiver detailed status lines
+	"      JMSReceiver ": 
+		{
+	
+		// The ?P<key> named group in this regular expression identifies the key for which a uniquely numbered set of columns will be created
+		"keyRegex": " *(?P<key>[^ :]+): rx=",
+		// Estimates the number of keys to allocate columns for; if more keys are required, the file will be reparsed with double the number
+		"maxKeysToAllocateColumnsFor": 2, 
+
+		"fieldPrefix":"jmsReceiver.",
+		"key:alias":{
+			"rRate":"rx /sec",
+			"rWindow":"receive window",
+			"rRedel":"redelivered",
+			"rMaxDeliverySecs":"",
+			"rDupsDet":"",
+			"rDupIds":"", 
+			"msgErrors":"",
+			"jvmMB":"",
+			
+			// special values that can be added if desired, or for debugging
+			"line num":"",
+
+			// Computed values begin with "=". Currently the only supported type is "FIELDNAME /sec" for calculating rates
+			"=msgErrors /sec": ""
+		}},
+
+
 	"Persistence Status:": {
 		"fieldPrefix":"p.",
 		"field:alias":{

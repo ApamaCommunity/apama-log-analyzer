@@ -109,6 +109,7 @@ To do this create a .json configuration file containing a "userStatusLines" dici
 				"jvmMB":""
 			}},
 
+		// Similarly for persistence
 		"Persistence Status:": {
 			"fieldPrefix":"p.",
 			"field:alias":{
@@ -119,6 +120,36 @@ To do this create a .json configuration file containing a "userStatusLines" dici
 				"lastSnapshotRowsChangedEwma":""
 			}}
 		}
+		
+
+		// JMS per-receiver detailed status lines - also demonstrates creating numbered columns for 
+		// a dynamic set of status lines each identified by a unique key
+		"      JMSReceiver ": 
+			{
+		
+			// The ?P<key> named group in this regular expression identifies the key for which a uniquely numbered set of columns will be created
+			"keyRegex": " *(?P<key>[^ :]+): rx=",
+			// Estimates the number of keys to allocate columns for; if more keys are required, the file will be reparsed with double the number
+			"maxKeysToAllocateColumnsFor": 2, 
+
+			"fieldPrefix":"jmsReceiver.",
+			"key:alias":{
+				"rRate":"rx /sec",
+				"rWindow":"receive window",
+				"rRedel":"redelivered",
+				"rMaxDeliverySecs":"",
+				"rDupsDet":"",
+				"rDupIds":"", 
+				"msgErrors":"",
+				"jvmMB":"",
+				
+				// special values that can be added if desired, or for debugging
+				"line num":"",
+
+				// Computed values begin with "=". Currently the only supported type is "FIELDNAME /sec" for calculating rates
+				"=msgErrors /sec": ""
+			}},
+
 	}
 
 Any user-defined status lines should be of the same form as the Correlator status lines, logged at INFO level, 

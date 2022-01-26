@@ -771,7 +771,7 @@ class LogAnalyzer(object):
 			try:
 				userStatusConfigPerId = userStatusConfig[f'cachedForId.{id}']
 			except KeyError: # first time we hit this id it needs to be created
-				userStatusConfigPerId = { # TODO: could pre-compute or cache this to avoid having to re-construct for each line
+				userStatusConfigPerId = { 
 				'fieldPrefix':columnPrefix+str(id)+'.',
 				'field:alias':userStatusConfig['field:alias'],
 				'computedRates': userStatusConfig['computedRates'],
@@ -872,7 +872,7 @@ class LogAnalyzer(object):
 				for field,alias in userStatusConfig['computedRates'].items():
 					prevValue = previousStatus.get(fieldPrefix+field, None)
 					currentValue = userStatus.get(fieldPrefix+field, None)
-					if secsSinceLast and prevValue is not None and currentValue:
+					if secsSinceLast and prevValue is not None and currentValue is not None:
 						rate = (currentValue-prevValue) / secsSinceLast
 						#log.info(f'--- {fieldPrefix}{field} = {rate} because {prevValue} -> {currentValue} at {d["datetime"]} back {secsSinceLast} secs')
 					else:
