@@ -4,6 +4,7 @@ import json
 import math
 import calendar
 import time
+import pysys
 from pysys.constants import *
 from correlatorloganalyzer.analyzer_basetest import AnalyzerBaseTest
 
@@ -23,7 +24,8 @@ class PySysTest(AnalyzerBaseTest):
 		with open(self.output+'/loganalyzer_output/summary_status.correlator.json', 'rb') as f:
 			summary = json.load(f)['status']
 			final = [x for x in summary if x['statistic']=='100% (end)'][0]
-			self.write_text('user_status_final.txt', '\n'.join(['%s=%r'%(k, final[k]) for k in header]))
+			self.write_text('user_status_final.txt', '\n'.join(['%s=%r'%(k, final[k]) for k in header if not k.startswith('ctrlIncomingNode')]))
 			
 		self.logFileContents('user_status_final.txt', maxLines=0)
 		self.assertDiff('user_status_final.txt')
+		

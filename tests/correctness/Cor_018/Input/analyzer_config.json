@@ -2,31 +2,19 @@
 
 
 
-	"com.mycompany.MyMonitor [1] MyApplication Status:": {
-		"keyPrefix":"myApp.",
-		"key:alias":{
+	"com.mycompany.MyMonitor [nnn] MyApplication Status:": {
+		// The prefix that will be added to all fields
+		"fieldPrefix":"myApp.",
+		// The field= names to extract from the log file, and an optional alias for each one
+		"field:alias":{
 			"kpi1":"",
 			"kpi2":"kpi2AliasWithUnits",
 			"kpi3":""
 		}},
-
-	// since we munge the message for [apama-ctrl] lines we have a slightly different prefix needed
-	"<apama-ctrl> com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=192.168.138.64 ": {
-		"keyPrefix":"apama-ctrl.192.168.138.64.",
-		"key:alias":{
-			"started":"",
-			"completed":""
-		}},
-	"<apama-ctrl> com.apama.in_c8y.proxy.CepProxyServlet.run - ProxyStatus: addr=192.168.146.0 ": {
-		"keyPrefix":"apama-ctrl.192.168.146.0.",
-		"key:alias":{
-			"started":"",
-			"completed":""
-		}},
 		
 	"JMS Status:": {
-		"keyPrefix":"jms.",
-		"key:alias":{
+		"fieldPrefix":"jms.",
+		"field:alias":{
 			"s":"s=senders",
 			"r":"r=receivers",
 			"rRate":"rx /sec",
@@ -42,6 +30,7 @@
 	# comment line
 	// another comment line
 	"      JMSReceiver myConnection-receiver-apama-queue-01:": {
+		// deliberately use old keyXXX names as a test
 		"keyPrefix":"jms.r.q1.",
 		"key:alias":{
 			"rRate":"rx /sec",
@@ -53,16 +42,44 @@
 			"msgErrors":"",
 			"jvmMB":"",
 			
-			# special values
+			// special values that can be added if needed
 			"datetime":"",
 			"epoch secs":"",
 			"line num":""
 
 		}},
-		
-	"Persistence Status:": {
-		"keyPrefix":"p.",
+
+	// JMS per-receiver detailed status lines
+	"      JMSReceiver ": 
+		{
+	
+		// The ?P<key> named group in this regular expression identifies the key for which a uniquely numbered set of columns will be created
+		"keyRegex": " *(?P<key>[^ :]+): rx=",
+		// Estimates the number of keys to allocate columns for; if more keys are required, the file will be reparsed with double the number
+		"maxKeysToAllocateColumnsFor": 2, 
+
+		"fieldPrefix":"jmsReceiver.",
 		"key:alias":{
+			"rRate":"rx /sec",
+			"rWindow":"receive window",
+			"rRedel":"redelivered",
+			"rMaxDeliverySecs":"",
+			"rDupsDet":"",
+			"rDupIds":"", 
+			"msgErrors":"",
+			"jvmMB":"",
+			
+			// special values that can be added if desired, or for debugging
+			"line num":"",
+
+			// Computed values begin with "=". Currently the only supported type is "FIELDNAME /sec" for calculating rates
+			"=msgErrors /sec": ""
+		}},
+
+
+	"Persistence Status:": {
+		"fieldPrefix":"p.",
+		"field:alias":{
 			"numSnapshots":"",
 			"lastSnapshotTime":"",
 			"snapshotWaitTimeEwmaMillis":"",
@@ -71,8 +88,8 @@
 		}},
 	
 	"Missing Status:": {
-		"keyPrefix":"jms.",
-		"key:alias":{
+		"fieldPrefix":"jms.",
+		"field:alias":{
 			"non-existent":"non-existent user value"
 		}}
 

@@ -83,10 +83,10 @@ To do this create a .json configuration file containing a "userStatusLines" dici
 		// which follows the first " - " in the line (except for [apama-ctrl] messages which have an extra <apama-ctrl> prefix)
 		"com.mycompany.MyMonitor [1] MyApplication Status:": {
 			// This prefix is added to the start of each alias to avoid clashes with other status KPIs
-			"keyPrefix":"myApp.",
+			"fieldPrefix":"myApp.",
 			
-			// Specifying user-friendly aliases for each key is optional. Always include any units (e.g. MB) in the key or alias
-			"key:alias":{
+			// Specifying user-friendly aliases for each is optional. Always include any units (e.g. MB) in the field name or alias
+			"field:alias":{
 				"kpi1":"",
 				"kpi2":"kpi2AliasWithUnits",
 				"kpi3":""
@@ -94,8 +94,8 @@ To do this create a .json configuration file containing a "userStatusLines" dici
 		
 		// This detects INFO level lines beginning with "JMS Status:"
 		"JMS Status:": {
-			"keyPrefix":"jms.",
-			"key:alias":{
+			"fieldPrefix":"jms.",
+			"field:alias":{
 				"s":"s=senders",
 				"r":"r=receivers",
 				"rRate":"rx /sec",
@@ -109,9 +109,10 @@ To do this create a .json configuration file containing a "userStatusLines" dici
 				"jvmMB":""
 			}},
 
+		// Similarly for persistence
 		"Persistence Status:": {
-			"keyPrefix":"p.",
-			"key:alias":{
+			"fieldPrefix":"p.",
+			"field:alias":{
 				"numSnapshots":"",
 				"lastSnapshotTime":"",
 				"snapshotWaitTimeEwmaMillis":"",
@@ -119,6 +120,36 @@ To do this create a .json configuration file containing a "userStatusLines" dici
 				"lastSnapshotRowsChangedEwma":""
 			}}
 		}
+		
+
+		// JMS per-receiver detailed status lines - also demonstrates creating numbered columns for 
+		// a dynamic set of status lines each identified by a unique key
+		"      JMSReceiver ": 
+			{
+		
+			// The ?P<key> named group in this regular expression identifies the key for which a uniquely numbered set of columns will be created
+			"keyRegex": " *(?P<key>[^ :]+): rx=",
+			// Estimates the number of keys to allocate columns for; if more keys are required, the file will be reparsed with double the number
+			"maxKeysToAllocateColumnsFor": 2, 
+
+			"fieldPrefix":"jmsReceiver.",
+			"key:alias":{
+				"rRate":"rx /sec",
+				"rWindow":"receive window",
+				"rRedel":"redelivered",
+				"rMaxDeliverySecs":"",
+				"rDupsDet":"",
+				"rDupIds":"", 
+				"msgErrors":"",
+				"jvmMB":"",
+				
+				// special values that can be added if desired, or for debugging
+				"line num":"",
+
+				// Computed values begin with "=". Currently the only supported type is "FIELDNAME /sec" for calculating rates
+				"=msgErrors /sec": ""
+			}},
+
 	}
 
 Any user-defined status lines should be of the same form as the Correlator status lines, logged at INFO level, 
