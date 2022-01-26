@@ -759,7 +759,7 @@ class LogAnalyzer(object):
 				if keyedUserStatusAccumulatedMetadata['prevBlockKeys']-keyedUserStatusAccumulatedMetadata['currentBlockKeys']:
 					changes += ' removed '+', '.join( f'{str(k[1])}=#{str(k[0])}' for k in sorted( keyedUserStatusAccumulatedMetadata['prevBlockKeys']-keyedUserStatusAccumulatedMetadata['currentBlockKeys'] ) )
 				if changes and keyedUserStatusAccumulatedMetadata['prevBlockKeys']: # except the first line, log these
-					log.info('The set of %s keys changed at %s (line #%d) of %s log: new size=%s; %s', columnPrefix, line.getDateTimeString(), line.lineno, file['name'], len(keyedUserStatusAccumulatedMetadata['currentBlockKeys']), changes.strip())
+					log.info('The set of %s keys changed in the block prior to %s (line #%d) of %s log: new size=%s; %s', columnPrefix, line.getDateTimeString(), line.lineno, file['name'], len(keyedUserStatusAccumulatedMetadata['currentBlockKeys']), changes.strip())
 				#self.userStatus[columnPrefix+'.changes'] = (self.userStatus.get(columnPrefix+'.changes', '')+changes).lstrip() # TODO: shoudn't this be pre-populated?
 				#self.userStatus[columnPrefix+'.count'] = len(keyedUserStatusAccumulatedMetadata['prevBlockKeys']) # update the count at the end of each block, since that's the first time we know
 				
@@ -920,7 +920,7 @@ class LogAnalyzer(object):
 				# since they may come from EPL code that hasn't been injected yet and we can't change the columns later
 				for msgPrefix, userConfig in self.args.userStatusLines.items():
 					if msgPrefix[0].startswith('<apama-ctrl> ') and (not file['isApamaCtrl']) and 'true'!=os.getenv('APAMA_LOG_ANALYZER_ASSUME_APAMACTRL',''):
-						log.info('Not adding column for this prefix as this does not appear to be an apama-ctrl log file by line no #%d: %s', line.lineno, msgPrefix[0])
+						log.debug('Not adding column for this status line prefix as this does not appear to be an apama-ctrl log file by line no #%d: %s', line.lineno, msgPrefix[0])
 						continue
 					
 					addColumnPrefix = userConfig['fieldPrefix']

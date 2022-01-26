@@ -32,7 +32,7 @@ class PySysTest(AnalyzerBaseTest):
 		self.assertGrep('loganalyzer.err', 'Restarting current file due to: file contains apama-ctrl lines which were not detected in first parse attempt')
 		self.assertGrep('loganalyzer.err', 'Restarting current file due to: hit maxKeysToAllocateColumnsFor limit .*')
 
-		self.assertThatGrep('loganalyzer.err', 'The set of ctrlIncomingNode keys changed at Fri 2020-06-12 16:06:20 (.*)', 
+		self.assertThatGrep('loganalyzer.err', 'The set of ctrlIncomingNode keys changed in the block prior to Fri 2020-06-12 16:06:20 (.*)', 
 			expected='(line #211) of correlator log: new size=3; added 127.0.0.4=#4 removed 127.0.0.2=#2')
 
 		status = pysys.utils.fileutils.loadJSON(self.output+'/loganalyzer_output/status.correlator.json')['status']
