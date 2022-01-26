@@ -1,5 +1,5 @@
-3.8 (in development)
---------------------
+3.8
+---
 Enhancements:
 - Added support for analysing logs containing the "id    | " prefixes added when running a correlator inside docker. 
 - Improved sort order of log files to only include time when we know there are multiple different instances. 
