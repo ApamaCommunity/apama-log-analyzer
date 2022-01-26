@@ -9,7 +9,7 @@ Bug fixes:
 Enhancements:
 - Added support for analysing logs containing the "id    | " prefixes added when running a correlator inside docker. 
 - Improved sort order of log files to only include time when we know there are multiple different instances. 
-- Moved sent events/tx to a secondary axis so that the event rate chart lines up with other charts with two axes. 
+- Moved sent events/tx to a secondary axis. 
 - Renamed ``--config`` userStatusLines ``keyPrefix`` to ``fieldPrefix`` and ``key:alias`` to ``field:alias`` for 
   clarity. 
 - Added charting of apama-ctrl "Proxy Status: " lines indicating the number of started/pending/failed incoming requests 
