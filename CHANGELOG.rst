@@ -13,6 +13,8 @@ Enhancements:
 - Added ``keyRegex`` and ``maxKeysToAllocateColumnsFor`` to userStatusLines which automatically create numbered columns 
   for a dynamic set of status lines each identified by a unique key, e.g. multiple named JMS receivers. See the 
   README.rst for an example. 
+- Changed display of charts with only one y axis to put all data onto the right-hand "y2" axis which makes such charts 
+  line up with charts that have two y axes (fixes GH-16). 
 
 Bug fixes:
 - Fixed error when si/so have NaN values which can happen occasionally. 

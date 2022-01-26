@@ -2143,6 +2143,8 @@ class LogAnalyzer(object):
 			
 			getid = self.getChartId
 			
+			yaxis_width = 50 # the default
+			
 			for file in self.files:
 				#out.write(f"<li><label><input name='Checkbox1' type='checkbox' checked>{file['index']} {file['name']}</label>\n")
 				out.write(f"<li class='chartfile'>{file['index']} {escapetext(file['name'])}\n")
@@ -2186,6 +2188,17 @@ class LogAnalyzer(object):
 						options['series'] = {f'{key} {label.replace(" /sec","").strip(".")}': options['series'][label] 
 							for key in keys 
 								for label in options['series']}
+
+				if 'series' not in options and 'y2label' not in options:
+					options['axes'] = {
+						'y': {'drawAxis':True, 'axisLabelFormatter':'axisValueHidingFormatter'},
+						#'y2': {'drawAxis':True},
+					}
+					# Auto-create a y2 axis if not already present so that charts with and without one all line up
+					options['y2label'] = options['ylabel']
+					options['ylabel'] = None
+					options['series'] = {label:{'axis':'y2'} for label in options['labels']}
+					
 
 			for c, info in self.CHARTS.items():
 				for file in self.files:
@@ -2235,7 +2248,8 @@ class LogAnalyzer(object):
 						shutil.copyfileobj(datafile, out)
 					os.remove(tmpfile)
 					# this regex converts a JavaScript string containing new Date(...) to a proper JavaScript object
-					out.write('],\n'+re.sub('"(new [^"]*)"', "\\1", json.dumps(options)[:-1])+',"legendFormatter":legendFormatter}'+'\n);\n')
+					out.write('],\n'+re.sub(r'"(new [^"]*)"', "\\1", json.dumps(options)[:-1]).replace('"axisValueHidingFormatter"', 'axisValueHidingFormatter') 
+						+',"legendFormatter":legendFormatter}'+'\n);\n')
 					out.write('\ncharts.push(g);\n')
 					if c == 'rates':
 						for a in file['annotations']:
@@ -2264,6 +2278,10 @@ class LogAnalyzer(object):
 		var charts = [];
 		
 		var days_abbr = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+		
+		function axisValueHidingFormatter(number, granularity, opts, dygraph) { 
+			return ""; 
+		} 
 		
 		function legendFormatter(data) {
 			var dygraph = data.dygraph;
