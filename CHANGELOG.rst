@@ -1,6 +1,8 @@
 3.9 (in development)
 --------------------
 Enhancements:
+- Be tolerant of apama-ctrl logs with the double-space after "[correlator]  " changed to a single space, which some 
+  processing tools can do. 
 
 Bug fixes:
 

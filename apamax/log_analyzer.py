@@ -156,10 +156,17 @@ class LogLine(object):
 		if firstchar == '[': # probably apama ctrl
 			iscorrelator = line.startswith(  '[correlator]  ')
 			if not iscorrelator:
-				isapamactrl = line.startswith('[apama-ctrl]  ')
+				isapamactrl = line.startswith( '[apama-ctrl]  ')
 			if iscorrelator or isapamactrl:
 				self.line = line = line[14:]
 				if len(line)>0: firstchar = line[0]
+			else: # have once seen a log that came through Logstash that had one of these spaces removed (implemented like this to avoid compromising performance for common case)
+				iscorrelator = line.startswith(  '[correlator] ')
+				if not iscorrelator:
+					isapamactrl = line.startswith( '[apama-ctrl] ')
+				if iscorrelator or isapamactrl:
+					self.line = line = line[13:].lstrip()
+					if len(line)>0: firstchar = line[0]
 
 		# do minimal parsing by default to keep speed high for messages we don't care about - just separate message from prefix
 		i = line.find(' - ')
