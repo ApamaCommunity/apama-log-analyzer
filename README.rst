@@ -239,13 +239,13 @@ Unfortunately the CSV file format (and Excel in particular) has fairly poor supp
 Resources
 =========
 
-From the Apama documentation:
+From the Apama documentation, see these topics:
 
-- `List of Correlator Status Statistics <https://documentation.softwareag.com/apama/v10-11/apama10-11/apama-webhelp/#page/apama-webhelp%2Fre-DepAndManApaApp_list_of_correlator_status_statistics.html>`_ - for understanding the meaning of the statistics available
+- `List of Correlator Status Statistics` - for understanding the meaning of the statistics available
 
-- `Inspecting correlator state <https://documentation.softwareag.com/apama/v10-11/apama10-11/apama-webhelp/#page/apama-webhelp%2Fre-DepAndManApaApp_inspecting_correlator_state.html>`_ - for using the engine_inspect tool to get detailed information on the number of monitor instances, listeners, etc, which can help to identify application memory leaks
+- `Inspecting correlator state` - for using the engine_inspect tool to get detailed information on the number of monitor instances, listeners, etc, which can help to identify application memory leaks
 
-- `Shutting down and managing components <https://documentation.softwareag.com/apama/v10-11/apama10-11/apama-webhelp/#page/apama-webhelp%2Fre-DepAndManApaApp_shutting_down_and_managing_components.html>`_ and its child topics - contain information on using `dorequest` to get detailed memory/CPU profiles, a string representation of the correlator queues, and various enhanced logging options
+- `Shutting down and managing components` and its child topics - contain information on using `dorequest` to get detailed memory/CPU profiles, a string representation of the correlator queues, and various enhanced logging options
 
 
 
