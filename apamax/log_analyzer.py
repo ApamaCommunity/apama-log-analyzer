@@ -1365,23 +1365,23 @@ class LogAnalyzer(object):
 	CONNECTION_LINE_REGEX_PRE10_7 = re.compile(
 		# This regex is for sender/receiver connection lines prior to Apama 10.7(.1);
 		# the (?P<name>xxxx) syntax identifies named groups in the regular expression
-	
-		# hack: hope/assume that pointer addresses are always prefixed with 00 on linux 
-		# this regex gets the objectAddr in all cases, and for "slow" messages also the logical/physical ids; for other 
+
+		# hack: hope/assume that pointer addresses are always prefixed with 00 on linux
+		# this regex gets the objectAddr in all cases, and for "slow" messages also the logical/physical ids; for other
 		# messages we separately use CONNECTION_MESSAGE_IDS_REGEX to get those
 		r"^(?P<prefix>Receiver|Connected to receiver|Blocking receiver) (?P<remoteProcessName>.+) [(]"+\
-			"(component ID (?P<remotePhysicalId>[0-9]+)/(?P<remoteLogicalId>[0-9]+) \[)?"+\
-			"(?P<objectAddr>(0x|00)[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]+)\]?[)] (?P<message>.+)"
-		)
+			r"(component ID (?P<remotePhysicalId>[0-9]+)/(?P<remoteLogicalId>[0-9]+) \[)?"+\
+			r"(?P<objectAddr>(0x|00)[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]+)\]?[)] (?P<message>.+)"
+	)
 
 	CONNECTION_LINE_REGEX_POST10_7 = re.compile(
 		# This regex is for sender/receiver connection lines from Apama 10.7.1 onwards
 		# the (?P<name>xxxx) syntax identifies named groups in the regular expression
 		# messages will contain all connected and disconnected lines in newLogFormat
 		r"^(?P<prefix>External sender|External receiver) \"(?P<remoteProcessName>.+)\" " + \
-			"<client (?P<remotePhysicalId>[0-9]+), connection (?P<remoteLogicalId>[0-9]+), " + \
-			"address (?P<host>[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+):(?P<remotePort>[0-9]+)> " + \
-			"(?P<evtType>connected|disconnected cleanly|disconnected uncleanly|[^:]+): (?P<message>.+)"
+			r"<client (?P<remotePhysicalId>[0-9]+), connection (?P<remoteLogicalId>[0-9]+), " + \
+			r"address (?P<host>[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+):(?P<remotePort>[0-9]+)> " + \
+			r"(?P<evtType>connected|disconnected cleanly|disconnected uncleanly|[^:]+): (?P<message>.+)"
 	)
 
 	def handleConnectionMessage(self, file, line, **extra):
@@ -2521,7 +2521,7 @@ class LogAnalyzerTool(object):
 			else u'%(levelname)-5s - %(message)s', 
 			stream=sys.stderr, level=loglevel)
 
-		log.info('Apama log analyzer v%s (locale=%s)'%(__version__, locale.getdefaultlocale()[0]))
+		log.info('Apama log analyzer v%s (locale=%s)'%(__version__, locale.getlocale()[0]))
 		
 		duration = time.time()
 		
