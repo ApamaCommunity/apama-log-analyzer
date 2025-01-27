@@ -75,10 +75,10 @@ jobs:
           python -m pysys run --ci --outdir=${{matrix.test-run-id}}
 
       - name: Upload Python code coverage
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v2 # TODO: upgrade this, but seems to need some extra token configuration to work
         if: steps.pysys.outputs.artifact_PythonCoverageDir
         with:
-          files: ${{ steps.pysys.outputs.artifact_PythonCoverageDir }}/coverage.xml
+          file: ${{ steps.pysys.outputs.artifact_PythonCoverageDir }}/coverage.xml
         
       # If any tests fail, PySys will return an error code, so we need "if: always()" so the following steps will run
       
