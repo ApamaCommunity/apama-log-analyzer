@@ -22,6 +22,11 @@ jobs:
             python-version: 3.9
             perf-test: true
 
+          - test-run-id: ubuntu-py3.13
+            os: ubuntu-latest
+            python-version: 3.13
+            perf-test: false
+
           - test-run-id: win-py3.6
             os: windows-latest
             python-version: 3.6
@@ -43,7 +48,7 @@ jobs:
             python -m pip install -U "pip>=20.1"
             echo "::set-output name=dir::$(pip cache dir)"
       - name: Cache Python deps
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
             path: ${{ steps.pip-cache.outputs.dir }}
             key: ${{ matrix.test-run-id }}-pip
@@ -52,7 +57,7 @@ jobs:
         id: deps
         shell: bash
         run: |
-          pip install pysys==2.0 wheel
+          pip install pysys==2.2 wheel
           
           # Use older version of coverage as 5.0 requires an SQLite version that doesn't work on this macos image currently
           pip install coverage==4.5.4
@@ -70,15 +75,15 @@ jobs:
           python -m pysys run --ci --outdir=${{matrix.test-run-id}}
 
       - name: Upload Python code coverage
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v5
         if: steps.pysys.outputs.artifact_PythonCoverageDir
         with:
-          file: ${{ steps.pysys.outputs.artifact_PythonCoverageDir }}/coverage.xml
+          files: ${{ steps.pysys.outputs.artifact_PythonCoverageDir }}/coverage.xml
         
       # If any tests fail, PySys will return an error code, so we need "if: always()" so the following steps will run
       
       - name: Upload performance CSV artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         # Only do this if some performance results were generated
         if: always() && steps.pysys.outputs.artifact_CSVPerformanceReport
 
@@ -87,7 +92,7 @@ jobs:
           path: ${{ steps.pysys.outputs.artifact_CSVPerformanceReport }}
 
       - name: Upload archive artifacts for any test failures
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: always() && steps.pysys.outputs.artifact_TestOutputArchiveDir
 
         with:
